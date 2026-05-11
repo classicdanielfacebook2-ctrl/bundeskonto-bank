@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BundesKonto Bank</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section id="authView" class="auth-view">
+      <div class="brand-panel">
+        <div class="brand-mark">BK</div>
+        <h1 id="brandTitle">BundesKonto Bank</h1>
+        <p id="brandIntro">Secure online banking for your German and European accounts.</p>
+      </div>
+
+      <div class="auth-panel">
+        <div class="language-panel">
+          <span id="languagePrompt">Choose language</span>
+          <div class="language-buttons" aria-label="Language">
+            <button class="language-button active" data-language="en" type="button">English</button>
+            <button class="language-button" data-language="de" type="button">Deutsch</button>
+          </div>
+        </div>
+
+        <div class="auth-tabs" role="tablist" aria-label="Authentication">
+          <button id="loginTab" class="tab-button active" type="button">Login</button>
+          <button id="registerTab" class="tab-button" type="button">Register</button>
+        </div>
+
+        <form id="loginForm" class="auth-form active">
+          <h2 id="loginHeading">Welcome back</h2>
+          <label>
+            <span class="label-text" id="loginEmailLabel">Email or User ID</span>
+            <input id="loginEmail" type="text" inputmode="email" autocomplete="email" required>
+          </label>
+          <label>
+            <span class="label-text" id="loginPasswordLabel">Password</span>
+            <input id="loginPassword" type="password" autocomplete="current-password" required>
+          </label>
+          <button class="primary-button" type="submit">Login</button>
+          <p id="loginMessage" class="form-message" aria-live="polite"></p>
+        </form>
+
+        <form id="registerForm" class="auth-form">
+          <h2 id="registerHeading">Create account</h2>
+          <div class="two-column">
+            <label>
+              <span class="label-text" id="firstNameLabel">First name</span>
+              <input id="firstName" type="text" autocomplete="given-name" required>
+            </label>
+            <label>
+              <span class="label-text" id="lastNameLabel">Last name</span>
+              <input id="lastName" type="text" autocomplete="family-name" required>
+            </label>
+          </div>
+          <label>
+            <span class="label-text" id="registerEmailLabel">Email</span>
+            <input id="registerEmail" type="text" inputmode="email" autocomplete="email" required>
+          </label>
+          <label>
+            <span class="label-text" id="registerUserIdLabel">User ID</span>
+            <input id="registerUserId" type="text" autocomplete="username" placeholder="e.g. BK-100245" required>
+          </label>
+          <label>
+            <span class="label-text" id="phoneLabel">Phone number</span>
+            <input id="phone" type="tel" autocomplete="tel" required>
+          </label>
+          <label>
+            <span class="label-text" id="addressLabel">Address</span>
+            <input id="address" type="text" autocomplete="street-address" required>
+          </label>
+          <label>
+            <span class="label-text" id="registerPasswordLabel">Password</span>
+            <input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required>
+          </label>
+          <label>
+            <span class="label-text" id="registerIbanLabel">Your IBAN</span>
+            <input id="registerIban" type="text" autocomplete="off" placeholder="DE89 3704 0044 0532 0130 00" required>
+          </label>
+          <button class="primary-button" type="submit">Register</button>
+          <p id="registerMessage" class="form-message" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section id="dashboardView" class="dashboard-view hidden">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-mark compact">BK</div>
+          <span>BundesKonto</span>
+        </div>
+        <nav aria-label="Dashboard">
+          <button class="nav-button active" data-page="overview" type="button">Overview</button>
+          <button class="nav-button" data-page="transfer" type="button">Transfers</button>
+          <button class="nav-button" data-page="cards" type="button">Cards</button>
+          <button class="nav-button" data-page="savings" type="button">Savings</button>
+        </nav>
+        <div class="sidebar-language">
+          <span id="dashboardLanguagePrompt">Language</span>
+          <div class="language-buttons compact" aria-label="Dashboard language">
+            <button class="language-button active" data-language="en" type="button">EN</button>
+            <button class="language-button" data-language="de" type="button">DE</button>
+          </div>
+        </div>
+      </aside>
+
+      <div class="dashboard-main">
+        <div class="dashboard-menu-row">
+          <button id="menuButton" class="menu-button" type="button" aria-label="Open account menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div id="accountMenu" class="account-menu hidden">
+            <div class="account-menu-header">
+              <span id="menuInitials">BK</span>
+              <div>
+                <strong id="menuName">Account Holder</strong>
+                <small id="menuEmail">user@example.com</small>
+                <small id="menuUserId">User ID: BK-000000</small>
+              </div>
+            </div>
+            <button id="menuProfileButton" class="menu-item" type="button">Profile details</button>
+            <button id="menuSettingsButton" class="menu-item" type="button">Settings</button>
+            <button id="menuVerificationButton" class="menu-item" type="button">Identity verification</button>
+          </div>
+        </div>
+        <header class="topbar">
+          <div>
+            <p id="welcomeLine" class="eyebrow">Welcome</p>
+            <h2 id="pageTitle">Overview</h2>
+          </div>
+          <div class="topbar-actions">
+            <div class="profile-chip">
+              <span id="profileInitials">ET</span>
+              <div>
+                <strong id="profileName">Account Holder</strong>
+                <small id="profileEmail">user@example.com</small>
+                <small id="profileUserId">BK-000000</small>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <section id="overviewPage" class="page active">
+          <section class="mobile-bank-hero">
+            <div class="hero-icon-row">
+              <button class="hero-icon-button mail-icon" type="button" aria-label="Messages"></button>
+              <button class="hero-icon-button user-icon" type="button" aria-label="Profile"></button>
+            </div>
+            <div class="hero-balance-layout">
+              <div class="balance-dial">
+                <span>EUR</span>
+                <strong id="heroBalanceAmount">0.00</strong>
+                <small id="heroDate">11. APR.<br>2026</small>
+              </div>
+              <div class="hero-mode-list">
+                <span>Invest</span>
+                <strong>Gesamt</strong>
+                <span>Konten</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="hero-action" data-page-target="transfer" type="button">
+                <span class="action-icon transfer-action-icon"></span>
+                <strong>Überweisen</strong>
+              </button>
+              <button class="hero-action" type="button">
+                <span class="action-icon code-action-icon"></span>
+                <strong>Bargeld-Code</strong>
+              </button>
+              <button class="hero-action" type="button">
+                <span class="action-icon planned-action-icon"></span>
+                <strong>Geplant</strong>
+              </button>
+            </div>
+          </section>
+
+          <section class="accounts-section">
+            <h3>Konten</h3>
+            <div class="account-row">
+              <span class="account-icon"></span>
+              <div>
+                <strong>BestKonto</strong>
+                <small id="mainAccountIban">DE85••••0081 00</small>
+              </div>
+              <strong id="mainAccountBalance">0,00 €</strong>
+            </div>
+            <div class="account-row">
+              <span class="account-icon"></span>
+              <div>
+                <strong>Sparkonto</strong>
+                <small id="savingsAccountIban">DE58••••0081 01</small>
+              </div>
+              <strong id="savingsAccountBalance">0,00 €</strong>
+            </div>
+          </section>
+
+          <div class="overview-grid">
+            <article class="balance-card">
+              <span>Available balance</span>
+              <strong id="balanceAmount">EUR 60,000.00</strong>
+              <p id="accountNumber">IBAN: ET00 0000 0000</p>
+            </article>
+            <article class="metric-card">
+              <span>This month income</span>
+              <strong id="incomeAmount">EUR 0.00</strong>
+            </article>
+            <article class="metric-card">
+              <span>This month spending</span>
+              <strong id="spendingAmount">EUR 0.00</strong>
+            </article>
+          </div>
+
+          <div class="content-grid">
+            <article class="panel">
+              <div class="panel-heading">
+                <h3>Quick transfer</h3>
+              </div>
+              <form id="quickTransferForm" class="stacked-form">
+                <input id="quickRecipientEmail" type="text" inputmode="email" placeholder="Recipient email" required>
+                <input id="quickRecipientIban" type="text" placeholder="Recipient IBAN" required>
+                <input id="quickAmount" type="text" inputmode="decimal" placeholder="Amount in EUR" required>
+                <button class="primary-button" type="submit">Send money</button>
+                <p id="quickTransferMessage" class="form-message" aria-live="polite"></p>
+              </form>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <h3>Transaction history</h3>
+                <button id="clearActivityButton" class="text-button" type="button">Clear</button>
+              </div>
+              <ul id="activityList" class="activity-list"></ul>
+            </article>
+
+            <article class="panel full-panel">
+              <div class="panel-heading">
+                <h3 id="notificationsHeading">Email notifications</h3>
+              </div>
+              <ul id="notificationList" class="activity-list compact-list"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="transferPage" class="page">
+          <article class="panel wide-panel transfer-panel">
+            <div class="panel-heading">
+              <h3>Make a transfer</h3>
+              <span id="transferStatus" class="status-text"></span>
+            </div>
+            <div class="transfer-bank-strip">
+              <span id="transferModeLabel">SEPA bank transfer</span>
+              <strong id="transferModeDetail">Email and IBAN verification required</strong>
+            </div>
+            <form id="transferForm" class="dashboard-form">
+              <label>
+                <span class="label-text" id="recipientEmailLabel">Recipient email</span>
+                <input id="recipientEmail" type="text" inputmode="email" required>
+              </label>
+              <label>
+                <span class="label-text" id="recipientIbanLabel">Recipient IBAN</span>
+                <input id="recipientIban" type="text" autocomplete="off" placeholder="DE89 3704 0044 0532 0130 00" required>
+              </label>
+              <div id="recipientPreview" class="recipient-preview hidden" aria-live="polite">
+                <span id="recipientPreviewLabel">Recipient account</span>
+                <strong id="recipientPreviewName">-</strong>
+                <small id="recipientPreviewMeta">-</small>
+              </div>
+              <label>
+                <span class="label-text" id="transferAmountLabel">Amount</span>
+                <input id="transferAmount" type="text" inputmode="decimal" required>
+              </label>
+              <label>
+                <span class="label-text" id="transferNoteLabel">Note</span>
+                <input id="transferNote" type="text" required>
+              </label>
+              <div class="transfer-summary">
+                <div>
+                  <span id="summaryFromLabel">From</span>
+                  <strong id="summaryFrom">-</strong>
+                </div>
+                <div>
+                  <span id="summaryToLabel">To</span>
+                  <strong id="summaryTo">-</strong>
+                </div>
+                <div>
+                  <span id="summaryAmountLabel">Amount</span>
+                  <strong id="summaryAmount">€0.00</strong>
+                </div>
+              </div>
+              <button class="primary-button" type="submit">Confirm transfer</button>
+            </form>
+          </article>
+        </section>
+
+        <section id="cardsPage" class="page">
+          <div class="content-grid">
+            <article class="bank-card">
+              <span id="cardProductLabel">BundesKonto Debit</span>
+              <strong id="cardHolderName">ACCOUNT HOLDER</strong>
+              <p>**** **** **** <span id="cardLastDigits">4829</span></p>
+              <small id="cardState">Card active</small>
+            </article>
+            <article class="panel">
+              <div class="panel-heading">
+                <h3>Card controls</h3>
+              </div>
+              <button id="freezeCardButton" class="secondary-button" type="button">Freeze card</button>
+              <button id="newCardButton" class="secondary-button" type="button">Generate new card</button>
+              <button id="cardLimitButton" class="secondary-button" type="button">Increase limit</button>
+              <p id="cardMessage" class="form-message"></p>
+            </article>
+          </div>
+        </section>
+
+        <section id="savingsPage" class="page">
+          <div class="content-grid">
+            <article class="panel">
+              <div class="panel-heading">
+                <h3>Savings vault</h3>
+                <strong id="savingsBalance">EUR 0.00</strong>
+              </div>
+              <form id="savingsForm" class="stacked-form">
+                <input id="savingsAmount" type="text" inputmode="decimal" placeholder="Amount in EUR" required>
+                <div class="button-row">
+                  <button class="primary-button" data-action="deposit" type="submit">Deposit</button>
+                  <button class="secondary-button" data-action="withdraw" type="submit">Withdraw</button>
+                </div>
+              </form>
+              <p id="savingsMessage" class="form-message"></p>
+            </article>
+            <article class="panel">
+              <div class="panel-heading">
+                <h3>Goal</h3>
+                <strong>EUR 20,000.00</strong>
+              </div>
+              <div class="progress-track">
+                <div id="savingsProgress" class="progress-fill"></div>
+              </div>
+              <p id="savingsProgressText">0% completed</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="settingsPage" class="page">
+          <div class="settings-grid">
+            <article class="panel verification-card">
+              <div>
+                <span id="verificationStatusLabel">Identity status</span>
+                <strong id="verificationStatus">Not verified</strong>
+                <p id="verificationHint">Verify your identity once before making transfers.</p>
+              </div>
+              <div class="settings-actions">
+                <button id="goVerificationButton" class="secondary-button" type="button">Verify identity</button>
+                <button id="logoutButton" class="logout-button" type="button">Logout</button>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <h3 id="profileSettingsHeading">Account profile</h3>
+                <span id="settingsStatus" class="status-text"></span>
+              </div>
+              <form id="settingsForm" class="dashboard-form settings-form-grid">
+                <label>
+                  <span class="label-text" id="settingsFirstNameLabel">First name</span>
+                  <input id="settingsFirstName" type="text" required>
+                </label>
+                <label>
+                  <span class="label-text" id="settingsLastNameLabel">Last name</span>
+                  <input id="settingsLastName" type="text" required>
+                </label>
+                <label>
+                  <span class="label-text" id="settingsEmailLabel">Email</span>
+                  <input id="settingsEmail" type="text" inputmode="email" required>
+                </label>
+                <label>
+                  <span class="label-text" id="settingsPhoneLabel">Phone</span>
+                  <input id="settingsPhone" type="tel" required>
+                </label>
+                <label class="full-field">
+                  <span class="label-text" id="settingsAddressLabel">Address</span>
+                  <input id="settingsAddress" type="text" required>
+                </label>
+                <button class="primary-button" type="submit">Save changes</button>
+              </form>
+            </article>
+
+            <article id="identityPanel" class="panel">
+              <div class="panel-heading">
+                <h3 id="identityHeading">Identity verification</h3>
+                <span id="identityStatus" class="status-text"></span>
+              </div>
+              <form id="identityForm" class="dashboard-form settings-form-grid">
+                <label>
+                  <span class="label-text" id="birthNameLabel">Birth name</span>
+                  <input id="birthName" type="text" required>
+                </label>
+                <label>
+                  <span class="label-text" id="birthDateLabel">Birth date</span>
+                  <input id="birthDate" type="date" required>
+                </label>
+                <label>
+                  <span class="label-text" id="tinLabel">T.I.N</span>
+                  <input id="tin" type="text" required>
+                </label>
+                <label>
+                  <span class="label-text" id="idCardPhotoLabel">Photo of ID card</span>
+                  <input id="idCardPhoto" type="file" accept="image/*" required>
+                </label>
+                <button id="submitIdentityButton" class="primary-button" type="submit">Submit for admin review</button>
+              </form>
+            </article>
+
+            <article class="panel admin-review-panel">
+              <div class="panel-heading">
+                <h3 id="adminReviewHeading">Admin review queue</h3>
+                <span id="adminReviewCount" class="status-text"></span>
+              </div>
+              <p id="adminOnlyNotice" class="muted-note">Admin review tools are only visible to authorized bank administrators.</p>
+              <ul id="adminReviewList" class="activity-list compact-list"></ul>
+            </article>
+
+            <article class="panel admin-audit-panel">
+              <div class="panel-heading">
+                <h3 id="adminAuditHeading">Admin records archive</h3>
+                <span id="adminAuditCount" class="status-text"></span>
+              </div>
+              <input id="adminAuditSearch" class="search-input" type="text" placeholder="Search records by email, name, IBAN, or TIN">
+              <div class="audit-columns">
+                <section>
+                  <h4 id="loginAuditHeading">Login attempts</h4>
+                  <ul id="loginAuditList" class="activity-list compact-list"></ul>
+                </section>
+                <section>
+                  <h4 id="registrationArchiveHeading">Registration archive</h4>
+                  <ul id="registrationArchiveList" class="activity-list compact-list"></ul>
+                </section>
+              </div>
+            </article>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
