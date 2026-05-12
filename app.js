@@ -991,9 +991,6 @@ function applyTranslations() {
   setText("#overviewPage .balance-card span", "availableBalance");
   setText("#overviewPage .metric-card:nth-child(2) span", "monthIncome");
   setText("#overviewPage .metric-card:nth-child(3) span", "monthSpending");
-  setText("#heroStatusPill", "available");
-  setText("#heroAccountPill", "mainAccount");
-  setText("#heroSavingsPill", "savings");
   setText("#heroTransferAction", "sendMoney");
   setText("#heroMessagesAction", "updates");
   setText("#heroSavingsAction", "save");

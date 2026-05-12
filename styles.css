@@ -2006,7 +2006,7 @@ input:focus {
 
 .hero-balance-layout {
   grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
+  gap: 0;
   margin-top: 0;
   padding-right: 108px;
   overflow: visible;
@@ -2014,7 +2014,7 @@ input:focus {
 
 .balance-dial {
   width: 100%;
-  min-height: 178px;
+  min-height: 156px;
   aspect-ratio: auto;
   justify-self: stretch;
   place-items: start;
@@ -2195,7 +2195,7 @@ input:focus {
 }
 
 .balance-dial {
-  gap: 4px;
+  gap: 8px;
 }
 
 .balance-dial small {
