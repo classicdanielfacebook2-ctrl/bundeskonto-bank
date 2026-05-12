@@ -127,7 +127,9 @@
             </div>
             <button id="menuProfileButton" class="menu-item" type="button">Profile details</button>
             <button id="menuSettingsButton" class="menu-item" type="button">Settings</button>
+            <button id="menuSecurityButton" class="menu-item" type="button">Security</button>
             <button id="menuVerificationButton" class="menu-item" type="button">Identity verification</button>
+            <button id="menuAdminButton" class="menu-item admin-menu-item hidden" type="button">Admin records</button>
           </div>
         </div>
         <header class="topbar">
@@ -150,8 +152,10 @@
         <section id="overviewPage" class="page active">
           <section class="mobile-bank-hero">
             <div class="hero-icon-row">
-              <button class="hero-icon-button mail-icon" type="button" aria-label="Messages"></button>
-              <button class="hero-icon-button user-icon" type="button" aria-label="Profile"></button>
+              <button id="messageButton" class="hero-icon-button mail-icon" type="button" aria-label="Messages">
+                <span id="messageBadge" class="message-badge hidden">0</span>
+              </button>
+              <button id="profileButton" class="hero-icon-button user-icon" type="button" aria-label="Profile"></button>
             </div>
             <div class="hero-balance-layout">
               <div class="balance-dial">
@@ -348,21 +352,45 @@
           </div>
         </section>
 
-        <section id="settingsPage" class="page">
+        <section id="messagesPage" class="page">
           <div class="settings-grid">
-            <article class="panel verification-card">
-              <div>
-                <span id="verificationStatusLabel">Identity status</span>
-                <strong id="verificationStatus">Not verified</strong>
-                <p id="verificationHint">Verify your identity once before making transfers.</p>
+            <article class="panel messages-panel">
+              <div class="panel-heading">
+                <h3 id="messagesHeading">Messages and updates</h3>
+                <span id="messagesCount" class="status-text"></span>
               </div>
-              <div class="settings-actions">
-                <button id="goVerificationButton" class="secondary-button" type="button">Verify identity</button>
-                <button id="logoutButton" class="logout-button" type="button">Logout</button>
+              <ul id="messagesList" class="activity-list"></ul>
+            </article>
+          </div>
+        </section>
+
+        <section id="profilePage" class="page">
+          <div class="settings-grid">
+            <article class="panel profile-detail-card">
+              <div class="panel-heading">
+                <h3 id="profileDetailsHeading">Profile details</h3>
+              </div>
+              <div class="profile-detail-grid">
+                <div>
+                  <span id="profileDetailNameLabel">Account holder</span>
+                  <strong id="profileDetailName">Account Holder</strong>
+                </div>
+                <div>
+                  <span id="profileDetailEmailLabel">Email</span>
+                  <strong id="profileDetailEmail">user@example.com</strong>
+                </div>
+                <div>
+                  <span id="profileDetailUserIdLabel">User ID</span>
+                  <strong id="profileDetailUserId">BK-000000</strong>
+                </div>
+                <div>
+                  <span id="profileDetailIbanLabel">IBAN</span>
+                  <strong id="profileDetailIban">DE00 0000 0000</strong>
+                </div>
               </div>
             </article>
 
-            <article class="panel">
+            <article class="panel profile-edit-card">
               <div class="panel-heading">
                 <h3 id="profileSettingsHeading">Account profile</h3>
                 <span id="settingsStatus" class="status-text"></span>
@@ -391,6 +419,107 @@
                 <button class="primary-button" type="submit">Save changes</button>
               </form>
             </article>
+          </div>
+        </section>
+
+        <section id="settingsPage" class="page">
+          <div class="settings-grid">
+            <article class="panel verification-card">
+              <div>
+                <span id="settingsOverviewLabel">Account settings</span>
+                <strong id="settingsOverviewHeading">Preferences and access</strong>
+                <p id="settingsOverviewHint">Manage language, alerts, access status, and your session from one secure place.</p>
+              </div>
+              <div class="settings-actions">
+                <button id="logoutButton" class="logout-button" type="button">Logout</button>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <h3 id="languageSettingsHeading">Language</h3>
+              </div>
+              <div class="settings-option-row">
+                <div>
+                  <strong id="languageSettingsTitle">Display language</strong>
+                  <p id="languageSettingsHint">Choose English or German for the banking dashboard.</p>
+                </div>
+                <div class="language-buttons compact" aria-label="Settings language">
+                  <button class="language-button active" data-language="en" type="button">EN</button>
+                  <button class="language-button" data-language="de" type="button">DE</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <h3 id="notificationsSettingsHeading">Notifications</h3>
+              </div>
+              <div class="settings-option-row">
+                <div>
+                  <strong id="transferAlertsTitle">Transfer alerts</strong>
+                  <p id="transferAlertsHint">Email notifications are recorded after successful transfers.</p>
+                </div>
+                <span class="status-pill success" id="transferAlertsStatus">Active</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="securityPage" class="page">
+          <div class="settings-grid">
+            <article class="panel verification-card security-summary-card">
+              <div>
+                <span id="securityStatusLabel">Security status</span>
+                <strong id="securityStatusHeading">Protected account</strong>
+                <p id="securityStatusHint">Review login access, card controls, identity status, and secure session actions.</p>
+              </div>
+              <span class="status-pill success" id="securityStatusPill">Active</span>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <h3 id="loginSecurityHeading">Login security</h3>
+              </div>
+              <div class="settings-option-row">
+                <div>
+                  <strong id="passwordSecurityTitle">Password protection</strong>
+                  <p id="passwordSecurityHint">Your password is required before account access is granted.</p>
+                </div>
+                <span class="status-pill success" id="passwordSecurityStatus">Enabled</span>
+              </div>
+              <div class="settings-option-row">
+                <div>
+                  <strong id="adminReviewSecurityTitle">Identity approval</strong>
+                  <p id="adminReviewSecurityHint">Transfers stay locked until admin approval is complete.</p>
+                </div>
+                <strong id="securityVerificationStatus">Not verified</strong>
+              </div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <h3 id="cardSecurityHeading">Card security</h3>
+              </div>
+              <button id="securityFreezeCardButton" class="secondary-button" type="button">Freeze card</button>
+              <button id="securityNewCardButton" class="secondary-button" type="button">Generate new card</button>
+              <p id="securityCardMessage" class="form-message"></p>
+            </article>
+          </div>
+        </section>
+
+        <section id="identityPage" class="page">
+          <div class="settings-grid">
+            <article class="panel verification-card">
+              <div>
+                <span id="verificationStatusLabel">Identity status</span>
+                <strong id="verificationStatus">Not verified</strong>
+                <p id="verificationHint">Verify your identity once before making transfers.</p>
+              </div>
+              <div class="settings-actions">
+                <button id="goVerificationButton" class="secondary-button" type="button">Verify identity</button>
+              </div>
+            </article>
 
             <article id="identityPanel" class="panel">
               <div class="panel-heading">
@@ -417,6 +546,11 @@
                 <button id="submitIdentityButton" class="primary-button" type="submit">Submit for admin review</button>
               </form>
             </article>
+          </div>
+        </section>
+
+        <section id="adminPage" class="page">
+          <div class="settings-grid">
 
             <article class="panel admin-review-panel">
               <div class="panel-heading">

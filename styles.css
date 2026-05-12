@@ -608,6 +608,24 @@ input:focus {
   background: #d3142c;
 }
 
+.message-badge {
+  position: absolute;
+  top: 1px;
+  right: -3px;
+  z-index: 2;
+  min-width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  color: #17201d;
+  background: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
 .user-icon::before {
   border-radius: 50% 50% 6px 6px;
 }
@@ -882,6 +900,58 @@ input:focus {
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.profile-detail-card,
+.security-summary-card {
+  grid-column: 1 / -1;
+}
+
+.profile-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.profile-detail-grid div,
+.settings-option-row {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+}
+
+.profile-detail-grid span,
+.settings-option-row p {
+  color: var(--muted);
+}
+
+.profile-detail-grid span {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.profile-detail-grid strong {
+  overflow-wrap: anywhere;
+}
+
+.settings-option-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.settings-option-row p {
+  margin: 6px 0 0;
+  line-height: 1.5;
+}
+
+.settings-option-row .language-buttons {
+  min-width: 112px;
 }
 
 .settings-actions .logout-button {
@@ -1660,6 +1730,17 @@ input:focus {
   background: rgba(244, 247, 245, 0.9);
 }
 
+.messages-panel {
+  grid-column: 1 / -1;
+}
+
+.profile-detail-grid div,
+.settings-option-row {
+  border-color: rgba(23, 32, 29, 0.08);
+  border-radius: 18px;
+  background: rgba(244, 247, 245, 0.9);
+}
+
 .bank-card {
   min-height: 280px;
   border: 0;
@@ -1803,6 +1884,233 @@ input:focus {
   .settings-grid {
     margin-inline: 0;
     padding-inline: 14px;
+  }
+
+  .account-row {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .account-row > strong {
+    grid-column: 2;
+    justify-self: start;
+    margin-top: -8px;
+  }
+
+  .profile-detail-grid,
+  .settings-option-row {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-detail-grid,
+  .settings-option-row {
+    display: grid;
+  }
+}
+
+/* Fitted dashboard refresh: remove circular balance layout */
+.dashboard-main {
+  max-width: 1180px;
+}
+
+.mobile-bank-hero {
+  min-height: auto;
+  padding: 22px;
+  border-radius: 30px;
+  background:
+    linear-gradient(135deg, rgba(23, 32, 29, 0.98), rgba(15, 107, 95, 0.94)),
+    linear-gradient(90deg, rgba(212, 155, 74, 0.18), transparent);
+}
+
+.mobile-bank-hero::before,
+.mobile-bank-hero::after {
+  display: none;
+}
+
+.hero-icon-row {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 2;
+  gap: 10px;
+  padding: 0;
+}
+
+.hero-icon-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.hero-icon-button::before {
+  inset: 10px;
+}
+
+.hero-balance-layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 0;
+  padding-right: 108px;
+  overflow: visible;
+}
+
+.balance-dial {
+  width: 100%;
+  min-height: 178px;
+  aspect-ratio: auto;
+  justify-self: stretch;
+  place-items: start;
+  align-content: center;
+  gap: 8px;
+  padding: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 92% 18%, rgba(212, 155, 74, 0.24), transparent 10rem),
+    rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.balance-dial::before {
+  display: none;
+}
+
+.balance-dial span,
+.balance-dial strong,
+.balance-dial small {
+  position: static;
+  text-align: left;
+}
+
+.balance-dial span {
+  align-self: auto;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.balance-dial strong {
+  font-size: clamp(2.35rem, 6vw, 4.2rem);
+  line-height: 0.98;
+}
+
+.balance-dial small {
+  align-self: auto;
+  margin: 2px 0 0;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+}
+
+.hero-mode-list {
+  display: flex;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.88rem;
+}
+
+.hero-mode-list span,
+.hero-mode-list strong {
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero-mode-list strong {
+  color: #17201d;
+  background: #f8e1b6;
+}
+
+.hero-actions {
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.hero-action {
+  min-height: 92px;
+  align-content: center;
+  gap: 8px;
+  padding: 14px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.action-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border-width: 1px;
+}
+
+.action-icon::before {
+  font-size: 1.18rem;
+}
+
+.accounts-section {
+  margin: 16px 0 0;
+  padding: 20px;
+  border-radius: 26px;
+}
+
+.account-row {
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  padding: 18px 0;
+}
+
+.content-grid {
+  padding: 18px 0 0;
+  grid-template-columns: minmax(300px, 0.82fr) minmax(360px, 1.18fr);
+}
+
+.overview-grid {
+  margin-top: 18px;
+}
+
+@media (min-width: 980px) {
+  .dashboard-main {
+    padding: 28px 34px 110px;
+  }
+
+  .mobile-bank-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+    align-items: end;
+    gap: 18px;
+  }
+
+  .hero-actions {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .mobile-bank-hero {
+    margin: -18px -18px 0;
+    border-radius: 0 0 28px 28px;
+  }
+
+  .hero-balance-layout {
+    padding-right: 0;
+    padding-top: 54px;
+  }
+
+  .hero-actions,
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-action {
+    min-height: 76px;
+    grid-template-columns: 44px 1fr;
+    justify-items: start;
+    text-align: left;
   }
 
   .account-row {

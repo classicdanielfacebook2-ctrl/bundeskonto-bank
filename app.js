@@ -1,5 +1,6 @@
 const STORAGE_KEY = "eurotrustBankingState";
 const STARTING_BALANCE = 60000;
+const ADMIN_BALANCE = 6000000;
 const SAVINGS_GOAL = 20000;
 const ADMIN_EMAIL = "admin@bundeskonto.de";
 const ADMIN_PASSWORD = "admin123";
@@ -39,7 +40,9 @@ const translations = {
     cards: "Cards",
     savings: "Savings",
     settings: "Settings",
+    security: "Security",
     profileDetails: "Profile details",
+    adminRecords: "Admin records",
     openAccountMenu: "Open account menu",
     logout: "Logout",
     welcome: "Welcome",
@@ -53,6 +56,10 @@ const translations = {
     sendMoney: "Send money",
     transactionHistory: "Transaction history",
     emailNotifications: "Email notifications",
+    messages: "Messages",
+    messagesAndUpdates: "Messages and updates",
+    noMessages: "No messages yet.",
+    noMessagesDetail: "Transfer updates, approval notices, and account alerts will appear here.",
     clear: "Clear",
     makeTransfer: "Make a transfer",
     recipientEmail: "Recipient email",
@@ -79,8 +86,27 @@ const translations = {
     goal: "Goal",
     completed: "completed",
     accountSettings: "Account settings",
+    settingsOverviewHeading: "Preferences and access",
+    settingsOverviewHint: "Manage language, alerts, access status, and your session from one secure place.",
+    displayLanguage: "Display language",
+    languageSettingsHint: "Choose English or German for the banking dashboard.",
+    notifications: "Notifications",
+    transferAlerts: "Transfer alerts",
+    transferAlertsHint: "Email notifications are recorded after successful transfers.",
+    active: "Active",
     profileSettings: "Account profile",
+    accountHolderLabel: "Account holder",
     identityStatusLabel: "Identity status",
+    securityStatus: "Security status",
+    protectedAccount: "Protected account",
+    securityStatusHint: "Review login access, card controls, identity status, and secure session actions.",
+    loginSecurity: "Login security",
+    passwordProtection: "Password protection",
+    passwordSecurityHint: "Your password is required before account access is granted.",
+    enabled: "Enabled",
+    identityApproval: "Identity approval",
+    identityApprovalHint: "Transfers stay locked until admin approval is complete.",
+    cardSecurity: "Card security",
     notVerified: "Not verified",
     pendingReview: "Pending admin review",
     verified: "Verified",
@@ -188,7 +214,9 @@ const translations = {
     cards: "Karten",
     savings: "Sparen",
     settings: "Einstellungen",
+    security: "Sicherheit",
     profileDetails: "Profildetails",
+    adminRecords: "Admin-DatensÃ¤tze",
     openAccountMenu: "Kontomenü öffnen",
     logout: "Abmelden",
     welcome: "Willkommen",
@@ -202,6 +230,10 @@ const translations = {
     sendMoney: "Geld senden",
     transactionHistory: "Transaktionsverlauf",
     emailNotifications: "E-Mail-Benachrichtigungen",
+    messages: "Nachrichten",
+    messagesAndUpdates: "Nachrichten und Updates",
+    noMessages: "Noch keine Nachrichten.",
+    noMessagesDetail: "Überweisungsupdates, Freigaben und Kontohinweise erscheinen hier.",
     clear: "Löschen",
     makeTransfer: "Überweisung ausführen",
     recipientEmail: "Empfänger-E-Mail",
@@ -228,7 +260,26 @@ const translations = {
     goal: "Ziel",
     completed: "erreicht",
     accountSettings: "Kontoeinstellungen",
+    settingsOverviewHeading: "PrÃ¤ferenzen und Zugriff",
+    settingsOverviewHint: "Verwalten Sie Sprache, Benachrichtigungen, Zugriffsstatus und Sitzung an einem sicheren Ort.",
+    displayLanguage: "Anzeigesprache",
+    languageSettingsHint: "WÃ¤hlen Sie Englisch oder Deutsch fÃ¼r das Banking-Dashboard.",
+    notifications: "Benachrichtigungen",
+    transferAlerts: "Ãœberweisungsbenachrichtigungen",
+    transferAlertsHint: "E-Mail-Benachrichtigungen werden nach erfolgreichen Ãœberweisungen gespeichert.",
+    active: "Aktiv",
     profileSettings: "Kontoprofil",
+    accountHolderLabel: "Kontoinhaber",
+    securityStatus: "Sicherheitsstatus",
+    protectedAccount: "GeschÃ¼tztes Konto",
+    securityStatusHint: "PrÃ¼fen Sie Anmeldezugriff, Kartensteuerung, IdentitÃ¤tsstatus und sichere Sitzungsaktionen.",
+    loginSecurity: "Anmeldesicherheit",
+    passwordProtection: "Passwortschutz",
+    passwordSecurityHint: "Ihr Passwort ist erforderlich, bevor der Kontozugriff gewÃ¤hrt wird.",
+    enabled: "Aktiviert",
+    identityApproval: "IdentitÃ¤tsfreigabe",
+    identityApprovalHint: "Ãœberweisungen bleiben gesperrt, bis die Admin-Freigabe abgeschlossen ist.",
+    cardSecurity: "Kartensicherheit",
     identityStatusLabel: "Identitätsstatus",
     notVerified: "Nicht verifiziert",
     pendingReview: "Wartet auf Admin-Prüfung",
@@ -371,7 +422,14 @@ const menuEmail = document.querySelector("#menuEmail");
 const menuUserId = document.querySelector("#menuUserId");
 const menuProfileButton = document.querySelector("#menuProfileButton");
 const menuSettingsButton = document.querySelector("#menuSettingsButton");
+const menuSecurityButton = document.querySelector("#menuSecurityButton");
 const menuVerificationButton = document.querySelector("#menuVerificationButton");
+const menuAdminButton = document.querySelector("#menuAdminButton");
+const messageButton = document.querySelector("#messageButton");
+const profileButton = document.querySelector("#profileButton");
+const messageBadge = document.querySelector("#messageBadge");
+const messagesCount = document.querySelector("#messagesCount");
+const messagesList = document.querySelector("#messagesList");
 const activityList = document.querySelector("#activityList");
 const quickTransferForm = document.querySelector("#quickTransferForm");
 const quickTransferMessage = document.querySelector("#quickTransferMessage");
@@ -389,8 +447,16 @@ const summaryTo = document.querySelector("#summaryTo");
 const summaryAmount = document.querySelector("#summaryAmount");
 const settingsForm = document.querySelector("#settingsForm");
 const settingsStatus = document.querySelector("#settingsStatus");
+const profileDetailName = document.querySelector("#profileDetailName");
+const profileDetailEmail = document.querySelector("#profileDetailEmail");
+const profileDetailUserId = document.querySelector("#profileDetailUserId");
+const profileDetailIban = document.querySelector("#profileDetailIban");
 const verificationStatus = document.querySelector("#verificationStatus");
 const verificationHint = document.querySelector("#verificationHint");
+const securityVerificationStatus = document.querySelector("#securityVerificationStatus");
+const securityFreezeCardButton = document.querySelector("#securityFreezeCardButton");
+const securityNewCardButton = document.querySelector("#securityNewCardButton");
+const securityCardMessage = document.querySelector("#securityCardMessage");
 const goVerificationButton = document.querySelector("#goVerificationButton");
 const identityForm = document.querySelector("#identityForm");
 const identityStatus = document.querySelector("#identityStatus");
@@ -449,7 +515,7 @@ function migrateState() {
       phone: "+49 30 000000",
       address: "BundesKonto Internal Review Desk",
       password: ADMIN_PASSWORD,
-      balance: 0,
+      balance: ADMIN_BALANCE,
       savings: 0,
       iban: "DE00 0000 0000 0000 0000 00",
       cardLastDigits: "0000",
@@ -475,6 +541,10 @@ function migrateState() {
     user.activities ||= [];
     user.notifications ||= [];
     user.isAdmin ||= user.email === ADMIN_EMAIL;
+    if (user.email === ADMIN_EMAIL) {
+      user.isAdmin = true;
+      user.balance = ADMIN_BALANCE;
+    }
     user.identityVerification ||= {
       status: "not_submitted",
       birthName: "",
@@ -629,6 +699,17 @@ function createEmailNotification(transaction, sender) {
   };
 }
 
+function createSystemMessage(subjectKey, bodyKey, data = {}) {
+  return {
+    id: crypto.randomUUID(),
+    subjectKey,
+    bodyKey,
+    data,
+    date: new Date().toLocaleString(),
+    read: false
+  };
+}
+
 function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -684,6 +765,26 @@ function updateTransferPreview() {
   recipientPreview.classList.add("hidden");
 }
 
+function pageTitleKey(pageName) {
+  return {
+    overview: "overview",
+    transfer: "transfers",
+    cards: "cards",
+    savings: "savings",
+    messages: "messages",
+    profile: "profileDetails",
+    settings: "settings",
+    security: "security",
+    identity: "identityVerification",
+    admin: "adminRecords"
+  }[pageName] || "overview";
+}
+
+function activePageName() {
+  const activePage = document.querySelector(".page.active");
+  return activePage?.id.replace(/Page$/, "") || "overview";
+}
+
 function applyTranslations() {
   document.documentElement.lang = currentLanguage();
   document.title = "BundesKonto Bank";
@@ -737,7 +838,9 @@ function applyTranslations() {
   setText("#registrationArchiveHeading", "registrationArchive");
   setText("#menuProfileButton", "profileDetails");
   setText("#menuSettingsButton", "settings");
+  setText("#menuSecurityButton", "security");
   setText("#menuVerificationButton", "identityVerification");
+  setText("#menuAdminButton", "adminRecords");
   menuButton.setAttribute("aria-label", t("openAccountMenu"));
   setPlaceholder("#adminAuditSearch", "auditSearchPlaceholder");
 
@@ -776,10 +879,37 @@ function applyTranslations() {
   setText("#overviewPage .panel h3", "quickTransfer");
   setText("#overviewPage .content-grid .panel:nth-child(2) h3", "transactionHistory");
   setText("#notificationsHeading", "emailNotifications");
+  setText("#messagesHeading", "messagesAndUpdates");
   setText("#transferPage h3", "makeTransfer");
   setText("#cardsPage .panel h3", "cardControls");
   setText("#savingsPage .panel:first-child h3", "savingsVault");
   setText("#savingsPage .panel:nth-child(2) h3", "goal");
+  setText("#profileDetailsHeading", "profileDetails");
+  setText("#profileDetailNameLabel", "accountHolderLabel");
+  setText("#profileDetailEmailLabel", "email");
+  setText("#profileDetailUserIdLabel", "userId");
+  setText("#profileDetailIbanLabel", "iban");
+  setText("#settingsOverviewLabel", "accountSettings");
+  setText("#settingsOverviewHeading", "settingsOverviewHeading");
+  setText("#settingsOverviewHint", "settingsOverviewHint");
+  setText("#languageSettingsHeading", "language");
+  setText("#languageSettingsTitle", "displayLanguage");
+  setText("#languageSettingsHint", "languageSettingsHint");
+  setText("#notificationsSettingsHeading", "notifications");
+  setText("#transferAlertsTitle", "transferAlerts");
+  setText("#transferAlertsHint", "transferAlertsHint");
+  setText("#transferAlertsStatus", "active");
+  setText("#securityStatusLabel", "securityStatus");
+  setText("#securityStatusHeading", "protectedAccount");
+  setText("#securityStatusHint", "securityStatusHint");
+  setText("#securityStatusPill", "active");
+  setText("#loginSecurityHeading", "loginSecurity");
+  setText("#passwordSecurityTitle", "passwordProtection");
+  setText("#passwordSecurityHint", "passwordSecurityHint");
+  setText("#passwordSecurityStatus", "enabled");
+  setText("#adminReviewSecurityTitle", "identityApproval");
+  setText("#adminReviewSecurityHint", "identityApprovalHint");
+  setText("#cardSecurityHeading", "cardSecurity");
 
   languageButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.language === currentLanguage());
@@ -788,6 +918,8 @@ function applyTranslations() {
   const activeButton = document.querySelector(".nav-button.active");
   if (activeButton) {
     pageTitle.textContent = activeButton.textContent;
+  } else {
+    pageTitle.textContent = t(pageTitleKey(activePageName()));
   }
 }
 
@@ -848,8 +980,16 @@ function renderDashboard() {
   cardLastDigits.textContent = user.cardLastDigits || generateCardDigits();
   cardState.textContent = user.cardFrozen ? t("cardFrozen") : t("cardActive");
   freezeCardButton.textContent = user.cardFrozen ? t("unfreezeCard") : t("freezeCard");
+  securityFreezeCardButton.textContent = user.cardFrozen ? t("unfreezeCard") : t("freezeCard");
+  securityNewCardButton.textContent = t("generateCard");
+  profileDetailName.textContent = fullName || t("accountHolder");
+  profileDetailEmail.textContent = user.email;
+  profileDetailUserId.textContent = user.userId;
+  profileDetailIban.textContent = user.iban || "";
+  menuAdminButton.classList.toggle("hidden", !user.isAdmin);
   renderActivities(user.activities || []);
   renderNotifications(user.notifications || []);
+  renderMessages(user.notifications || []);
   renderSavingsProgress(user.savings || 0);
   fillSettings(user);
   renderIdentityState(user);
@@ -954,6 +1094,42 @@ function renderNotifications(notifications) {
   });
 }
 
+function renderMessages(notifications) {
+  const unreadCount = notifications.filter((notification) => !notification.read).length;
+  messagesList.innerHTML = "";
+  messagesCount.textContent = notifications.length ? `${notifications.length}` : "";
+  messageBadge.textContent = String(unreadCount);
+  messageBadge.classList.toggle("hidden", unreadCount === 0);
+
+  if (notifications.length === 0) {
+    const emptyItem = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    const subtitle = document.createElement("small");
+    title.textContent = t("noMessages");
+    subtitle.textContent = t("noMessagesDetail");
+    details.append(title, subtitle);
+    emptyItem.append(details);
+    messagesList.append(emptyItem);
+    return;
+  }
+
+  notifications.forEach((notification) => {
+    const item = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    const subtitle = document.createElement("small");
+    const status = document.createElement("span");
+    title.textContent = t(notification.subjectKey, notification.data || {});
+    subtitle.textContent = `${t(notification.bodyKey, notification.data || {})} - ${notification.date}`;
+    status.className = notification.read ? "status-pill" : "status-pill success";
+    status.textContent = notification.read ? t("active") : t("messages");
+    details.append(title, subtitle);
+    item.append(details, status);
+    messagesList.append(item);
+  });
+}
+
 function renderSavingsProgress(value) {
   const progress = Math.min(100, Math.round((value / SAVINGS_GOAL) * 100));
   savingsProgress.style.width = `${progress}%`;
@@ -997,6 +1173,8 @@ function renderIdentityState(user) {
   verificationStatus.textContent = copy.label;
   verificationHint.textContent = copy.hint;
   verificationStatus.className = copy.type ? `status-pill ${copy.type}` : "status-pill";
+  securityVerificationStatus.textContent = copy.label;
+  securityVerificationStatus.className = copy.type ? `status-pill ${copy.type}` : "status-pill";
   setStatus(identityStatus, copy.label, copy.type);
 
   if (status === "pending") {
@@ -1174,7 +1352,7 @@ function switchPage(pageName) {
     page.classList.toggle("active", page.id === `${pageName}Page`);
   });
   const activeButton = document.querySelector(".nav-button.active");
-  pageTitle.textContent = activeButton ? activeButton.textContent : t("overview");
+  pageTitle.textContent = activeButton ? activeButton.textContent : t(pageTitleKey(pageName));
   closeAccountMenu();
 }
 
@@ -1356,17 +1534,40 @@ document.addEventListener("click", (event) => {
 });
 
 menuProfileButton.addEventListener("click", () => {
-  switchPage("settings");
-  document.querySelector("#settingsForm").scrollIntoView({ behavior: "smooth", block: "start" });
+  switchPage("profile");
 });
 
 menuSettingsButton.addEventListener("click", () => {
   switchPage("settings");
 });
 
+menuSecurityButton.addEventListener("click", () => {
+  switchPage("security");
+});
+
 menuVerificationButton.addEventListener("click", () => {
-  switchPage("settings");
-  document.querySelector("#identityPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+  switchPage("identity");
+});
+
+menuAdminButton.addEventListener("click", () => {
+  switchPage("admin");
+});
+
+messageButton.addEventListener("click", () => {
+  const user = getCurrentUser();
+  if (user) {
+    user.notifications = (user.notifications || []).map((notification) => ({
+      ...notification,
+      read: true
+    }));
+    saveState();
+  }
+  switchPage("messages");
+  renderDashboard();
+});
+
+profileButton.addEventListener("click", () => {
+  switchPage("profile");
 });
 
 languageButtons.forEach((button) => {
@@ -1432,6 +1633,15 @@ freezeCardButton.addEventListener("click", () => {
   setMessage(cardMessage, user.cardFrozen ? t("cardFrozenMessage") : t("cardActiveMessage"), "success");
 });
 
+securityFreezeCardButton.addEventListener("click", () => {
+  const user = getCurrentUser();
+  user.cardFrozen = !user.cardFrozen;
+  user.activities.unshift(createActivity(user.cardFrozen ? "cardFrozenActivity" : "cardUnfrozenActivity", 0, "card", "securityUpdated"));
+  saveState();
+  renderDashboard();
+  setMessage(securityCardMessage, user.cardFrozen ? t("cardFrozenMessage") : t("cardActiveMessage"), "success");
+});
+
 newCardButton.addEventListener("click", () => {
   const user = getCurrentUser();
   user.cardLastDigits = generateCardDigits();
@@ -1439,6 +1649,15 @@ newCardButton.addEventListener("click", () => {
   saveState();
   renderDashboard();
   setMessage(cardMessage, t("newCardMessage"), "success");
+});
+
+securityNewCardButton.addEventListener("click", () => {
+  const user = getCurrentUser();
+  user.cardLastDigits = generateCardDigits();
+  user.activities.unshift(createActivity("newCardGenerated", 0, "card", "cardEnding", { digits: user.cardLastDigits }));
+  saveState();
+  renderDashboard();
+  setMessage(securityCardMessage, t("newCardMessage"), "success");
 });
 
 cardLimitButton.addEventListener("click", () => {
@@ -1456,7 +1675,7 @@ cardLimitButton.addEventListener("click", () => {
 adminAuditSearch.addEventListener("input", renderAdminAudits);
 
 goVerificationButton.addEventListener("click", () => {
-  document.querySelector("#identityPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+  switchPage("identity");
 });
 
 identityForm.addEventListener("submit", async (event) => {
