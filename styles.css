@@ -954,6 +954,37 @@ input:focus {
   min-width: 112px;
 }
 
+.gift-card-panel,
+.gift-card-history-panel,
+.admin-gift-card-records-panel,
+.admin-gift-card-panel {
+  grid-column: 1 / -1;
+}
+
+.gift-card-list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(110px, 1fr));
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.gift-card-option {
+  min-height: 54px;
+  padding: 0 12px;
+  border: 1px solid rgba(23, 32, 29, 0.12);
+  border-radius: 14px;
+  color: var(--ink);
+  background: rgba(244, 247, 245, 0.92);
+  font-weight: 800;
+}
+
+.gift-card-option.active,
+.gift-card-option:hover {
+  color: #fff;
+  border-color: var(--red);
+  background: linear-gradient(135deg, #0f6b5f, #0a4d45);
+}
+
 .settings-actions .logout-button {
   min-height: 44px;
   padding: 0 16px;
@@ -1048,6 +1079,18 @@ input:focus {
   border: 1px solid var(--line);
   border-radius: 6px;
   object-fit: cover;
+}
+
+.review-image-link {
+  display: inline-block;
+  width: max-content;
+  margin-top: 8px;
+  border-radius: 8px;
+}
+
+.review-image-link:focus-visible,
+.review-image-link:hover {
+  outline: 3px solid rgba(15, 107, 95, 0.2);
 }
 
 .mini-button {
@@ -1904,6 +1947,10 @@ input:focus {
   .profile-detail-grid,
   .settings-option-row {
     display: grid;
+  }
+
+  .gift-card-list {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

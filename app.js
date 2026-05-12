@@ -4,6 +4,18 @@ const ADMIN_BALANCE = 6000000;
 const SAVINGS_GOAL = 20000;
 const ADMIN_EMAIL = "admin@bundeskonto.de";
 const ADMIN_PASSWORD = "admin123";
+const GIFT_CARD_TYPES = [
+  "Apple",
+  "Amazon",
+  "Google Play",
+  "Steam",
+  "PlayStation",
+  "Xbox",
+  "Netflix",
+  "Spotify",
+  "Walmart",
+  "Visa"
+];
 
 const defaultState = {
   users: [],
@@ -11,6 +23,7 @@ const defaultState = {
   language: "en",
   transactions: [],
   adminReviews: [],
+  giftCardRequests: [],
   loginAudits: [],
   registrationArchive: []
 };
@@ -41,6 +54,7 @@ const translations = {
     savings: "Savings",
     settings: "Settings",
     security: "Security",
+    giftCards: "Gift cards",
     profileDetails: "Profile details",
     adminRecords: "Admin records",
     openAccountMenu: "Open account menu",
@@ -48,6 +62,11 @@ const translations = {
     welcome: "Welcome",
     accountHolder: "Account Holder",
     availableBalance: "Available balance",
+    available: "Available",
+    mainAccount: "Main account",
+    accounts: "Accounts",
+    updates: "Updates",
+    save: "Save",
     monthIncome: "This month income",
     monthSpending: "This month spending",
     quickTransfer: "Quick transfer",
@@ -71,6 +90,32 @@ const translations = {
     to: "To",
     amount: "Amount",
     note: "Note",
+    giftCardHeading: "Gift card redemption",
+    giftCardIntro: "Choose a card brand, enter the card amount, then submit a clear photo or code for admin review.",
+    giftCardAmount: "Card amount",
+    giftCardCode: "Gift card code",
+    giftCardPhoto: "Gift card photo",
+    giftCardSubmit: "Submit gift card",
+    giftCardChoose: "Choose a gift card",
+    giftCardSubmittedTitle: "Gift card submitted",
+    giftCardSubmitted: "Gift card request sent to admin for review. Reference: {reference}",
+    giftCardNeedsValue: "Select a gift card, enter an amount, and add a code or photo.",
+    giftCardReviewQueue: "Gift card review queue",
+    giftCardHistory: "Gift card history",
+    giftCardRecords: "Gift card records",
+    noGiftCardHistory: "No gift card orders yet.",
+    noGiftCardHistoryDetail: "Submitted gift card orders will appear here with their status.",
+    referenceNumber: "Reference",
+    submittedOn: "Submitted",
+    reviewedOn: "Reviewed",
+    awaitingConfirmation: "Awaiting confirmation",
+    noGiftCardReviews: "No pending gift card reviews.",
+    noGiftCardRecords: "No confirmed or declined gift card records yet.",
+    giftCardApproved: "Gift card approved",
+    giftCardRejected: "Gift card rejected",
+    giftCardApprovedBody: "{card} gift card approved. {amount} has been added to your account. Reference: {reference}",
+    giftCardRejectedBody: "{card} gift card was not approved. Please check the card details and submit again. Reference: {reference}",
+    adminInsufficientGiftBalance: "Admin balance is not enough to approve this gift card.",
     confirmTransfer: "Confirm transfer",
     debitCard: "BundesKonto Debit",
     cardActive: "Card active",
@@ -215,6 +260,7 @@ const translations = {
     savings: "Sparen",
     settings: "Einstellungen",
     security: "Sicherheit",
+    giftCards: "Geschenkkarten",
     profileDetails: "Profildetails",
     adminRecords: "Admin-DatensÃ¤tze",
     openAccountMenu: "Kontomenü öffnen",
@@ -222,6 +268,11 @@ const translations = {
     welcome: "Willkommen",
     accountHolder: "Kontoinhaber",
     availableBalance: "Verfügbares Guthaben",
+    available: "Verfügbar",
+    mainAccount: "Hauptkonto",
+    accounts: "Konten",
+    updates: "Updates",
+    save: "Sparen",
     monthIncome: "Einnahmen diesen Monat",
     monthSpending: "Ausgaben diesen Monat",
     quickTransfer: "Schnellüberweisung",
@@ -245,6 +296,32 @@ const translations = {
     to: "An",
     amount: "Betrag",
     note: "Notiz",
+    giftCardHeading: "Geschenkkarte einreichen",
+    giftCardIntro: "Wählen Sie eine Kartenmarke, geben Sie den Kartenbetrag ein und senden Sie ein klares Foto oder den Code zur Admin-Prüfung.",
+    giftCardAmount: "Kartenbetrag",
+    giftCardCode: "Geschenkkarten-Code",
+    giftCardPhoto: "Foto der Geschenkkarte",
+    giftCardSubmit: "Geschenkkarte senden",
+    giftCardChoose: "Geschenkkarte wählen",
+    giftCardSubmittedTitle: "Geschenkkarte eingereicht",
+    giftCardSubmitted: "Geschenkkarten-Anfrage wurde zur Admin-Prüfung gesendet. Referenz: {reference}",
+    giftCardNeedsValue: "Wählen Sie eine Geschenkkarte, geben Sie einen Betrag ein und fügen Sie Code oder Foto hinzu.",
+    giftCardReviewQueue: "Geschenkkarten-Prüfliste",
+    giftCardHistory: "Geschenkkarten-Verlauf",
+    giftCardRecords: "Geschenkkarten-Datensätze",
+    noGiftCardHistory: "Noch keine Geschenkkarten-Aufträge.",
+    noGiftCardHistoryDetail: "Eingereichte Geschenkkarten erscheinen hier mit Status.",
+    referenceNumber: "Referenz",
+    submittedOn: "Eingereicht",
+    reviewedOn: "Geprüft",
+    awaitingConfirmation: "Wartet auf Bestätigung",
+    noGiftCardReviews: "Keine offenen Geschenkkarten-Prüfungen.",
+    noGiftCardRecords: "Noch keine bestätigten oder abgelehnten Geschenkkarten-Datensätze.",
+    giftCardApproved: "Geschenkkarte genehmigt",
+    giftCardRejected: "Geschenkkarte abgelehnt",
+    giftCardApprovedBody: "{card}-Geschenkkarte genehmigt. {amount} wurde Ihrem Konto gutgeschrieben. Referenz: {reference}",
+    giftCardRejectedBody: "{card}-Geschenkkarte wurde nicht genehmigt. Bitte prüfen Sie die Kartendaten und reichen Sie erneut ein. Referenz: {reference}",
+    adminInsufficientGiftBalance: "Admin-Guthaben reicht nicht aus, um diese Geschenkkarte zu genehmigen.",
     confirmTransfer: "Überweisung bestätigen",
     debitCard: "BundesKonto Debitkarte",
     cardActive: "Karte aktiv",
@@ -424,6 +501,7 @@ const menuProfileButton = document.querySelector("#menuProfileButton");
 const menuSettingsButton = document.querySelector("#menuSettingsButton");
 const menuSecurityButton = document.querySelector("#menuSecurityButton");
 const menuVerificationButton = document.querySelector("#menuVerificationButton");
+const menuGiftCardButton = document.querySelector("#menuGiftCardButton");
 const menuAdminButton = document.querySelector("#menuAdminButton");
 const messageButton = document.querySelector("#messageButton");
 const profileButton = document.querySelector("#profileButton");
@@ -465,8 +543,23 @@ const birthNameInput = document.querySelector("#birthName");
 const birthDateInput = document.querySelector("#birthDate");
 const tinInput = document.querySelector("#tin");
 const idCardPhotoInput = document.querySelector("#idCardPhoto");
+const giftCardList = document.querySelector("#giftCardList");
+const giftCardForm = document.querySelector("#giftCardForm");
+const giftCardStatus = document.querySelector("#giftCardStatus");
+const selectedGiftCardInput = document.querySelector("#selectedGiftCard");
+const giftCardAmountInput = document.querySelector("#giftCardAmount");
+const giftCardCodeInput = document.querySelector("#giftCardCode");
+const giftCardPhotoInput = document.querySelector("#giftCardPhoto");
+const giftCardHistoryList = document.querySelector("#giftCardHistoryList");
+const giftCardHistoryCount = document.querySelector("#giftCardHistoryCount");
 const adminReviewList = document.querySelector("#adminReviewList");
 const adminReviewCount = document.querySelector("#adminReviewCount");
+const adminGiftCardPanel = document.querySelector(".admin-gift-card-panel");
+const adminGiftCardList = document.querySelector("#adminGiftCardList");
+const adminGiftCardCount = document.querySelector("#adminGiftCardCount");
+const adminGiftCardRecordsPanel = document.querySelector(".admin-gift-card-records-panel");
+const adminGiftCardRecordsList = document.querySelector("#adminGiftCardRecordsList");
+const adminGiftCardRecordsCount = document.querySelector("#adminGiftCardRecordsCount");
 const adminAuditPanel = document.querySelector(".admin-audit-panel");
 const adminAuditCount = document.querySelector("#adminAuditCount");
 const adminAuditSearch = document.querySelector("#adminAuditSearch");
@@ -503,6 +596,7 @@ function loadState() {
 function migrateState() {
   state.transactions ||= [];
   state.adminReviews ||= [];
+  state.giftCardRequests ||= [];
   state.loginAudits ||= [];
   state.registrationArchive ||= [];
   if (!state.users.some((user) => user.email === ADMIN_EMAIL)) {
@@ -543,7 +637,10 @@ function migrateState() {
     user.isAdmin ||= user.email === ADMIN_EMAIL;
     if (user.email === ADMIN_EMAIL) {
       user.isAdmin = true;
-      user.balance = ADMIN_BALANCE;
+      if (!user.adminBalanceSeeded) {
+        user.balance = ADMIN_BALANCE;
+        user.adminBalanceSeeded = true;
+      }
     }
     user.identityVerification ||= {
       status: "not_submitted",
@@ -556,6 +653,9 @@ function migrateState() {
     };
     user.cardLastDigits ||= generateCardDigits();
     user.cardFrozen ||= false;
+  });
+  state.giftCardRequests.forEach((request) => {
+    request.reference ||= generateGiftCardReference();
   });
   state.registrationArchive.forEach((record) => {
     const user = state.users.find((account) => account.id === record.userId || account.email === record.email);
@@ -658,6 +758,16 @@ function generateCardDigits() {
   return String(Math.floor(1000 + Math.random() * 9000));
 }
 
+function localDateTime() {
+  return new Date().toLocaleString();
+}
+
+function generateGiftCardReference() {
+  const datePart = new Date().toISOString().slice(2, 10).replaceAll("-", "");
+  const randomPart = Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `GC-${datePart}-${randomPart}`;
+}
+
 function createActivity(titleKey, amount, kind, noteKey = "", data = {}) {
   return {
     id: crypto.randomUUID(),
@@ -666,7 +776,7 @@ function createActivity(titleKey, amount, kind, noteKey = "", data = {}) {
     data,
     amount,
     kind,
-    date: new Date().toLocaleString()
+    date: localDateTime()
   };
 }
 
@@ -679,7 +789,7 @@ function createTransaction({ sender, recipient, amount, note }) {
     recipientEmail: recipient.email,
     amount,
     note,
-    date: new Date().toLocaleString()
+    date: localDateTime()
   };
 }
 
@@ -705,7 +815,7 @@ function createSystemMessage(subjectKey, bodyKey, data = {}) {
     subjectKey,
     bodyKey,
     data,
-    date: new Date().toLocaleString(),
+    date: localDateTime(),
     read: false
   };
 }
@@ -776,6 +886,7 @@ function pageTitleKey(pageName) {
     settings: "settings",
     security: "security",
     identity: "identityVerification",
+    giftCards: "giftCards",
     admin: "adminRecords"
   }[pageName] || "overview";
 }
@@ -840,6 +951,7 @@ function applyTranslations() {
   setText("#menuSettingsButton", "settings");
   setText("#menuSecurityButton", "security");
   setText("#menuVerificationButton", "identityVerification");
+  setText("#menuGiftCardButton", "giftCards");
   setText("#menuAdminButton", "adminRecords");
   menuButton.setAttribute("aria-label", t("openAccountMenu"));
   setPlaceholder("#adminAuditSearch", "auditSearchPlaceholder");
@@ -876,6 +988,15 @@ function applyTranslations() {
   setText("#overviewPage .balance-card span", "availableBalance");
   setText("#overviewPage .metric-card:nth-child(2) span", "monthIncome");
   setText("#overviewPage .metric-card:nth-child(3) span", "monthSpending");
+  setText("#heroStatusPill", "available");
+  setText("#heroAccountPill", "mainAccount");
+  setText("#heroSavingsPill", "savings");
+  setText("#heroTransferAction", "sendMoney");
+  setText("#heroMessagesAction", "updates");
+  setText("#heroSavingsAction", "save");
+  setText("#accountsHeading", "accounts");
+  setText("#mainAccountName", "mainAccount");
+  setText("#savingsAccountName", "savingsVault");
   setText("#overviewPage .panel h3", "quickTransfer");
   setText("#overviewPage .content-grid .panel:nth-child(2) h3", "transactionHistory");
   setText("#notificationsHeading", "emailNotifications");
@@ -910,6 +1031,15 @@ function applyTranslations() {
   setText("#adminReviewSecurityTitle", "identityApproval");
   setText("#adminReviewSecurityHint", "identityApprovalHint");
   setText("#cardSecurityHeading", "cardSecurity");
+  setText("#giftCardHeading", "giftCardHeading");
+  setText("#giftCardIntro", "giftCardIntro");
+  setText("#giftCardAmountLabel", "giftCardAmount");
+  setText("#giftCardCodeLabel", "giftCardCode");
+  setText("#giftCardPhotoLabel", "giftCardPhoto");
+  setText("#submitGiftCardButton", "giftCardSubmit");
+  setText("#giftCardHistoryHeading", "giftCardHistory");
+  setText("#adminGiftCardHeading", "giftCardReviewQueue");
+  setText("#adminGiftCardRecordsHeading", "giftCardRecords");
 
   languageButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.language === currentLanguage());
@@ -987,6 +1117,8 @@ function renderDashboard() {
   profileDetailUserId.textContent = user.userId;
   profileDetailIban.textContent = user.iban || "";
   menuAdminButton.classList.toggle("hidden", !user.isAdmin);
+  renderGiftCardOptions();
+  renderGiftCardHistory(user);
   renderActivities(user.activities || []);
   renderNotifications(user.notifications || []);
   renderMessages(user.notifications || []);
@@ -994,6 +1126,7 @@ function renderDashboard() {
   fillSettings(user);
   renderIdentityState(user);
   renderAdminReviews();
+  renderAdminGiftCards();
   renderAdminAudits();
   updateTransferPreview();
 }
@@ -1188,6 +1321,73 @@ function renderIdentityState(user) {
   }
 }
 
+function renderGiftCardOptions() {
+  if (!giftCardList || giftCardList.childElementCount > 0) {
+    return;
+  }
+
+  GIFT_CARD_TYPES.forEach((card) => {
+    const button = document.createElement("button");
+    button.className = "gift-card-option";
+    button.type = "button";
+    button.textContent = card;
+    button.addEventListener("click", () => {
+      selectedGiftCardInput.value = card;
+      document.querySelectorAll(".gift-card-option").forEach((option) => {
+        option.classList.toggle("active", option === button);
+      });
+    });
+    giftCardList.append(button);
+  });
+}
+
+function giftCardStatusCopy(status) {
+  if (status === "approved") {
+    return { label: t("giftCardApproved"), type: "success" };
+  }
+  if (status === "rejected") {
+    return { label: t("giftCardRejected"), type: "error" };
+  }
+  return { label: t("awaitingConfirmation"), type: "" };
+}
+
+function renderGiftCardHistory(user) {
+  const requests = (state.giftCardRequests || []).filter((request) => request.userId === user.id);
+  giftCardHistoryList.innerHTML = "";
+  giftCardHistoryCount.textContent = requests.length ? `${requests.length}` : "";
+
+  if (requests.length === 0) {
+    const item = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    const subtitle = document.createElement("small");
+    title.textContent = t("noGiftCardHistory");
+    subtitle.textContent = t("noGiftCardHistoryDetail");
+    details.append(title, subtitle);
+    item.append(details);
+    giftCardHistoryList.append(item);
+    return;
+  }
+
+  requests.forEach((request) => {
+    const status = giftCardStatusCopy(request.status);
+    const item = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    const subtitle = document.createElement("small");
+    const dates = document.createElement("small");
+    const badge = document.createElement("span");
+    title.textContent = `${request.cardType} - ${formatCurrency(request.amount)}`;
+    subtitle.textContent = `${t("referenceNumber")}: ${request.reference || request.id}`;
+    dates.textContent = `${t("submittedOn")}: ${request.submittedAt}${request.reviewedAt ? ` - ${t("reviewedOn")}: ${request.reviewedAt}` : ""}`;
+    badge.className = status.type ? `status-pill ${status.type}` : "status-pill";
+    badge.textContent = status.label;
+    details.append(title, subtitle, dates);
+    item.append(details, badge);
+    giftCardHistoryList.append(item);
+  });
+}
+
 function renderAdminReviews() {
   const currentUser = getCurrentUser();
   const adminPanel = document.querySelector(".admin-review-panel");
@@ -1242,6 +1442,137 @@ function renderAdminReviews() {
     details.append(title, subtitle, image);
     item.append(details, actions);
     adminReviewList.append(item);
+  });
+}
+
+function renderAdminGiftCards() {
+  const currentUser = getCurrentUser();
+  if (!currentUser?.isAdmin) {
+    adminGiftCardPanel.classList.add("hidden");
+    adminGiftCardRecordsPanel.classList.add("hidden");
+    return;
+  }
+
+  adminGiftCardPanel.classList.remove("hidden");
+  adminGiftCardRecordsPanel.classList.remove("hidden");
+  const pendingRequests = (state.giftCardRequests || []).filter((request) => request.status === "pending");
+  adminGiftCardList.innerHTML = "";
+  adminGiftCardCount.textContent = `${pendingRequests.length}`;
+
+  if (pendingRequests.length === 0) {
+    const item = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = t("noGiftCardReviews");
+    details.append(title);
+    item.append(details);
+    adminGiftCardList.append(item);
+  } else {
+    pendingRequests.forEach((request) => {
+      const user = state.users.find((account) => account.id === request.userId);
+      if (!user) {
+        return;
+      }
+
+      const item = document.createElement("li");
+      const details = document.createElement("div");
+      const title = document.createElement("strong");
+      const subtitle = document.createElement("small");
+      const code = document.createElement("small");
+      const actions = document.createElement("div");
+      const approveButton = document.createElement("button");
+      const rejectButton = document.createElement("button");
+
+      title.textContent = `${request.cardType} - ${formatCurrency(request.amount)}`;
+      subtitle.textContent = `${t("referenceNumber")}: ${request.reference || request.id} - ${user.firstName} ${user.lastName} - ${user.email} - ${request.submittedAt}`;
+      code.textContent = request.code ? `${t("giftCardCode")}: ${request.code}` : t("giftCardPhoto");
+      details.append(title, subtitle, code);
+
+      if (request.photo) {
+        const imageLink = document.createElement("a");
+        const image = document.createElement("img");
+        imageLink.className = "review-image-link";
+        imageLink.href = request.photo;
+        imageLink.target = "_blank";
+        imageLink.rel = "noopener";
+        imageLink.download = `${request.reference || request.cardType.toLowerCase().replaceAll(" ", "-")}-gift-card.png`;
+        imageLink.title = t("giftCardPhoto");
+        image.className = "review-id-image";
+        image.alt = request.cardType;
+        image.src = request.photo;
+        imageLink.append(image);
+        details.append(imageLink);
+      }
+
+      approveButton.className = "mini-button";
+      rejectButton.className = "mini-button danger";
+      approveButton.textContent = t("approve");
+      rejectButton.textContent = t("reject");
+      approveButton.addEventListener("click", () => reviewGiftCard(request.id, "approved"));
+      rejectButton.addEventListener("click", () => reviewGiftCard(request.id, "rejected"));
+      actions.className = "review-actions";
+      actions.append(approveButton, rejectButton);
+      item.append(details, actions);
+      adminGiftCardList.append(item);
+    });
+  }
+
+  renderAdminGiftCardRecords();
+}
+
+function renderAdminGiftCardRecords() {
+  const reviewedRequests = (state.giftCardRequests || []).filter((request) => request.status !== "pending");
+  adminGiftCardRecordsList.innerHTML = "";
+  adminGiftCardRecordsCount.textContent = reviewedRequests.length ? `${reviewedRequests.length}` : "";
+
+  if (reviewedRequests.length === 0) {
+    const item = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = t("noGiftCardRecords");
+    details.append(title);
+    item.append(details);
+    adminGiftCardRecordsList.append(item);
+    return;
+  }
+
+  reviewedRequests.forEach((request) => {
+    const user = state.users.find((account) => account.id === request.userId);
+    const status = giftCardStatusCopy(request.status);
+    const item = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    const subtitle = document.createElement("small");
+    const dates = document.createElement("small");
+    const code = document.createElement("small");
+    const badge = document.createElement("span");
+
+    title.textContent = `${request.cardType} - ${formatCurrency(request.amount)}`;
+    subtitle.textContent = `${t("referenceNumber")}: ${request.reference || request.id} - ${user ? `${user.firstName} ${user.lastName} - ${user.email}` : request.userEmail}`;
+    dates.textContent = `${t("submittedOn")}: ${request.submittedAt}${request.reviewedAt ? ` - ${t("reviewedOn")}: ${request.reviewedAt}` : ""}`;
+    code.textContent = request.code ? `${t("giftCardCode")}: ${request.code}` : t("giftCardPhoto");
+    badge.className = status.type ? `status-pill ${status.type}` : "status-pill";
+    badge.textContent = status.label;
+    details.append(title, subtitle, dates, code);
+
+    if (request.photo) {
+      const imageLink = document.createElement("a");
+      const image = document.createElement("img");
+      imageLink.className = "review-image-link";
+      imageLink.href = request.photo;
+      imageLink.target = "_blank";
+      imageLink.rel = "noopener";
+      imageLink.download = `${request.reference || request.cardType.toLowerCase().replaceAll(" ", "-")}-gift-card.png`;
+      imageLink.title = t("giftCardPhoto");
+      image.className = "review-id-image";
+      image.alt = request.cardType;
+      image.src = request.photo;
+      imageLink.append(image);
+      details.append(imageLink);
+    }
+
+    item.append(details, badge);
+    adminGiftCardRecordsList.append(item);
   });
 }
 
@@ -1312,7 +1643,7 @@ function recordLoginAudit({ identifier, email, userLoginId, success, reason }) {
     userLoginId: userLoginId || "",
     success,
     reason,
-    date: new Date().toLocaleString()
+    date: localDateTime()
   });
   saveState();
 }
@@ -1329,7 +1660,7 @@ function reviewIdentity(reviewId, decision) {
   }
 
   review.status = decision;
-  review.reviewedAt = new Date().toLocaleString();
+  review.reviewedAt = localDateTime();
   user.identityVerification.status = decision;
   user.identityVerification.reviewedAt = review.reviewedAt;
   user.notifications.unshift({
@@ -1340,6 +1671,52 @@ function reviewIdentity(reviewId, decision) {
     date: review.reviewedAt,
     read: false
   });
+  saveState();
+  renderDashboard();
+}
+
+function reviewGiftCard(requestId, decision) {
+  const request = state.giftCardRequests.find((item) => item.id === requestId);
+  if (!request || request.status !== "pending") {
+    return;
+  }
+
+  const user = state.users.find((account) => account.id === request.userId);
+  const admin = state.users.find((account) => account.email === ADMIN_EMAIL);
+  if (!user || !admin) {
+    return;
+  }
+
+  if (decision === "approved" && request.amount > admin.balance) {
+    alert(t("adminInsufficientGiftBalance"));
+    return;
+  }
+
+  request.status = decision;
+  request.reviewedAt = localDateTime();
+
+  if (decision === "approved") {
+    admin.balance -= request.amount;
+    user.balance += request.amount;
+    admin.activities.unshift(createActivity("giftCardApproved", -request.amount, "spending", request.cardType));
+    user.activities.unshift(createActivity("giftCardApproved", request.amount, "income", request.cardType));
+    state.transactions.unshift({
+      id: crypto.randomUUID(),
+      senderId: admin.id,
+      recipientId: user.id,
+      senderEmail: admin.email,
+      recipientEmail: user.email,
+      amount: request.amount,
+      note: `${request.cardType} gift card redemption - ${request.reference || request.id}`,
+      date: request.reviewedAt
+    });
+  }
+
+  user.notifications.unshift(createSystemMessage(
+    decision === "approved" ? "giftCardApproved" : "giftCardRejected",
+    decision === "approved" ? "giftCardApprovedBody" : "giftCardRejectedBody",
+    { card: request.cardType, amount: formatCurrency(request.amount), reference: request.reference || request.id }
+  ));
   saveState();
   renderDashboard();
 }
@@ -1428,7 +1805,7 @@ function registerUser(event) {
     phone: user.phone,
     address: user.address,
     iban: user.iban,
-    date: new Date().toLocaleString()
+    date: localDateTime()
   });
   state.currentUserId = user.id;
   saveState();
@@ -1547,6 +1924,10 @@ menuSecurityButton.addEventListener("click", () => {
 
 menuVerificationButton.addEventListener("click", () => {
   switchPage("identity");
+});
+
+menuGiftCardButton.addEventListener("click", () => {
+  switchPage("giftCards");
 });
 
 menuAdminButton.addEventListener("click", () => {
@@ -1697,7 +2078,7 @@ identityForm.addEventListener("submit", async (event) => {
     return;
   }
 
-  const submittedAt = new Date().toLocaleString();
+  const submittedAt = localDateTime();
   const idCardPhoto = await fileToDataUrl(file);
   user.identityVerification = {
     status: "pending",
@@ -1726,6 +2107,50 @@ identityForm.addEventListener("submit", async (event) => {
   saveState();
   renderDashboard();
   setStatus(identityStatus, `${t("reviewSubmitted")} ${t("verificationPendingHint")}`, "success");
+});
+
+giftCardForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const user = getCurrentUser();
+  if (!user) {
+    setStatus(giftCardStatus, t("loginAgain"), "error");
+    return;
+  }
+
+  const cardType = selectedGiftCardInput.value;
+  const amount = parseAmount(giftCardAmountInput.value);
+  const code = giftCardCodeInput.value.trim();
+  const photoFile = giftCardPhotoInput.files?.[0];
+
+  if (!cardType || !Number.isFinite(amount) || amount <= 0 || (!code && !photoFile)) {
+    setStatus(giftCardStatus, t("giftCardNeedsValue"), "error");
+    return;
+  }
+
+  const reference = generateGiftCardReference();
+  state.giftCardRequests.unshift({
+    id: crypto.randomUUID(),
+    reference,
+    userId: user.id,
+    userEmail: user.email,
+    cardType,
+    amount,
+    code,
+    photo: photoFile ? await fileToDataUrl(photoFile) : "",
+    status: "pending",
+    submittedAt: localDateTime(),
+    reviewedAt: ""
+  });
+
+  saveState();
+  giftCardForm.reset();
+  selectedGiftCardInput.value = "";
+  document.querySelectorAll(".gift-card-option").forEach((option) => option.classList.remove("active"));
+  renderDashboard();
+  switchPage("overview");
+  user.notifications.unshift(createSystemMessage("giftCardSubmittedTitle", "giftCardSubmitted", { reference }));
+  saveState();
+  renderDashboard();
 });
 
 savingsForm.addEventListener("submit", (event) => {

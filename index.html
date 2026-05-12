@@ -129,6 +129,7 @@
             <button id="menuSettingsButton" class="menu-item" type="button">Settings</button>
             <button id="menuSecurityButton" class="menu-item" type="button">Security</button>
             <button id="menuVerificationButton" class="menu-item" type="button">Identity verification</button>
+            <button id="menuGiftCardButton" class="menu-item" type="button">Gift cards</button>
             <button id="menuAdminButton" class="menu-item admin-menu-item hidden" type="button">Admin records</button>
           </div>
         </div>
@@ -164,33 +165,33 @@
                 <small id="heroDate">11. APR.<br>2026</small>
               </div>
               <div class="hero-mode-list">
-                <span>Invest</span>
-                <strong>Gesamt</strong>
-                <span>Konten</span>
+                <span id="heroStatusPill">Available</span>
+                <strong id="heroAccountPill">Main account</strong>
+                <span id="heroSavingsPill">Savings</span>
               </div>
             </div>
             <div class="hero-actions">
               <button class="hero-action" data-page-target="transfer" type="button">
                 <span class="action-icon transfer-action-icon"></span>
-                <strong>Überweisen</strong>
+                <strong id="heroTransferAction">Send money</strong>
               </button>
-              <button class="hero-action" type="button">
+              <button class="hero-action" data-page-target="messages" type="button">
                 <span class="action-icon code-action-icon"></span>
-                <strong>Bargeld-Code</strong>
+                <strong id="heroMessagesAction">Updates</strong>
               </button>
-              <button class="hero-action" type="button">
+              <button class="hero-action" data-page-target="savings" type="button">
                 <span class="action-icon planned-action-icon"></span>
-                <strong>Geplant</strong>
+                <strong id="heroSavingsAction">Save</strong>
               </button>
             </div>
           </section>
 
           <section class="accounts-section">
-            <h3>Konten</h3>
+            <h3 id="accountsHeading">Accounts</h3>
             <div class="account-row">
               <span class="account-icon"></span>
               <div>
-                <strong>BestKonto</strong>
+                <strong id="mainAccountName">Main account</strong>
                 <small id="mainAccountIban">DE85••••0081 00</small>
               </div>
               <strong id="mainAccountBalance">0,00 €</strong>
@@ -198,7 +199,7 @@
             <div class="account-row">
               <span class="account-icon"></span>
               <div>
-                <strong>Sparkonto</strong>
+                <strong id="savingsAccountName">Savings vault</strong>
                 <small id="savingsAccountIban">DE58••••0081 01</small>
               </div>
               <strong id="savingsAccountBalance">0,00 €</strong>
@@ -419,6 +420,13 @@
                 <button class="primary-button" type="submit">Save changes</button>
               </form>
             </article>
+            <article class="panel gift-card-history-panel">
+              <div class="panel-heading">
+                <h3 id="giftCardHistoryHeading">Gift card history</h3>
+                <span id="giftCardHistoryCount" class="status-text"></span>
+              </div>
+              <ul id="giftCardHistoryList" class="activity-list"></ul>
+            </article>
           </div>
         </section>
 
@@ -549,6 +557,35 @@
           </div>
         </section>
 
+        <section id="giftCardsPage" class="page">
+          <div class="settings-grid">
+            <article class="panel gift-card-panel">
+              <div class="panel-heading">
+                <h3 id="giftCardHeading">Gift card redemption</h3>
+                <span id="giftCardStatus" class="status-text"></span>
+              </div>
+              <p id="giftCardIntro" class="muted-note">Choose a card brand, enter the card amount, then submit a clear photo or code for admin review.</p>
+              <div id="giftCardList" class="gift-card-list" aria-label="Popular gift cards"></div>
+              <form id="giftCardForm" class="dashboard-form settings-form-grid">
+                <input id="selectedGiftCard" type="hidden" required>
+                <label>
+                  <span class="label-text" id="giftCardAmountLabel">Card amount</span>
+                  <input id="giftCardAmount" type="text" inputmode="decimal" required>
+                </label>
+                <label>
+                  <span class="label-text" id="giftCardPhotoLabel">Gift card photo</span>
+                  <input id="giftCardPhoto" type="file" accept="image/*">
+                </label>
+                <label class="full-field">
+                  <span class="label-text" id="giftCardCodeLabel">Gift card code</span>
+                  <input id="giftCardCode" type="text" autocomplete="off">
+                </label>
+                <button id="submitGiftCardButton" class="primary-button" type="submit">Submit gift card</button>
+              </form>
+            </article>
+          </div>
+        </section>
+
         <section id="adminPage" class="page">
           <div class="settings-grid">
 
@@ -559,6 +596,22 @@
               </div>
               <p id="adminOnlyNotice" class="muted-note">Admin review tools are only visible to authorized bank administrators.</p>
               <ul id="adminReviewList" class="activity-list compact-list"></ul>
+            </article>
+
+            <article class="panel admin-gift-card-panel">
+              <div class="panel-heading">
+                <h3 id="adminGiftCardHeading">Gift card review queue</h3>
+                <span id="adminGiftCardCount" class="status-text"></span>
+              </div>
+              <ul id="adminGiftCardList" class="activity-list compact-list"></ul>
+            </article>
+
+            <article class="panel admin-gift-card-records-panel">
+              <div class="panel-heading">
+                <h3 id="adminGiftCardRecordsHeading">Gift card records</h3>
+                <span id="adminGiftCardRecordsCount" class="status-text"></span>
+              </div>
+              <ul id="adminGiftCardRecordsList" class="activity-list compact-list"></ul>
             </article>
 
             <article class="panel admin-audit-panel">
