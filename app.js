@@ -722,7 +722,9 @@ function formatCurrency(value) {
 }
 
 function formatHeroAmount(value) {
-  return new Intl.NumberFormat("de-DE", {
+  return new Intl.NumberFormat(currentLanguage() === "de" ? "de-DE" : "en-IE", {
+    style: "currency",
+    currency: "EUR",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   }).format(value);
@@ -730,7 +732,8 @@ function formatHeroAmount(value) {
 
 function formatHeroDate() {
   const date = new Date();
-  const month = date.toLocaleString("de-DE", { month: "short" }).replace(".", "").toUpperCase();
+  const locale = currentLanguage() === "de" ? "de-DE" : "en-US";
+  const month = date.toLocaleString(locale, { month: "short" }).replace(".", "").toUpperCase();
   return `${date.getDate()}. ${month}.<br>${date.getFullYear()}`;
 }
 
