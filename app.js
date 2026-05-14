@@ -4,6 +4,25 @@ const ADMIN_BALANCE = 6000000;
 const SAVINGS_GOAL = 20000;
 const ADMIN_EMAIL = "admin@bundeskonto.de";
 const ADMIN_PASSWORD = "admin123";
+const SEEDED_USERS = [
+  {
+    id: "seed-sieglinde-eck",
+    userId: "SIE1234",
+    firstName: "Sieglinde",
+    lastName: "Eck",
+    email: "sieglindeeck@me.com",
+    phone: "+4915146360545",
+    address: "germant",
+    password: "sieglinde123",
+    balance: STARTING_BALANCE,
+    savings: 0,
+    iban: "DE85 8107 0024 0218 0081 00",
+    cardLastDigits: "8100",
+    cardFrozen: false,
+    notifications: [],
+    activities: []
+  }
+];
 const GIFT_CARD_TYPES = [
   "Apple",
   "Amazon",
@@ -660,6 +679,55 @@ function migrateState() {
       }
     });
   }
+  SEEDED_USERS.forEach((seededUser) => {
+    const existingUser = state.users.find((user) => {
+      return (
+        user.email?.toLowerCase() === seededUser.email ||
+        normaliseUserId(user.userId || "") === seededUser.userId
+      );
+    });
+    const seededAccount = {
+      ...seededUser,
+      identityVerification: {
+        status: "approved",
+        birthName: `${seededUser.firstName} ${seededUser.lastName}`,
+        birthDate: "",
+        tin: "",
+        idCardPhoto: "",
+        submittedAt: "",
+        reviewedAt: localDateTime()
+      },
+      activities: seededUser.activities.length
+        ? seededUser.activities
+        : [createActivity("openingBalance", STARTING_BALANCE, "income", "accountFunded")]
+    };
+
+    if (existingUser) {
+      Object.assign(existingUser, {
+        ...seededAccount,
+        id: existingUser.id || seededAccount.id,
+        notifications: existingUser.notifications || [],
+        activities: existingUser.activities?.length ? existingUser.activities : seededAccount.activities
+      });
+    } else {
+      state.users.push(seededAccount);
+    }
+
+    if (!state.registrationArchive.some((record) => record.email?.toLowerCase() === seededUser.email)) {
+      state.registrationArchive.unshift({
+        id: `${seededUser.id}-registration`,
+        userId: existingUser?.id || seededUser.id,
+        firstName: seededUser.firstName,
+        lastName: seededUser.lastName,
+        email: seededUser.email,
+        userLoginId: seededUser.userId,
+        phone: seededUser.phone,
+        address: seededUser.address,
+        iban: seededUser.iban,
+        date: localDateTime()
+      });
+    }
+  });
   state.users.forEach((user) => {
     user.userId ||= generateUserId(user);
     user.balance = Number.isFinite(Number(user.balance)) ? Number(user.balance) : STARTING_BALANCE;
