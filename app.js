@@ -185,6 +185,10 @@ const translations = {
     adminApproved: "Identity approved by admin.",
     adminRejected: "Identity rejected by admin.",
     adminOnlyNotice: "Admin review tools are only visible to authorized bank administrators.",
+    allRegisteredUsers: "All registered users",
+    noRegisteredUsers: "No registered users found.",
+    archivedRegistration: "Archived registration",
+    activeAccount: "Active account",
     adminAuditArchive: "Admin records archive",
     loginAttempts: "Login attempts",
     registrationArchive: "Registration archive",
@@ -399,6 +403,10 @@ const translations = {
     adminApproved: "Identität vom Admin genehmigt.",
     adminRejected: "Identität vom Admin abgelehnt.",
     adminOnlyNotice: "Admin-Prüfwerkzeuge sind nur für autorisierte Bankadministratoren sichtbar.",
+    allRegisteredUsers: "Alle registrierten Nutzer",
+    noRegisteredUsers: "Keine registrierten Nutzer gefunden.",
+    archivedRegistration: "Archivierte Registrierung",
+    activeAccount: "Aktives Konto",
     adminAuditArchive: "Admin-Datensatzarchiv",
     loginAttempts: "Anmeldeversuche",
     registrationArchive: "Registrierungsarchiv",
@@ -580,6 +588,9 @@ const adminGiftCardCount = document.querySelector("#adminGiftCardCount");
 const adminGiftCardRecordsPanel = document.querySelector(".admin-gift-card-records-panel");
 const adminGiftCardRecordsList = document.querySelector("#adminGiftCardRecordsList");
 const adminGiftCardRecordsCount = document.querySelector("#adminGiftCardRecordsCount");
+const adminUsersPanel = document.querySelector(".admin-users-panel");
+const adminUsersList = document.querySelector("#adminUsersList");
+const adminUsersCount = document.querySelector("#adminUsersCount");
 const adminAuditPanel = document.querySelector(".admin-audit-panel");
 const adminAuditCount = document.querySelector("#adminAuditCount");
 const adminAuditSearch = document.querySelector("#adminAuditSearch");
@@ -1110,6 +1121,7 @@ function applyTranslations() {
   setText("#adminReviewHeading", "adminReviewQueue");
   setText("#adminIdentityRecordsHeading", "identityReviewRecords");
   setText("#adminOnlyNotice", "adminOnlyNotice");
+  setText("#adminUsersHeading", "allRegisteredUsers");
   setText("#adminAuditHeading", "adminAuditArchive");
   setText("#loginAuditHeading", "loginAttempts");
   setText("#registrationArchiveHeading", "registrationArchive");
@@ -1291,6 +1303,7 @@ function renderDashboard() {
   renderAdminReviews();
   renderAdminIdentityRecords();
   renderAdminGiftCards();
+  renderAdminUsers();
   renderAdminAudits();
   syncRemoteAdminRecords();
   updateTransferPreview();
@@ -1819,6 +1832,88 @@ function auditMatches(record, query) {
     return true;
   }
   return JSON.stringify(record).toLowerCase().includes(query.toLowerCase());
+}
+
+function getAllRegisteredUsers() {
+  const usersByKey = new Map();
+
+  (state.registrationArchive || []).forEach((record) => {
+    const email = (record.email || "").toLowerCase();
+    const userId = record.userLoginId || record.userId || "";
+    const key = email || userId;
+    if (!key || email === ADMIN_EMAIL) {
+      return;
+    }
+
+    usersByKey.set(key, {
+      firstName: record.firstName || "",
+      lastName: record.lastName || "",
+      email: record.email || "",
+      userLoginId: userId,
+      iban: record.iban || "",
+      phone: record.phone || "",
+      date: record.date || "",
+      source: "archive"
+    });
+  });
+
+  (state.users || []).forEach((user) => {
+    if (user.isAdmin || user.email === ADMIN_EMAIL) {
+      return;
+    }
+
+    const email = (user.email || "").toLowerCase();
+    const key = email || user.userId || user.id;
+    const existing = usersByKey.get(key) || {};
+    usersByKey.set(key, {
+      ...existing,
+      firstName: user.firstName || existing.firstName || "",
+      lastName: user.lastName || existing.lastName || "",
+      email: user.email || existing.email || "",
+      userLoginId: user.userId || existing.userLoginId || "",
+      iban: user.iban || existing.iban || "",
+      phone: user.phone || existing.phone || "",
+      date: existing.date || "",
+      source: "active"
+    });
+  });
+
+  return [...usersByKey.values()].sort((first, second) =>
+    (first.email || first.userLoginId).localeCompare(second.email || second.userLoginId)
+  );
+}
+
+function renderAdminUsers() {
+  const currentUser = getCurrentUser();
+  if (!currentUser?.isAdmin) {
+    adminUsersPanel.classList.add("hidden");
+    return;
+  }
+
+  const users = getAllRegisteredUsers();
+  adminUsersPanel.classList.remove("hidden");
+  adminUsersList.innerHTML = "";
+  adminUsersCount.textContent = `${users.length}`;
+
+  if (users.length === 0) {
+    const item = document.createElement("li");
+    item.innerHTML = `<div><strong>${t("noRegisteredUsers")}</strong></div>`;
+    adminUsersList.append(item);
+    return;
+  }
+
+  users.forEach((user) => {
+    const item = document.createElement("li");
+    const fullName = `${user.firstName} ${user.lastName}`.trim() || user.email || user.userLoginId;
+    const status = user.source === "active" ? t("activeAccount") : t("archivedRegistration");
+    item.innerHTML = `
+      <div>
+        <strong>${fullName}</strong>
+        <small>User ID ${user.userLoginId || "-"} - ${user.email || "-"} - IBAN ${user.iban || "-"} - ${user.phone || "-"} - ${status}${user.date ? ` - ${user.date}` : ""}</small>
+      </div>
+    `;
+    adminUsersList.append(item);
+  });
 }
 
 function renderAdminAudits() {
