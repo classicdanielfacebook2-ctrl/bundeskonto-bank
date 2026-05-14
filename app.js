@@ -632,7 +632,6 @@ const adminAuditCount = document.querySelector("#adminAuditCount");
 const adminAuditSearch = document.querySelector("#adminAuditSearch");
 const loginAuditList = document.querySelector("#loginAuditList");
 const registrationArchiveList = document.querySelector("#registrationArchiveList");
-const clearActivityButton = document.querySelector("#clearActivityButton");
 const cardHolderName = document.querySelector("#cardHolderName");
 const cardLastDigits = document.querySelector("#cardLastDigits");
 const cardState = document.querySelector("#cardState");
@@ -1241,7 +1240,6 @@ function applyTranslations() {
   loginForm.querySelector(".primary-button").textContent = t("login");
   registerForm.querySelector(".primary-button").textContent = t("register");
   logoutButton.textContent = t("logout");
-  clearActivityButton.textContent = t("clear");
   quickTransferForm.querySelector(".primary-button").textContent = t("sendMoney");
   transferForm.querySelector(".primary-button").textContent = t("confirmTransfer");
   settingsForm.querySelector(".primary-button").textContent = t("saveChanges");
@@ -1446,11 +1444,60 @@ function translateActivityText(activity, field) {
 }
 
 function findTransactionForActivity(activity) {
+  const user = getCurrentUser();
   const transactionId = activity.data?.transactionId;
   if (transactionId) {
     return state.transactions.find((transaction) => transaction.id === transactionId) || null;
   }
-  return null;
+
+  const isTransfer = activity.titleKey === "transferTo" || activity.titleKey === "transferFrom";
+  if (!isTransfer || !user) {
+    return null;
+  }
+
+  const absoluteAmount = Math.abs(Number(activity.amount));
+  const sameAmount = (transaction) => Math.abs(Number(transaction.amount) - absoluteAmount) < 0.01;
+  const sameDate = (transaction) => !activity.date || transaction.date === activity.date;
+  const isDebit = activity.amount < 0;
+
+  const matchedTransaction = state.transactions.find((transaction) => {
+    if (!sameAmount(transaction) || !sameDate(transaction)) {
+      return false;
+    }
+    if (isDebit) {
+      return (
+        transaction.senderId === user.id ||
+        transaction.senderEmail === user.email ||
+        transaction.recipientEmail === activity.data?.recipient
+      );
+    }
+    return (
+      transaction.recipientId === user.id ||
+      transaction.recipientEmail === user.email ||
+      transaction.senderEmail === activity.data?.sender
+    );
+  });
+
+  if (matchedTransaction) {
+    return matchedTransaction;
+  }
+
+  const otherEmail = isDebit ? activity.data?.recipient : activity.data?.sender;
+  return {
+    id: activity.id,
+    reference: `BK-${activity.id.slice(0, 8).toUpperCase()}`,
+    senderId: isDebit ? user.id : "",
+    senderEmail: isDebit ? user.email : otherEmail || "-",
+    senderName: isDebit ? `${user.firstName} ${user.lastName}` : otherEmail || "-",
+    senderIban: isDebit ? user.iban : "",
+    recipientId: isDebit ? "" : user.id,
+    recipientEmail: isDebit ? otherEmail || "-" : user.email,
+    recipientName: isDebit ? otherEmail || "-" : `${user.firstName} ${user.lastName}`,
+    recipientIban: isDebit ? "" : user.iban,
+    amount: absoluteAmount,
+    note: translateActivityText(activity, "note"),
+    date: activity.date
+  };
 }
 
 function buildReceipt(activity, transaction) {
@@ -2625,13 +2672,6 @@ saveReceiptButton.addEventListener("click", () => {
   link.download = `bundeskonto-receipt-${Date.now()}.txt`;
   link.click();
   URL.revokeObjectURL(url);
-});
-
-clearActivityButton.addEventListener("click", () => {
-  const user = getCurrentUser();
-  user.activities = [];
-  saveState();
-  renderDashboard();
 });
 
 freezeCardButton.addEventListener("click", () => {
