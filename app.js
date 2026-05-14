@@ -111,6 +111,12 @@ const translations = {
     awaitingConfirmation: "Awaiting confirmation",
     noGiftCardReviews: "No pending gift card reviews.",
     noGiftCardRecords: "No confirmed or declined gift card records yet.",
+    adminRegistrationSubject: "New registration",
+    adminRegistrationBody: "{name} registered with email {email}. User ID: {userId}",
+    adminIdentitySubject: "Identity review submitted",
+    adminIdentityBody: "{name} submitted identity verification for admin approval.",
+    adminGiftCardSubject: "Gift card submitted",
+    adminGiftCardBody: "{name} submitted a {card} gift card for {amount}. Reference: {reference}",
     giftCardApproved: "Gift card approved",
     giftCardRejected: "Gift card rejected",
     giftCardApprovedBody: "{card} gift card approved. {amount} has been added to your account. Reference: {reference}",
@@ -317,6 +323,12 @@ const translations = {
     awaitingConfirmation: "Wartet auf Bestätigung",
     noGiftCardReviews: "Keine offenen Geschenkkarten-Prüfungen.",
     noGiftCardRecords: "Noch keine bestätigten oder abgelehnten Geschenkkarten-Datensätze.",
+    adminRegistrationSubject: "Neue Registrierung",
+    adminRegistrationBody: "{name} hat sich mit E-Mail {email} registriert. Nutzer-ID: {userId}",
+    adminIdentitySubject: "Identitätsprüfung eingereicht",
+    adminIdentityBody: "{name} hat eine Identitätsprüfung zur Admin-Freigabe eingereicht.",
+    adminGiftCardSubject: "Geschenkkarte eingereicht",
+    adminGiftCardBody: "{name} hat eine {card}-Geschenkkarte über {amount} eingereicht. Referenz: {reference}",
     giftCardApproved: "Geschenkkarte genehmigt",
     giftCardRejected: "Geschenkkarte abgelehnt",
     giftCardApprovedBody: "{card}-Geschenkkarte genehmigt. {amount} wurde Ihrem Konto gutgeschrieben. Referenz: {reference}",
@@ -821,6 +833,16 @@ function createSystemMessage(subjectKey, bodyKey, data = {}) {
     date: localDateTime(),
     read: false
   };
+}
+
+function notifyAdmin(subjectKey, bodyKey, data = {}) {
+  const admin = state.users.find((user) => user.email === ADMIN_EMAIL);
+  if (!admin) {
+    return;
+  }
+
+  admin.notifications ||= [];
+  admin.notifications.unshift(createSystemMessage(subjectKey, bodyKey, data));
 }
 
 function fileToDataUrl(file) {
@@ -1807,6 +1829,11 @@ function registerUser(event) {
     iban: user.iban,
     date: localDateTime()
   });
+  notifyAdmin("adminRegistrationSubject", "adminRegistrationBody", {
+    name: `${user.firstName} ${user.lastName}`,
+    email: user.email,
+    userId: user.userId
+  });
   state.currentUserId = user.id;
   saveState();
   registerForm.reset();
@@ -2103,6 +2130,11 @@ identityForm.addEventListener("submit", async (event) => {
     submittedAt,
     reviewedAt: ""
   });
+  notifyAdmin("adminIdentitySubject", "adminIdentityBody", {
+    name: `${user.firstName} ${user.lastName}`,
+    email: user.email,
+    userId: user.userId
+  });
 
   saveState();
   renderDashboard();
@@ -2140,6 +2172,14 @@ giftCardForm.addEventListener("submit", async (event) => {
     status: "pending",
     submittedAt: localDateTime(),
     reviewedAt: ""
+  });
+  notifyAdmin("adminGiftCardSubject", "adminGiftCardBody", {
+    name: `${user.firstName} ${user.lastName}`,
+    email: user.email,
+    userId: user.userId,
+    card: cardType,
+    amount: formatCurrency(amount),
+    reference
   });
 
   saveState();
