@@ -648,6 +648,17 @@
     </section>
   </main>
 
+  <div id="receiptModal" class="receipt-modal hidden" role="dialog" aria-modal="true" aria-labelledby="receiptTitle">
+    <div class="receipt-sheet">
+      <button id="closeReceiptButton" class="receipt-close" type="button" aria-label="Close receipt">&times;</button>
+      <div id="receiptContent" class="receipt-content"></div>
+      <div class="receipt-actions">
+        <button id="shareReceiptButton" class="primary-button" type="button">Share receipt</button>
+        <button id="saveReceiptButton" class="secondary-button" type="button">Save receipt</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="app.js"></script>
 </body>
 </html>

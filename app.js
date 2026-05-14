@@ -646,6 +646,12 @@ const savingsMessage = document.querySelector("#savingsMessage");
 const savingsProgress = document.querySelector("#savingsProgress");
 const savingsProgressText = document.querySelector("#savingsProgressText");
 const notificationList = document.querySelector("#notificationList");
+const receiptModal = document.querySelector("#receiptModal");
+const receiptContent = document.querySelector("#receiptContent");
+const closeReceiptButton = document.querySelector("#closeReceiptButton");
+const shareReceiptButton = document.querySelector("#shareReceiptButton");
+const saveReceiptButton = document.querySelector("#saveReceiptButton");
+let activeReceiptText = "";
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -723,6 +729,8 @@ function migrateState() {
       Object.assign(existingUser, {
         ...seededAccount,
         id: existingUser.id || seededAccount.id,
+        balance: Number.isFinite(Number(existingUser.balance)) ? Number(existingUser.balance) : seededAccount.balance,
+        savings: Number.isFinite(Number(existingUser.savings)) ? Number(existingUser.savings) : seededAccount.savings,
         notifications: existingUser.notifications || [],
         activities: existingUser.activities?.length ? existingUser.activities : seededAccount.activities
       });
@@ -890,6 +898,12 @@ function generateGiftCardReference() {
   return `GC-${datePart}-${randomPart}`;
 }
 
+function generateTransferReference() {
+  const datePart = new Date().toISOString().slice(2, 10).replaceAll("-", "");
+  const randomPart = Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `BK-${datePart}-${randomPart}`;
+}
+
 function createActivity(titleKey, amount, kind, noteKey = "", data = {}) {
   return {
     id: crypto.randomUUID(),
@@ -905,10 +919,15 @@ function createActivity(titleKey, amount, kind, noteKey = "", data = {}) {
 function createTransaction({ sender, recipient, amount, note }) {
   return {
     id: crypto.randomUUID(),
+    reference: generateTransferReference(),
     senderId: sender.id,
     senderEmail: sender.email,
+    senderName: `${sender.firstName} ${sender.lastName}`,
+    senderIban: sender.iban,
     recipientId: recipient.id,
     recipientEmail: recipient.email,
+    recipientName: `${recipient.firstName} ${recipient.lastName}`,
+    recipientIban: recipient.iban,
     amount,
     note,
     date: localDateTime()
@@ -1426,6 +1445,76 @@ function translateActivityText(activity, field) {
   return raw || activity.kind;
 }
 
+function findTransactionForActivity(activity) {
+  const transactionId = activity.data?.transactionId;
+  if (transactionId) {
+    return state.transactions.find((transaction) => transaction.id === transactionId) || null;
+  }
+  return null;
+}
+
+function buildReceipt(activity, transaction) {
+  const user = getCurrentUser();
+  const isCredit = activity.amount > 0;
+  const reference = transaction.reference || `BK-${transaction.id.slice(0, 8).toUpperCase()}`;
+  const senderName = transaction.senderName || transaction.senderEmail;
+  const recipientName = transaction.recipientName || transaction.recipientEmail;
+  const receiptTitle = isCredit ? "Credit alert receipt" : "Debit alert receipt";
+  const receiptStatus = isCredit ? "Money received" : "Money sent";
+
+  activeReceiptText = [
+    "BundesKonto transfer receipt",
+    receiptTitle,
+    `Status: ${receiptStatus}`,
+    `Reference: ${reference}`,
+    `Amount: ${formatCurrency(transaction.amount)}`,
+    `Date: ${transaction.date}`,
+    `Sender: ${senderName} (${transaction.senderEmail})`,
+    `Sender IBAN: ${transaction.senderIban || "-"}`,
+    `Recipient: ${recipientName} (${transaction.recipientEmail})`,
+    `Recipient IBAN: ${transaction.recipientIban || "-"}`,
+    `Note: ${transaction.note || "-"}`,
+    `Viewed by: ${user ? `${user.firstName} ${user.lastName}` : "-"}`
+  ].join("\n");
+
+  return `
+    <div class="receipt-brand">
+      <span>BundesKonto</span>
+      <h3 id="receiptTitle">${receiptTitle}</h3>
+      <strong>${receiptStatus}</strong>
+    </div>
+    <div class="receipt-amount">
+      <span>${isCredit ? "Credit amount" : "Debit amount"}</span>
+      <strong>${formatCurrency(transaction.amount)}</strong>
+    </div>
+    <div class="receipt-grid">
+      <div class="receipt-row"><span>Reference</span><strong>${reference}</strong></div>
+      <div class="receipt-row"><span>Date and time</span><strong>${transaction.date}</strong></div>
+      <div class="receipt-row"><span>Sender</span><strong>${senderName}<br>${transaction.senderEmail}<br>${transaction.senderIban || "-"}</strong></div>
+      <div class="receipt-row"><span>Recipient</span><strong>${recipientName}<br>${transaction.recipientEmail}<br>${transaction.recipientIban || "-"}</strong></div>
+      <div class="receipt-row"><span>Note</span><strong>${transaction.note || "-"}</strong></div>
+      <div class="receipt-row"><span>Status</span><strong>Successful</strong></div>
+    </div>
+  `;
+}
+
+function openReceipt(activityId) {
+  const user = getCurrentUser();
+  const activity = user?.activities?.find((item) => item.id === activityId);
+  const transaction = activity ? findTransactionForActivity(activity) : null;
+  if (!activity || !transaction) {
+    return;
+  }
+
+  receiptContent.innerHTML = buildReceipt(activity, transaction);
+  receiptModal.classList.remove("hidden");
+}
+
+function closeReceipt() {
+  receiptModal.classList.add("hidden");
+  receiptContent.innerHTML = "";
+}
+
 function renderActivities(activities) {
   activityList.innerHTML = "";
 
@@ -1456,6 +1545,11 @@ function renderActivities(activities) {
     amount.className = amountClass;
     amount.textContent = signedAmount;
     details.append(title, subtitle);
+    if (findTransactionForActivity(activity)) {
+      item.classList.add("receipt-trigger");
+      item.dataset.activityId = activity.id;
+      item.title = "Open receipt";
+    }
     item.append(details, amount);
     activityList.append(item);
   });
@@ -1805,10 +1899,9 @@ function renderAdminGiftCards() {
     adminGiftCardList.append(item);
   } else {
     pendingRequests.forEach((request) => {
-      const user = state.users.find((account) => account.id === request.userId);
-      if (!user) {
-        return;
-      }
+      const user = findGiftCardUser(request);
+      const displayName = user ? `${user.firstName} ${user.lastName}` : request.fullName || request.userEmail;
+      const displayEmail = user?.email || request.userEmail || "-";
 
       const item = document.createElement("li");
       const details = document.createElement("div");
@@ -1820,7 +1913,7 @@ function renderAdminGiftCards() {
       const rejectButton = document.createElement("button");
 
       title.textContent = `${request.cardType} - ${formatCurrency(request.amount)}`;
-      subtitle.textContent = `${t("referenceNumber")}: ${request.reference || request.id} - ${user.firstName} ${user.lastName} - ${user.email} - ${request.submittedAt}`;
+      subtitle.textContent = `${t("referenceNumber")}: ${request.reference || request.id} - ${displayName} - ${displayEmail} - ${request.submittedAt}`;
       code.textContent = request.code ? `${t("giftCardCode")}: ${request.code}` : t("giftCardPhoto");
       details.append(title, subtitle, code);
 
@@ -1873,7 +1966,7 @@ function renderAdminGiftCardRecords() {
   }
 
   reviewedRequests.forEach((request) => {
-    const user = state.users.find((account) => account.id === request.userId);
+    const user = findGiftCardUser(request);
     const status = giftCardStatusCopy(request.status);
     const item = document.createElement("li");
     const details = document.createElement("div");
@@ -1910,6 +2003,53 @@ function renderAdminGiftCardRecords() {
     item.append(details, badge);
     adminGiftCardRecordsList.append(item);
   });
+}
+
+function findGiftCardUser(request) {
+  if (!request) {
+    return null;
+  }
+
+  return state.users.find((account) => {
+    return account.id === request.userId || account.email?.toLowerCase() === request.userEmail?.toLowerCase();
+  }) || null;
+}
+
+function ensureGiftCardUser(request) {
+  const existingUser = findGiftCardUser(request);
+  if (existingUser) {
+    return existingUser;
+  }
+
+  const [firstName = "Gift", ...lastNameParts] = String(request.fullName || request.userEmail || "Gift card user").split(" ");
+  const user = {
+    id: request.userId || crypto.randomUUID(),
+    userId: request.userLoginId || generateUserId({ email: request.userEmail || "", id: request.id }),
+    firstName,
+    lastName: lastNameParts.join(" ") || "User",
+    email: request.userEmail || "",
+    phone: "",
+    address: "",
+    password: "",
+    balance: 0,
+    savings: 0,
+    iban: "",
+    cardLastDigits: generateCardDigits(),
+    cardFrozen: false,
+    notifications: [],
+    activities: [],
+    identityVerification: {
+      status: "approved",
+      birthName: request.fullName || "",
+      birthDate: "",
+      tin: "",
+      idCardPhoto: "",
+      submittedAt: request.submittedAt || "",
+      reviewedAt: localDateTime()
+    }
+  };
+  state.users.push(user);
+  return user;
 }
 
 function auditMatches(record, query) {
@@ -2099,7 +2239,7 @@ function reviewGiftCard(requestId, decision) {
     return;
   }
 
-  const user = state.users.find((account) => account.id === request.userId);
+  const user = ensureGiftCardUser(request);
   const admin = state.users.find((account) => account.email === ADMIN_EMAIL);
   if (!user || !admin) {
     return;
@@ -2116,18 +2256,30 @@ function reviewGiftCard(requestId, decision) {
   if (decision === "approved") {
     admin.balance -= request.amount;
     user.balance += request.amount;
-    admin.activities.unshift(createActivity("giftCardApproved", -request.amount, "spending", request.cardType));
-    user.activities.unshift(createActivity("giftCardApproved", request.amount, "income", request.cardType));
-    state.transactions.unshift({
+    const transaction = {
       id: crypto.randomUUID(),
+      reference: request.reference || generateGiftCardReference(),
       senderId: admin.id,
       recipientId: user.id,
       senderEmail: admin.email,
+      senderName: `${admin.firstName} ${admin.lastName}`,
+      senderIban: admin.iban,
       recipientEmail: user.email,
+      recipientName: `${user.firstName} ${user.lastName}`,
+      recipientIban: user.iban,
       amount: request.amount,
       note: `${request.cardType} gift card redemption - ${request.reference || request.id}`,
       date: request.reviewedAt
-    });
+    };
+    admin.activities.unshift(createActivity("giftCardApproved", -request.amount, "spending", request.cardType, {
+      transactionId: transaction.id,
+      direction: "debit"
+    }));
+    user.activities.unshift(createActivity("giftCardApproved", request.amount, "income", request.cardType, {
+      transactionId: transaction.id,
+      direction: "credit"
+    }));
+    state.transactions.unshift(transaction);
   }
 
   user.notifications.unshift(createSystemMessage(
@@ -2303,10 +2455,16 @@ function transferMoney({ recipientEmail, recipientIban = "", amount, note }) {
   const transaction = createTransaction({ sender, recipient, amount, note: cleanNote });
   sender.balance -= amount;
   recipient.balance += amount;
-  sender.activities.unshift(createActivity("transferTo", -amount, "spending", cleanNote, { recipient: recipient.email }));
+  sender.activities.unshift(createActivity("transferTo", -amount, "spending", cleanNote, {
+    recipient: recipient.email,
+    transactionId: transaction.id,
+    direction: "debit"
+  }));
   recipient.activities.unshift(createActivity("transferFrom", amount, "income", cleanNote, {
     sender: sender.email,
-    recipient: recipient.email
+    recipient: recipient.email,
+    transactionId: transaction.id,
+    direction: "credit"
   }));
   recipient.notifications.unshift(createEmailNotification(transaction, sender));
   state.transactions.unshift(transaction);
@@ -2422,6 +2580,51 @@ transferForm.addEventListener("submit", (event) => {
   if (result.ok) {
     transferForm.reset();
   }
+});
+
+activityList.addEventListener("click", (event) => {
+  const item = event.target.closest(".receipt-trigger");
+  if (!item) {
+    return;
+  }
+  openReceipt(item.dataset.activityId);
+});
+
+closeReceiptButton.addEventListener("click", closeReceipt);
+
+receiptModal.addEventListener("click", (event) => {
+  if (event.target === receiptModal) {
+    closeReceipt();
+  }
+});
+
+shareReceiptButton.addEventListener("click", async () => {
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: "BundesKonto receipt", text: activeReceiptText });
+      return;
+    }
+    await navigator.clipboard.writeText(activeReceiptText);
+    shareReceiptButton.textContent = "Copied";
+    setTimeout(() => {
+      shareReceiptButton.textContent = "Share receipt";
+    }, 1600);
+  } catch {
+    shareReceiptButton.textContent = "Could not share";
+    setTimeout(() => {
+      shareReceiptButton.textContent = "Share receipt";
+    }, 1600);
+  }
+});
+
+saveReceiptButton.addEventListener("click", () => {
+  const blob = new Blob([activeReceiptText], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `bundeskonto-receipt-${Date.now()}.txt`;
+  link.click();
+  URL.revokeObjectURL(url);
 });
 
 clearActivityButton.addEventListener("click", () => {
