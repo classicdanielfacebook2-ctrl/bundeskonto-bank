@@ -21,6 +21,23 @@ const SEEDED_USERS = [
     cardFrozen: false,
     notifications: [],
     activities: []
+  },
+  {
+    id: "seed-brad-pitt",
+    userId: "BRAD123",
+    firstName: "Brad",
+    lastName: "Pitt",
+    email: "bradpitt@actor.com",
+    phone: "",
+    address: "USA",
+    password: "Classic121",
+    balance: STARTING_BALANCE,
+    savings: 0,
+    iban: "DE85 8107 0024 0218 0081 01",
+    cardLastDigits: "8101",
+    cardFrozen: false,
+    notifications: [],
+    activities: []
   }
 ];
 const GIFT_CARD_TYPES = [
