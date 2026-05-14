@@ -1,6 +1,23 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-const uri = process.env.MONGODB_URI;
+function normalizeMongoUri(rawUri) {
+  if (!rawUri) {
+    return "";
+  }
+
+  const trimmedUri = rawUri.trim();
+  const placeholderPasswordMatch = trimmedUri.match(/:\/\/([^:]+):<([^>]+)>@/);
+  if (placeholderPasswordMatch) {
+    return trimmedUri.replace(
+      `://${placeholderPasswordMatch[1]}:<${placeholderPasswordMatch[2]}>@`,
+      `://${placeholderPasswordMatch[1]}:${encodeURIComponent(placeholderPasswordMatch[2])}@`
+    );
+  }
+
+  return trimmedUri;
+}
+
+const uri = normalizeMongoUri(process.env.MONGODB_URI);
 const dbName = process.env.MONGODB_DB || "bundeskonto";
 
 let clientPromise;

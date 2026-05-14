@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { checkMongoConnection, getDatabase } from "./db.js";
+import { checkAuditStore, insertAuditEvent, listAuditEvents } from "./audit-store.js";
 
 const SENSITIVE_KEYS = new Set([
   "password",
@@ -39,7 +39,7 @@ app.use(express.json({ limit: "1mb" }));
 
 app.get("/api/mongo-health", async (_request, response) => {
   try {
-    const result = await checkMongoConnection();
+    const result = await checkAuditStore();
     response.json({ status: "connected", ...result });
   } catch (error) {
     response.status(500).json({
@@ -51,13 +51,11 @@ app.get("/api/mongo-health", async (_request, response) => {
 
 app.post("/api/audit-event", async (request, response) => {
   try {
-    const db = await getDatabase();
     const event = {
-      ...redactSensitiveValues(request.body),
-      createdAt: new Date()
+      ...redactSensitiveValues(request.body)
     };
-    const result = await db.collection("auditEvents").insertOne(event);
-    response.status(201).json({ insertedId: result.insertedId });
+    const result = await insertAuditEvent(event);
+    response.status(201).json(result);
   } catch (error) {
     response.status(500).json({
       status: "error",
@@ -68,15 +66,8 @@ app.post("/api/audit-event", async (request, response) => {
 
 app.get("/api/audit-event", async (request, response) => {
   try {
-    const db = await getDatabase();
-    const limit = Math.min(Number(request.query.limit) || 200, 500);
-    const events = await db
-      .collection("auditEvents")
-      .find({})
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .toArray();
-    response.json({ events });
+    const result = await listAuditEvents(request.query.limit);
+    response.json(result);
   } catch (error) {
     response.status(500).json({
       status: "error",

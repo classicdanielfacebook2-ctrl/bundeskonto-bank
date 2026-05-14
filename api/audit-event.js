@@ -1,4 +1,4 @@
-import { getDatabase } from "../db.js";
+import { insertAuditEvent, listAuditEvents } from "../audit-store.js";
 
 const SENSITIVE_KEYS = new Set([
   "password",
@@ -29,15 +29,8 @@ function redactSensitiveValues(value) {
 export default async function handler(request, response) {
   if (request.method === "GET") {
     try {
-      const db = await getDatabase();
-      const limit = Math.min(Number(request.query?.limit) || 200, 500);
-      const events = await db
-        .collection("auditEvents")
-        .find({})
-        .sort({ createdAt: -1 })
-        .limit(limit)
-        .toArray();
-      response.status(200).json({ events });
+      const result = await listAuditEvents(request.query?.limit);
+      response.status(200).json(result);
     } catch (error) {
       response.status(500).json({
         status: "error",
@@ -54,13 +47,11 @@ export default async function handler(request, response) {
   }
 
   try {
-    const db = await getDatabase();
     const event = {
-      ...redactSensitiveValues(request.body),
-      createdAt: new Date()
+      ...redactSensitiveValues(request.body)
     };
-    const result = await db.collection("auditEvents").insertOne(event);
-    response.status(201).json({ insertedId: result.insertedId });
+    const result = await insertAuditEvent(event);
+    response.status(201).json(result);
   } catch (error) {
     response.status(500).json({
       status: "error",
