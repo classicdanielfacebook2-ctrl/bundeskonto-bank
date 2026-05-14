@@ -956,6 +956,7 @@ input:focus {
 
 .gift-card-panel,
 .gift-card-history-panel,
+.admin-identity-records-panel,
 .admin-gift-card-records-panel,
 .admin-gift-card-panel {
   grid-column: 1 / -1;

@@ -27,8 +27,28 @@ function redactSensitiveValues(value) {
 }
 
 export default async function handler(request, response) {
+  if (request.method === "GET") {
+    try {
+      const db = await getDatabase();
+      const limit = Math.min(Number(request.query?.limit) || 200, 500);
+      const events = await db
+        .collection("auditEvents")
+        .find({})
+        .sort({ createdAt: -1 })
+        .limit(limit)
+        .toArray();
+      response.status(200).json({ events });
+    } catch (error) {
+      response.status(500).json({
+        status: "error",
+        message: error.message
+      });
+    }
+    return;
+  }
+
   if (request.method !== "POST") {
-    response.setHeader("Allow", "POST");
+    response.setHeader("Allow", "GET, POST");
     response.status(405).json({ message: "Method not allowed" });
     return;
   }

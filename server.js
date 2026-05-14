@@ -66,6 +66,25 @@ app.post("/api/audit-event", async (request, response) => {
   }
 });
 
+app.get("/api/audit-event", async (request, response) => {
+  try {
+    const db = await getDatabase();
+    const limit = Math.min(Number(request.query.limit) || 200, 500);
+    const events = await db
+      .collection("auditEvents")
+      .find({})
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .toArray();
+    response.json({ events });
+  } catch (error) {
+    response.status(500).json({
+      status: "error",
+      message: error.message
+    });
+  }
+});
+
 app.use(express.static(__dirname));
 
 app.listen(port, () => {

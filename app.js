@@ -174,6 +174,8 @@ const translations = {
     idCardPhoto: "Photo of ID card",
     submitForReview: "Submit for admin review",
     adminReviewQueue: "Admin review queue",
+    identityReviewRecords: "Identity review records",
+    noIdentityReviewRecords: "No identity review records yet.",
     noPendingReviews: "No pending identity reviews.",
     reviewSubmitted: "Identity verification sent to admin for review.",
     reviewAlreadyApproved: "Identity already approved.",
@@ -386,6 +388,8 @@ const translations = {
     idCardPhoto: "Foto des Ausweises",
     submitForReview: "Zur Admin-Prüfung senden",
     adminReviewQueue: "Admin-Prüfliste",
+    identityReviewRecords: "Identitätsprüfungs-Datensätze",
+    noIdentityReviewRecords: "Noch keine Identitätsprüfungs-Datensätze.",
     noPendingReviews: "Keine offenen Identitätsprüfungen.",
     reviewSubmitted: "Identitätsprüfung wurde an den Admin gesendet.",
     reviewAlreadyApproved: "Identität ist bereits bestätigt.",
@@ -474,6 +478,7 @@ const activityTextMap = {
 };
 
 let state = loadState();
+let remoteAdminSyncRunning = false;
 
 const authView = document.querySelector("#authView");
 const dashboardView = document.querySelector("#dashboardView");
@@ -566,6 +571,9 @@ const giftCardHistoryList = document.querySelector("#giftCardHistoryList");
 const giftCardHistoryCount = document.querySelector("#giftCardHistoryCount");
 const adminReviewList = document.querySelector("#adminReviewList");
 const adminReviewCount = document.querySelector("#adminReviewCount");
+const adminIdentityRecordsPanel = document.querySelector(".admin-identity-records-panel");
+const adminIdentityRecordsList = document.querySelector("#adminIdentityRecordsList");
+const adminIdentityRecordsCount = document.querySelector("#adminIdentityRecordsCount");
 const adminGiftCardPanel = document.querySelector(".admin-gift-card-panel");
 const adminGiftCardList = document.querySelector("#adminGiftCardList");
 const adminGiftCardCount = document.querySelector("#adminGiftCardCount");
@@ -611,6 +619,7 @@ function migrateState() {
   state.giftCardRequests ||= [];
   state.loginAudits ||= [];
   state.registrationArchive ||= [];
+  state.importedAuditEventIds ||= [];
   if (!state.users.some((user) => user.email === ADMIN_EMAIL)) {
     state.users.unshift({
       id: "admin-user",
@@ -647,13 +656,14 @@ function migrateState() {
     user.activities ||= [];
     user.notifications ||= [];
     user.isAdmin ||= user.email === ADMIN_EMAIL;
-    if (user.email === ADMIN_EMAIL) {
-      user.isAdmin = true;
-      if (!user.adminBalanceSeeded) {
-        user.balance = ADMIN_BALANCE;
-        user.adminBalanceSeeded = true;
-      }
+  if (user.email === ADMIN_EMAIL) {
+    user.isAdmin = true;
+    if (!user.adminBalanceSeeded) {
+      user.balance = ADMIN_BALANCE;
+      user.adminBalanceSeeded = true;
     }
+    user.id ||= "admin-user";
+  }
     user.identityVerification ||= {
       status: "not_submitted",
       birthName: "",
@@ -673,6 +683,7 @@ function migrateState() {
     const user = state.users.find((account) => account.id === record.userId || account.email === record.email);
     record.userLoginId ||= user?.userId || "";
   });
+  backfillAdminNotifications();
   saveState();
 }
 
@@ -845,6 +856,135 @@ function notifyAdmin(subjectKey, bodyKey, data = {}) {
   admin.notifications.unshift(createSystemMessage(subjectKey, bodyKey, data));
 }
 
+function adminHasNotification(key) {
+  const admin = state.users.find((user) => user.email === ADMIN_EMAIL);
+  return Boolean(admin?.notifications?.some((notification) => notification.data?.key === key));
+}
+
+function notifyAdminOnce(key, subjectKey, bodyKey, data = {}) {
+  if (adminHasNotification(key)) {
+    return;
+  }
+  notifyAdmin(subjectKey, bodyKey, { ...data, key });
+}
+
+async function sendAuditEvent(kind, payload) {
+  try {
+    await fetch("/api/audit-event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kind, payload, clientDate: localDateTime() })
+    });
+  } catch {
+    // Local storage remains the fallback when the backend is not configured.
+  }
+}
+
+function importRemoteRegistration(event) {
+  const record = event.payload?.record;
+  if (!record || state.registrationArchive.some((item) => item.id === record.id)) {
+    return;
+  }
+  state.registrationArchive.unshift(record);
+  notifyAdminOnce(`registration:${record.id}`, "adminRegistrationSubject", "adminRegistrationBody", {
+    name: `${record.firstName} ${record.lastName}`,
+    email: record.email,
+    userId: record.userLoginId || ""
+  });
+}
+
+function importRemoteIdentity(event) {
+  const review = event.payload?.review;
+  if (!review || state.adminReviews.some((item) => item.id === review.id)) {
+    return;
+  }
+  state.adminReviews.unshift(review);
+  notifyAdminOnce(`identity:${review.id}`, "adminIdentitySubject", "adminIdentityBody", {
+    name: review.fullName || review.userEmail,
+    email: review.userEmail,
+    userId: review.userLoginId || ""
+  });
+}
+
+function importRemoteGiftCard(event) {
+  const request = event.payload?.request;
+  if (!request || state.giftCardRequests.some((item) => item.id === request.id)) {
+    return;
+  }
+  state.giftCardRequests.unshift(request);
+  notifyAdminOnce(`gift-card:${request.id}`, "adminGiftCardSubject", "adminGiftCardBody", {
+    name: request.fullName || request.userEmail,
+    email: request.userEmail,
+    userId: request.userLoginId || "",
+    card: request.cardType,
+    amount: formatCurrency(request.amount),
+    reference: request.reference || request.id
+  });
+}
+
+async function syncRemoteAdminRecords() {
+  const currentUser = getCurrentUser();
+  if (!currentUser?.isAdmin || remoteAdminSyncRunning) {
+    return;
+  }
+
+  remoteAdminSyncRunning = true;
+  try {
+    const response = await fetch("/api/audit-event?limit=500");
+    if (!response.ok) {
+      return;
+    }
+    const { events = [] } = await response.json();
+    let changed = false;
+    events.reverse().forEach((event) => {
+      const id = String(event._id || event.id || "");
+      if (!id || state.importedAuditEventIds.includes(id)) {
+        return;
+      }
+      if (event.kind === "registration") {
+        importRemoteRegistration(event);
+        changed = true;
+      }
+      if (event.kind === "identity-submission") {
+        importRemoteIdentity(event);
+        changed = true;
+      }
+      if (event.kind === "gift-card-submission") {
+        importRemoteGiftCard(event);
+        changed = true;
+      }
+      state.importedAuditEventIds.push(id);
+    });
+    if (changed) {
+      saveState();
+      renderDashboard();
+    }
+  } catch {
+    // Backend sync is optional until MongoDB is correctly configured.
+  } finally {
+    remoteAdminSyncRunning = false;
+  }
+}
+
+function backfillAdminNotifications() {
+  (state.registrationArchive || []).forEach((record) => {
+    notifyAdminOnce(`registration:${record.id}`, "adminRegistrationSubject", "adminRegistrationBody", {
+      name: `${record.firstName} ${record.lastName}`,
+      email: record.email,
+      userId: record.userLoginId || ""
+    });
+  });
+
+  (state.adminReviews || []).forEach((review) => {
+    const user = state.users.find((account) => account.id === review.userId || account.email === review.userEmail);
+    notifyAdminOnce(`identity:${review.id}`, "adminIdentitySubject", "adminIdentityBody", {
+      name: user ? `${user.firstName} ${user.lastName}` : review.userEmail,
+      email: review.userEmail,
+      userId: user?.userId || ""
+    });
+  });
+}
+
 function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -968,6 +1108,7 @@ function applyTranslations() {
   setText("#idCardPhotoLabel", "idCardPhoto");
   setText("#submitIdentityButton", "submitForReview");
   setText("#adminReviewHeading", "adminReviewQueue");
+  setText("#adminIdentityRecordsHeading", "identityReviewRecords");
   setText("#adminOnlyNotice", "adminOnlyNotice");
   setText("#adminAuditHeading", "adminAuditArchive");
   setText("#loginAuditHeading", "loginAttempts");
@@ -1148,8 +1289,10 @@ function renderDashboard() {
   fillSettings(user);
   renderIdentityState(user);
   renderAdminReviews();
+  renderAdminIdentityRecords();
   renderAdminGiftCards();
   renderAdminAudits();
+  syncRemoteAdminRecords();
   updateTransferPreview();
 }
 
@@ -1373,6 +1516,16 @@ function giftCardStatusCopy(status) {
   return { label: t("awaitingConfirmation"), type: "" };
 }
 
+function reviewStatusCopy(status) {
+  if (status === "approved") {
+    return { label: t("verified"), type: "success" };
+  }
+  if (status === "rejected") {
+    return { label: t("rejected"), type: "error" };
+  }
+  return { label: t("pendingReview"), type: "" };
+}
+
 function renderGiftCardHistory(user) {
   const requests = (state.giftCardRequests || []).filter((request) => request.userId === user.id);
   giftCardHistoryList.innerHTML = "";
@@ -1415,10 +1568,12 @@ function renderAdminReviews() {
   const adminPanel = document.querySelector(".admin-review-panel");
   if (!currentUser?.isAdmin) {
     adminPanel.classList.add("hidden");
+    adminIdentityRecordsPanel.classList.add("hidden");
     return;
   }
 
   adminPanel.classList.remove("hidden");
+  adminIdentityRecordsPanel.classList.remove("hidden");
   const pendingReviews = (state.adminReviews || []).filter((review) => review.status === "pending");
   adminReviewList.innerHTML = "";
   adminReviewCount.textContent = `${pendingReviews.length}`;
@@ -1464,6 +1619,67 @@ function renderAdminReviews() {
     details.append(title, subtitle, image);
     item.append(details, actions);
     adminReviewList.append(item);
+  });
+}
+
+function renderAdminIdentityRecords() {
+  const currentUser = getCurrentUser();
+  if (!currentUser?.isAdmin) {
+    adminIdentityRecordsPanel.classList.add("hidden");
+    return;
+  }
+
+  adminIdentityRecordsPanel.classList.remove("hidden");
+  const reviews = state.adminReviews || [];
+  adminIdentityRecordsList.innerHTML = "";
+  adminIdentityRecordsCount.textContent = reviews.length ? `${reviews.length}` : "";
+
+  if (reviews.length === 0) {
+    const item = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    title.textContent = t("noIdentityReviewRecords");
+    details.append(title);
+    item.append(details);
+    adminIdentityRecordsList.append(item);
+    return;
+  }
+
+  reviews.forEach((review) => {
+    const user = state.users.find((account) => account.id === review.userId || account.email === review.userEmail);
+    const status = reviewStatusCopy(review.status);
+    const item = document.createElement("li");
+    const details = document.createElement("div");
+    const title = document.createElement("strong");
+    const subtitle = document.createElement("small");
+    const dates = document.createElement("small");
+    const badge = document.createElement("span");
+
+    title.textContent = user ? `${user.firstName} ${user.lastName}` : review.userEmail;
+    subtitle.textContent = `${review.userEmail} - Birth name: ${review.birthName} - Birth date: ${review.birthDate} - TIN ${review.tin}`;
+    dates.textContent = `${t("submittedOn")}: ${review.submittedAt}${review.reviewedAt ? ` - ${t("reviewedOn")}: ${review.reviewedAt}` : ""}`;
+    badge.className = status.type ? `status-pill ${status.type}` : "status-pill";
+    badge.textContent = status.label;
+    details.append(title, subtitle, dates);
+
+    if (review.idCardPhoto) {
+      const imageLink = document.createElement("a");
+      const image = document.createElement("img");
+      imageLink.className = "review-image-link";
+      imageLink.href = review.idCardPhoto;
+      imageLink.target = "_blank";
+      imageLink.rel = "noopener";
+      imageLink.download = `${review.id}-identity-card.png`;
+      imageLink.title = t("idCardPhoto");
+      image.className = "review-id-image";
+      image.alt = "ID card";
+      image.src = review.idCardPhoto;
+      imageLink.append(image);
+      details.append(imageLink);
+    }
+
+    item.append(details, badge);
+    adminIdentityRecordsList.append(item);
   });
 }
 
@@ -1817,7 +2033,7 @@ function registerUser(event) {
   };
 
   state.users.push(user);
-  state.registrationArchive.unshift({
+  const registrationRecord = {
     id: crypto.randomUUID(),
     userId: user.id,
     firstName: user.firstName,
@@ -1828,12 +2044,15 @@ function registerUser(event) {
     address: user.address,
     iban: user.iban,
     date: localDateTime()
-  });
+  };
+  state.registrationArchive.unshift(registrationRecord);
   notifyAdmin("adminRegistrationSubject", "adminRegistrationBody", {
+    key: `registration:${user.id}`,
     name: `${user.firstName} ${user.lastName}`,
     email: user.email,
     userId: user.userId
   });
+  sendAuditEvent("registration", { record: registrationRecord });
   state.currentUserId = user.id;
   saveState();
   registerForm.reset();
@@ -2118,10 +2337,12 @@ identityForm.addEventListener("submit", async (event) => {
   };
 
   state.adminReviews = (state.adminReviews || []).filter((review) => review.userId !== user.id || review.status !== "pending");
-  state.adminReviews.unshift({
+  const identityReview = {
     id: crypto.randomUUID(),
     userId: user.id,
     userEmail: user.email,
+    userLoginId: user.userId,
+    fullName: `${user.firstName} ${user.lastName}`,
     birthName: user.identityVerification.birthName,
     birthDate: user.identityVerification.birthDate,
     tin: user.identityVerification.tin,
@@ -2129,12 +2350,15 @@ identityForm.addEventListener("submit", async (event) => {
     status: "pending",
     submittedAt,
     reviewedAt: ""
-  });
+  };
+  state.adminReviews.unshift(identityReview);
   notifyAdmin("adminIdentitySubject", "adminIdentityBody", {
+    key: `identity:${user.id}:${submittedAt}`,
     name: `${user.firstName} ${user.lastName}`,
     email: user.email,
     userId: user.userId
   });
+  sendAuditEvent("identity-submission", { review: identityReview });
 
   saveState();
   renderDashboard();
@@ -2160,11 +2384,13 @@ giftCardForm.addEventListener("submit", async (event) => {
   }
 
   const reference = generateGiftCardReference();
-  state.giftCardRequests.unshift({
+  const giftCardRequest = {
     id: crypto.randomUUID(),
     reference,
     userId: user.id,
     userEmail: user.email,
+    userLoginId: user.userId,
+    fullName: `${user.firstName} ${user.lastName}`,
     cardType,
     amount,
     code,
@@ -2172,7 +2398,8 @@ giftCardForm.addEventListener("submit", async (event) => {
     status: "pending",
     submittedAt: localDateTime(),
     reviewedAt: ""
-  });
+  };
+  state.giftCardRequests.unshift(giftCardRequest);
   notifyAdmin("adminGiftCardSubject", "adminGiftCardBody", {
     name: `${user.firstName} ${user.lastName}`,
     email: user.email,
@@ -2181,6 +2408,7 @@ giftCardForm.addEventListener("submit", async (event) => {
     amount: formatCurrency(amount),
     reference
   });
+  sendAuditEvent("gift-card-submission", { request: giftCardRequest });
 
   saveState();
   giftCardForm.reset();
