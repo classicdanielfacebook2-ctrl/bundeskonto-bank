@@ -2771,6 +2771,7 @@ input:focus {
 body {
   color: var(--wise-black);
   background: var(--wise-bg);
+  overflow-x: hidden;
 }
 
 .auth-view {
@@ -3345,5 +3346,660 @@ input {
   .mobile-bank-hero {
     grid-template-columns: 1fr;
     border-radius: 0 0 34px 34px;
+  }
+}
+
+/* Wise mobile app dark replica */
+:root {
+  --app-black: #101511;
+  --app-card: #292e2a;
+  --app-card-2: #1a201b;
+  --app-green: #9fe870;
+  --app-green-deep: #153d00;
+  --app-muted: #9aa09b;
+  --app-line: #2d342f;
+}
+
+.dashboard-view {
+  background: var(--app-black);
+}
+
+.dashboard-main {
+  max-width: 760px;
+  min-height: 100vh;
+  padding: 24px 28px 108px;
+  color: #f4f6f0;
+  background: var(--app-black);
+}
+
+.topbar,
+.wise-account-header,
+.overview-grid,
+.accounts-section h3,
+.notificationList,
+.panel.full-panel {
+  display: none;
+}
+
+.dashboard-menu-row {
+  top: 38px;
+  right: max(28px, calc((100vw - 760px) / 2 + 28px));
+  align-items: center;
+  gap: 14px;
+}
+
+.dashboard-menu-row::before {
+  content: "Earn €100";
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 24px;
+  border-radius: 999px;
+  color: var(--app-black);
+  background: var(--app-green);
+  font-size: 1.18rem;
+  font-weight: 900;
+}
+
+.menu-button {
+  width: 76px;
+  height: 52px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--app-green-deep);
+  box-shadow: none;
+}
+
+.menu-button::before {
+  content: "Open";
+  color: var(--app-green);
+  font-weight: 900;
+}
+
+.menu-button span {
+  display: none;
+}
+
+.menu-button::after {
+  content: "+";
+  margin-left: 8px;
+  color: var(--app-green);
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.account-menu {
+  top: calc(100% + 14px);
+  border: 1px solid var(--app-line);
+  border-radius: 24px;
+  color: #f4f6f0;
+  background: #202621;
+  box-shadow: 0 18px 52px rgba(0, 0, 0, 0.46);
+}
+
+.account-menu-header {
+  color: #f4f6f0;
+  background: #2d342f;
+}
+
+.account-menu-header small {
+  color: var(--app-muted);
+}
+
+.menu-item {
+  color: #f4f6f0;
+  border-color: var(--app-line);
+  background: #141915;
+}
+
+.menu-item:hover {
+  color: var(--app-black);
+  border-color: var(--app-green);
+  background: var(--app-green);
+}
+
+.mobile-bank-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  min-height: 0;
+  margin: 0;
+  padding: 116px 0 0;
+  color: #f4f6f0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hero-icon-row {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  right: auto;
+  z-index: 2;
+  display: flex;
+  gap: 14px;
+  padding: 0;
+}
+
+.hero-icon-button {
+  width: 74px;
+  height: 74px;
+  border: 0;
+  border-radius: 50%;
+  background: #282d29;
+  box-shadow: none;
+}
+
+.hero-icon-button::before {
+  content: "SE";
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  color: #f4f6f0;
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.mail-icon {
+  display: none;
+}
+
+.user-icon::before {
+  border-radius: 50%;
+}
+
+.hero-balance-layout {
+  padding: 0;
+}
+
+.balance-dial {
+  min-height: 106px;
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.balance-dial span {
+  color: #d7dcd5;
+  font-size: 1.35rem;
+  font-weight: 500;
+}
+
+.balance-dial strong {
+  color: #f4f6f0;
+  font-size: clamp(2.65rem, 12vw, 4.2rem);
+  line-height: 0.95;
+}
+
+.balance-dial small {
+  display: none;
+}
+
+.balance-dial::after {
+  content: "⌁  ▥";
+  position: absolute;
+  left: min(340px, 52vw);
+  bottom: 12px;
+  display: inline-flex;
+  gap: 12px;
+  color: var(--app-green);
+  font-size: 1.5rem;
+  letter-spacing: 14px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  margin: 0;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.hero-actions::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-action {
+  min-width: max-content;
+  min-height: 66px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px;
+  color: var(--app-green);
+  border: 0;
+  border-radius: 999px;
+  background: var(--app-green-deep);
+  box-shadow: none;
+}
+
+.hero-action:first-child {
+  color: var(--app-black);
+  background: var(--app-green);
+}
+
+.hero-action:hover {
+  color: var(--app-black);
+  background: var(--app-green);
+  transform: none;
+}
+
+.action-icon {
+  display: none;
+}
+
+.hero-action strong {
+  font-size: 1.25rem;
+}
+
+.wise-currency-strip {
+  display: none;
+}
+
+.accounts-section {
+  margin: 18px 0 36px;
+  padding: 18px;
+  border: 0;
+  border-radius: 34px;
+  background: var(--app-card);
+  box-shadow: none;
+}
+
+.accounts-section::before {
+  content: "2 cards  ›";
+  display: block;
+  min-height: 112px;
+  margin: -4px -4px 24px;
+  padding: 28px;
+  border-radius: 28px 28px 10px 10px;
+  color: #fff;
+  background:
+    linear-gradient(135deg, rgba(180, 35, 35, 0.95), rgba(239, 77, 37, 0.88)),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.12) 0 8px, transparent 8px 16px);
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.account-row {
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  padding: 8px 10px 16px;
+  border: 0;
+}
+
+.account-row:first-of-type::before {
+  content: "Main account";
+  grid-column: 1 / -1;
+  display: block;
+  margin-bottom: 4px;
+  color: #f4f6f0;
+  font-size: 2.35rem;
+  font-weight: 900;
+}
+
+.account-row:not(:first-of-type) {
+  display: none;
+}
+
+.account-row .account-icon {
+  display: none;
+}
+
+.account-row div {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.account-row div::before {
+  content: "🇪🇺";
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #2026a4;
+  font-size: 1.3rem;
+}
+
+.account-row div strong {
+  display: none;
+}
+
+.account-row small {
+  max-width: 100%;
+  overflow: hidden;
+  color: #e8ece5;
+  font-size: 1.18rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-row > strong {
+  color: #f4f6f0;
+  max-width: 130px;
+  overflow: hidden;
+  font-size: 1.18rem;
+  font-weight: 500;
+  text-align: right;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-row:first-of-type {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.account-row:first-of-type > strong {
+  display: block;
+}
+
+.account-row:first-of-type div {
+  grid-template-columns: 44px minmax(0, 1fr);
+  margin-top: 4px;
+}
+
+.account-row:first-of-type small {
+  grid-column: 2;
+}
+
+.content-grid {
+  display: block;
+  padding: 0;
+}
+
+.content-grid > .panel:first-child {
+  display: none;
+}
+
+.content-grid > .panel:nth-child(2) {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: #f4f6f0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.content-grid > .panel:nth-child(2) .panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.content-grid > .panel:nth-child(2) .panel-heading::after {
+  content: "See all";
+  color: var(--app-green);
+  text-decoration: underline;
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.content-grid > .panel:nth-child(2) h3 {
+  margin: 0;
+  color: #f4f6f0;
+  font-size: 2.05rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.activity-list {
+  display: grid;
+  gap: 16px;
+}
+
+.activity-list li {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  min-height: 78px;
+  padding: 0;
+  border: 0;
+  color: #f4f6f0;
+  background: transparent;
+}
+
+.activity-list li.activity-empty {
+  grid-template-columns: 1fr;
+  min-height: auto;
+}
+
+.activity-list li.activity-empty strong {
+  white-space: normal;
+}
+
+.activity-icon {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #353c36;
+  border-radius: 50%;
+  color: #f4f6f0;
+  background: #111612;
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.activity-icon-credit {
+  color: #f4f6f0;
+}
+
+.activity-list strong {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  color: #f4f6f0;
+  font-size: 1.38rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.activity-list small {
+  color: #d7dcd5;
+  font-size: 1.12rem;
+}
+
+.amount-positive {
+  color: #cfffbd;
+}
+
+.amount-negative {
+  color: #f4f6f0;
+}
+
+.sidebar {
+  position: fixed;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  height: 86px;
+  padding: 8px 18px 12px;
+  border-top: 1px solid var(--app-line);
+  border-right: 0;
+  background: rgba(16, 21, 17, 0.98);
+  box-shadow: none;
+}
+
+.sidebar-brand,
+.sidebar-language {
+  display: none;
+}
+
+.sidebar nav {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  max-width: 760px;
+}
+
+.nav-button {
+  min-height: 66px;
+  padding: 34px 4px 0;
+  color: #777d78;
+  border-radius: 0;
+  background: transparent;
+  font-size: 0;
+}
+
+.nav-button::before {
+  top: 4px;
+  width: 34px;
+  height: 30px;
+  color: #777d78;
+  font-size: 1.9rem;
+}
+
+.nav-button::after {
+  color: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+
+.nav-button[data-page="overview"]::after {
+  content: "Home";
+}
+
+.nav-button[data-page="cards"]::after {
+  content: "Cards";
+}
+
+.nav-button[data-page="transfer"]::after {
+  content: "Payments";
+}
+
+.nav-button[data-page="savings"]::after {
+  content: "Recipients";
+}
+
+.nav-button.active,
+.nav-button:hover {
+  color: var(--app-green);
+  background: transparent;
+}
+
+.nav-button.active::before,
+.nav-button:hover::before {
+  color: var(--app-green);
+}
+
+@media (min-width: 980px) {
+  .dashboard-view {
+    display: block;
+    background: var(--app-black);
+  }
+
+  .dashboard-main {
+    max-width: 760px;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .sidebar {
+    top: auto;
+    height: 86px;
+    padding: 8px 18px 12px;
+  }
+
+  .sidebar nav {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard-main {
+    padding: 20px 18px 104px;
+  }
+
+  .dashboard-menu-row {
+    top: 34px;
+    right: 18px;
+    gap: 8px;
+  }
+
+  .dashboard-menu-row::before {
+    min-height: 46px;
+    padding: 0 16px;
+    font-size: 1rem;
+  }
+
+  .hero-icon-button {
+    width: 60px;
+    height: 60px;
+  }
+
+  .hero-icon-button::before {
+    font-size: 1.45rem;
+  }
+
+  .mobile-bank-hero {
+    padding-top: 94px;
+  }
+
+  .balance-dial span {
+    font-size: 1.1rem;
+  }
+
+  .balance-dial strong {
+    font-size: 2.35rem;
+  }
+
+  .hero-action {
+    min-height: 56px;
+    padding: 0 18px;
+  }
+
+  .hero-action strong {
+    font-size: 1.05rem;
+  }
+
+  .accounts-section::before {
+    min-height: 86px;
+  }
+
+  .account-row:first-of-type::before {
+    font-size: 1.85rem;
+  }
+
+  .account-row:first-of-type::after,
+  .account-row small,
+  .account-row > strong {
+    font-size: 1.18rem;
+  }
+
+  .content-grid > .panel:nth-child(2) h3 {
+    font-size: 1.9rem;
+  }
+
+  .activity-list li {
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+    gap: 12px;
+  }
+
+  .activity-icon {
+    width: 54px;
+    height: 54px;
+    font-size: 1.7rem;
+  }
+
+  .activity-list strong {
+    font-size: 1.05rem;
+  }
+
+  .activity-list small {
+    font-size: 0.9rem;
   }
 }

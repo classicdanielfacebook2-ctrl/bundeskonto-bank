@@ -97,7 +97,7 @@ const translations = {
     logout: "Logout",
     welcome: "Welcome",
     accountHolder: "Account Holder",
-    availableBalance: "Available balance",
+    availableBalance: "Total balance",
     available: "Available",
     mainAccount: "Main account",
     accounts: "Accounts",
@@ -109,7 +109,7 @@ const translations = {
     recipientPlaceholder: "Recipient email",
     amountPlaceholder: "Amount in EUR",
     sendMoney: "Send money",
-    transactionHistory: "Transaction history",
+    transactionHistory: "Transactions",
     emailNotifications: "Email notifications",
     messages: "Messages",
     messagesAndUpdates: "Messages and updates",
@@ -315,7 +315,7 @@ const translations = {
     logout: "Abmelden",
     welcome: "Willkommen",
     accountHolder: "Kontoinhaber",
-    availableBalance: "Verfügbares Guthaben",
+    availableBalance: "Gesamtguthaben",
     available: "Verfügbar",
     mainAccount: "Hauptkonto",
     accounts: "Konten",
@@ -327,7 +327,7 @@ const translations = {
     recipientPlaceholder: "Empfänger-E-Mail",
     amountPlaceholder: "Betrag in EUR",
     sendMoney: "Geld senden",
-    transactionHistory: "Transaktionsverlauf",
+    transactionHistory: "Transaktionen",
     emailNotifications: "E-Mail-Benachrichtigungen",
     messages: "Nachrichten",
     messagesAndUpdates: "Nachrichten und Updates",
@@ -1390,9 +1390,9 @@ function renderDashboard() {
   }
   heroBalanceAmount.textContent = formatHeroAmount(user.balance + (user.savings || 0));
   heroDate.innerHTML = formatHeroDate();
-  mainAccountBalance.textContent = formatCurrency(user.balance);
+  mainAccountBalance.textContent = formatHeroAmount(user.balance);
   savingsAccountBalance.textContent = formatCurrency(user.savings || 0);
-  mainAccountIban.textContent = maskIban(user.iban, "00");
+  mainAccountIban.textContent = `${formatCurrency(user.balance)} • 5 currencies`;
   savingsAccountIban.textContent = maskIban(user.iban, "01");
   savingsBalance.textContent = formatCurrency(user.savings || 0);
   incomeAmount.textContent = formatCurrency(sumActivities(user, "income"));
@@ -1584,6 +1584,7 @@ function renderActivities(activities) {
 
   if (activities.length === 0) {
     const emptyItem = document.createElement("li");
+    emptyItem.className = "activity-empty";
     const details = document.createElement("div");
     const title = document.createElement("strong");
     const subtitle = document.createElement("small");
@@ -1597,6 +1598,7 @@ function renderActivities(activities) {
 
   activities.slice(0, 12).forEach((activity) => {
     const item = document.createElement("li");
+    const icon = document.createElement("span");
     const details = document.createElement("div");
     const title = document.createElement("strong");
     const subtitle = document.createElement("small");
@@ -1604,6 +1606,8 @@ function renderActivities(activities) {
     const amountClass = activity.amount < 0 ? "amount-negative" : "amount-positive";
     const signedAmount = activity.amount < 0 ? formatCurrency(activity.amount) : `+${formatCurrency(activity.amount)}`;
 
+    icon.className = `activity-icon ${activity.amount < 0 ? "activity-icon-debit" : "activity-icon-credit"}`;
+    icon.textContent = activity.amount < 0 ? "↓" : "↓";
     title.textContent = translateActivityText(activity, "title");
     subtitle.textContent = `${translateActivityText(activity, "note")} - ${activity.date}`;
     amount.className = amountClass;
@@ -1614,7 +1618,7 @@ function renderActivities(activities) {
       item.dataset.activityId = activity.id;
       item.title = "Open receipt";
     }
-    item.append(details, amount);
+    item.append(icon, details, amount);
     activityList.append(item);
   });
 }
