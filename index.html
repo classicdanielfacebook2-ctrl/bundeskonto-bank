@@ -311,10 +311,10 @@
         <section id="transferPage" class="page">
           <article class="transfer-panel">
             <div class="transfer-mobile-top">
-              <button id="transferBackButton" class="transfer-round-button" type="button" aria-label="Back">←</button>
+              <button id="transferBackButton" class="transfer-round-button icon-back" type="button" aria-label="Back"></button>
               <div class="transfer-top-actions">
-                <button id="transferAddButton" class="transfer-pill active" type="button">+ Add</button>
-                <button id="transferUploadButton" class="transfer-pill" type="button">▧ Upload</button>
+                <button id="transferAddButton" class="transfer-pill active" type="button"><span class="pill-icon icon-plus"></span>Add</button>
+                <button id="transferUploadButton" class="transfer-pill" type="button"><span class="pill-icon icon-scan"></span>Upload</button>
               </div>
             </div>
 
@@ -322,12 +322,12 @@
               <h3>Who are you sending to?</h3>
               <div class="transfer-recents" aria-label="Recent recipients">
                 <button class="recipient-chip" data-fill-email="sieglindeeck@me.com" data-fill-iban="DE85810700240218008100" type="button">
-                  <span>SE</span>
+                  <span class="transfer-avatar eu-badge">SE</span>
                   <strong>Sieglinde E.</strong>
                   <small>Volksbank W...</small>
                 </button>
                 <button class="recipient-chip" data-fill-email="bradpitt@gmail.com" data-fill-iban="DE85810700240218008101" type="button">
-                  <span>BP</span>
+                  <span class="transfer-avatar wise-badge">BP</span>
                   <strong>Brad Pitt</strong>
                   <small>Your Wise bu...</small>
                 </button>
@@ -339,7 +339,7 @@
               </div>
               <div class="recipient-list">
                 <button class="recipient-list-item" data-fill-email="bradpitt@gmail.com" data-fill-iban="DE85810700240218008101" type="button">
-                  <span>BP</span>
+                  <span class="transfer-avatar wise-badge">BP</span>
                   <div>
                     <strong>Brad Pitt</strong>
                     <small>Wise account ending · 8101</small>
@@ -347,7 +347,7 @@
                   <b>›</b>
                 </button>
                 <button class="recipient-list-item" data-fill-email="sieglindeeck@me.com" data-fill-iban="DE85810700240218008100" type="button">
-                  <span>SE</span>
+                  <span class="transfer-avatar eu-badge">SE</span>
                   <div>
                     <strong>Sieglinde Ingeborg Marlies Eck</strong>
                     <small>Volksbank Wolfenbuettel ending · 9200</small>
@@ -360,7 +360,7 @@
             <section class="transfer-add-stage transfer-step" data-transfer-stage="add">
               <h3>Add a recipient</h3>
               <button id="searchWiseButton" class="transfer-option-row" type="button">
-                <span class="transfer-option-icon wise-mark">↗</span>
+                <span class="transfer-option-icon wise-mark icon-wise-arrow"></span>
                 <div>
                   <strong>Search on Wise</strong>
                   <small>Find by Wisetag, email, phone or business name</small>
@@ -369,7 +369,7 @@
                 <b>›</b>
               </button>
               <button id="bankDetailsButton" class="transfer-option-row" type="button">
-                <span class="transfer-option-icon">⌂</span>
+                <span class="transfer-option-icon icon-bank"></span>
                 <div>
                   <strong>Bank details</strong>
                   <small>Enter email and IBAN</small>
@@ -377,7 +377,7 @@
                 <b>›</b>
               </button>
               <button id="invoiceUploadButton" class="transfer-option-row" type="button">
-                <span class="transfer-option-icon">↥</span>
+                <span class="transfer-option-icon icon-upload"></span>
                 <div>
                   <strong>Upload screenshot or invoice</strong>
                   <small>We'll fill in their details from a screenshot, photo, or PDF</small>
@@ -418,7 +418,7 @@
               <section class="transfer-amount-stage transfer-step" data-transfer-stage="amount">
                 <div class="transfer-from-row">
                   <strong id="summaryFromLabel">From</strong>
-                  <button class="currency-pill" type="button">🇪🇺 EUR⌄</button>
+                  <button class="currency-pill" type="button"><span class="currency-dot eu-dot"></span>EUR<span class="caret-down"></span></button>
                 </div>
                 <div class="transfer-to-row">
                   <strong id="summaryToLabel">To</strong>
@@ -434,7 +434,7 @@
               <section class="transfer-details-stage transfer-step" data-transfer-stage="details">
                 <div class="transfer-from-row">
                   <strong>From</strong>
-                  <button class="currency-pill" type="button">EUR</button>
+                  <button class="currency-pill" type="button"><span class="currency-dot eu-dot"></span>EUR<span class="caret-down"></span></button>
                 </div>
                 <div class="transfer-to-row">
                   <strong>To</strong>
@@ -442,7 +442,7 @@
                 </div>
                 <div class="details-amount" id="detailsAmount">0.00</div>
                 <div class="payment-row">
-                  <span class="payment-icon wise-mark">W</span>
+                  <span class="payment-icon wise-mark icon-wise-arrow"></span>
                   <div>
                     <span>Paying with</span>
                     <strong>Main account / EUR</strong>
@@ -451,7 +451,7 @@
                   <button class="transfer-small-pill" type="button">Change</button>
                 </div>
                 <div class="payment-row">
-                  <span class="payment-icon">!</span>
+                  <span class="payment-icon icon-lightning"></span>
                   <div>
                     <span>Arrives</span>
                     <strong>Today - in seconds</strong>
@@ -459,7 +459,7 @@
                   <button class="transfer-small-pill" type="button">Schedule</button>
                 </div>
                 <div class="payment-row">
-                  <span class="payment-icon">=</span>
+                  <span class="payment-icon icon-receipt"></span>
                   <div>
                     <span>Total fees</span>
                     <strong>Free - no fees to pay</strong>

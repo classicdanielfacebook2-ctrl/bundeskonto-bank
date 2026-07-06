@@ -4591,3 +4591,430 @@ input {
   color: #f4f6f0;
   font-weight: 400;
 }
+
+/* Transfer polish: crisp CSS icons and smoother stage changes */
+.transfer-panel {
+  overflow: hidden;
+}
+
+.transfer-round-button,
+.transfer-pill,
+.transfer-filter,
+.transfer-search-button,
+.currency-pill,
+.recipient-chip,
+.recipient-list-item,
+.transfer-option-row,
+.transfer-small-pill,
+.transfer-submit-button {
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease, opacity 180ms ease;
+}
+
+.transfer-round-button:hover,
+.transfer-pill:hover,
+.transfer-filter:hover,
+.transfer-search-button:hover,
+.currency-pill:hover,
+.recipient-chip:hover,
+.recipient-list-item:hover,
+.transfer-option-row:hover,
+.transfer-small-pill:hover {
+  transform: translateY(-1px);
+}
+
+.transfer-round-button:active,
+.transfer-pill:active,
+.transfer-filter:active,
+.transfer-search-button:active,
+.currency-pill:active,
+.recipient-chip:active,
+.recipient-list-item:active,
+.transfer-option-row:active,
+.transfer-small-pill:active,
+.transfer-submit-button:active {
+  transform: scale(0.98);
+}
+
+.transfer-round-button:focus-visible,
+.transfer-pill:focus-visible,
+.transfer-filter:focus-visible,
+.transfer-search-button:focus-visible,
+.currency-pill:focus-visible,
+.recipient-chip:focus-visible,
+.recipient-list-item:focus-visible,
+.transfer-option-row:focus-visible,
+.transfer-small-pill:focus-visible,
+.transfer-submit-button:focus-visible {
+  outline: 3px solid rgba(158, 239, 118, 0.55);
+  outline-offset: 4px;
+}
+
+.icon-back,
+.pill-icon,
+.transfer-option-icon,
+.payment-icon,
+.currency-dot,
+.caret-down {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.icon-back::before,
+.icon-back::after,
+.pill-icon::before,
+.pill-icon::after,
+.transfer-option-icon::before,
+.transfer-option-icon::after,
+.payment-icon::before,
+.payment-icon::after,
+.currency-dot::before,
+.currency-dot::after,
+.caret-down::before,
+.caret-down::after {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  display: block;
+}
+
+.icon-back::before {
+  width: 22px;
+  height: 22px;
+  left: 29px;
+  top: 27px;
+  border-left: 4px solid currentColor;
+  border-bottom: 4px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.icon-back::after {
+  width: 30px;
+  height: 4px;
+  left: 27px;
+  top: 36px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.pill-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: -3px;
+}
+
+.icon-plus::before {
+  width: 20px;
+  height: 4px;
+  left: 0;
+  top: 8px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.icon-plus::after {
+  width: 4px;
+  height: 20px;
+  left: 8px;
+  top: 0;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.icon-scan::before {
+  inset: 2px;
+  border: 3px solid currentColor;
+  border-radius: 6px;
+}
+
+.icon-scan::after {
+  width: 8px;
+  height: 8px;
+  left: 6px;
+  top: 6px;
+  border-top: 3px solid currentColor;
+  border-left: 3px solid currentColor;
+  box-shadow: 8px 8px 0 -3px transparent, 8px 8px 0 0 currentColor;
+}
+
+.transfer-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recipient-chip span.transfer-avatar,
+.recipient-list-item > span.transfer-avatar {
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.eu-badge::after,
+.wise-badge::after {
+  content: "";
+  position: absolute;
+  right: -6px;
+  bottom: 2px;
+  width: 34px;
+  height: 34px;
+  border: 3px solid var(--app-black);
+  border-radius: 50%;
+}
+
+.eu-badge::after {
+  background:
+    radial-gradient(circle at 50% 16%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 72% 25%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 84% 50%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 72% 75%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 50% 84%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 28% 75%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 16% 50%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 28% 25%, #f6d642 0 2px, transparent 2.5px),
+    #17328a;
+}
+
+.wise-badge::after {
+  background: var(--app-green);
+}
+
+.wise-badge::before {
+  content: "";
+  position: absolute;
+  right: 6px;
+  bottom: 14px;
+  z-index: 1;
+  width: 15px;
+  height: 15px;
+  border-right: 4px solid var(--app-black);
+  border-top: 4px solid var(--app-black);
+  transform: rotate(45deg);
+}
+
+.icon-wise-arrow::before {
+  width: 25px;
+  height: 15px;
+  left: 19px;
+  top: 28px;
+  border-top: 6px solid currentColor;
+  border-right: 6px solid currentColor;
+  transform: skewX(-18deg);
+}
+
+.icon-wise-arrow::after {
+  width: 28px;
+  height: 6px;
+  left: 21px;
+  top: 34px;
+  border-radius: 999px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  transform-origin: right center;
+}
+
+.icon-bank::before {
+  width: 34px;
+  height: 19px;
+  left: 17px;
+  top: 31px;
+  border-left: 4px solid currentColor;
+  border-right: 4px solid currentColor;
+  box-shadow: inset 10px 0 0 -6px currentColor, inset -10px 0 0 -6px currentColor;
+}
+
+.icon-bank::after {
+  width: 38px;
+  height: 34px;
+  left: 15px;
+  top: 15px;
+  border-top: 4px solid currentColor;
+  border-bottom: 4px solid currentColor;
+  background: linear-gradient(currentColor 0 0) bottom / 100% 4px no-repeat;
+  clip-path: polygon(50% 0, 100% 32%, 100% 42%, 0 42%, 0 32%);
+}
+
+.icon-upload::before {
+  width: 4px;
+  height: 32px;
+  left: 32px;
+  top: 20px;
+  border-radius: 999px;
+  background: currentColor;
+}
+
+.icon-upload::after {
+  width: 21px;
+  height: 21px;
+  left: 23px;
+  top: 18px;
+  border-top: 4px solid currentColor;
+  border-left: 4px solid currentColor;
+  transform: rotate(45deg);
+}
+
+.icon-lightning::before {
+  width: 22px;
+  height: 34px;
+  left: 18px;
+  top: 12px;
+  background: currentColor;
+  clip-path: polygon(56% 0, 100% 0, 64% 42%, 100% 42%, 34% 100%, 48% 56%, 12% 56%);
+}
+
+.icon-receipt::before {
+  width: 28px;
+  height: 34px;
+  left: 15px;
+  top: 12px;
+  border: 4px solid currentColor;
+  border-bottom: 0;
+  clip-path: polygon(0 0, 100% 0, 100% 86%, 84% 100%, 68% 86%, 52% 100%, 36% 86%, 20% 100%, 0 84%);
+}
+
+.icon-receipt::after {
+  width: 16px;
+  height: 4px;
+  left: 21px;
+  top: 24px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 9px 0 currentColor;
+}
+
+.currency-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.currency-dot {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.eu-dot {
+  background:
+    radial-gradient(circle at 50% 16%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 72% 25%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 84% 50%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 72% 75%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 50% 84%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 28% 75%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 16% 50%, #f6d642 0 2px, transparent 2.5px),
+    radial-gradient(circle at 28% 25%, #f6d642 0 2px, transparent 2.5px),
+    #17328a;
+}
+
+.caret-down {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+
+.caret-down::before {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -3px);
+}
+
+.transfer-option-icon,
+.payment-icon {
+  color: #f4f6f0;
+  background: #121713;
+}
+
+.transfer-option-icon.wise-mark,
+.payment-icon.wise-mark {
+  color: var(--app-black);
+  border-color: var(--app-green);
+  background: var(--app-green);
+}
+
+.transfer-step.active {
+  animation: transferStepIn 220ms ease both;
+}
+
+@keyframes transferStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.992);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 560px) {
+  .icon-back::before {
+    left: 22px;
+    top: 19px;
+  }
+
+  .icon-back::after {
+    left: 20px;
+    top: 28px;
+  }
+
+  .eu-badge::after,
+  .wise-badge::after {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transfer-step.active {
+    animation: none;
+  }
+
+  .transfer-round-button,
+  .transfer-pill,
+  .transfer-filter,
+  .transfer-search-button,
+  .currency-pill,
+  .recipient-chip,
+  .recipient-list-item,
+  .transfer-option-row,
+  .transfer-small-pill,
+  .transfer-submit-button {
+    transition: none;
+  }
+}
+
+.recipient-list-item b,
+.transfer-option-row b {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  color: transparent;
+  font-size: 0;
+}
+
+.recipient-list-item b::before,
+.transfer-option-row b::before {
+  content: "";
+  position: absolute;
+  inset: 4px 6px 4px 2px;
+  border-right: 3px solid #cfd5cd;
+  border-top: 3px solid #cfd5cd;
+  transform: rotate(45deg);
+}
+
+.transfer-review-stage .review-row strong::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-left: 10px;
+  border-right: 2px solid #f4f6f0;
+  border-top: 2px solid #f4f6f0;
+  transform: rotate(45deg) translateY(-1px);
+}
