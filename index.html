@@ -309,52 +309,146 @@
         </section>
 
         <section id="transferPage" class="page">
-          <article class="panel wide-panel transfer-panel">
-            <div class="panel-heading">
-              <h3>Make a transfer</h3>
+          <article class="transfer-panel">
+            <div class="transfer-mobile-top">
+              <button id="transferBackButton" class="transfer-round-button" type="button" aria-label="Back">←</button>
+              <div class="transfer-top-actions">
+                <button id="transferAddButton" class="transfer-pill active" type="button">+ Add</button>
+                <button id="transferUploadButton" class="transfer-pill" type="button">▧ Upload</button>
+              </div>
+            </div>
+
+            <section class="transfer-recipient-stage">
+              <h3>Who are you sending to?</h3>
+              <div class="transfer-recents" aria-label="Recent recipients">
+                <button class="recipient-chip" data-fill-email="sieglindeeck@me.com" data-fill-iban="DE85810700240218008100" type="button">
+                  <span>SE</span>
+                  <strong>Sieglinde E.</strong>
+                  <small>Volksbank W...</small>
+                </button>
+                <button class="recipient-chip" data-fill-email="bradpitt@gmail.com" data-fill-iban="DE85810700240218008101" type="button">
+                  <span>BP</span>
+                  <strong>Brad Pitt</strong>
+                  <small>Your Wise bu...</small>
+                </button>
+              </div>
+              <div class="transfer-filter-row">
+                <button class="transfer-filter active" type="button">All</button>
+                <button class="transfer-filter" data-page-target="profile" type="button">My accounts</button>
+                <button id="transferSearchButton" class="transfer-search-button" type="button">Search</button>
+              </div>
+              <div class="recipient-list">
+                <button class="recipient-list-item" data-fill-email="bradpitt@gmail.com" data-fill-iban="DE85810700240218008101" type="button">
+                  <span>BP</span>
+                  <div>
+                    <strong>Brad Pitt</strong>
+                    <small>Wise account ending · 8101</small>
+                  </div>
+                  <b>›</b>
+                </button>
+                <button class="recipient-list-item" data-fill-email="sieglindeeck@me.com" data-fill-iban="DE85810700240218008100" type="button">
+                  <span>SE</span>
+                  <div>
+                    <strong>Sieglinde Ingeborg Marlies Eck</strong>
+                    <small>Volksbank Wolfenbuettel ending · 9200</small>
+                  </div>
+                  <b>›</b>
+                </button>
+              </div>
+            </section>
+
+            <section class="transfer-add-stage">
+              <h3>Add a recipient</h3>
+              <button id="searchWiseButton" class="transfer-option-row" type="button">
+                <span class="transfer-option-icon wise-mark">↗</span>
+                <div>
+                  <strong>Search on Wise</strong>
+                  <small>Find by Wisetag, email, phone or business name</small>
+                  <em>Instant and convenient</em>
+                </div>
+                <b>›</b>
+              </button>
+              <button id="bankDetailsButton" class="transfer-option-row" type="button">
+                <span class="transfer-option-icon">⌂</span>
+                <div>
+                  <strong>Bank details</strong>
+                  <small>Enter email and IBAN</small>
+                </div>
+                <b>›</b>
+              </button>
+              <button id="invoiceUploadButton" class="transfer-option-row" type="button">
+                <span class="transfer-option-icon">↥</span>
+                <div>
+                  <strong>Upload screenshot or invoice</strong>
+                  <small>We'll fill in their details from a screenshot, photo, or PDF</small>
+                </div>
+                <b>›</b>
+              </button>
+            </section>
+
+            <form id="transferForm" class="transfer-wise-form">
               <span id="transferStatus" class="status-text"></span>
-            </div>
-            <div class="transfer-bank-strip">
-              <span id="transferModeLabel">SEPA bank transfer</span>
-              <strong id="transferModeDetail">Email and IBAN verification required</strong>
-            </div>
-            <form id="transferForm" class="dashboard-form">
-              <label>
-                <span class="label-text" id="recipientEmailLabel">Recipient email</span>
-                <input id="recipientEmail" type="text" inputmode="email" required>
-              </label>
-              <label>
-                <span class="label-text" id="recipientIbanLabel">Recipient IBAN</span>
-                <input id="recipientIban" type="text" autocomplete="off" placeholder="DE89 3704 0044 0532 0130 00" required>
-              </label>
-              <div id="recipientPreview" class="recipient-preview hidden" aria-live="polite">
-                <span id="recipientPreviewLabel">Recipient account</span>
-                <strong id="recipientPreviewName">-</strong>
-                <small id="recipientPreviewMeta">-</small>
+              <div class="transfer-bank-strip">
+                <span id="transferModeLabel">SEPA bank transfer</span>
+                <strong id="transferModeDetail">Email and IBAN verification required</strong>
               </div>
-              <label>
-                <span class="label-text" id="transferAmountLabel">Amount</span>
-                <input id="transferAmount" type="text" inputmode="decimal" required>
-              </label>
-              <label>
-                <span class="label-text" id="transferNoteLabel">Note</span>
-                <input id="transferNote" type="text" required>
-              </label>
-              <div class="transfer-summary">
-                <div>
-                  <span id="summaryFromLabel">From</span>
-                  <strong id="summaryFrom">-</strong>
+
+              <section class="transfer-bank-stage">
+                <h3>Enter your account details</h3>
+                <p>Recipient's bank details</p>
+                <div class="transfer-segment">
+                  <button class="active" type="button">Inside Europe</button>
+                  <button type="button">Outside Europe</button>
                 </div>
-                <div>
-                  <span id="summaryToLabel">To</span>
-                  <strong id="summaryTo">-</strong>
+                <label>
+                  <span class="label-text" id="recipientEmailLabel">Recipient email</span>
+                  <input id="recipientEmail" type="text" inputmode="email" placeholder="name@example.com" required>
+                </label>
+                <label>
+                  <span class="label-text" id="recipientIbanLabel">IBAN</span>
+                  <input id="recipientIban" type="text" autocomplete="off" placeholder="DE89 3704 0044 0532 0130 00" required>
+                </label>
+                <div id="recipientPreview" class="recipient-preview hidden" aria-live="polite">
+                  <span id="recipientPreviewLabel">Recipient account</span>
+                  <strong id="recipientPreviewName">-</strong>
+                  <small id="recipientPreviewMeta">-</small>
                 </div>
-                <div>
-                  <span id="summaryAmountLabel">Amount</span>
+              </section>
+
+              <section class="transfer-amount-stage">
+                <div class="transfer-from-row">
+                  <strong id="summaryFromLabel">From</strong>
+                  <button class="currency-pill" type="button">🇪🇺 EUR⌄</button>
+                </div>
+                <div class="transfer-to-row">
+                  <strong id="summaryToLabel">To</strong>
+                  <span id="summaryTo">Choose recipient</span>
+                </div>
+                <label class="amount-entry">
+                  <span class="label-text" id="transferAmountLabel">Amount</span>
+                  <input id="transferAmount" type="text" inputmode="decimal" placeholder="0.00" required>
+                </label>
+                <p class="amount-available">Amount available: <strong id="summaryFrom">-</strong></p>
+              </section>
+
+              <section class="transfer-review-stage">
+                <h3>Review transfer</h3>
+                <div class="review-amount">
+                  <span>You get exactly</span>
                   <strong id="summaryAmount">€0.00</strong>
+                  <small>Euro</small>
                 </div>
-              </div>
-              <button class="primary-button" type="submit">Confirm transfer</button>
+                <div class="review-row"><span>Sending to</span><strong id="reviewRecipient">Choose recipient</strong></div>
+                <div class="review-row"><span>You pay</span><strong id="reviewAmount">0 EUR</strong></div>
+                <div class="review-row"><span>Paying with</span><strong>Main account / EUR</strong></div>
+                <div class="review-row"><span>Should arrive</span><strong>in seconds</strong></div>
+                <label>
+                  <span class="label-text" id="transferNoteLabel">Reference for recipient (optional)</span>
+                  <input id="transferNote" type="text" placeholder="Reference">
+                </label>
+              </section>
+
+              <button class="primary-button transfer-submit-button" type="submit">Send now</button>
             </form>
           </article>
         </section>

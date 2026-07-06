@@ -118,7 +118,8 @@ const translations = {
     noMessages: "No messages yet.",
     noMessagesDetail: "Transfer updates, approval notices, and account alerts will appear here.",
     clear: "Clear",
-    makeTransfer: "Make a transfer",
+    makeTransfer: "Who are you sending to?",
+    sendNow: "Send now",
     recipientEmail: "Recipient email",
     recipientIban: "Recipient IBAN",
     transferMode: "SEPA bank transfer",
@@ -338,7 +339,8 @@ const translations = {
     noMessages: "Noch keine Nachrichten.",
     noMessagesDetail: "Überweisungsupdates, Freigaben und Kontohinweise erscheinen hier.",
     clear: "Löschen",
-    makeTransfer: "Überweisung ausführen",
+    makeTransfer: "An wen senden Sie?",
+    sendNow: "Jetzt senden",
     recipientEmail: "Empfänger-E-Mail",
     recipientIban: "Empfänger-IBAN",
     transferMode: "SEPA-Banküberweisung",
@@ -588,6 +590,15 @@ const recipientPreviewMeta = document.querySelector("#recipientPreviewMeta");
 const summaryFrom = document.querySelector("#summaryFrom");
 const summaryTo = document.querySelector("#summaryTo");
 const summaryAmount = document.querySelector("#summaryAmount");
+const reviewRecipient = document.querySelector("#reviewRecipient");
+const reviewAmount = document.querySelector("#reviewAmount");
+const transferBackButton = document.querySelector("#transferBackButton");
+const transferAddButton = document.querySelector("#transferAddButton");
+const transferUploadButton = document.querySelector("#transferUploadButton");
+const transferSearchButton = document.querySelector("#transferSearchButton");
+const searchWiseButton = document.querySelector("#searchWiseButton");
+const bankDetailsButton = document.querySelector("#bankDetailsButton");
+const invoiceUploadButton = document.querySelector("#invoiceUploadButton");
 const settingsForm = document.querySelector("#settingsForm");
 const settingsStatus = document.querySelector("#settingsStatus");
 const profileDetailName = document.querySelector("#profileDetailName");
@@ -1145,9 +1156,15 @@ function updateTransferPreview() {
   const enteredIban = compactIban(recipientIbanInput.value);
   const ibanMatches = recipient && enteredIban && compactIban(recipient.iban || "") === enteredIban;
 
-  summaryFrom.textContent = sender ? `${sender.firstName} ${sender.lastName}` : "-";
-  summaryTo.textContent = recipient ? recipient.email : "-";
+  summaryFrom.textContent = sender ? formatCurrency(sender.balance) : "-";
+  summaryTo.textContent = recipient ? `${recipient.firstName} ${recipient.lastName} · EUR` : "Choose recipient";
   summaryAmount.textContent = Number.isFinite(amount) && amount > 0 ? formatCurrency(amount) : formatCurrency(0);
+  if (reviewRecipient) {
+    reviewRecipient.textContent = recipient ? `${recipient.firstName} ${recipient.lastName}` : "Choose recipient";
+  }
+  if (reviewAmount) {
+    reviewAmount.textContent = Number.isFinite(amount) && amount > 0 ? `${amount.toFixed(2)} EUR` : "0 EUR";
+  }
 
   if (recipient && ibanMatches) {
     recipientPreview.classList.remove("hidden", "warning");
@@ -1254,7 +1271,7 @@ function applyTranslations() {
   registerForm.querySelector(".primary-button").textContent = t("register");
   logoutButton.textContent = t("logout");
   quickTransferForm.querySelector(".primary-button").textContent = t("sendMoney");
-  transferForm.querySelector(".primary-button").textContent = t("confirmTransfer");
+  transferForm.querySelector(".primary-button").textContent = t("sendNow");
   settingsForm.querySelector(".primary-button").textContent = t("saveChanges");
   savingsForm.querySelector('[data-action="deposit"]').textContent = t("deposit");
   savingsForm.querySelector('[data-action="withdraw"]').textContent = t("withdraw");
@@ -2364,6 +2381,7 @@ function reviewGiftCard(requestId, decision) {
 }
 
 function switchPage(pageName) {
+  dashboardView.classList.toggle("transfer-active", pageName === "transfer");
   navButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.page === pageName);
   });
@@ -2626,6 +2644,45 @@ document.querySelectorAll("[data-page-target]").forEach((button) => {
   button.addEventListener("click", () => switchPage(button.dataset.pageTarget));
 });
 
+function scrollTransferSection(selector) {
+  document.querySelector(selector)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function fillTransferRecipient(button) {
+  recipientEmailInput.value = button.dataset.fillEmail || "";
+  recipientIbanInput.value = button.dataset.fillIban || "";
+  updateTransferPreview();
+  scrollTransferSection(".transfer-amount-stage");
+  transferAmountInput.focus();
+}
+
+document.querySelectorAll("[data-fill-email][data-fill-iban]").forEach((button) => {
+  button.addEventListener("click", () => fillTransferRecipient(button));
+});
+
+transferBackButton?.addEventListener("click", () => switchPage("overview"));
+transferAddButton?.addEventListener("click", () => scrollTransferSection(".transfer-add-stage"));
+transferSearchButton?.addEventListener("click", () => {
+  scrollTransferSection(".transfer-bank-stage");
+  recipientEmailInput.focus();
+});
+transferUploadButton?.addEventListener("click", () => {
+  setStatus(transferStatus, "Upload a screenshot or invoice by entering the recipient details below.", "success");
+  scrollTransferSection(".transfer-bank-stage");
+});
+searchWiseButton?.addEventListener("click", () => {
+  scrollTransferSection(".transfer-bank-stage");
+  recipientEmailInput.focus();
+});
+bankDetailsButton?.addEventListener("click", () => {
+  scrollTransferSection(".transfer-bank-stage");
+  recipientEmailInput.focus();
+});
+invoiceUploadButton?.addEventListener("click", () => {
+  setStatus(transferStatus, "Upload review is simulated. Enter email and IBAN to continue.", "success");
+  scrollTransferSection(".transfer-bank-stage");
+});
+
 quickTransferForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const result = transferMoney({
@@ -2651,6 +2708,8 @@ transferForm.addEventListener("submit", (event) => {
   setStatus(transferStatus, result.message, result.ok ? "success" : "error");
   if (result.ok) {
     transferForm.reset();
+    updateTransferPreview();
+    switchPage("overview");
   }
 });
 
