@@ -1271,6 +1271,8 @@ function applyTranslations() {
   setText("#heroTransferAction", "sendMoney");
   setText("#heroMessagesAction", "updates");
   setText("#heroSavingsAction", "save");
+  setText("#heroGiftCardAction", "giftCards");
+  setText("#heroBalanceLabel", "availableBalance");
   setText("#accountsHeading", "accounts");
   setText("#mainAccountName", "mainAccount");
   setText("#savingsAccountName", "savingsVault");
@@ -1504,8 +1506,12 @@ function buildReceipt(activity, transaction) {
   const user = getCurrentUser();
   const isCredit = activity.amount > 0;
   const reference = transaction.reference || `BK-${transaction.id.slice(0, 8).toUpperCase()}`;
-  const senderName = transaction.senderName || transaction.senderEmail;
-  const recipientName = transaction.recipientName || transaction.recipientEmail;
+  const senderName = transaction.senderName && transaction.senderName !== transaction.senderEmail ? transaction.senderName : "";
+  const recipientName = transaction.recipientName && transaction.recipientName !== transaction.recipientEmail ? transaction.recipientName : "";
+  const senderDisplay = [senderName, transaction.senderEmail, transaction.senderIban || "-"].filter(Boolean).join("<br>");
+  const recipientDisplay = [recipientName, transaction.recipientEmail, transaction.recipientIban || "-"].filter(Boolean).join("<br>");
+  const senderText = [senderName, transaction.senderEmail, transaction.senderIban || "-"].filter(Boolean).join(" | ");
+  const recipientText = [recipientName, transaction.recipientEmail, transaction.recipientIban || "-"].filter(Boolean).join(" | ");
   const receiptTitle = isCredit ? "Credit alert receipt" : "Debit alert receipt";
   const receiptStatus = isCredit ? "Money received" : "Money sent";
 
@@ -1516,10 +1522,8 @@ function buildReceipt(activity, transaction) {
     `Reference: ${reference}`,
     `Amount: ${formatCurrency(transaction.amount)}`,
     `Date: ${transaction.date}`,
-    `Sender: ${senderName} (${transaction.senderEmail})`,
-    `Sender IBAN: ${transaction.senderIban || "-"}`,
-    `Recipient: ${recipientName} (${transaction.recipientEmail})`,
-    `Recipient IBAN: ${transaction.recipientIban || "-"}`,
+    `Sender: ${senderText}`,
+    `Recipient: ${recipientText}`,
     `Note: ${transaction.note || "-"}`,
     `Viewed by: ${user ? `${user.firstName} ${user.lastName}` : "-"}`
   ].join("\n");
@@ -1537,8 +1541,8 @@ function buildReceipt(activity, transaction) {
     <div class="receipt-grid">
       <div class="receipt-row"><span>Reference</span><strong>${reference}</strong></div>
       <div class="receipt-row"><span>Date and time</span><strong>${transaction.date}</strong></div>
-      <div class="receipt-row"><span>Sender</span><strong>${senderName}<br>${transaction.senderEmail}<br>${transaction.senderIban || "-"}</strong></div>
-      <div class="receipt-row"><span>Recipient</span><strong>${recipientName}<br>${transaction.recipientEmail}<br>${transaction.recipientIban || "-"}</strong></div>
+      <div class="receipt-row"><span>Sender</span><strong>${senderDisplay}</strong></div>
+      <div class="receipt-row"><span>Recipient</span><strong>${recipientDisplay}</strong></div>
       <div class="receipt-row"><span>Note</span><strong>${transaction.note || "-"}</strong></div>
       <div class="receipt-row"><span>Status</span><strong>Successful</strong></div>
     </div>
