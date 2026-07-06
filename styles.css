@@ -4481,3 +4481,113 @@ input {
     min-width: 112px;
   }
 }
+
+.transfer-step {
+  display: none;
+}
+
+.transfer-step.active {
+  display: block;
+}
+
+.transfer-add-stage.transfer-step.active,
+.recipient-list {
+  display: grid;
+}
+
+.transfer-wise-form {
+  display: none;
+}
+
+.transfer-wise-form.active {
+  display: grid;
+}
+
+.transfer-wise-form:not(.active) .transfer-submit-button {
+  display: none;
+}
+
+.transfer-details-stage {
+  min-height: calc(100vh - 190px);
+}
+
+.details-amount {
+  margin: 24px 0 28px;
+  color: var(--app-green);
+  font-size: clamp(4.8rem, 22vw, 7.2rem);
+  font-weight: 950;
+  line-height: 0.95;
+  text-align: right;
+}
+
+.payment-row {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 22px 0;
+  border-top: 1px solid var(--app-line);
+}
+
+.payment-row div {
+  display: grid;
+  gap: 5px;
+}
+
+.payment-row span {
+  color: #d7dcd5;
+}
+
+.payment-row strong {
+  color: #f4f6f0;
+  font-size: 1.25rem;
+}
+
+.payment-row small {
+  color: #d7dcd5;
+}
+
+.payment-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #3a403b;
+  border-radius: 50%;
+  color: #f4f6f0;
+  font-weight: 900;
+}
+
+.transfer-small-pill {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--app-green);
+  background: var(--app-green-deep);
+  font-weight: 900;
+}
+
+.transfer-review-stage h3 {
+  display: none;
+}
+
+.transfer-review-stage.active {
+  min-height: calc(100vh - 190px);
+  padding-top: 42px;
+}
+
+.transfer-review-stage .review-amount {
+  margin-bottom: 54px;
+}
+
+.transfer-review-stage .review-row {
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  padding: 22px 0;
+}
+
+.transfer-review-stage .review-row strong::after {
+  content: " ›";
+  color: #f4f6f0;
+  font-weight: 400;
+}

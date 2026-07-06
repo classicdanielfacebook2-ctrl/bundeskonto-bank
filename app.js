@@ -592,6 +592,9 @@ const summaryTo = document.querySelector("#summaryTo");
 const summaryAmount = document.querySelector("#summaryAmount");
 const reviewRecipient = document.querySelector("#reviewRecipient");
 const reviewAmount = document.querySelector("#reviewAmount");
+const detailsRecipient = document.querySelector("#detailsRecipient");
+const detailsAmount = document.querySelector("#detailsAmount");
+const detailsAvailable = document.querySelector("#detailsAvailable");
 const transferBackButton = document.querySelector("#transferBackButton");
 const transferAddButton = document.querySelector("#transferAddButton");
 const transferUploadButton = document.querySelector("#transferUploadButton");
@@ -1159,6 +1162,15 @@ function updateTransferPreview() {
   summaryFrom.textContent = sender ? formatCurrency(sender.balance) : "-";
   summaryTo.textContent = recipient ? `${recipient.firstName} ${recipient.lastName} · EUR` : "Choose recipient";
   summaryAmount.textContent = Number.isFinite(amount) && amount > 0 ? formatCurrency(amount) : formatCurrency(0);
+  if (detailsRecipient) {
+    detailsRecipient.textContent = recipient ? `${recipient.firstName} ${recipient.lastName} · EUR` : "Choose recipient";
+  }
+  if (detailsAmount) {
+    detailsAmount.textContent = Number.isFinite(amount) && amount > 0 ? amount.toFixed(2) : "0.00";
+  }
+  if (detailsAvailable) {
+    detailsAvailable.textContent = sender ? `${formatCurrency(sender.balance)} available` : "- available";
+  }
   if (reviewRecipient) {
     reviewRecipient.textContent = recipient ? `${recipient.firstName} ${recipient.lastName}` : "Choose recipient";
   }
@@ -2382,6 +2394,9 @@ function reviewGiftCard(requestId, decision) {
 
 function switchPage(pageName) {
   dashboardView.classList.toggle("transfer-active", pageName === "transfer");
+  if (pageName === "transfer") {
+    setTransferStage("recipient");
+  }
   navButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.page === pageName);
   });
@@ -2644,15 +2659,86 @@ document.querySelectorAll("[data-page-target]").forEach((button) => {
   button.addEventListener("click", () => switchPage(button.dataset.pageTarget));
 });
 
-function scrollTransferSection(selector) {
-  document.querySelector(selector)?.scrollIntoView({ behavior: "smooth", block: "start" });
+let transferStage = "recipient";
+
+function isTransferFormStage(stage) {
+  return ["bank", "amount", "details", "confirm"].includes(stage);
+}
+
+function setTransferStage(stage) {
+  transferStage = stage;
+  document.querySelectorAll(".transfer-step").forEach((section) => {
+    section.classList.toggle("active", section.dataset.transferStage === stage);
+  });
+  if (transferForm) {
+    transferForm.classList.toggle("active", isTransferFormStage(stage));
+  }
+  if (transferAddButton) {
+    transferAddButton.classList.toggle("active", stage === "add");
+  }
+  if (transferUploadButton) {
+    transferUploadButton.classList.toggle("active", stage === "bank");
+  }
+  const buttonText = stage === "confirm" ? t("sendNow") : "Continue";
+  transferForm?.querySelector(".primary-button").replaceChildren(document.createTextNode(buttonText));
+  setStatus(transferStatus, "", "");
+  updateTransferPreview();
+  document.querySelector("#transferPage")?.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function goBackTransferStage() {
+  const previousStage = {
+    add: "recipient",
+    bank: "add",
+    amount: "recipient",
+    details: "amount",
+    confirm: "details"
+  }[transferStage];
+
+  if (previousStage) {
+    setTransferStage(previousStage);
+    return;
+  }
+
+  switchPage("overview");
+}
+
+function canContinueFromBank() {
+  const recipient = findRecipientByEmail(recipientEmailInput.value);
+  const ibanMatches = recipient && compactIban(recipient.iban || "") === compactIban(recipientIbanInput.value);
+  if (!recipient) {
+    setStatus(transferStatus, t("recipientMissing"), "error");
+    return false;
+  }
+  if (!ibanMatches) {
+    setStatus(transferStatus, t("ibanMismatch"), "error");
+    return false;
+  }
+  return true;
+}
+
+function canContinueFromAmount() {
+  const amount = parseAmount(transferAmountInput.value);
+  const sender = getCurrentUser();
+  if (!canContinueFromBank()) {
+    return false;
+  }
+  if (!Number.isFinite(amount) || amount <= 0) {
+    setStatus(transferStatus, t("invalidAmount"), "error");
+    return false;
+  }
+  if (sender && amount > sender.balance) {
+    setStatus(transferStatus, t("insufficientTransfer"), "error");
+    return false;
+  }
+  return true;
 }
 
 function fillTransferRecipient(button) {
   recipientEmailInput.value = button.dataset.fillEmail || "";
   recipientIbanInput.value = button.dataset.fillIban || "";
   updateTransferPreview();
-  scrollTransferSection(".transfer-amount-stage");
+  setTransferStage("amount");
   transferAmountInput.focus();
 }
 
@@ -2660,27 +2746,27 @@ document.querySelectorAll("[data-fill-email][data-fill-iban]").forEach((button) 
   button.addEventListener("click", () => fillTransferRecipient(button));
 });
 
-transferBackButton?.addEventListener("click", () => switchPage("overview"));
-transferAddButton?.addEventListener("click", () => scrollTransferSection(".transfer-add-stage"));
+transferBackButton?.addEventListener("click", goBackTransferStage);
+transferAddButton?.addEventListener("click", () => setTransferStage("add"));
 transferSearchButton?.addEventListener("click", () => {
-  scrollTransferSection(".transfer-bank-stage");
+  setTransferStage("bank");
   recipientEmailInput.focus();
 });
 transferUploadButton?.addEventListener("click", () => {
+  setTransferStage("bank");
   setStatus(transferStatus, "Upload a screenshot or invoice by entering the recipient details below.", "success");
-  scrollTransferSection(".transfer-bank-stage");
 });
 searchWiseButton?.addEventListener("click", () => {
-  scrollTransferSection(".transfer-bank-stage");
+  setTransferStage("bank");
   recipientEmailInput.focus();
 });
 bankDetailsButton?.addEventListener("click", () => {
-  scrollTransferSection(".transfer-bank-stage");
+  setTransferStage("bank");
   recipientEmailInput.focus();
 });
 invoiceUploadButton?.addEventListener("click", () => {
+  setTransferStage("bank");
   setStatus(transferStatus, "Upload review is simulated. Enter email and IBAN to continue.", "success");
-  scrollTransferSection(".transfer-bank-stage");
 });
 
 quickTransferForm.addEventListener("submit", (event) => {
@@ -2699,6 +2785,26 @@ quickTransferForm.addEventListener("submit", (event) => {
 
 transferForm.addEventListener("submit", (event) => {
   event.preventDefault();
+  if (transferStage === "bank") {
+    if (canContinueFromBank()) {
+      setTransferStage("amount");
+      transferAmountInput.focus();
+    }
+    return;
+  }
+
+  if (transferStage === "amount") {
+    if (canContinueFromAmount()) {
+      setTransferStage("details");
+    }
+    return;
+  }
+
+  if (transferStage === "details") {
+    setTransferStage("confirm");
+    return;
+  }
+
   const result = transferMoney({
     recipientEmail: recipientEmailInput.value.trim(),
     recipientIban: recipientIbanInput.value.trim(),
@@ -2709,6 +2815,7 @@ transferForm.addEventListener("submit", (event) => {
   if (result.ok) {
     transferForm.reset();
     updateTransferPreview();
+    setTransferStage("recipient");
     switchPage("overview");
   }
 });

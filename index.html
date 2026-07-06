@@ -318,7 +318,7 @@
               </div>
             </div>
 
-            <section class="transfer-recipient-stage">
+            <section class="transfer-recipient-stage transfer-step active" data-transfer-stage="recipient">
               <h3>Who are you sending to?</h3>
               <div class="transfer-recents" aria-label="Recent recipients">
                 <button class="recipient-chip" data-fill-email="sieglindeeck@me.com" data-fill-iban="DE85810700240218008100" type="button">
@@ -357,7 +357,7 @@
               </div>
             </section>
 
-            <section class="transfer-add-stage">
+            <section class="transfer-add-stage transfer-step" data-transfer-stage="add">
               <h3>Add a recipient</h3>
               <button id="searchWiseButton" class="transfer-option-row" type="button">
                 <span class="transfer-option-icon wise-mark">↗</span>
@@ -386,14 +386,14 @@
               </button>
             </section>
 
-            <form id="transferForm" class="transfer-wise-form">
+            <form id="transferForm" class="transfer-wise-form" novalidate>
               <span id="transferStatus" class="status-text"></span>
               <div class="transfer-bank-strip">
                 <span id="transferModeLabel">SEPA bank transfer</span>
                 <strong id="transferModeDetail">Email and IBAN verification required</strong>
               </div>
 
-              <section class="transfer-bank-stage">
+              <section class="transfer-bank-stage transfer-step" data-transfer-stage="bank">
                 <h3>Enter your account details</h3>
                 <p>Recipient's bank details</p>
                 <div class="transfer-segment">
@@ -415,7 +415,7 @@
                 </div>
               </section>
 
-              <section class="transfer-amount-stage">
+              <section class="transfer-amount-stage transfer-step" data-transfer-stage="amount">
                 <div class="transfer-from-row">
                   <strong id="summaryFromLabel">From</strong>
                   <button class="currency-pill" type="button">🇪🇺 EUR⌄</button>
@@ -431,7 +431,47 @@
                 <p class="amount-available">Amount available: <strong id="summaryFrom">-</strong></p>
               </section>
 
-              <section class="transfer-review-stage">
+              <section class="transfer-details-stage transfer-step" data-transfer-stage="details">
+                <div class="transfer-from-row">
+                  <strong>From</strong>
+                  <button class="currency-pill" type="button">EUR</button>
+                </div>
+                <div class="transfer-to-row">
+                  <strong>To</strong>
+                  <span id="detailsRecipient">Choose recipient</span>
+                </div>
+                <div class="details-amount" id="detailsAmount">0.00</div>
+                <div class="payment-row">
+                  <span class="payment-icon wise-mark">W</span>
+                  <div>
+                    <span>Paying with</span>
+                    <strong>Main account / EUR</strong>
+                    <small id="detailsAvailable">- available</small>
+                  </div>
+                  <button class="transfer-small-pill" type="button">Change</button>
+                </div>
+                <div class="payment-row">
+                  <span class="payment-icon">!</span>
+                  <div>
+                    <span>Arrives</span>
+                    <strong>Today - in seconds</strong>
+                  </div>
+                  <button class="transfer-small-pill" type="button">Schedule</button>
+                </div>
+                <div class="payment-row">
+                  <span class="payment-icon">=</span>
+                  <div>
+                    <span>Total fees</span>
+                    <strong>Free - no fees to pay</strong>
+                  </div>
+                </div>
+                <label>
+                  <span class="label-text" id="transferNoteLabel">Reference for recipient (optional)</span>
+                  <input id="transferNote" type="text" placeholder="Reference">
+                </label>
+              </section>
+
+              <section class="transfer-review-stage transfer-step" data-transfer-stage="confirm">
                 <h3>Review transfer</h3>
                 <div class="review-amount">
                   <span>You get exactly</span>
@@ -442,10 +482,6 @@
                 <div class="review-row"><span>You pay</span><strong id="reviewAmount">0 EUR</strong></div>
                 <div class="review-row"><span>Paying with</span><strong>Main account / EUR</strong></div>
                 <div class="review-row"><span>Should arrive</span><strong>in seconds</strong></div>
-                <label>
-                  <span class="label-text" id="transferNoteLabel">Reference for recipient (optional)</span>
-                  <input id="transferNote" type="text" placeholder="Reference">
-                </label>
               </section>
 
               <button class="primary-button transfer-submit-button" type="submit">Send now</button>
