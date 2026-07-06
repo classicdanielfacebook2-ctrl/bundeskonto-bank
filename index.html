@@ -122,9 +122,9 @@
         </div>
         <nav aria-label="Dashboard">
           <button class="nav-button active" data-page="overview" type="button">Overview</button>
-          <button class="nav-button" data-page="transfer" type="button">Transfers</button>
           <button class="nav-button" data-page="cards" type="button">Cards</button>
           <button class="nav-button" data-page="savings" type="button">Savings</button>
+          <button class="nav-button" data-page="transfer" type="button">Transfers</button>
         </nav>
         <div class="sidebar-language">
           <span id="dashboardLanguagePrompt">Language</span>
@@ -137,6 +137,7 @@
 
       <div class="dashboard-main">
         <div class="dashboard-menu-row">
+          <button id="earnButton" class="earn-button" data-page-target="savings" type="button">Earn €100</button>
           <button id="menuButton" class="menu-button" type="button" aria-label="Open account menu" aria-expanded="false">
             <span></span>
             <span></span>
@@ -155,7 +156,6 @@
             <button id="menuSettingsButton" class="menu-item" type="button">Settings</button>
             <button id="menuSecurityButton" class="menu-item" type="button">Security</button>
             <button id="menuVerificationButton" class="menu-item" type="button">Identity verification</button>
-            <button id="menuGiftCardButton" class="menu-item" type="button">Gift cards</button>
             <button id="menuAdminButton" class="menu-item admin-menu-item hidden" type="button">Admin records</button>
           </div>
         </div>
@@ -197,24 +197,28 @@
                 <span id="heroBalanceLabel">Available balance</span>
                 <strong id="heroBalanceAmount">0.00</strong>
                 <small id="heroDate">11 APR 2026</small>
+                <div class="balance-tools" aria-label="Balance tools">
+                  <button class="balance-tool" data-page-target="savings" type="button" aria-label="Interest and jars">⌁</button>
+                  <button class="balance-tool" data-page-target="cards" type="button" aria-label="Cards and spending">▥</button>
+                </div>
               </div>
             </div>
             <div class="hero-actions">
-              <button class="hero-action" data-page-target="transfer" type="button">
+              <button class="hero-action" data-action-id="send" data-page-target="transfer" type="button">
                 <span class="action-icon transfer-action-icon"></span>
                 <strong id="heroTransferAction">Send money</strong>
               </button>
-              <button class="hero-action" data-page-target="messages" type="button">
+              <button class="hero-action" data-action-id="add-money" data-page-target="transfer" type="button">
                 <span class="action-icon code-action-icon"></span>
-                <strong id="heroMessagesAction">Updates</strong>
+                <strong id="heroMessagesAction">Add money</strong>
               </button>
-              <button class="hero-action" data-page-target="savings" type="button">
+              <button class="hero-action" data-action-id="request" data-page-target="savings" type="button">
                 <span class="action-icon planned-action-icon"></span>
-                <strong id="heroSavingsAction">Save</strong>
+                <strong id="heroSavingsAction">Request</strong>
               </button>
-              <button class="hero-action" data-page-target="giftCards" type="button">
-                <span class="action-icon gift-action-icon"></span>
-                <strong id="heroGiftCardAction">Gift cards</strong>
+              <button class="hero-action" data-action-id="cards" data-page-target="cards" type="button">
+                <span class="action-icon card-action-icon"></span>
+                <strong id="heroCardsAction">Cards</strong>
               </button>
             </div>
           </section>
@@ -246,6 +250,7 @@
                 <small id="mainAccountIban">DE85••••0081 00</small>
               </div>
               <strong id="mainAccountBalance">0,00 €</strong>
+              <button class="account-details-button" data-page-target="profile" type="button">Account details</button>
             </div>
             <div class="account-row">
               <span class="account-icon"></span>

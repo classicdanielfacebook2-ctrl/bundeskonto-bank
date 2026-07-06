@@ -91,6 +91,8 @@ const translations = {
     settings: "Settings",
     security: "Security",
     giftCards: "Gift cards",
+    addMoney: "Add money",
+    requestMoney: "Request",
     profileDetails: "Profile details",
     adminRecords: "Admin records",
     openAccountMenu: "Open account menu",
@@ -309,6 +311,8 @@ const translations = {
     settings: "Einstellungen",
     security: "Sicherheit",
     giftCards: "Geschenkkarten",
+    addMoney: "Geld hinzufügen",
+    requestMoney: "Anfordern",
     profileDetails: "Profildetails",
     adminRecords: "Admin-DatensÃ¤tze",
     openAccountMenu: "Kontomenü öffnen",
@@ -1278,9 +1282,9 @@ function applyTranslations() {
   setText("#overviewPage .metric-card:nth-child(2) span", "monthIncome");
   setText("#overviewPage .metric-card:nth-child(3) span", "monthSpending");
   setText("#heroTransferAction", "sendMoney");
-  setText("#heroMessagesAction", "updates");
-  setText("#heroSavingsAction", "save");
-  setText("#heroGiftCardAction", "giftCards");
+  setText("#heroMessagesAction", "addMoney");
+  setText("#heroSavingsAction", "requestMoney");
+  setText("#heroCardsAction", "cards");
   setText("#heroBalanceLabel", "availableBalance");
   setText("#accountsHeading", "accounts");
   setText("#mainAccountName", "mainAccount");
@@ -2578,7 +2582,7 @@ menuVerificationButton.addEventListener("click", () => {
   switchPage("identity");
 });
 
-menuGiftCardButton.addEventListener("click", () => {
+menuGiftCardButton?.addEventListener("click", () => {
   switchPage("giftCards");
 });
 

@@ -3388,12 +3388,12 @@ input {
   gap: 14px;
 }
 
-.dashboard-menu-row::before {
-  content: "Earn €100";
+.earn-button {
   min-height: 52px;
   display: inline-flex;
   align-items: center;
   padding: 0 24px;
+  border: 0;
   border-radius: 999px;
   color: var(--app-black);
   background: var(--app-green);
@@ -3542,16 +3542,25 @@ input {
   display: none;
 }
 
-.balance-dial::after {
-  content: "⌁  ▥";
+.balance-tools {
   position: absolute;
   left: min(340px, 52vw);
   bottom: 12px;
   display: inline-flex;
   gap: 12px;
+}
+
+.balance-tool {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
   color: var(--app-green);
+  background: #202620;
   font-size: 1.5rem;
-  letter-spacing: 14px;
+  font-weight: 900;
 }
 
 .hero-actions {
@@ -3711,6 +3720,24 @@ input {
 
 .account-row:first-of-type small {
   grid-column: 2;
+}
+
+.account-details-button {
+  grid-column: 1 / -1;
+  width: fit-content;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  color: #f4f6f0;
+  background: #454b46;
+  font-weight: 900;
+}
+
+.account-details-button:hover {
+  color: var(--app-black);
+  background: var(--app-green);
 }
 
 .content-grid {
@@ -3930,7 +3957,7 @@ input {
     gap: 8px;
   }
 
-  .dashboard-menu-row::before {
+  .earn-button {
     min-height: 46px;
     padding: 0 16px;
     font-size: 1rem;
