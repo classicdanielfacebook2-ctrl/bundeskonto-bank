@@ -66,7 +66,7 @@ const defaultState = {
 
 const translations = {
   en: {
-    brandIntro: "Secure online banking for your German and European accounts.",
+    brandIntro: "Send, spend, receive, and hold money in one simple multi-currency account.",
     starterBalance: "Starter balance",
     chooseLanguage: "Choose language",
     language: "Language",
@@ -284,7 +284,7 @@ const translations = {
     settingsSaved: "Settings saved."
   },
   de: {
-    brandIntro: "Sicheres Online-Banking für deutsche und europäische Konten.",
+    brandIntro: "Senden, ausgeben, empfangen und halten Sie Geld in einem einfachen Mehrwährungskonto.",
     starterBalance: "Startguthaben",
     chooseLanguage: "Sprache wählen",
     language: "Sprache",
@@ -848,6 +848,15 @@ function formatCurrency(value) {
 }
 
 function formatHeroAmount(value) {
+  if (Math.abs(value) >= 1000000) {
+    return new Intl.NumberFormat(currentLanguage() === "de" ? "de-DE" : "en-IE", {
+      style: "currency",
+      currency: "EUR",
+      notation: "compact",
+      maximumFractionDigits: 1
+    }).format(value);
+  }
+
   return new Intl.NumberFormat(currentLanguage() === "de" ? "de-DE" : "en-IE", {
     style: "currency",
     currency: "EUR",
@@ -1177,7 +1186,7 @@ function activePageName() {
 
 function applyTranslations() {
   document.documentElement.lang = currentLanguage();
-  document.title = "BundesKonto Bank";
+  document.title = "Wise account demo";
 
   setText("#brandIntro", "brandIntro");
   setText("#languagePrompt", "chooseLanguage");
@@ -1375,6 +1384,10 @@ function renderDashboard() {
   menuEmail.textContent = user.email;
   menuUserId.textContent = `${t("userId")}: ${user.userId}`;
   balanceAmount.textContent = formatCurrency(user.balance);
+  const currencyEurBalance = document.querySelector("#currencyEurBalance");
+  if (currencyEurBalance) {
+    currencyEurBalance.textContent = formatCurrency(user.balance);
+  }
   heroBalanceAmount.textContent = formatHeroAmount(user.balance + (user.savings || 0));
   heroDate.innerHTML = formatHeroDate();
   mainAccountBalance.textContent = formatCurrency(user.balance);

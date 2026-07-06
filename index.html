@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BundesKonto Bank</title>
+  <title>Wise account demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,9 +13,33 @@
   <main class="app-shell">
     <section id="authView" class="auth-view">
       <div class="brand-panel">
-        <div class="brand-mark">BK</div>
-        <h1 id="brandTitle">BundesKonto Bank</h1>
+        <div class="auth-nav">
+          <div class="brand-mark">wise</div>
+          <div class="auth-nav-links">
+            <span>Personal</span>
+            <span>Business</span>
+            <span>Platform</span>
+            <span>Help</span>
+          </div>
+        </div>
+        <p class="auth-kicker">International account</p>
+        <h1 id="brandTitle">Money for here, there and everywhere.</h1>
         <p id="brandIntro">Secure online banking for your German and European accounts.</p>
+        <div class="wise-transfer-preview" aria-hidden="true">
+          <div class="preview-row">
+            <span>You send exactly</span>
+            <strong>1,000.00 <b>EUR</b></strong>
+          </div>
+          <div class="preview-fee">
+            <span>Low transfer fee</span>
+            <strong>4.87 EUR</strong>
+          </div>
+          <div class="preview-row">
+            <span>Recipient gets</span>
+            <strong>1,080.42 <b>USD</b></strong>
+          </div>
+          <button class="preview-button" type="button">Send money</button>
+        </div>
       </div>
 
       <div class="auth-panel">
@@ -34,6 +58,7 @@
 
         <form id="loginForm" class="auth-form active">
           <h2 id="loginHeading">Welcome back</h2>
+          <p class="auth-subtitle">Log in to your multi-currency account.</p>
           <label>
             <span class="label-text" id="loginEmailLabel">Email or User ID</span>
             <input id="loginEmail" type="text" inputmode="email" autocomplete="email" required>
@@ -48,6 +73,7 @@
 
         <form id="registerForm" class="auth-form">
           <h2 id="registerHeading">Create account</h2>
+          <p class="auth-subtitle">Open your account in minutes.</p>
           <div class="two-column">
             <label>
               <span class="label-text" id="firstNameLabel">First name</span>
@@ -91,8 +117,8 @@
     <section id="dashboardView" class="dashboard-view hidden">
       <aside class="sidebar">
         <div class="sidebar-brand">
-          <div class="brand-mark compact">BK</div>
-          <span>BundesKonto</span>
+          <div class="brand-mark compact">wise</div>
+          <span>Wise</span>
         </div>
         <nav aria-label="Dashboard">
           <button class="nav-button active" data-page="overview" type="button">Overview</button>
@@ -151,6 +177,14 @@
         </header>
 
         <section id="overviewPage" class="page active">
+          <section class="wise-account-header">
+            <div>
+              <p class="eyebrow">Multi-currency account</p>
+              <h3>Balances</h3>
+            </div>
+            <button class="primary-button" data-page-target="transfer" type="button">Send money</button>
+          </section>
+
           <section class="mobile-bank-hero">
             <div class="hero-icon-row">
               <button id="messageButton" class="hero-icon-button mail-icon" type="button" aria-label="Messages">
@@ -183,6 +217,24 @@
                 <strong id="heroGiftCardAction">Gift cards</strong>
               </button>
             </div>
+          </section>
+
+          <section class="wise-currency-strip" aria-label="Currency balances">
+            <button class="currency-tile" data-page-target="transfer" type="button">
+              <span>EUR</span>
+              <strong id="currencyEurBalance">€0.00</strong>
+              <small>Euro balance</small>
+            </button>
+            <button class="currency-tile" data-page-target="savings" type="button">
+              <span>GBP</span>
+              <strong>£0.00</strong>
+              <small>British pound</small>
+            </button>
+            <button class="currency-tile" data-page-target="cards" type="button">
+              <span>USD</span>
+              <strong>$0.00</strong>
+              <small>US dollar</small>
+            </button>
           </section>
 
           <section class="accounts-section">

@@ -2754,3 +2754,596 @@ input:focus {
     font-size: 2.6rem;
   }
 }
+
+/* Wise replica pass for school UI reference */
+:root {
+  --wise-bg: #f4f2ea;
+  --wise-cream: #fffdf5;
+  --wise-acid: #9fe870;
+  --wise-acid-strong: #80e142;
+  --wise-black: #163300;
+  --wise-deep: #0e1f00;
+  --wise-grey: #5d6b57;
+  --wise-border: #d8d5c7;
+  --wise-card: #ffffff;
+}
+
+body {
+  color: var(--wise-black);
+  background: var(--wise-bg);
+}
+
+.auth-view {
+  min-height: 100vh;
+  grid-template-columns: minmax(420px, 1.08fr) minmax(360px, 0.92fr);
+  background:
+    radial-gradient(circle at 14% 18%, rgba(159, 232, 112, 0.42), transparent 17rem),
+    linear-gradient(180deg, #f5f1e6 0%, #f7f4ea 100%);
+}
+
+.brand-panel {
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 26px clamp(28px, 5vw, 76px) 54px;
+  color: var(--wise-black);
+  background:
+    radial-gradient(circle at 72% 20%, rgba(159, 232, 112, 0.56), transparent 18rem),
+    linear-gradient(145deg, #f4f2ea 0%, #f9f6ea 100%);
+}
+
+.auth-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: clamp(54px, 9vh, 96px);
+}
+
+.auth-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid rgba(22, 51, 0, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.auth-nav-links span {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--wise-grey);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.auth-nav-links span:first-child {
+  color: var(--wise-black);
+  background: #fff;
+}
+
+.brand-mark {
+  width: auto;
+  min-width: 72px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  color: var(--wise-black);
+  background: var(--wise-acid);
+  font-size: 1.05rem;
+  font-weight: 900;
+  text-transform: lowercase;
+}
+
+.brand-mark.compact {
+  min-width: 54px;
+  height: 34px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.auth-kicker {
+  width: fit-content;
+  margin: 0 0 18px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: var(--wise-black);
+  background: var(--wise-acid);
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.brand-panel h1 {
+  max-width: 720px;
+  margin: 0 0 18px;
+  color: var(--wise-black);
+  font-size: clamp(3.5rem, 8vw, 6.8rem);
+  line-height: 0.9;
+  font-weight: 900;
+}
+
+.brand-panel p {
+  max-width: 620px;
+  color: #42533c;
+  font-size: 1.12rem;
+  line-height: 1.55;
+}
+
+.wise-transfer-preview {
+  width: min(100%, 520px);
+  margin-top: 36px;
+  padding: 10px;
+  border: 1px solid rgba(22, 51, 0, 0.12);
+  border-radius: 32px;
+  background: var(--wise-card);
+  box-shadow: 0 24px 70px rgba(22, 51, 0, 0.12);
+}
+
+.preview-row,
+.preview-fee {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 18px 20px;
+  border-radius: 24px;
+}
+
+.preview-row {
+  background: #f8f7f1;
+}
+
+.preview-row + .preview-fee,
+.preview-fee + .preview-row {
+  margin-top: 8px;
+}
+
+.preview-row span,
+.preview-fee span {
+  color: var(--wise-grey);
+  font-weight: 800;
+}
+
+.preview-row strong,
+.preview-fee strong {
+  color: var(--wise-black);
+  font-size: 1.28rem;
+}
+
+.preview-row b {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #e9f8df;
+  font-size: 0.76rem;
+}
+
+.preview-fee {
+  padding-block: 12px;
+}
+
+.preview-button {
+  width: 100%;
+  min-height: 54px;
+  margin-top: 8px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--wise-black);
+  background: var(--wise-acid);
+  font-weight: 900;
+}
+
+.auth-panel {
+  justify-content: flex-start;
+  padding: 26px clamp(22px, 4vw, 62px);
+  background: transparent;
+}
+
+.language-panel,
+.auth-tabs,
+.auth-form {
+  width: min(100%, 490px);
+  margin-inline: auto;
+}
+
+.language-panel {
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 0 0 1px rgba(22, 51, 0, 0.1);
+}
+
+.auth-tabs {
+  margin-top: clamp(34px, 9vh, 86px);
+  padding: 5px;
+  border: 1px solid rgba(22, 51, 0, 0.1);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.tab-button {
+  min-height: 44px;
+  border-radius: 999px;
+}
+
+.tab-button.active {
+  background: var(--wise-black);
+}
+
+.auth-form {
+  padding: 24px;
+  border: 1px solid rgba(22, 51, 0, 0.1);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 24px 70px rgba(22, 51, 0, 0.1);
+}
+
+.auth-form h2 {
+  margin-bottom: 6px;
+  font-size: 2.25rem;
+  letter-spacing: 0;
+}
+
+.auth-subtitle {
+  margin: 0 0 22px;
+  color: var(--wise-grey);
+  font-weight: 700;
+}
+
+label {
+  color: var(--wise-black);
+}
+
+input {
+  min-height: 56px;
+  border-radius: 16px;
+  border-color: rgba(22, 51, 0, 0.14);
+  background: #fff;
+}
+
+.primary-button,
+.secondary-button,
+.logout-button,
+.language-button {
+  border-radius: 999px;
+}
+
+.primary-button,
+.language-button.active {
+  color: var(--wise-black);
+  background: var(--wise-acid);
+  border-color: var(--wise-acid);
+}
+
+.primary-button:hover,
+.preview-button:hover {
+  background: var(--wise-acid-strong);
+}
+
+.dashboard-view {
+  min-height: 100vh;
+  background: var(--wise-bg);
+}
+
+.sidebar {
+  background: rgba(255, 253, 245, 0.92);
+  border-color: rgba(22, 51, 0, 0.12);
+}
+
+@media (min-width: 980px) {
+  .dashboard-view {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    padding-bottom: 0;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 24px 14px;
+    border-top: 0;
+    border-right: 1px solid rgba(22, 51, 0, 0.1);
+    box-shadow: none;
+  }
+
+  .sidebar-brand {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    margin-bottom: 54px;
+    font-size: 0.76rem;
+  }
+
+  .sidebar nav {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .nav-button {
+    min-height: 72px;
+    padding: 36px 4px 8px;
+  }
+
+  .nav-button::before {
+    top: 10px;
+  }
+
+  .sidebar-language {
+    display: grid;
+    margin-top: auto;
+    width: 100%;
+    border-radius: 16px;
+  }
+}
+
+.dashboard-main {
+  max-width: 1220px;
+  padding: 24px clamp(18px, 4vw, 44px) 104px;
+}
+
+.topbar {
+  display: flex;
+}
+
+.topbar h2 {
+  font-size: 2.2rem;
+  font-weight: 900;
+}
+
+.profile-chip {
+  min-width: 294px;
+  border: 1px solid rgba(22, 51, 0, 0.1);
+  border-radius: 999px;
+  background: var(--wise-cream);
+  box-shadow: 0 16px 38px rgba(22, 51, 0, 0.08);
+}
+
+.profile-chip span,
+.account-menu-header span {
+  color: var(--wise-black);
+  background: linear-gradient(135deg, var(--wise-acid), #f2ff7a);
+  border-radius: 50%;
+}
+
+.dashboard-menu-row {
+  top: 34px;
+}
+
+.menu-button {
+  border-radius: 50%;
+  background: var(--wise-acid);
+}
+
+.account-menu {
+  border-radius: 28px;
+  background: var(--wise-cream);
+}
+
+.account-menu-header {
+  border-radius: 24px;
+  background: #ecffd8;
+}
+
+.wise-account-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+  padding: 22px 24px;
+  border: 1px solid rgba(22, 51, 0, 0.1);
+  border-radius: 32px;
+  background: var(--wise-cream);
+}
+
+.wise-account-header h3 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  line-height: 0.95;
+}
+
+.mobile-bank-hero {
+  grid-template-columns: minmax(0, 1.15fr) minmax(330px, 0.85fr);
+  border-radius: 36px;
+  background:
+    linear-gradient(135deg, #183300 0%, #214f0b 48%, #9fe870 100%);
+  color: #fff;
+}
+
+.balance-dial {
+  min-height: 260px;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(circle at 82% 16%, rgba(159, 232, 112, 0.46), transparent 12rem),
+    rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.balance-dial span,
+.balance-dial small {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.balance-dial strong {
+  color: #fff;
+  max-width: 100%;
+  font-size: clamp(2.7rem, 5.6vw, 4.75rem);
+  overflow-wrap: anywhere;
+}
+
+.balance-dial small {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.hero-action {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 28px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.hero-action:hover {
+  color: var(--wise-black);
+  background: #f4ffd8;
+}
+
+.action-icon {
+  background: var(--wise-acid);
+}
+
+.wise-currency-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+}
+
+.currency-tile {
+  display: grid;
+  gap: 7px;
+  min-height: 142px;
+  padding: 20px;
+  text-align: left;
+  border: 1px solid rgba(22, 51, 0, 0.1);
+  border-radius: 28px;
+  color: var(--wise-black);
+  background: var(--wise-cream);
+  box-shadow: 0 14px 34px rgba(22, 51, 0, 0.07);
+}
+
+.currency-tile span {
+  width: fit-content;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #ecffd8;
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.currency-tile strong {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.currency-tile small {
+  color: var(--wise-grey);
+  font-weight: 700;
+}
+
+.accounts-section,
+.panel,
+.balance-card,
+.metric-card,
+.transfer-panel,
+.gift-card-panel,
+.gift-card-history-panel,
+.admin-identity-records-panel,
+.admin-gift-card-records-panel,
+.admin-gift-card-panel {
+  border-color: rgba(22, 51, 0, 0.1);
+  border-radius: 30px;
+  background: var(--wise-cream);
+}
+
+.balance-card {
+  background: #183300;
+}
+
+.transfer-bank-strip {
+  border-radius: 24px;
+  background: #ecffd8;
+}
+
+.bank-card {
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 80% 12%, rgba(159, 232, 112, 0.72), transparent 10rem),
+    #183300;
+}
+
+.gift-card-option {
+  min-height: 56px;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.gift-card-option.active,
+.gift-card-option:hover {
+  color: var(--wise-black);
+  border-color: var(--wise-acid);
+  background: #ecffd8;
+}
+
+@media (max-width: 980px) {
+  .auth-view {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-panel {
+    min-height: auto;
+    padding-bottom: 30px;
+  }
+
+  .auth-nav {
+    margin-bottom: 34px;
+  }
+
+  .auth-panel {
+    padding-top: 0;
+  }
+
+  .auth-tabs {
+    margin-top: 0;
+  }
+
+  .dashboard-main {
+    padding-top: 16px;
+  }
+
+  .topbar {
+    display: none;
+  }
+
+  .dashboard-menu-row {
+    top: 18px;
+  }
+}
+
+@media (max-width: 680px) {
+  .auth-nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .auth-nav-links {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .brand-panel h1 {
+    font-size: 3.1rem;
+  }
+
+  .wise-transfer-preview,
+  .auth-form {
+    border-radius: 24px;
+  }
+
+  .wise-account-header,
+  .wise-currency-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .wise-account-header {
+    align-items: stretch;
+  }
+
+  .mobile-bank-hero {
+    grid-template-columns: 1fr;
+    border-radius: 0 0 34px 34px;
+  }
+}
