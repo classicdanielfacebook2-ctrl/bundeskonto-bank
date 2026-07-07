@@ -250,7 +250,7 @@
                 <small id="mainAccountIban">DE85••••0081 00</small>
               </div>
               <strong id="mainAccountBalance">0,00 €</strong>
-              <button class="account-details-button" data-page-target="profile" type="button">Account details</button>
+              <button id="openAccountDetailsButton" class="account-details-button" data-page-target="accountDetails" type="button">Account details</button>
             </div>
             <div class="account-row">
               <span class="account-icon"></span>
@@ -306,6 +306,78 @@
               <ul id="notificationList" class="activity-list compact-list"></ul>
             </article>
           </div>
+        </section>
+
+        <section id="accountDetailsPage" class="page">
+          <article class="account-details-mobile">
+            <div class="account-details-chooser account-details-screen active" data-account-screen="chooser">
+              <button id="accountDetailsBackButton" class="account-detail-back icon-back" type="button" aria-label="Back"></button>
+              <h3>Choose a currency to view your details</h3>
+              <p>Receive bank transfers from around the world. <button class="link-button" type="button">Learn more.</button></p>
+              <div class="account-currency-list" aria-label="Account currencies">
+                <button class="account-currency-row" data-account-currency="EUR" type="button">
+                  <span class="currency-flag flag-eur"></span>
+                  <span><strong>Euro</strong><small id="eurAccountPreview">BE38 9058 6931 0872</small></span>
+                  <b></b>
+                </button>
+                <button class="account-currency-row" data-account-currency="USD" type="button">
+                  <span class="currency-flag flag-usd"></span>
+                  <span><strong>US dollar</strong><small>325785670648418</small></span>
+                  <b></b>
+                </button>
+                <button class="account-currency-row" data-account-currency="NZD" type="button">
+                  <span class="currency-flag flag-nzd"></span>
+                  <span><strong>New Zealand dollar</strong><small>04-2021-0416936-37</small></span>
+                  <b></b>
+                </button>
+                <button class="account-currency-row" data-account-currency="AED" type="button">
+                  <span class="currency-flag flag-aed"></span>
+                  <span><strong>UAE dirham</strong><small>Only accepts Swift transfers</small></span>
+                  <b></b>
+                </button>
+                <button class="account-currency-row" data-account-currency="OTHER" type="button">
+                  <span class="currency-flag flag-plus"></span>
+                  <span><strong>Receive other currencies</strong><small>Open more local account details</small></span>
+                  <b></b>
+                </button>
+              </div>
+            </div>
+
+            <div class="account-detail-screen account-details-screen" data-account-screen="detail">
+              <div class="account-detail-top">
+                <button id="accountCurrencyBackButton" class="account-detail-back icon-back" type="button" aria-label="Back"></button>
+                <div>
+                  <strong id="accountDetailCode">EUR</strong>
+                  <span>Account details</span>
+                </div>
+                <span id="accountDetailFlag" class="currency-flag flag-eur"></span>
+              </div>
+              <div class="account-detail-heading">
+                <div>
+                  <h3 id="accountDetailTitle">Receive EUR</h3>
+                  <p id="accountDetailSubtitle">From SEPA and <button class="link-button" type="button">100+ countries</button></p>
+                </div>
+                <button id="shareAccountDetailsButton" class="account-share-button" type="button">Share</button>
+              </div>
+              <div id="accountDetailFields" class="account-detail-card"></div>
+              <section class="account-quick-facts">
+                <h3>Quick facts</h3>
+                <div class="account-fact-tabs" role="tablist" aria-label="Quick facts">
+                  <button class="account-fact-tab active" data-fact-tab="fees" type="button">Fees</button>
+                  <button class="account-fact-tab" data-fact-tab="speed" type="button">Speed</button>
+                  <button class="account-fact-tab" data-fact-tab="limits" type="button">Limits</button>
+                </div>
+                <p id="accountFactQuestion">What does it cost?</p>
+                <div id="accountFactCard" class="account-fact-card"></div>
+                <h4>Availability</h4>
+                <div id="accountAvailabilityCard" class="account-availability-card"></div>
+                <div class="details-help">
+                  <span>Details not accepted?</span>
+                  <button class="link-button" type="button">Tell us where</button>
+                </div>
+              </section>
+            </div>
+          </article>
         </section>
 
         <section id="transferPage" class="page">

@@ -53,6 +53,148 @@ const GIFT_CARD_TYPES = [
   "Visa"
 ];
 
+const RECEIVE_ACCOUNT_DETAILS = {
+  EUR: {
+    code: "EUR",
+    title: "Receive EUR",
+    subtitlePrefix: "From SEPA and",
+    subtitleLink: "100+ countries",
+    flagClass: "flag-eur",
+    fields: [
+      { label: "Name", value: "accountName" },
+      { label: "IBAN", value: "userIban", hint: "Can receive EUR and other currencies. How it works" },
+      { label: "Swift/BIC", value: "TRWIBEB1XXX", hint: "Only used for international Swift transfers" },
+      { label: "Address", value: "Wise, Rue du Trone 100, 3rd floor, Brussels, 1050, Belgium", hint: "Some senders may need this. Learn more" }
+    ],
+    fees: {
+      question: "What does it cost?",
+      rows: [
+        ["From SEPA (domestic)", "No fees", ""],
+        ["From outside SEPA (Swift)", "2.39 EUR Wise fee", "Bank fees may also apply"]
+      ]
+    },
+    speed: {
+      question: "How fast can money arrive?",
+      rows: [
+        ["SEPA transfers", "Usually in seconds", "Some banks may take longer"],
+        ["Swift transfers", "1 to 3 working days", "Depends on the sending bank"]
+      ]
+    },
+    limits: {
+      question: "How much can you receive?",
+      rows: [
+        ["Incoming transfers", "No fixed Wise limit", "Sender bank limits may apply"],
+        ["Direct debits", "Available", "Works for regular payments"]
+      ]
+    },
+    availability: { ok: true, title: "SEPA Direct Debits available", text: "Make regular payments. Works with Amazon, PayPal, Stripe and more." }
+  },
+  USD: {
+    code: "USD",
+    title: "Receive USD",
+    subtitlePrefix: "From the US and",
+    subtitleLink: "150+ countries",
+    flagClass: "flag-usd",
+    fields: [
+      { label: "Name", value: "accountName" },
+      { label: "Account type", value: "Deposit", hint: "Only used for domestic transfers" },
+      { label: "Routing number (for wire and ACH)", value: "084009519", hint: "Provided to Wise by Column Bank, our partner" },
+      { label: "Account number", value: "325785670648418" },
+      { label: "Address", value: "Wise US Inc, 108 W 13th St, Wilmington, DE, 19801, United States", hint: "Only used for international Swift transfers" },
+      { label: "Swift/BIC", value: "TRWIUS35XXX", hint: "Only used for international Swift transfers" }
+    ],
+    fees: {
+      question: "What does it cost?",
+      rows: [
+        ["From the US (domestic)", "ACH is free", "Wire transfers cost 6.11 USD"],
+        ["From outside the US (Swift)", "6.11 USD Wise fee", "Bank fees may also apply"]
+      ]
+    },
+    speed: {
+      question: "How fast can money arrive?",
+      rows: [
+        ["ACH transfers", "1 to 3 working days", "Wire transfers are usually faster"],
+        ["Swift transfers", "1 to 5 working days", "Depends on correspondent banks"]
+      ]
+    },
+    limits: {
+      question: "How much can you receive?",
+      rows: [
+        ["Domestic transfers", "High value transfers supported", "Extra checks may apply"],
+        ["Swift transfers", "Sender bank limits apply", ""]
+      ]
+    },
+    availability: { ok: true, title: "ACH debits available", text: "Make regular payments. Works with Amazon, PayPal, Stripe and more." }
+  },
+  NZD: {
+    code: "NZD",
+    title: "Receive NZD",
+    subtitlePrefix: "From New Zealand and",
+    subtitleLink: "150+ countries",
+    flagClass: "flag-nzd",
+    fields: [
+      { label: "Name", value: "accountName" },
+      { label: "Account number", value: "04-2021-0416936-37" },
+      { label: "Swift/BIC", value: "TRWINZ21XXX", hint: "Only used for international Swift transfers" },
+      { label: "Address", value: "Wise Payments New Zealand Ltd., Level 11, 41 Shortland Street, Auckland, 1010, New Zealand", hint: "Some senders may need this. Learn more" }
+    ],
+    fees: {
+      question: "What does it cost?",
+      rows: [
+        ["From New Zealand (domestic)", "No fees", ""],
+        ["From outside New Zealand (Swift)", "6.89 NZD Wise fee", "Bank fees may also apply"]
+      ]
+    },
+    speed: {
+      question: "How fast can money arrive?",
+      rows: [
+        ["Local transfers", "Usually same day", "Bank processing times vary"],
+        ["Swift transfers", "1 to 5 working days", ""]
+      ]
+    },
+    limits: {
+      question: "How much can you receive?",
+      rows: [
+        ["Incoming transfers", "Sender bank limits apply", ""],
+        ["Swift transfers", "Extra checks may apply", ""]
+      ]
+    },
+    availability: { ok: false, title: "Direct Debits not available", text: "" }
+  },
+  AED: {
+    code: "AED",
+    title: "Receive AED",
+    subtitlePrefix: "From the UAE and",
+    subtitleLink: "Swift countries",
+    flagClass: "flag-aed",
+    fields: [
+      { label: "Name", value: "accountName" },
+      { label: "IBAN", value: "AE070331234567890123456", hint: "Only accepts Swift transfers" },
+      { label: "Swift/BIC", value: "TRWIAEADXXX", hint: "Use this for international transfers" },
+      { label: "Address", value: "Wise Payments Ltd., Dubai, United Arab Emirates", hint: "Some senders may need this. Learn more" }
+    ],
+    fees: {
+      question: "What does it cost?",
+      rows: [
+        ["Swift transfers", "12.00 AED Wise fee", "Bank fees may also apply"]
+      ]
+    },
+    speed: {
+      question: "How fast can money arrive?",
+      rows: [
+        ["Swift transfers", "1 to 5 working days", "Depends on the sending bank"]
+      ]
+    },
+    limits: {
+      question: "How much can you receive?",
+      rows: [
+        ["Incoming transfers", "Sender bank limits apply", ""]
+      ]
+    },
+    availability: { ok: false, title: "Direct Debits not available", text: "" }
+  }
+};
+
 const defaultState = {
   users: [],
   currentUserId: null,
@@ -576,6 +718,18 @@ const messageBadge = document.querySelector("#messageBadge");
 const messagesCount = document.querySelector("#messagesCount");
 const messagesList = document.querySelector("#messagesList");
 const activityList = document.querySelector("#activityList");
+const accountDetailsBackButton = document.querySelector("#accountDetailsBackButton");
+const accountCurrencyBackButton = document.querySelector("#accountCurrencyBackButton");
+const accountDetailCode = document.querySelector("#accountDetailCode");
+const accountDetailFlag = document.querySelector("#accountDetailFlag");
+const accountDetailTitle = document.querySelector("#accountDetailTitle");
+const accountDetailSubtitle = document.querySelector("#accountDetailSubtitle");
+const accountDetailFields = document.querySelector("#accountDetailFields");
+const accountFactQuestion = document.querySelector("#accountFactQuestion");
+const accountFactCard = document.querySelector("#accountFactCard");
+const accountAvailabilityCard = document.querySelector("#accountAvailabilityCard");
+const shareAccountDetailsButton = document.querySelector("#shareAccountDetailsButton");
+const eurAccountPreview = document.querySelector("#eurAccountPreview");
 const quickTransferForm = document.querySelector("#quickTransferForm");
 const quickTransferMessage = document.querySelector("#quickTransferMessage");
 const transferForm = document.querySelector("#transferForm");
@@ -1148,6 +1302,126 @@ function findRecipientByEmail(email) {
   return state.users.find((user) => user.email.toLowerCase() === cleanedEmail) || null;
 }
 
+let activeAccountCurrency = "EUR";
+let activeAccountFactTab = "fees";
+
+function accountDetailValue(field, user) {
+  if (field.value === "accountName") {
+    return user ? `${user.firstName} ${user.lastName}` : "Account holder";
+  }
+  if (field.value === "userIban") {
+    return user?.iban || "BE38 9058 6931 0872";
+  }
+  return field.value;
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function accountDetailsText(currencyCode = activeAccountCurrency) {
+  const user = getCurrentUser();
+  const detail = RECEIVE_ACCOUNT_DETAILS[currencyCode] || RECEIVE_ACCOUNT_DETAILS.EUR;
+  return detail.fields
+    .map((field) => `${field.label}: ${accountDetailValue(field, user)}`)
+    .join("\n");
+}
+
+function setAccountDetailsScreen(screen) {
+  document.querySelectorAll(".account-details-screen").forEach((section) => {
+    section.classList.toggle("active", section.dataset.accountScreen === screen);
+  });
+  document.querySelector("#accountDetailsPage")?.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function setAccountFactTab(tab) {
+  activeAccountFactTab = tab;
+  document.querySelectorAll(".account-fact-tab").forEach((button) => {
+    button.classList.toggle("active", button.dataset.factTab === tab);
+  });
+  renderAccountFact();
+}
+
+function renderAccountFact() {
+  const detail = RECEIVE_ACCOUNT_DETAILS[activeAccountCurrency] || RECEIVE_ACCOUNT_DETAILS.EUR;
+  const fact = detail[activeAccountFactTab] || detail.fees;
+  if (!accountFactQuestion || !accountFactCard || !accountAvailabilityCard) {
+    return;
+  }
+
+  accountFactQuestion.textContent = fact.question;
+  accountFactCard.innerHTML = fact.rows.map((row) => `
+    <button class="account-fact-row" type="button">
+      <span>${escapeHtml(row[0])}</span>
+      <strong>${escapeHtml(row[1])}</strong>
+      ${row[2] ? `<small>${escapeHtml(row[2])}</small>` : ""}
+      <b></b>
+    </button>
+  `).join("");
+  accountAvailabilityCard.innerHTML = `
+    <span class="${detail.availability.ok ? "availability-ok" : "availability-no"}"></span>
+    <div>
+      <strong>${escapeHtml(detail.availability.title)}</strong>
+      ${detail.availability.text ? `<p>${escapeHtml(detail.availability.text)}</p>` : ""}
+    </div>
+  `;
+}
+
+function renderAccountDetails(currencyCode = "EUR") {
+  const user = getCurrentUser();
+  const detail = RECEIVE_ACCOUNT_DETAILS[currencyCode] || RECEIVE_ACCOUNT_DETAILS.EUR;
+  activeAccountCurrency = detail.code;
+  activeAccountFactTab = "fees";
+
+  if (eurAccountPreview) {
+    eurAccountPreview.textContent = user?.iban || "BE38 9058 6931 0872";
+  }
+  if (!accountDetailCode || !accountDetailFields) {
+    return;
+  }
+
+  accountDetailCode.textContent = detail.code;
+  accountDetailTitle.textContent = detail.title;
+  accountDetailSubtitle.innerHTML = `${escapeHtml(detail.subtitlePrefix)} <button class="link-button" type="button">${escapeHtml(detail.subtitleLink)}</button>`;
+  accountDetailFlag.className = `currency-flag ${detail.flagClass}`;
+  accountDetailFields.innerHTML = detail.fields.map((field) => {
+    const value = accountDetailValue(field, user);
+    const safeValue = escapeHtml(value);
+    return `
+      <div class="account-detail-field">
+        <div>
+          <span>${escapeHtml(field.label)}</span>
+          <strong>${safeValue}</strong>
+          ${field.hint ? `<small>${escapeHtml(field.hint)}</small>` : ""}
+        </div>
+        <button class="copy-detail-button" data-copy-value="${safeValue}" type="button" aria-label="Copy ${escapeHtml(field.label)}"></button>
+      </div>
+    `;
+  }).join("");
+
+  setAccountFactTab("fees");
+}
+
+async function copyAccountDetail(value, button) {
+  try {
+    await navigator.clipboard.writeText(value);
+    button.classList.add("copied");
+    button.setAttribute("aria-label", "Copied");
+    setTimeout(() => {
+      button.classList.remove("copied");
+      button.setAttribute("aria-label", "Copy detail");
+    }, 1200);
+  } catch {
+    button.classList.add("copy-failed");
+    setTimeout(() => button.classList.remove("copy-failed"), 1200);
+  }
+}
+
 function updateTransferPreview() {
   if (!recipientPreview || !summaryFrom || !summaryTo || !summaryAmount) {
     return;
@@ -1200,6 +1474,7 @@ function pageTitleKey(pageName) {
   return {
     overview: "overview",
     transfer: "transfers",
+    accountDetails: "account details",
     cards: "cards",
     savings: "savings",
     messages: "messages",
@@ -2394,8 +2669,13 @@ function reviewGiftCard(requestId, decision) {
 
 function switchPage(pageName) {
   dashboardView.classList.toggle("transfer-active", pageName === "transfer");
+  dashboardView.classList.toggle("account-details-active", pageName === "accountDetails");
   if (pageName === "transfer") {
     setTransferStage("recipient");
+  }
+  if (pageName === "accountDetails") {
+    renderAccountDetails(activeAccountCurrency || "EUR");
+    setAccountDetailsScreen("chooser");
   }
   navButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.page === pageName);
@@ -2657,6 +2937,53 @@ navButtons.forEach((button) => {
 
 document.querySelectorAll("[data-page-target]").forEach((button) => {
   button.addEventListener("click", () => switchPage(button.dataset.pageTarget));
+});
+
+accountDetailsBackButton?.addEventListener("click", () => switchPage("overview"));
+accountCurrencyBackButton?.addEventListener("click", () => setAccountDetailsScreen("chooser"));
+
+document.querySelectorAll("[data-account-currency]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const currency = button.dataset.accountCurrency;
+    if (currency === "OTHER") {
+      renderAccountDetails("AED");
+    } else {
+      renderAccountDetails(currency);
+    }
+    setAccountDetailsScreen("detail");
+  });
+});
+
+document.querySelectorAll(".account-fact-tab").forEach((button) => {
+  button.addEventListener("click", () => setAccountFactTab(button.dataset.factTab));
+});
+
+accountDetailFields?.addEventListener("click", (event) => {
+  const copyButton = event.target.closest(".copy-detail-button");
+  if (!copyButton) {
+    return;
+  }
+  copyAccountDetail(copyButton.dataset.copyValue || "", copyButton);
+});
+
+shareAccountDetailsButton?.addEventListener("click", async () => {
+  const text = accountDetailsText();
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: `${activeAccountCurrency} account details`, text });
+      return;
+    }
+    await navigator.clipboard.writeText(text);
+    shareAccountDetailsButton.textContent = "Copied";
+    setTimeout(() => {
+      shareAccountDetailsButton.textContent = "Share";
+    }, 1400);
+  } catch {
+    shareAccountDetailsButton.textContent = "Could not share";
+    setTimeout(() => {
+      shareAccountDetailsButton.textContent = "Share";
+    }, 1400);
+  }
 });
 
 let transferStage = "recipient";
