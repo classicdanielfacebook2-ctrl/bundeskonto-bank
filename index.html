@@ -234,6 +234,8 @@
                 <span id="heroBalanceLabel">Available balance</span>
                 <strong id="heroBalanceAmount">0.00</strong>
                 <small id="heroDate">11 APR 2026</small>
+                <p class="balance-growth"><span>+12.4%</span> account growth this month</p>
+                <p class="balance-updated">Last updated just now</p>
                 <div class="balance-tools" aria-label="Balance tools">
                   <button class="balance-tool" data-page-target="savings" type="button" aria-label="Interest and jars">⌁</button>
                   <button class="balance-tool" data-page-target="cards" type="button" aria-label="Cards and spending">▥</button>
@@ -244,18 +246,22 @@
               <button class="hero-action" data-action-id="send" data-page-target="transfer" type="button">
                 <span class="action-icon transfer-action-icon"></span>
                 <strong id="heroTransferAction">Send money</strong>
+                <small>Pay a recipient by email or IBAN</small>
               </button>
               <button class="hero-action" data-action-id="add-money" data-page-target="transfer" type="button">
                 <span class="action-icon code-action-icon"></span>
                 <strong id="heroMessagesAction">Add money</strong>
+                <small>Move funds into your EUR balance</small>
               </button>
               <button class="hero-action" data-action-id="request" data-page-target="savings" type="button">
                 <span class="action-icon planned-action-icon"></span>
                 <strong id="heroSavingsAction">Request</strong>
+                <small>Create a payment request</small>
               </button>
               <button class="hero-action" data-action-id="cards" data-page-target="cards" type="button">
                 <span class="action-icon card-action-icon"></span>
                 <strong id="heroCardsAction">Cards</strong>
+                <small>Manage spending and card security</small>
               </button>
             </div>
           </section>
@@ -304,6 +310,10 @@
               <span>Available balance</span>
               <strong id="balanceAmount">EUR 60,000.00</strong>
               <p id="accountNumber">IBAN: ET00 0000 0000</p>
+              <div class="balance-card-meta">
+                <span class="trend-up">+8.2% net inflow</span>
+                <span>Updated today</span>
+              </div>
             </article>
             <article class="metric-card">
               <span>This month income</span>
@@ -325,6 +335,19 @@
                 <div><span>Income</span><i style="--bar: 82%"></i><strong id="analyticsIncome">EUR 0.00</strong></div>
                 <div><span>Spending</span><i style="--bar: 48%"></i><strong id="analyticsSpending">EUR 0.00</strong></div>
                 <div><span>Savings</span><i style="--bar: 35%"></i><strong id="analyticsSavings">EUR 0.00</strong></div>
+              </div>
+              <div class="analytics-chart" aria-label="Monthly spending trend">
+                <span style="--h:42%"></span>
+                <span style="--h:58%"></span>
+                <span style="--h:36%"></span>
+                <span style="--h:72%"></span>
+                <span style="--h:64%"></span>
+                <span style="--h:88%"></span>
+                <span style="--h:54%"></span>
+              </div>
+              <div class="analytics-summary-grid">
+                <div><span>Currency mix</span><strong>EUR 92%</strong></div>
+                <div><span>Transfers</span><strong>14 this month</strong></div>
               </div>
             </article>
             <article class="panel rates-panel">
@@ -651,8 +674,9 @@
         </section>
 
         <section id="cardsPage" class="page">
-          <div class="content-grid">
+          <div class="cards-layout">
             <article class="bank-card">
+              <div class="card-chip"></div>
               <span id="cardProductLabel">BundesKonto Debit</span>
               <strong id="cardHolderName">ACCOUNT HOLDER</strong>
               <p>**** **** **** <span id="cardLastDigits">4829</span></p>
@@ -662,10 +686,23 @@
               <div class="panel-heading">
                 <h3>Card controls</h3>
               </div>
-              <button id="freezeCardButton" class="secondary-button" type="button">Freeze card</button>
-              <button id="newCardButton" class="secondary-button" type="button">Generate new card</button>
-              <button id="cardLimitButton" class="secondary-button" type="button">Increase limit</button>
+              <div class="card-control-grid">
+                <button id="freezeCardButton" class="secondary-button" type="button">Freeze card</button>
+                <button id="newCardButton" class="secondary-button" type="button">Generate new card</button>
+                <button id="cardLimitButton" class="secondary-button" type="button">Increase limit</button>
+              </div>
               <p id="cardMessage" class="form-message"></p>
+            </article>
+            <article class="panel card-activity-panel">
+              <div class="panel-heading">
+                <h3>Recent card activity</h3>
+                <span class="status-pill success">Protected</span>
+              </div>
+              <ul class="card-activity-list">
+                <li><span></span><div><strong>Online purchase</strong><small>Card ending 4829</small></div><b>EUR 20.15</b></li>
+                <li><span></span><div><strong>Card verification</strong><small>Security check passed</small></div><b>EUR 0.00</b></li>
+                <li><span></span><div><strong>Contactless ready</strong><small>Daily limit available</small></div><b>Active</b></li>
+              </ul>
             </article>
           </div>
         </section>
