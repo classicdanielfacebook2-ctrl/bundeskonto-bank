@@ -5577,3 +5577,647 @@ input {
     flex: 1;
   }
 }
+
+/* Website redesign layer: desktop-first web banking layout */
+:root {
+  --web-bg: #f6f8fb;
+  --web-surface: #ffffff;
+  --web-surface-2: #f1f5f4;
+  --web-ink: #102018;
+  --web-muted: #607069;
+  --web-line: #dce5e1;
+  --web-green: #39d979;
+  --web-green-dark: #0f5f3f;
+  --web-panel: #ffffff;
+  --web-shadow: 0 20px 60px rgba(16, 32, 24, 0.08);
+}
+
+body {
+  color: var(--web-ink);
+  background: var(--web-bg);
+}
+
+.auth-view {
+  min-height: 100vh;
+  grid-template-columns: minmax(480px, 1.1fr) minmax(430px, 0.9fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+  padding: clamp(28px, 5vw, 72px);
+  background:
+    linear-gradient(120deg, rgba(159, 232, 112, 0.2), transparent 42%),
+    var(--web-bg);
+}
+
+.brand-panel {
+  min-height: 720px;
+  justify-content: flex-start;
+  padding: clamp(34px, 5vw, 68px);
+  color: var(--web-ink);
+  border: 1px solid var(--web-line);
+  border-radius: 28px;
+  background:
+    linear-gradient(135deg, rgba(159, 232, 112, 0.86), rgba(255, 255, 255, 0.78) 48%, rgba(226, 237, 255, 0.9)),
+    var(--web-surface);
+  box-shadow: var(--web-shadow);
+}
+
+.brand-panel h1 {
+  max-width: 780px;
+  margin-top: 86px;
+  color: var(--web-ink);
+  font-size: clamp(3.4rem, 6vw, 6.8rem);
+  line-height: 0.98;
+}
+
+.brand-panel p {
+  max-width: 650px;
+  color: #34473e;
+  font-size: 1.12rem;
+}
+
+.auth-kicker {
+  width: fit-content;
+  margin-top: 78px !important;
+  padding: 10px 16px;
+  border-radius: 999px;
+  color: var(--web-ink) !important;
+  background: rgba(255, 255, 255, 0.72);
+  font-weight: 900;
+}
+
+.brand-mark {
+  border-radius: 999px;
+  color: var(--web-ink);
+  background: var(--web-green);
+  text-shadow: none;
+  letter-spacing: 0;
+}
+
+.auth-nav-links span {
+  color: var(--web-ink);
+  font-weight: 800;
+}
+
+.wise-transfer-preview {
+  max-width: 520px;
+  margin-top: auto;
+  border: 1px solid rgba(16, 32, 24, 0.12);
+  border-radius: 22px;
+  box-shadow: 0 18px 46px rgba(16, 32, 24, 0.1);
+}
+
+.auth-panel {
+  justify-content: flex-start;
+  min-height: 720px;
+  padding: clamp(28px, 4vw, 48px);
+  border: 1px solid var(--web-line);
+  border-radius: 28px;
+  background: var(--web-surface);
+  box-shadow: var(--web-shadow);
+}
+
+.auth-form,
+.language-panel {
+  width: 100%;
+  max-width: none;
+}
+
+.dashboard-view {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  color: var(--web-ink);
+  background: var(--web-bg);
+}
+
+.sidebar,
+.dashboard-view.transfer-active .sidebar,
+.dashboard-view.account-details-active .sidebar {
+  position: sticky;
+  top: 0;
+  display: flex !important;
+  height: 100vh;
+  padding: 28px 22px;
+  border-right: 1px solid var(--web-line);
+  color: var(--web-ink);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
+}
+
+.sidebar-brand,
+.sidebar-language {
+  display: flex;
+}
+
+.sidebar nav {
+  gap: 8px;
+}
+
+.nav-button {
+  min-height: 48px;
+  border-radius: 12px;
+  color: var(--web-muted);
+  background: transparent;
+}
+
+.nav-button.active,
+.nav-button:hover {
+  color: var(--web-ink);
+  background: var(--web-surface-2);
+}
+
+.dashboard-main,
+.dashboard-view.transfer-active .dashboard-main,
+.dashboard-view.account-details-active .dashboard-main {
+  width: 100%;
+  max-width: 1500px !important;
+  margin: 0 auto;
+  padding: 28px clamp(28px, 4vw, 56px) 56px !important;
+}
+
+.dashboard-menu-row,
+.dashboard-view.transfer-active .dashboard-menu-row,
+.dashboard-view.account-details-active .dashboard-menu-row,
+.topbar,
+.dashboard-view.transfer-active .topbar,
+.dashboard-view.account-details-active .topbar {
+  display: flex !important;
+}
+
+.dashboard-menu-row {
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.topbar {
+  position: static;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.topbar h2 {
+  font-size: clamp(2.1rem, 4vw, 3.5rem);
+  letter-spacing: 0;
+}
+
+.profile-chip,
+.account-menu {
+  border: 1px solid var(--web-line);
+  background: var(--web-surface);
+  box-shadow: var(--web-shadow);
+}
+
+#overviewPage.active {
+  display: grid;
+  gap: 24px;
+}
+
+.wise-account-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+  padding: 26px;
+  border: 1px solid var(--web-line);
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--web-surface), #eef8ef);
+  box-shadow: var(--web-shadow);
+}
+
+.wise-account-header h3 {
+  margin: 4px 0 0;
+  font-size: clamp(2.1rem, 4vw, 3.8rem);
+}
+
+.mobile-bank-hero {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.9fr) minmax(440px, 1.1fr);
+  gap: 28px;
+  align-items: stretch;
+  padding: 28px;
+  min-height: auto;
+  border: 1px solid var(--web-line);
+  border-radius: 24px;
+  color: var(--web-ink);
+  background: var(--web-surface);
+  box-shadow: var(--web-shadow);
+  overflow: visible;
+}
+
+.mobile-bank-hero::before,
+.mobile-bank-hero::after {
+  display: none !important;
+}
+
+.hero-icon-row {
+  position: absolute;
+  right: 28px;
+  top: 28px;
+  z-index: 2;
+}
+
+.hero-balance-layout {
+  display: block;
+}
+
+.balance-dial {
+  width: 100%;
+  min-height: 280px;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  padding: 34px;
+  border: 1px solid var(--web-line);
+  border-radius: 20px;
+  color: var(--web-ink);
+  background:
+    linear-gradient(135deg, rgba(159, 232, 112, 0.32), transparent),
+    var(--web-surface-2);
+}
+
+.balance-dial::before,
+.balance-dial::after {
+  display: none !important;
+}
+
+.balance-dial span,
+.balance-dial small {
+  color: var(--web-muted) !important;
+}
+
+.balance-dial strong {
+  color: var(--web-ink);
+  font-size: clamp(3rem, 5vw, 5.4rem);
+  letter-spacing: 0;
+}
+
+.balance-tools {
+  justify-self: start;
+  margin-top: 22px;
+}
+
+.hero-actions {
+  align-self: end;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 0;
+}
+
+.hero-action {
+  min-height: 112px;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+  justify-content: start;
+  padding: 18px;
+  border: 1px solid var(--web-line);
+  border-radius: 18px;
+  color: var(--web-ink);
+  background: #fbfdfb;
+  text-align: left;
+}
+
+.hero-action strong {
+  font-size: 1.08rem;
+}
+
+.action-icon,
+.hero-icon-button,
+.balance-tool {
+  border-color: var(--web-line);
+  color: var(--web-green-dark);
+  background: var(--web-surface-2);
+}
+
+.wise-currency-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding: 0;
+  background: transparent;
+}
+
+.currency-tile,
+.accounts-section,
+.balance-card,
+.metric-card,
+.panel,
+.bank-card,
+.verification-card {
+  border: 1px solid var(--web-line) !important;
+  border-radius: 18px !important;
+  color: var(--web-ink) !important;
+  background: var(--web-surface) !important;
+  box-shadow: var(--web-shadow) !important;
+}
+
+.currency-tile {
+  min-height: 136px;
+  padding: 22px;
+  text-align: left;
+}
+
+.currency-tile strong {
+  font-size: 1.8rem;
+}
+
+.accounts-section {
+  padding: 26px;
+}
+
+.account-row {
+  grid-template-columns: 54px minmax(0, 1fr) auto auto;
+  min-height: 84px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--web-line);
+}
+
+.account-row:last-child {
+  border-bottom: 0;
+}
+
+.overview-grid,
+.content-grid,
+.settings-grid {
+  gap: 18px;
+}
+
+.overview-grid {
+  grid-template-columns: 1.3fr 1fr 1fr;
+}
+
+.content-grid {
+  grid-template-columns: minmax(360px, 0.9fr) minmax(420px, 1.1fr);
+}
+
+.full-panel {
+  grid-column: 1 / -1;
+}
+
+#transferPage,
+#accountDetailsPage {
+  min-height: auto;
+  color: var(--web-ink);
+  background: transparent;
+}
+
+.transfer-panel,
+.account-details-mobile {
+  max-width: none;
+  min-height: auto;
+  margin: 0;
+  padding: 0;
+  color: var(--web-ink);
+  background: transparent;
+  box-shadow: none;
+}
+
+.transfer-mobile-top,
+.account-detail-top {
+  padding: 22px;
+  margin-bottom: 20px;
+  border: 1px solid var(--web-line);
+  border-radius: 18px;
+  color: var(--web-ink);
+  background: var(--web-surface);
+  box-shadow: var(--web-shadow);
+}
+
+.transfer-round-button,
+.account-detail-back {
+  color: var(--web-ink);
+  background: var(--web-surface-2);
+}
+
+.transfer-step.active,
+.transfer-wise-form.active,
+.account-details-screen.active {
+  display: block;
+  padding: 28px;
+  border: 1px solid var(--web-line);
+  border-radius: 22px;
+  color: var(--web-ink);
+  background: var(--web-surface);
+  box-shadow: var(--web-shadow);
+}
+
+.transfer-wise-form.active {
+  display: grid;
+}
+
+.transfer-recipient-stage h3,
+.transfer-add-stage h3,
+.transfer-bank-stage h3,
+.transfer-review-stage h3,
+.account-details-chooser h3,
+.account-detail-heading h3 {
+  color: var(--web-ink);
+  font-size: clamp(2.1rem, 4vw, 4rem);
+  text-transform: none;
+}
+
+.transfer-recipient-stage,
+.transfer-add-stage,
+.transfer-bank-stage,
+.transfer-amount-stage,
+.transfer-review-stage,
+.transfer-details-stage {
+  margin-bottom: 0;
+}
+
+.transfer-recents,
+.recipient-list,
+.account-currency-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+  overflow: visible;
+}
+
+.recipient-chip,
+.recipient-list-item,
+.transfer-option-row,
+.account-currency-row {
+  min-height: 104px;
+  padding: 18px;
+  border: 1px solid var(--web-line);
+  border-radius: 16px;
+  color: var(--web-ink);
+  background: #fbfdfb;
+}
+
+.recipient-chip strong,
+.recipient-list-item strong,
+.transfer-option-row strong,
+.account-currency-row strong,
+.payment-row strong,
+.review-row strong,
+.account-detail-field strong,
+.account-fact-row strong,
+.account-availability-card strong {
+  color: var(--web-ink);
+}
+
+.recipient-chip small,
+.recipient-list-item small,
+.transfer-option-row small,
+.account-currency-row small,
+.payment-row span,
+.payment-row small,
+.review-row span,
+.account-details-chooser p,
+.account-detail-heading p,
+.account-quick-facts p,
+.account-detail-field span,
+.account-detail-field small,
+.account-availability-card p {
+  color: var(--web-muted);
+}
+
+.transfer-from-row,
+.transfer-to-row {
+  max-width: 760px;
+}
+
+.transfer-wise-form input {
+  color: var(--web-ink);
+  border-color: var(--web-line);
+  background: #fbfdfb;
+}
+
+.amount-entry input,
+.details-amount,
+.review-amount strong {
+  color: var(--web-green-dark);
+  font-size: clamp(3rem, 8vw, 6.4rem);
+}
+
+.amount-available {
+  color: var(--web-green-dark);
+  text-align: left;
+}
+
+.payment-row,
+.review-row {
+  border-color: var(--web-line);
+}
+
+.transfer-submit-button,
+.primary-button,
+.account-share-button,
+.account-fact-tab.active,
+.transfer-pill.active,
+.transfer-filter.active {
+  color: var(--web-ink);
+  background: var(--web-green);
+}
+
+.transfer-pill,
+.transfer-filter,
+.transfer-search-button,
+.currency-pill,
+.transfer-small-pill,
+.account-fact-tab {
+  color: var(--web-green-dark);
+  border: 1px solid var(--web-line);
+  background: #eef8ef;
+}
+
+.account-detail-heading,
+.account-detail-card,
+.account-fact-card,
+.account-availability-card {
+  border: 1px solid var(--web-line);
+  border-radius: 22px;
+  color: var(--web-ink);
+  background: var(--web-surface);
+  box-shadow: var(--web-shadow);
+}
+
+.account-detail-heading {
+  padding: 24px;
+}
+
+.account-detail-card {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  padding: 28px;
+  background: var(--web-surface) !important;
+}
+
+.account-detail-field {
+  padding: 18px;
+  border: 1px solid var(--web-line);
+  border-radius: 16px;
+  background: #fbfdfb;
+}
+
+.account-quick-facts h3,
+.account-quick-facts h4 {
+  color: var(--web-ink);
+}
+
+.account-fact-card {
+  padding: 24px;
+}
+
+.account-availability-card {
+  padding: 24px;
+}
+
+@media (max-width: 980px) {
+  .auth-view,
+  .dashboard-view {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-panel,
+  .auth-panel {
+    min-height: auto;
+  }
+
+  .sidebar,
+  .dashboard-view.transfer-active .sidebar,
+  .dashboard-view.account-details-active .sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .mobile-bank-hero,
+  .content-grid,
+  .overview-grid,
+  .wise-currency-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-view,
+  .dashboard-main,
+  .dashboard-view.transfer-active .dashboard-main,
+  .dashboard-view.account-details-active .dashboard-main {
+    padding: 16px !important;
+  }
+
+  .mobile-bank-hero,
+  .wise-account-header,
+  .transfer-step.active,
+  .transfer-wise-form.active,
+  .account-details-screen.active {
+    padding: 20px;
+  }
+
+  .hero-actions,
+  .transfer-recents,
+  .recipient-list,
+  .account-currency-list,
+  .account-detail-card {
+    grid-template-columns: 1fr;
+  }
+}
