@@ -18,7 +18,8 @@
           <div class="auth-nav-links">
             <span>Personal</span>
             <span>Business</span>
-            <span>Platform</span>
+            <span>Features</span>
+            <span>Pricing</span>
             <span>Help</span>
           </div>
         </div>
@@ -39,6 +40,23 @@
             <strong>1,080.42 <b>USD</b></strong>
           </div>
           <button class="preview-button" type="button">Send money</button>
+        </div>
+        <div class="landing-feature-grid" aria-label="Product highlights">
+          <article>
+            <span>01</span>
+            <strong>Send globally</strong>
+            <p>Move money between Wise-style balances with clear fees and confirmations.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Hold currencies</strong>
+            <p>View EUR, USD, NZD, AED and other account details from one dashboard.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>Stay protected</strong>
+            <p>Educational verification, audit logs, notifications and admin review tools.</p>
+          </article>
         </div>
       </div>
 
@@ -67,6 +85,7 @@
             <span class="label-text" id="loginPasswordLabel">Password</span>
             <input id="loginPassword" type="password" autocomplete="current-password" required>
           </label>
+          <button id="forgotPasswordButton" class="text-button" type="button">Forgot password?</button>
           <button class="primary-button" type="submit">Login</button>
           <p id="loginMessage" class="form-message" aria-live="polite"></p>
         </form>
@@ -104,6 +123,11 @@
             <span class="label-text" id="registerPasswordLabel">Password</span>
             <input id="registerPassword" type="password" autocomplete="new-password" minlength="6" required>
           </label>
+          <div class="password-strength" aria-live="polite">
+            <span>Password strength</span>
+            <div class="strength-track"><i id="passwordStrengthBar"></i></div>
+            <strong id="passwordStrengthText">Start typing a password</strong>
+          </div>
           <label>
             <span class="label-text" id="registerIbanLabel">Your IBAN</span>
             <input id="registerIban" type="text" autocomplete="off" placeholder="DE89 3704 0044 0532 0130 00" required>
@@ -277,6 +301,31 @@
               <strong id="spendingAmount">EUR 0.00</strong>
             </article>
           </div>
+
+          <section class="web-insights-grid" aria-label="Financial insights">
+            <article class="panel analytics-panel">
+              <div class="panel-heading">
+                <h3>Monthly analytics</h3>
+                <span class="status-pill success">Live</span>
+              </div>
+              <div class="analytics-bars">
+                <div><span>Income</span><i style="--bar: 82%"></i><strong id="analyticsIncome">EUR 0.00</strong></div>
+                <div><span>Spending</span><i style="--bar: 48%"></i><strong id="analyticsSpending">EUR 0.00</strong></div>
+                <div><span>Savings</span><i style="--bar: 35%"></i><strong id="analyticsSavings">EUR 0.00</strong></div>
+              </div>
+            </article>
+            <article class="panel rates-panel">
+              <div class="panel-heading">
+                <h3>Exchange rates</h3>
+                <span class="status-text">Educational rates</span>
+              </div>
+              <div class="rate-list">
+                <div><span>EUR → USD</span><strong>1.08</strong></div>
+                <div><span>EUR → GBP</span><strong>0.86</strong></div>
+                <div><span>EUR → NGN</span><strong>1,730.00</strong></div>
+              </div>
+            </article>
+          </section>
 
           <div class="content-grid">
             <article class="panel">

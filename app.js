@@ -680,6 +680,10 @@ const loginForm = document.querySelector("#loginForm");
 const registerForm = document.querySelector("#registerForm");
 const loginMessage = document.querySelector("#loginMessage");
 const registerMessage = document.querySelector("#registerMessage");
+const forgotPasswordButton = document.querySelector("#forgotPasswordButton");
+const registerPasswordInput = document.querySelector("#registerPassword");
+const passwordStrengthBar = document.querySelector("#passwordStrengthBar");
+const passwordStrengthText = document.querySelector("#passwordStrengthText");
 const languageButtons = document.querySelectorAll(".language-button");
 const navButtons = document.querySelectorAll(".nav-button");
 const pages = document.querySelectorAll(".page");
@@ -694,6 +698,9 @@ const mainAccountIban = document.querySelector("#mainAccountIban");
 const savingsAccountIban = document.querySelector("#savingsAccountIban");
 const incomeAmount = document.querySelector("#incomeAmount");
 const spendingAmount = document.querySelector("#spendingAmount");
+const analyticsIncome = document.querySelector("#analyticsIncome");
+const analyticsSpending = document.querySelector("#analyticsSpending");
+const analyticsSavings = document.querySelector("#analyticsSavings");
 const accountNumber = document.querySelector("#accountNumber");
 const welcomeLine = document.querySelector("#welcomeLine");
 const profileInitials = document.querySelector("#profileInitials");
@@ -1062,6 +1069,27 @@ function setMessage(element, text, type = "") {
 function setStatus(element, text, type = "") {
   element.textContent = text;
   element.className = `status-text ${type}`.trim();
+}
+
+function passwordStrength(password) {
+  let score = 0;
+  if (password.length >= 8) score += 1;
+  if (/[A-Z]/.test(password)) score += 1;
+  if (/[a-z]/.test(password)) score += 1;
+  if (/\d/.test(password)) score += 1;
+  if (/[^A-Za-z0-9]/.test(password)) score += 1;
+  return score;
+}
+
+function renderPasswordStrength() {
+  if (!passwordStrengthBar || !passwordStrengthText || !registerPasswordInput) {
+    return;
+  }
+  const score = passwordStrength(registerPasswordInput.value);
+  const labels = ["Start typing a password", "Weak", "Fair", "Good", "Strong", "Excellent"];
+  passwordStrengthBar.style.width = `${Math.max(score, registerPasswordInput.value ? 1 : 0) * 20}%`;
+  passwordStrengthBar.dataset.score = String(score);
+  passwordStrengthText.textContent = labels[score];
 }
 
 function generateCardDigits() {
@@ -1703,8 +1731,19 @@ function renderDashboard() {
   mainAccountIban.textContent = `${formatCurrency(user.balance)} • 5 currencies`;
   savingsAccountIban.textContent = maskIban(user.iban, "01");
   savingsBalance.textContent = formatCurrency(user.savings || 0);
-  incomeAmount.textContent = formatCurrency(sumActivities(user, "income"));
-  spendingAmount.textContent = formatCurrency(Math.abs(sumActivities(user, "spending")));
+  const incomeTotal = sumActivities(user, "income");
+  const spendingTotal = Math.abs(sumActivities(user, "spending"));
+  incomeAmount.textContent = formatCurrency(incomeTotal);
+  spendingAmount.textContent = formatCurrency(spendingTotal);
+  if (analyticsIncome) {
+    analyticsIncome.textContent = formatCurrency(incomeTotal);
+  }
+  if (analyticsSpending) {
+    analyticsSpending.textContent = formatCurrency(spendingTotal);
+  }
+  if (analyticsSavings) {
+    analyticsSavings.textContent = formatCurrency(user.savings || 0);
+  }
   accountNumber.textContent = `IBAN: ${user.iban || ""}`;
   cardHolderName.textContent = fullName.toUpperCase();
   cardLastDigits.textContent = user.cardLastDigits || generateCardDigits();
@@ -2860,6 +2899,10 @@ function transferMoney({ recipientEmail, recipientIban = "", amount, note }) {
 
 loginTab.addEventListener("click", () => showAuth("login"));
 registerTab.addEventListener("click", () => showAuth("register"));
+forgotPasswordButton?.addEventListener("click", () => {
+  setMessage(loginMessage, "Password reset is ready for this educational demo. Enter your registered email or user ID, then contact the admin to issue a reset code.", "success");
+});
+registerPasswordInput?.addEventListener("input", renderPasswordStrength);
 registerForm.addEventListener("submit", registerUser);
 loginForm.addEventListener("submit", loginUser);
 logoutButton.addEventListener("click", () => {
