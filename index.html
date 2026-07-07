@@ -345,6 +345,16 @@
               <div class="panel-heading">
                 <h3>Transaction history</h3>
               </div>
+              <div class="transaction-toolbar" aria-label="Transaction tools">
+                <input id="transactionSearch" type="search" placeholder="Search transactions">
+                <select id="transactionFilter" aria-label="Filter transactions">
+                  <option value="all">All</option>
+                  <option value="income">Income</option>
+                  <option value="spending">Spending</option>
+                </select>
+                <button id="exportCsvButton" class="secondary-button" type="button">Export CSV</button>
+                <button id="exportPdfButton" class="secondary-button" type="button">Export PDF</button>
+              </div>
               <ul id="activityList" class="activity-list"></ul>
             </article>
 
@@ -509,6 +519,13 @@
 
             <form id="transferForm" class="transfer-wise-form" novalidate>
               <span id="transferStatus" class="status-text"></span>
+              <ol class="transfer-progress" aria-label="Transfer progress">
+                <li data-progress-stage="recipient">Recipient</li>
+                <li data-progress-stage="amount">Amount</li>
+                <li data-progress-stage="details">Fees</li>
+                <li data-progress-stage="confirm">Review</li>
+                <li data-progress-stage="success">Success</li>
+              </ol>
               <div class="transfer-bank-strip">
                 <span id="transferModeLabel">SEPA bank transfer</span>
                 <strong id="transferModeDetail">Email and IBAN verification required</strong>
@@ -603,6 +620,16 @@
                 <div class="review-row"><span>You pay</span><strong id="reviewAmount">0 EUR</strong></div>
                 <div class="review-row"><span>Paying with</span><strong>Main account / EUR</strong></div>
                 <div class="review-row"><span>Should arrive</span><strong>in seconds</strong></div>
+              </section>
+
+              <section class="transfer-success-stage transfer-step" data-transfer-stage="success">
+                <div class="success-mark" aria-hidden="true"></div>
+                <h3>Transfer successful</h3>
+                <p id="transferSuccessMessage">Your transfer has been completed.</p>
+                <div class="success-actions">
+                  <button id="transferDoneButton" class="primary-button" type="button">Back to dashboard</button>
+                  <button id="transferReceiptButton" class="secondary-button" type="button">View transactions</button>
+                </div>
               </section>
 
               <button class="primary-button transfer-submit-button" type="submit">Send now</button>

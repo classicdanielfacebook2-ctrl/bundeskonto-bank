@@ -1,3 +1,5 @@
+import { initInterfaceEnhancements } from "./src/ui-enhancements.js";
+
 const STORAGE_KEY = "eurotrustBankingState";
 const STARTING_BALANCE = 60000;
 const ADMIN_BALANCE = 6000000;
@@ -725,6 +727,10 @@ const messageBadge = document.querySelector("#messageBadge");
 const messagesCount = document.querySelector("#messagesCount");
 const messagesList = document.querySelector("#messagesList");
 const activityList = document.querySelector("#activityList");
+const transactionSearch = document.querySelector("#transactionSearch");
+const transactionFilter = document.querySelector("#transactionFilter");
+const exportCsvButton = document.querySelector("#exportCsvButton");
+const exportPdfButton = document.querySelector("#exportPdfButton");
 const accountDetailsBackButton = document.querySelector("#accountDetailsBackButton");
 const accountCurrencyBackButton = document.querySelector("#accountCurrencyBackButton");
 const accountDetailCode = document.querySelector("#accountDetailCode");
@@ -763,6 +769,9 @@ const transferSearchButton = document.querySelector("#transferSearchButton");
 const searchWiseButton = document.querySelector("#searchWiseButton");
 const bankDetailsButton = document.querySelector("#bankDetailsButton");
 const invoiceUploadButton = document.querySelector("#invoiceUploadButton");
+const transferSuccessMessage = document.querySelector("#transferSuccessMessage");
+const transferDoneButton = document.querySelector("#transferDoneButton");
+const transferReceiptButton = document.querySelector("#transferReceiptButton");
 const settingsForm = document.querySelector("#settingsForm");
 const settingsStatus = document.querySelector("#settingsStatus");
 const profileDetailName = document.querySelector("#profileDetailName");
@@ -1928,8 +1937,24 @@ function closeReceipt() {
 
 function renderActivities(activities) {
   activityList.innerHTML = "";
+  const searchTerm = (transactionSearch?.value || "").trim().toLowerCase();
+  const filter = transactionFilter?.value || "all";
+  const visibleActivities = activities.filter((activity) => {
+    const text = [
+      translateActivityText(activity, "title"),
+      translateActivityText(activity, "note"),
+      activity.date,
+      formatCurrency(activity.amount)
+    ].join(" ").toLowerCase();
+    const matchesSearch = !searchTerm || text.includes(searchTerm);
+    const matchesFilter =
+      filter === "all" ||
+      (filter === "income" && activity.amount > 0) ||
+      (filter === "spending" && activity.amount < 0);
+    return matchesSearch && matchesFilter;
+  });
 
-  if (activities.length === 0) {
+  if (visibleActivities.length === 0) {
     const emptyItem = document.createElement("li");
     emptyItem.className = "activity-empty";
     const details = document.createElement("div");
@@ -1943,7 +1968,7 @@ function renderActivities(activities) {
     return;
   }
 
-  activities.slice(0, 12).forEach((activity) => {
+  visibleActivities.slice(0, 12).forEach((activity) => {
     const item = document.createElement("li");
     const icon = document.createElement("span");
     const details = document.createElement("div");
@@ -2033,6 +2058,50 @@ function renderMessages(notifications) {
     item.append(details, status);
     messagesList.append(item);
   });
+}
+
+function downloadTextFile(filename, content, type = "text/plain") {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
+function currentActivityRows() {
+  const user = getCurrentUser();
+  return (user?.activities || []).map((activity) => ({
+    date: activity.date,
+    title: translateActivityText(activity, "title"),
+    note: translateActivityText(activity, "note"),
+    amount: formatCurrency(activity.amount),
+    status: findTransactionForActivity(activity) ? "Completed" : "Recorded"
+  }));
+}
+
+function exportTransactionsCsv() {
+  const rows = currentActivityRows();
+  const header = ["Date", "Title", "Note", "Amount", "Status"];
+  const csv = [
+    header.join(","),
+    ...rows.map((row) =>
+      header.map((key) => `"${String(row[key.toLowerCase()] || "").replace(/"/g, '""')}"`).join(",")
+    )
+  ].join("\n");
+  downloadTextFile(`transactions-${Date.now()}.csv`, csv, "text/csv");
+}
+
+function exportTransactionsPdf() {
+  const rows = currentActivityRows();
+  const text = [
+    "Transaction statement",
+    `Generated: ${localDateTime()}`,
+    "",
+    ...rows.map((row) => `${row.date} | ${row.title} | ${row.note} | ${row.amount} | ${row.status}`)
+  ].join("\n");
+  downloadTextFile(`transactions-${Date.now()}.txt`, text, "text/plain");
 }
 
 function renderSavingsProgress(value) {
@@ -2982,6 +3051,19 @@ document.querySelectorAll("[data-page-target]").forEach((button) => {
   button.addEventListener("click", () => switchPage(button.dataset.pageTarget));
 });
 
+transactionSearch?.addEventListener("input", () => {
+  const user = getCurrentUser();
+  renderActivities(user?.activities || []);
+});
+
+transactionFilter?.addEventListener("change", () => {
+  const user = getCurrentUser();
+  renderActivities(user?.activities || []);
+});
+
+exportCsvButton?.addEventListener("click", exportTransactionsCsv);
+exportPdfButton?.addEventListener("click", exportTransactionsPdf);
+
 accountDetailsBackButton?.addEventListener("click", () => switchPage("overview"));
 accountCurrencyBackButton?.addEventListener("click", () => setAccountDetailsScreen("chooser"));
 
@@ -3032,13 +3114,20 @@ shareAccountDetailsButton?.addEventListener("click", async () => {
 let transferStage = "recipient";
 
 function isTransferFormStage(stage) {
-  return ["bank", "amount", "details", "confirm"].includes(stage);
+  return ["bank", "amount", "details", "confirm", "success"].includes(stage);
 }
 
 function setTransferStage(stage) {
   transferStage = stage;
   document.querySelectorAll(".transfer-step").forEach((section) => {
     section.classList.toggle("active", section.dataset.transferStage === stage);
+  });
+  document.querySelectorAll("[data-progress-stage]").forEach((item) => {
+    const order = ["recipient", "amount", "details", "confirm", "success"];
+    const currentIndex = order.indexOf(stage);
+    const itemIndex = order.indexOf(item.dataset.progressStage);
+    item.classList.toggle("active", itemIndex === currentIndex);
+    item.classList.toggle("complete", itemIndex >= 0 && itemIndex < currentIndex);
   });
   if (transferForm) {
     transferForm.classList.toggle("active", isTransferFormStage(stage));
@@ -3051,6 +3140,7 @@ function setTransferStage(stage) {
   }
   const buttonText = stage === "confirm" ? t("sendNow") : "Continue";
   transferForm?.querySelector(".primary-button").replaceChildren(document.createTextNode(buttonText));
+  transferForm?.querySelector(".transfer-submit-button")?.classList.toggle("hidden", stage === "success");
   setStatus(transferStatus, "", "");
   updateTransferPreview();
   document.querySelector("#transferPage")?.scrollTo({ top: 0, behavior: "smooth" });
@@ -3139,6 +3229,17 @@ invoiceUploadButton?.addEventListener("click", () => {
   setStatus(transferStatus, "Upload review is simulated. Enter email and IBAN to continue.", "success");
 });
 
+transferDoneButton?.addEventListener("click", () => {
+  setTransferStage("recipient");
+  switchPage("overview");
+});
+
+transferReceiptButton?.addEventListener("click", () => {
+  setTransferStage("recipient");
+  switchPage("overview");
+  activityList?.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
 quickTransferForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const result = transferMoney({
@@ -3183,10 +3284,12 @@ transferForm.addEventListener("submit", (event) => {
   });
   setStatus(transferStatus, result.message, result.ok ? "success" : "error");
   if (result.ok) {
+    if (transferSuccessMessage) {
+      transferSuccessMessage.textContent = result.message;
+    }
     transferForm.reset();
     updateTransferPreview();
-    setTransferStage("recipient");
-    switchPage("overview");
+    setTransferStage("success");
   }
 });
 
@@ -3465,6 +3568,7 @@ settingsForm.addEventListener("submit", (event) => {
 
 migrateState();
 applyTranslations();
+initInterfaceEnhancements();
 
 if (getCurrentUser()) {
   showDashboard();
