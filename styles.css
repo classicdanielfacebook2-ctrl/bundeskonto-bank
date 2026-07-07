@@ -8453,6 +8453,14 @@ button:active,
   align-items:stretch !important;
 }
 
+.mobile-card-carousel {
+  min-width:0 !important;
+}
+
+.mobile-card-carousel .bank-card + .bank-card {
+  display:none !important;
+}
+
 .cards-layout .card-activity-panel {
   grid-column:1 / -1 !important;
 }
@@ -8732,5 +8740,850 @@ button[disabled] {
   #dashboardView:not(.hidden) .topbar,
   #dashboardView:not(.hidden) .dashboard-menu-row {
     align-items:stretch !important;
+  }
+}
+
+/* Dedicated mobile banking app experience: 0-767px */
+@media (max-width:767px) {
+  html,
+  body {
+    width:100% !important;
+    max-width:100% !important;
+    overflow-x:hidden !important;
+    background:#F7F9FA !important;
+  }
+
+  body {
+    padding:0 !important;
+    overscroll-behavior-y:contain !important;
+  }
+
+  .app-shell {
+    width:100% !important;
+    max-width:100% !important;
+    overflow-x:hidden !important;
+  }
+
+  #dashboardView:not(.hidden),
+  #dashboardView:not(.hidden).transfer-active,
+  #dashboardView:not(.hidden).account-details-active {
+    display:block !important;
+    width:100% !important;
+    min-height:100dvh !important;
+    overflow-x:hidden !important;
+    background:
+      radial-gradient(circle at 86% -5%, color-mix(in srgb, var(--premium-accent) 28%, transparent), transparent 240px),
+      #F7F9FA !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar,
+  #dashboardView:not(.hidden).transfer-active .sidebar,
+  #dashboardView:not(.hidden).account-details-active .sidebar {
+    position:fixed !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:0 !important;
+    top:auto !important;
+    width:100% !important;
+    height:74px !important;
+    min-height:74px !important;
+    padding:8px max(12px, env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-right)) !important;
+    display:block !important;
+    border:0 !important;
+    border-top:1px solid rgba(229,231,235,.92) !important;
+    border-radius:24px 24px 0 0 !important;
+    background:rgba(255,255,255,.94) !important;
+    box-shadow:0 -18px 44px rgba(17,24,39,.12) !important;
+    backdrop-filter:blur(18px) !important;
+    overflow:visible !important;
+    z-index:90 !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar-brand,
+  #dashboardView:not(.hidden) .sidebar-language,
+  #dashboardView:not(.hidden).transfer-active .sidebar-brand,
+  #dashboardView:not(.hidden).transfer-active .sidebar-language,
+  #dashboardView:not(.hidden).account-details-active .sidebar-brand,
+  #dashboardView:not(.hidden).account-details-active .sidebar-language {
+    display:none !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar nav,
+  #dashboardView:not(.hidden).transfer-active .sidebar nav,
+  #dashboardView:not(.hidden).account-details-active .sidebar nav {
+    width:100% !important;
+    height:100% !important;
+    display:grid !important;
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:6px !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button,
+  #dashboardView:not(.hidden).transfer-active .nav-button,
+  #dashboardView:not(.hidden).account-details-active .nav-button {
+    width:100% !important;
+    min-width:0 !important;
+    min-height:56px !important;
+    height:56px !important;
+    padding:28px 4px 6px !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    border-radius:18px !important;
+    border:1px solid transparent !important;
+    font-size:11px !important;
+    line-height:1 !important;
+    font-weight:900 !important;
+    white-space:nowrap !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button::before,
+  #dashboardView:not(.hidden).transfer-active .nav-button::before,
+  #dashboardView:not(.hidden).account-details-active .nav-button::before {
+    display:block !important;
+    left:50% !important;
+    top:9px !important;
+    width:17px !important;
+    height:17px !important;
+    transform:translateX(-50%) !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button[data-page="transfer"]::before {
+    transform:translateX(-50%) rotate(-45deg) !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button.active {
+    background:color-mix(in srgb, var(--premium-accent) 76%, white) !important;
+    box-shadow:none !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-main,
+  #dashboardView:not(.hidden).transfer-active .dashboard-main,
+  #dashboardView:not(.hidden).account-details-active .dashboard-main {
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin:0 !important;
+    padding:92px 14px calc(104px + env(safe-area-inset-bottom)) !important;
+    overflow-x:hidden !important;
+    background:transparent !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-menu-row,
+  #dashboardView:not(.hidden).transfer-active .dashboard-menu-row,
+  #dashboardView:not(.hidden).account-details-active .dashboard-menu-row {
+    position:fixed !important;
+    top:0 !important;
+    left:0 !important;
+    right:0 !important;
+    width:100% !important;
+    height:72px !important;
+    min-height:72px !important;
+    margin:0 !important;
+    padding:12px 14px !important;
+    display:grid !important;
+    grid-template-columns:1fr 56px !important;
+    align-items:center !important;
+    gap:10px !important;
+    background:rgba(247,249,250,.92) !important;
+    border-bottom:1px solid rgba(229,231,235,.78) !important;
+    backdrop-filter:blur(18px) !important;
+    z-index:80 !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-menu-row::before {
+    content:"wise" !important;
+    position:absolute !important;
+    left:50% !important;
+    top:16px !important;
+    transform:translateX(-50%) !important;
+    height:40px !important;
+    min-width:74px !important;
+    display:grid !important;
+    place-items:center !important;
+    border-radius:999px !important;
+    color:var(--premium-primary) !important;
+    background:var(--premium-accent) !important;
+    font-size:15px !important;
+    font-weight:950 !important;
+    box-shadow:0 12px 26px color-mix(in srgb, var(--premium-accent) 26%, transparent) !important;
+  }
+
+  #dashboardView:not(.hidden) .earn-button {
+    justify-self:start !important;
+    min-width:0 !important;
+    width:56px !important;
+    height:48px !important;
+    min-height:48px !important;
+    padding:0 !important;
+    border-radius:16px !important;
+    font-size:0 !important;
+  }
+
+  #dashboardView:not(.hidden) .earn-button::before {
+    content:"+" !important;
+    font-size:26px !important;
+    line-height:1 !important;
+    font-weight:900 !important;
+  }
+
+  #dashboardView:not(.hidden) .menu-button {
+    grid-column:2 !important;
+    justify-self:end !important;
+    width:56px !important;
+    height:48px !important;
+    min-height:48px !important;
+    border-radius:16px !important;
+    background:#fff !important;
+  }
+
+  #dashboardView:not(.hidden) .account-menu {
+    position:fixed !important;
+    top:76px !important;
+    left:14px !important;
+    right:14px !important;
+    width:auto !important;
+    max-height:calc(100dvh - 170px) !important;
+    overflow-y:auto !important;
+    border-radius:24px !important;
+    z-index:100 !important;
+  }
+
+  #dashboardView:not(.hidden) .topbar {
+    position:relative !important;
+    min-height:auto !important;
+    display:grid !important;
+    grid-template-columns:1fr auto !important;
+    gap:12px !important;
+    margin:0 0 16px !important;
+    padding:0 !important;
+  }
+
+  #dashboardView:not(.hidden) .topbar h2,
+  #dashboardView:not(.hidden) #pageTitle {
+    font-size:32px !important;
+    line-height:1 !important;
+    letter-spacing:0 !important;
+  }
+
+  #dashboardView:not(.hidden) .topbar .eyebrow {
+    font-size:12px !important;
+    margin-bottom:4px !important;
+  }
+
+  #dashboardView:not(.hidden) .profile-chip {
+    width:54px !important;
+    min-width:54px !important;
+    max-width:54px !important;
+    height:54px !important;
+    padding:0 !important;
+    display:grid !important;
+    place-items:center !important;
+    border-radius:18px !important;
+    overflow:hidden !important;
+  }
+
+  #dashboardView:not(.hidden) .profile-chip > div {
+    display:none !important;
+  }
+
+  #dashboardView:not(.hidden) .profile-chip > span {
+    width:42px !important;
+    height:42px !important;
+    display:grid !important;
+    place-items:center !important;
+  }
+
+  .wise-account-header {
+    min-height:auto !important;
+    margin-bottom:14px !important;
+    padding:16px !important;
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:space-between !important;
+    gap:12px !important;
+    border-radius:22px !important;
+  }
+
+  .wise-account-header h3 {
+    font-size:24px !important;
+  }
+
+  .wise-account-header .primary-button {
+    width:auto !important;
+    min-width:118px !important;
+    min-height:52px !important;
+    padding:0 18px !important;
+  }
+
+  .mobile-bank-hero {
+    width:100% !important;
+    min-height:0 !important;
+    margin:0 0 14px !important;
+    padding:0 !important;
+    display:block !important;
+    border:0 !important;
+    border-radius:0 !important;
+    background:transparent !important;
+    box-shadow:none !important;
+    overflow:visible !important;
+  }
+
+  .mobile-bank-hero::before,
+  .mobile-bank-hero::after,
+  .hero-icon-row {
+    display:none !important;
+    content:none !important;
+  }
+
+  .hero-balance-layout,
+  .balance-dial {
+    width:100% !important;
+    min-height:220px !important;
+    height:auto !important;
+  }
+
+  .balance-dial {
+    padding:22px !important;
+    border-radius:28px !important;
+    background:
+      radial-gradient(circle at 78% 18%, rgba(255,255,255,.88), transparent 118px),
+      linear-gradient(150deg, color-mix(in srgb, var(--premium-accent) 50%, #F8FFF6), #EAF7FF) !important;
+    box-shadow:0 18px 42px rgba(17,24,39,.10) !important;
+  }
+
+  .balance-dial strong,
+  #heroBalanceAmount {
+    font-size:clamp(50px,15vw,68px) !important;
+    line-height:.9 !important;
+    margin:14px 0 8px !important;
+  }
+
+  .balance-growth,
+  .balance-updated {
+    font-size:13px !important;
+    line-height:1.45 !important;
+  }
+
+  .balance-tools {
+    margin-top:12px !important;
+  }
+
+  .balance-tool {
+    min-width:56px !important;
+    width:56px !important;
+    height:56px !important;
+    border-radius:18px !important;
+  }
+
+  .hero-actions {
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    gap:10px !important;
+    margin-top:12px !important;
+  }
+
+  .hero-action {
+    min-width:0 !important;
+    min-height:96px !important;
+    height:auto !important;
+    padding:14px !important;
+    border-radius:20px !important;
+  }
+
+  .action-icon {
+    width:34px !important;
+    height:34px !important;
+    border-radius:12px !important;
+  }
+
+  .action-icon::before,
+  .action-icon::after {
+    inset:10px !important;
+  }
+
+  .hero-action strong {
+    margin-top:10px !important;
+    font-size:15px !important;
+  }
+
+  .hero-action small {
+    display:none !important;
+  }
+
+  .wise-currency-strip {
+    width:100% !important;
+    display:flex !important;
+    gap:10px !important;
+    margin:0 0 14px !important;
+    overflow-x:auto !important;
+    scroll-snap-type:x mandatory !important;
+    scrollbar-width:none !important;
+    padding-bottom:2px !important;
+  }
+
+  .wise-currency-strip::-webkit-scrollbar {
+    display:none !important;
+  }
+
+  .currency-tile {
+    flex:0 0 78% !important;
+    min-height:122px !important;
+    padding:18px !important;
+    border-radius:22px !important;
+    scroll-snap-align:start !important;
+  }
+
+  .currency-tile strong {
+    font-size:28px !important;
+  }
+
+  .accounts-section,
+  .overview-grid,
+  .web-insights-grid,
+  .content-grid,
+  .settings-grid,
+  .cards-layout {
+    width:100% !important;
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:12px !important;
+    margin:0 0 14px !important;
+  }
+
+  .accounts-section,
+  .panel,
+  .balance-card,
+  .metric-card,
+  .wise-account-header {
+    width:100% !important;
+    box-sizing:border-box !important;
+    border-radius:22px !important;
+    padding:18px !important;
+  }
+
+  .account-row {
+    width:100% !important;
+    grid-template-columns:44px minmax(0,1fr) !important;
+    gap:12px !important;
+    padding:14px !important;
+    border-radius:18px !important;
+  }
+
+  .account-row > strong,
+  .account-row .account-details-button {
+    grid-column:2 !important;
+    justify-self:start !important;
+  }
+
+  .account-row .account-details-button {
+    width:100% !important;
+    min-height:52px !important;
+    margin-top:8px !important;
+  }
+
+  .overview-grid {
+    display:none !important;
+  }
+
+  .web-insights-grid {
+    margin-top:0 !important;
+  }
+
+  .analytics-panel,
+  .rates-panel,
+  .content-grid .panel,
+  .settings-grid .panel {
+    min-height:auto !important;
+  }
+
+  .analytics-bars div {
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+  }
+
+  .analytics-chart {
+    width:100% !important;
+    height:126px !important;
+  }
+
+  .analytics-summary-grid {
+    grid-template-columns:1fr !important;
+  }
+
+  .rate-list {
+    gap:10px !important;
+  }
+
+  .rate-list div {
+    min-height:70px !important;
+    grid-template-columns:1fr auto !important;
+    padding:14px !important;
+    border-radius:18px !important;
+  }
+
+  .rate-list div::after {
+    grid-column:2 !important;
+    justify-self:end !important;
+  }
+
+  .transaction-toolbar {
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  .transaction-toolbar input,
+  .transaction-toolbar select,
+  .transaction-toolbar button,
+  .stacked-form input,
+  .dashboard-form input,
+  .transfer-wise-form input,
+  .transfer-wise-form select,
+  .search-input {
+    width:100% !important;
+    min-height:56px !important;
+    border-radius:18px !important;
+    font-size:16px !important;
+  }
+
+  .primary-button,
+  .secondary-button,
+  .text-button,
+  .logout-button,
+  .account-share-button {
+    width:100% !important;
+    min-height:56px !important;
+    border-radius:18px !important;
+  }
+
+  .activity-list {
+    gap:10px !important;
+  }
+
+  .activity-list li {
+    width:100% !important;
+    min-height:84px !important;
+    grid-template-columns:48px minmax(0,1fr) !important;
+    gap:12px !important;
+    padding:14px !important;
+    border-radius:20px !important;
+  }
+
+  .activity-list li > *:last-child {
+    grid-column:2 !important;
+    justify-self:start !important;
+  }
+
+  .cards-layout {
+    display:block !important;
+  }
+
+  .mobile-card-carousel {
+    width:100% !important;
+    display:flex !important;
+    gap:12px !important;
+    overflow-x:auto !important;
+    scroll-snap-type:x mandatory !important;
+    scrollbar-width:none !important;
+    padding:0 0 4px !important;
+    margin-bottom:10px !important;
+  }
+
+  .mobile-card-carousel::-webkit-scrollbar {
+    display:none !important;
+  }
+
+  .mobile-card-carousel .bank-card,
+  .mobile-card-carousel .bank-card + .bank-card {
+    display:flex !important;
+    flex:0 0 88% !important;
+    scroll-snap-align:center !important;
+  }
+
+  .mobile-card-carousel .card-preview-secondary {
+    background:
+      radial-gradient(circle at 88% 10%, rgba(255,255,255,.24), transparent 130px),
+      linear-gradient(135deg, #0B315C, #006A8A 52%, #00B9FF) !important;
+  }
+
+  .mobile-card-carousel .card-preview-muted {
+    background:
+      radial-gradient(circle at 88% 10%, rgba(255,255,255,.22), transparent 130px),
+      linear-gradient(135deg, #2B2241, #44316B 52%, #9FE870) !important;
+  }
+
+  .cards-layout .bank-card {
+    width:100% !important;
+    min-height:230px !important;
+    margin:0 0 10px !important;
+    padding:24px !important;
+    border-radius:28px !important;
+  }
+
+  .bank-card strong {
+    font-size:20px !important;
+  }
+
+  .bank-card p {
+    font-size:20px !important;
+  }
+
+  .mobile-card-carousel::after {
+    content:"" !important;
+    display:block !important;
+    flex:0 0 44px !important;
+    width:44px !important;
+    height:8px !important;
+    align-self:end !important;
+    margin:0 8px 12px 0 !important;
+    border-radius:999px !important;
+    background:linear-gradient(90deg, var(--premium-accent) 0 45%, #D1D5DB 45% 100%) !important;
+  }
+
+  .card-control-grid {
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  .card-control-grid .secondary-button {
+    min-height:56px !important;
+    justify-content:center !important;
+    align-items:center !important;
+    text-align:center !important;
+  }
+
+  .card-activity-list li {
+    grid-template-columns:48px minmax(0,1fr) !important;
+  }
+
+  .card-activity-list li b {
+    grid-column:2 !important;
+    justify-self:start !important;
+  }
+
+  #transferPage,
+  #accountDetailsPage {
+    width:100% !important;
+    overflow-x:hidden !important;
+  }
+
+  .transfer-panel,
+  .account-details-mobile {
+    width:100% !important;
+    max-width:100% !important;
+    padding:0 !important;
+  }
+
+  .transfer-mobile-top,
+  .account-detail-top {
+    padding:14px !important;
+    border-radius:22px !important;
+    margin-bottom:14px !important;
+  }
+
+  .transfer-top-actions {
+    display:flex !important;
+    gap:8px !important;
+  }
+
+  .transfer-pill,
+  .transfer-filter,
+  .transfer-search-button,
+  .currency-pill,
+  .transfer-small-pill,
+  .account-fact-tab {
+    min-height:48px !important;
+    border-radius:16px !important;
+  }
+
+  .transfer-recipient-stage h3,
+  .transfer-add-stage h3,
+  .transfer-bank-stage h3,
+  .transfer-review-stage h3,
+  .transfer-success-stage h3,
+  .account-details-chooser h3,
+  .account-detail-heading h3,
+  #accountDetailTitle {
+    font-size:32px !important;
+    line-height:1.05 !important;
+  }
+
+  .transfer-recents,
+  .recipient-list,
+  .account-currency-list,
+  .account-detail-card {
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+
+  .recipient-chip,
+  .recipient-list-item,
+  .transfer-option-row,
+  .account-currency-row {
+    min-height:72px !important;
+    border-radius:20px !important;
+    padding:14px !important;
+  }
+
+  .amount-entry input,
+  .details-amount,
+  .review-amount strong {
+    font-size:56px !important;
+  }
+
+  .payment-row,
+  .review-row,
+  .settings-option-row {
+    grid-template-columns:48px minmax(0,1fr) !important;
+    gap:12px !important;
+    padding:14px 0 !important;
+  }
+
+  .receipt-sheet {
+    width:calc(100% - 20px) !important;
+    max-height:calc(100dvh - 24px) !important;
+    border-radius:24px !important;
+  }
+}
+
+/* Tablet layout: 768-1023px */
+@media (min-width:768px) and (max-width:1023px) {
+  #dashboardView:not(.hidden) {
+    display:grid !important;
+    grid-template-columns:1fr !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar {
+    position:sticky !important;
+    top:0 !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    padding:16px 24px !important;
+    display:grid !important;
+    grid-template-columns:auto 1fr auto !important;
+    gap:18px !important;
+    align-items:center !important;
+    border-right:0 !important;
+    border-bottom:1px solid var(--premium-line) !important;
+    z-index:70 !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar-brand,
+  #dashboardView:not(.hidden) .sidebar-language {
+    display:flex !important;
+    margin:0 !important;
+    padding:0 !important;
+    border:0 !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar nav {
+    display:grid !important;
+    grid-template-columns:repeat(4, minmax(0,1fr)) !important;
+    gap:8px !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button {
+    min-height:48px !important;
+    padding:0 12px !important;
+    justify-content:center !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button::before {
+    display:none !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-main {
+    padding:28px 24px 56px !important;
+  }
+
+  .mobile-bank-hero,
+  .web-insights-grid,
+  .content-grid,
+  .cards-layout {
+    grid-template-columns:1fr !important;
+  }
+
+  .hero-actions,
+  .wise-currency-strip {
+    grid-template-columns:repeat(2, minmax(0,1fr)) !important;
+  }
+}
+
+@media (max-width:767px) {
+  .button-ripple {
+    display:none !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-menu-row,
+  #dashboardView:not(.hidden).transfer-active .dashboard-menu-row,
+  #dashboardView:not(.hidden).account-details-active .dashboard-menu-row {
+    grid-template-columns:56px 1fr 56px 56px !important;
+    gap:8px !important;
+  }
+
+  #dashboardView:not(.hidden) .menu-button {
+    grid-column:1 !important;
+    grid-row:1 !important;
+    justify-self:start !important;
+  }
+
+  #dashboardView:not(.hidden) .earn-button {
+    grid-column:3 !important;
+    grid-row:1 !important;
+    justify-self:end !important;
+    background:#fff !important;
+    border-color:var(--premium-line) !important;
+    box-shadow:0 8px 18px rgba(17,24,39,.06) !important;
+  }
+
+  #dashboardView:not(.hidden) .earn-button::before {
+    content:"" !important;
+    width:22px !important;
+    height:22px !important;
+    border:2px solid var(--premium-primary) !important;
+    border-radius:8px 8px 10px 10px !important;
+    border-top-width:3px !important;
+    box-shadow:0 -7px 0 -4px var(--premium-primary) !important;
+  }
+
+  #dashboardView:not(.hidden) .profile-chip {
+    position:fixed !important;
+    top:12px !important;
+    right:14px !important;
+    z-index:86 !important;
+    box-shadow:0 10px 24px rgba(17,24,39,.08) !important;
+  }
+
+  #dashboardView:not(.hidden) .topbar {
+    grid-template-columns:1fr !important;
+  }
+
+  .wise-currency-strip {
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    overflow:visible !important;
+    scroll-snap-type:none !important;
+    gap:10px !important;
+  }
+
+  .currency-tile {
+    flex:none !important;
+    width:100% !important;
+    min-height:104px !important;
+    scroll-snap-align:none !important;
+  }
+
+  .currency-tile strong,
+  .currency-tile small {
+    max-width:100% !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
   }
 }

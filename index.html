@@ -675,13 +675,29 @@
 
         <section id="cardsPage" class="page">
           <div class="cards-layout">
-            <article class="bank-card">
-              <div class="card-chip"></div>
-              <span id="cardProductLabel">BundesKonto Debit</span>
-              <strong id="cardHolderName">ACCOUNT HOLDER</strong>
-              <p>**** **** **** <span id="cardLastDigits">4829</span></p>
-              <small id="cardState">Card active</small>
-            </article>
+            <div class="mobile-card-carousel" aria-label="Card previews">
+              <article class="bank-card">
+                <div class="card-chip"></div>
+                <span id="cardProductLabel">BundesKonto Debit</span>
+                <strong id="cardHolderName">ACCOUNT HOLDER</strong>
+                <p>**** **** **** <span id="cardLastDigits">4829</span></p>
+                <small id="cardState">Card active</small>
+              </article>
+              <article class="bank-card card-preview-secondary" aria-hidden="true">
+                <div class="card-chip"></div>
+                <span>Virtual Debit</span>
+                <strong>ONLINE CARD</strong>
+                <p>**** **** **** 2184</p>
+                <small>Ready for online payments</small>
+              </article>
+              <article class="bank-card card-preview-muted" aria-hidden="true">
+                <div class="card-chip"></div>
+                <span>Savings Card</span>
+                <strong>VAULT ACCESS</strong>
+                <p>**** **** **** 9041</p>
+                <small>Freeze status: active</small>
+              </article>
+            </div>
             <article class="panel">
               <div class="panel-heading">
                 <h3>Card controls</h3>
