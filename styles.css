@@ -9516,6 +9516,294 @@ button[disabled] {
   }
 }
 
+/* Withdrawal verification flow */
+.withdrawal-verification-page {
+  min-height:640px !important;
+}
+
+.verification-phone-screen {
+  width:min(430px, 100%) !important;
+  min-height:min(780px, calc(100dvh - 140px)) !important;
+  margin:0 auto !important;
+  padding:28px !important;
+  color:#F8FAFC !important;
+  border-radius:34px !important;
+  background:
+    radial-gradient(circle at 86% -8%, rgba(159,232,112,.18), transparent 220px),
+    linear-gradient(180deg, #101411 0%, #080C09 100%) !important;
+  box-shadow:0 32px 80px rgba(17,24,39,.22) !important;
+}
+
+.verification-phone-screen h3 {
+  max-width:320px !important;
+  margin:54px 0 34px !important;
+  color:#F8FAFC !important;
+  font-size:42px !important;
+  line-height:1.02 !important;
+  font-weight:950 !important;
+  letter-spacing:0 !important;
+}
+
+.verification-back-button {
+  width:56px !important;
+  height:56px !important;
+  min-height:56px !important;
+  display:grid !important;
+  place-items:center !important;
+  border:0 !important;
+  border-radius:999px !important;
+  color:#F8FAFC !important;
+  background:rgba(255,255,255,.1) !important;
+}
+
+.verification-back-button::before {
+  content:"" !important;
+  width:15px !important;
+  height:15px !important;
+  border-left:3px solid currentColor !important;
+  border-bottom:3px solid currentColor !important;
+  transform:rotate(45deg) translate(2px,-2px) !important;
+}
+
+.verification-list {
+  display:grid !important;
+  gap:12px !important;
+}
+
+.verification-row {
+  width:100% !important;
+  min-height:76px !important;
+  display:grid !important;
+  grid-template-columns:56px minmax(0,1fr) auto !important;
+  gap:16px !important;
+  align-items:center !important;
+  padding:12px 4px !important;
+  border:0 !important;
+  border-radius:22px !important;
+  color:#F8FAFC !important;
+  background:transparent !important;
+  text-align:left !important;
+}
+
+.verification-row:hover,
+.verification-row:focus-visible {
+  background:rgba(255,255,255,.08) !important;
+}
+
+.verification-row strong {
+  display:block !important;
+  color:#F8FAFC !important;
+  font-size:20px !important;
+  line-height:1.15 !important;
+  font-weight:900 !important;
+}
+
+.verification-row small {
+  display:block !important;
+  margin-top:5px !important;
+  color:rgba(248,250,252,.64) !important;
+  font-size:14px !important;
+}
+
+.verification-row b {
+  color:rgba(248,250,252,.76) !important;
+  font-size:34px !important;
+  line-height:1 !important;
+  font-weight:400 !important;
+}
+
+.country-flag,
+.bank-logo {
+  width:56px !important;
+  height:56px !important;
+  display:grid !important;
+  place-items:center !important;
+  flex:0 0 auto !important;
+  border-radius:18px !important;
+  color:#102411 !important;
+  background:#F8FAFC !important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.12) !important;
+  font-size:25px !important;
+  font-weight:950 !important;
+}
+
+.bank-logo {
+  color:#163300 !important;
+  background:linear-gradient(135deg, #F8FAFC, #9FE870) !important;
+  font-size:16px !important;
+}
+
+.bank-row:nth-child(2n) .bank-logo {
+  background:linear-gradient(135deg, #F8FAFC, #00B9FF) !important;
+}
+
+.bank-row:nth-child(3n) .bank-logo {
+  background:linear-gradient(135deg, #F8FAFC, #D7FBC2) !important;
+}
+
+.confirm-withdrawal-screen {
+  display:flex !important;
+  flex-direction:column !important;
+}
+
+.confirm-bank-hero {
+  display:grid !important;
+  justify-items:center !important;
+  text-align:center !important;
+  margin:18px 0 34px !important;
+}
+
+.confirm-bank-hero .bank-logo {
+  width:96px !important;
+  height:96px !important;
+  border-radius:30px !important;
+  font-size:28px !important;
+}
+
+.confirm-bank-hero h3 {
+  margin:18px 0 8px !important;
+  max-width:100% !important;
+  font-size:30px !important;
+}
+
+.confirm-bank-hero p {
+  margin:0 !important;
+  color:rgba(248,250,252,.68) !important;
+}
+
+.withdrawal-info-list {
+  display:grid !important;
+  gap:18px !important;
+  margin-bottom:28px !important;
+}
+
+.withdrawal-info-list section {
+  display:grid !important;
+  grid-template-columns:52px minmax(0,1fr) !important;
+  gap:14px !important;
+  align-items:start !important;
+  padding:0 !important;
+  color:#F8FAFC !important;
+}
+
+.withdrawal-info-list strong {
+  display:block !important;
+  color:#F8FAFC !important;
+  font-size:19px !important;
+  line-height:1.2 !important;
+}
+
+.withdrawal-info-list p {
+  margin:6px 0 0 !important;
+  color:rgba(248,250,252,.68) !important;
+  font-size:14px !important;
+  line-height:1.45 !important;
+}
+
+.info-icon {
+  width:52px !important;
+  height:52px !important;
+  border-radius:18px !important;
+  background:rgba(159,232,112,.16) !important;
+  position:relative !important;
+}
+
+.info-icon::before {
+  content:"" !important;
+  position:absolute !important;
+  inset:15px !important;
+  border:3px solid #9FE870 !important;
+  border-radius:7px !important;
+}
+
+.instant-icon::before {
+  border-left:0 !important;
+  border-bottom:0 !important;
+  transform:skew(-12deg) rotate(45deg) !important;
+}
+
+.approve-icon::before {
+  border-radius:999px !important;
+}
+
+.secure-icon::before {
+  border-radius:8px 8px 12px 12px !important;
+  border-top-width:5px !important;
+}
+
+.verification-continue-button {
+  width:100% !important;
+  min-height:62px !important;
+  margin-top:auto !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+  border:0 !important;
+  border-radius:999px !important;
+  color:#163300 !important;
+  background:#9FE870 !important;
+  font-size:18px !important;
+  font-weight:950 !important;
+  box-shadow:0 18px 42px rgba(159,232,112,.22) !important;
+}
+
+.button-spinner {
+  width:20px !important;
+  height:20px !important;
+  border:3px solid rgba(22,51,0,.2) !important;
+  border-top-color:#163300 !important;
+  border-radius:999px !important;
+  animation:verificationSpin .7s linear infinite !important;
+}
+
+@keyframes verificationSpin {
+  to { transform:rotate(360deg); }
+}
+
+.dashboard-view.withdrawal-verification-active .sidebar,
+.dashboard-view.withdrawal-verification-active .dashboard-menu-row,
+.dashboard-view.withdrawal-verification-active .topbar {
+  display:none !important;
+}
+
+.dashboard-view.withdrawal-verification-active .dashboard-main {
+  max-width:none !important;
+  min-height:100dvh !important;
+  display:grid !important;
+  place-items:center !important;
+  padding:24px !important;
+  background:#080C09 !important;
+}
+
+@media (max-width:767px) {
+  .dashboard-view.withdrawal-verification-active .dashboard-main {
+    padding:0 !important;
+  }
+
+  .verification-phone-screen {
+    width:100% !important;
+    min-height:100dvh !important;
+    border-radius:0 !important;
+    padding:28px 24px calc(28px + env(safe-area-inset-bottom)) !important;
+    box-shadow:none !important;
+  }
+
+  .verification-phone-screen h3 {
+    margin-top:54px !important;
+    margin-bottom:30px !important;
+    font-size:40px !important;
+  }
+
+  .verification-row {
+    min-height:74px !important;
+  }
+
+  .verification-continue-button {
+    min-height:64px !important;
+  }
+}
+
 @media (max-width:767px) {
   .button-ripple {
     display:none !important;

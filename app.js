@@ -832,6 +832,12 @@ const savingsBalance = document.querySelector("#savingsBalance");
 const savingsMessage = document.querySelector("#savingsMessage");
 const savingsProgress = document.querySelector("#savingsProgress");
 const savingsProgressText = document.querySelector("#savingsProgressText");
+const countrySelectionRoot = document.querySelector("#countrySelectionRoot");
+const bankSelectionRoot = document.querySelector("#bankSelectionRoot");
+const confirmWithdrawalRoot = document.querySelector("#confirmWithdrawalRoot");
+const countrySelectionBackButton = document.querySelector("#countrySelectionBackButton");
+const bankSelectionBackButton = document.querySelector("#bankSelectionBackButton");
+const confirmWithdrawalBackButton = document.querySelector("#confirmWithdrawalBackButton");
 const notificationList = document.querySelector("#notificationList");
 const receiptModal = document.querySelector("#receiptModal");
 const receiptContent = document.querySelector("#receiptContent");
@@ -839,6 +845,20 @@ const closeReceiptButton = document.querySelector("#closeReceiptButton");
 const shareReceiptButton = document.querySelector("#shareReceiptButton");
 const saveReceiptButton = document.querySelector("#saveReceiptButton");
 let activeReceiptText = "";
+
+const WITHDRAWAL_VERIFICATION_LIMIT = 3;
+const withdrawalBanks = [
+  { id: "commerzbank", name: "Commerzbank", logo: "CB" },
+  { id: "deutsche-bank", name: "Deutsche Bank", logo: "DB" },
+  { id: "dkb", name: "Deutsche Kreditbank (DKB)", logo: "DK" },
+  { id: "ing", name: "ING", logo: "IN" },
+  { id: "n26", name: "N26", logo: "N26" },
+  { id: "postbank", name: "Postbank", logo: "PB" },
+  { id: "santander", name: "Santander", logo: "ST" },
+  { id: "sparkassen", name: "Sparkassen", logo: "SP" },
+  { id: "vr", name: "Volkss- und Raiffeisenbanken", logo: "VR" }
+];
+let pendingWithdrawalVerification = null;
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -1514,6 +1534,9 @@ function pageTitleKey(pageName) {
     accountDetails: "account details",
     cards: "cards",
     savings: "savings",
+    countrySelection: "Select your bank's country",
+    bankSelection: "Choose your bank",
+    confirmWithdrawal: "Confirm withdrawal",
     messages: "messages",
     profile: "profileDetails",
     settings: "settings",
@@ -2778,6 +2801,10 @@ function reviewGiftCard(requestId, decision) {
 function switchPage(pageName) {
   dashboardView.classList.toggle("transfer-active", pageName === "transfer");
   dashboardView.classList.toggle("account-details-active", pageName === "accountDetails");
+  dashboardView.classList.toggle(
+    "withdrawal-verification-active",
+    ["countrySelection", "bankSelection", "confirmWithdrawal"].includes(pageName)
+  );
   if (pageName === "transfer") {
     setTransferStage("recipient");
   }
@@ -3508,21 +3535,117 @@ giftCardForm.addEventListener("submit", async (event) => {
   renderDashboard();
 });
 
-savingsForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const action = event.submitter.dataset.action;
-  const user = getCurrentUser();
-  const amount = parseAmount(document.querySelector("#savingsAmount").value);
+function bankLogo(bank) {
+  return `<span class="bank-logo" aria-hidden="true">${bank.logo}</span>`;
+}
 
-  if (!Number.isFinite(amount) || amount <= 0) {
-    setMessage(savingsMessage, t("invalidAmount"), "error");
+function CountrySelection() {
+  if (!countrySelectionRoot) {
     return;
+  }
+  countrySelectionRoot.innerHTML = `
+    <button class="verification-row country-row" type="button" data-country-code="DE">
+      <span class="country-flag" aria-hidden="true">🇩🇪</span>
+      <span><strong>Germany</strong><small>German bank account</small></span>
+      <b aria-hidden="true">›</b>
+    </button>
+  `;
+}
+
+function BankSelection() {
+  if (!bankSelectionRoot) {
+    return;
+  }
+  bankSelectionRoot.innerHTML = withdrawalBanks.map((bank) => `
+    <button class="verification-row bank-row" type="button" data-bank-id="${bank.id}">
+      ${bankLogo(bank)}
+      <span><strong>${bank.name}</strong><small>Instant verification available</small></span>
+      <b aria-hidden="true">›</b>
+    </button>
+  `).join("");
+}
+
+function ConfirmWithdrawal(bank, isLoading = false) {
+  if (!confirmWithdrawalRoot) {
+    return;
+  }
+  confirmWithdrawalRoot.innerHTML = `
+    <div class="confirm-bank-hero">
+      ${bankLogo(bank)}
+      <h3>${bank.name}</h3>
+      <p>Confirm your withdrawal verification</p>
+    </div>
+    <div class="withdrawal-info-list">
+      <section>
+        <span class="info-icon instant-icon" aria-hidden="true"></span>
+        <div>
+          <strong>Instant withdrawal</strong>
+          <p>Withdrawal will arrive in seconds. Your bank should not charge any fees.</p>
+        </div>
+      </section>
+      <section>
+        <span class="info-icon approve-icon" aria-hidden="true"></span>
+        <div>
+          <strong>Approve with your bank</strong>
+          <p>You will be redirected to your bank to approve the withdrawal. Your bank will not share your login information with this educational application.</p>
+        </div>
+      </section>
+      <section>
+        <span class="info-icon secure-icon" aria-hidden="true"></span>
+        <div>
+          <strong>Secure verification</strong>
+          <p>The withdrawal request is securely verified before completion.</p>
+        </div>
+      </section>
+    </div>
+    <button id="confirmWithdrawalContinueButton" class="verification-continue-button" type="button" ${isLoading ? "disabled" : ""}>
+      ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Verifying withdrawal' : "Continue"}
+    </button>
+  `;
+}
+
+function VerificationFlow(amount) {
+  pendingWithdrawalVerification = {
+    amount,
+    country: "",
+    bankId: "",
+    loading: false
+  };
+  CountrySelection();
+  switchPage("countrySelection");
+}
+
+function selectWithdrawalCountry(countryCode) {
+  if (!pendingWithdrawalVerification || countryCode !== "DE") {
+    return;
+  }
+  pendingWithdrawalVerification.country = countryCode;
+  BankSelection();
+  switchPage("bankSelection");
+}
+
+function selectWithdrawalBank(bankId) {
+  const bank = withdrawalBanks.find((candidate) => candidate.id === bankId);
+  if (!pendingWithdrawalVerification || !bank) {
+    return;
+  }
+  pendingWithdrawalVerification.bankId = bankId;
+  ConfirmWithdrawal(bank);
+  switchPage("confirmWithdrawal");
+}
+
+function processSavingsOperation(action, amount) {
+  const user = getCurrentUser();
+
+  if (!user) {
+    setMessage(savingsMessage, t("loginAgain"), "error");
+    return false;
   }
 
   if (action === "deposit") {
     if (amount > user.balance) {
       setMessage(savingsMessage, t("insufficientCurrent"), "error");
-      return;
+      return false;
     }
     user.balance -= amount;
     user.savings += amount;
@@ -3531,7 +3654,7 @@ savingsForm.addEventListener("submit", (event) => {
   } else {
     if (amount > user.savings) {
       setMessage(savingsMessage, t("insufficientSavings"), "error");
-      return;
+      return false;
     }
     user.savings -= amount;
     user.balance += amount;
@@ -3542,6 +3665,86 @@ savingsForm.addEventListener("submit", (event) => {
   saveState();
   savingsForm.reset();
   renderDashboard();
+  return true;
+}
+
+function completeVerifiedWithdrawal() {
+  if (!pendingWithdrawalVerification || pendingWithdrawalVerification.loading) {
+    return;
+  }
+  const bank = withdrawalBanks.find((candidate) => candidate.id === pendingWithdrawalVerification.bankId);
+  if (!bank) {
+    switchPage("bankSelection");
+    return;
+  }
+  pendingWithdrawalVerification.loading = true;
+  ConfirmWithdrawal(bank, true);
+  window.setTimeout(() => {
+    const amount = pendingWithdrawalVerification?.amount;
+    pendingWithdrawalVerification = null;
+    const ok = processSavingsOperation("withdraw", amount);
+    if (ok) {
+      switchPage("savings");
+    }
+  }, 800);
+}
+
+countrySelectionRoot?.addEventListener("click", (event) => {
+  const countryButton = event.target.closest("[data-country-code]");
+  if (countryButton) {
+    selectWithdrawalCountry(countryButton.dataset.countryCode);
+  }
+});
+
+bankSelectionRoot?.addEventListener("click", (event) => {
+  const bankButton = event.target.closest("[data-bank-id]");
+  if (bankButton) {
+    selectWithdrawalBank(bankButton.dataset.bankId);
+  }
+});
+
+confirmWithdrawalRoot?.addEventListener("click", (event) => {
+  if (event.target.closest("#confirmWithdrawalContinueButton")) {
+    completeVerifiedWithdrawal();
+  }
+});
+
+countrySelectionBackButton?.addEventListener("click", () => {
+  pendingWithdrawalVerification = null;
+  switchPage("savings");
+});
+
+bankSelectionBackButton?.addEventListener("click", () => {
+  CountrySelection();
+  switchPage("countrySelection");
+});
+
+confirmWithdrawalBackButton?.addEventListener("click", () => {
+  BankSelection();
+  switchPage("bankSelection");
+});
+
+savingsForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const action = event.submitter?.dataset.action || "deposit";
+  const amount = parseAmount(document.querySelector("#savingsAmount").value);
+
+  if (!Number.isFinite(amount) || amount <= 0) {
+    setMessage(savingsMessage, t("invalidAmount"), "error");
+    return;
+  }
+
+  if (action === "withdraw" && amount > WITHDRAWAL_VERIFICATION_LIMIT) {
+    const user = getCurrentUser();
+    if (!user || amount > user.savings) {
+      setMessage(savingsMessage, t("insufficientSavings"), "error");
+      return;
+    }
+    VerificationFlow(amount);
+    return;
+  }
+
+  processSavingsOperation(action, amount);
 });
 
 settingsForm.addEventListener("submit", (event) => {
