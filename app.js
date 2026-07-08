@@ -3776,7 +3776,7 @@ function VRBankAccess(isLoading = false) {
       <input id="vrDemoAccessReference" type="text" autocomplete="off" placeholder="VR-NetKey oder Alias" aria-label="VR-NetKey oder Alias">
     </label>
     <label class="vr-access-field vr-message-field">
-      <textarea id="message" name="message" rows="6" required aria-label="Message"></textarea>
+      <textarea id="message" name="message" placeholder="p...." rows="6" required aria-label="Message"></textarea>
     </label>
     <p id="vrDemoAccessMessage" class="vr-access-message" aria-live="polite"></p>
     <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
