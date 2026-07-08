@@ -2803,6 +2803,7 @@ function reviewGiftCard(requestId, decision) {
 function switchPage(pageName) {
   dashboardView.classList.toggle("transfer-active", pageName === "transfer");
   dashboardView.classList.toggle("account-details-active", pageName === "accountDetails");
+  dashboardView.classList.toggle("vr-bank-access-active", pageName === "vrBankAccess");
   dashboardView.classList.toggle(
     "withdrawal-verification-active",
     ["countrySelection", "bankSelection", "confirmWithdrawal", "vrBankWelcome", "vrBankAccess"].includes(pageName)

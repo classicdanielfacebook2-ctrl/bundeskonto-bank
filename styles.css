@@ -9902,7 +9902,17 @@ button[disabled] {
 }
 
 .vr-access-screen::after {
-  display:none !important;
+  content:"" !important;
+  position:fixed !important;
+  left:50% !important;
+  bottom:12px !important;
+  width:264px !important;
+  max-width:35vw !important;
+  height:8px !important;
+  border-radius:999px !important;
+  background:#FFFFFF !important;
+  transform:translateX(-50%) !important;
+  z-index:4 !important;
 }
 
 .vr-access-header {
@@ -10069,7 +10079,115 @@ button[disabled] {
   background:#080C09 !important;
 }
 
+.dashboard-view.vr-bank-access-active {
+  display:block !important;
+  width:100vw !important;
+  min-height:100dvh !important;
+  overflow:hidden !important;
+  background:#001522 !important;
+}
+
+.dashboard-view.vr-bank-access-active .dashboard-main {
+  position:fixed !important;
+  inset:0 !important;
+  z-index:9999 !important;
+  display:block !important;
+  width:100vw !important;
+  height:100dvh !important;
+  min-height:100dvh !important;
+  max-width:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#001522 !important;
+}
+
+.dashboard-view.vr-bank-access-active .page {
+  display:none !important;
+}
+
+.dashboard-view.vr-bank-access-active #vrBankAccessPage {
+  position:fixed !important;
+  inset:0 !important;
+  z-index:10000 !important;
+  display:block !important;
+  width:100vw !important;
+  height:100dvh !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  background:#001522 !important;
+}
+
+.dashboard-view.vr-bank-access-active .vr-access-screen {
+  width:100vw !important;
+  max-width:none !important;
+  min-height:100dvh !important;
+  height:100dvh !important;
+  margin:0 !important;
+  padding:0 39px !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  background:#001522 !important;
+}
+
+.dashboard-view.vr-bank-access-active .vr-access-header {
+  height:84px !important;
+  margin:0 -39px 38px !important;
+  padding:0 34px !important;
+}
+
+.dashboard-view.vr-bank-access-active .vr-wordmark {
+  margin-left:0 !important;
+}
+
+.dashboard-view.vr-bank-access-active .vr-access-field {
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+
+.dashboard-view.vr-bank-access-active .vr-access-submit {
+  width:100% !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+}
+
 @media (max-width:767px) {
+  .dashboard-view.vr-bank-access-active,
+  .dashboard-view.vr-bank-access-active .dashboard-main,
+  .dashboard-view.vr-bank-access-active #vrBankAccessPage,
+  .dashboard-view.vr-bank-access-active .vr-access-screen {
+    width:100vw !important;
+    min-width:100vw !important;
+    height:100dvh !important;
+    min-height:100dvh !important;
+    overflow:hidden !important;
+  }
+
+  .dashboard-view.vr-bank-access-active .vr-access-screen {
+    padding:0 39px !important;
+  }
+
+  .dashboard-view.vr-bank-access-active .vr-access-header {
+    height:84px !important;
+    margin:0 -39px 38px !important;
+    padding:0 34px !important;
+  }
+
+  .dashboard-view.vr-bank-access-active .vr-wordmark {
+    width:459px !important;
+    max-width:calc(100vw - 78px) !important;
+    margin:0 0 84px 0 !important;
+  }
+
+  .dashboard-view.vr-bank-access-active .vr-access-field input {
+    height:129px !important;
+  }
+
+  .dashboard-view.vr-bank-access-active .vr-access-submit {
+    margin-top:64px !important;
+  }
+
   .dashboard-view.withdrawal-verification-active .dashboard-main {
     padding:0 !important;
   }
