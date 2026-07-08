@@ -3651,10 +3651,6 @@ function VRBankWelcome() {
     return;
   }
   vrBankWelcomeRoot.innerHTML = `
-    <div class="vr-status-row" aria-hidden="true">
-      <span>03:37</span>
-      <span class="vr-device-icons"></span>
-    </div>
     <button id="vrHelpButton" class="vr-help-button" type="button" aria-label="Demo help"></button>
     <div class="vr-welcome-hero">
       <span class="vr-large-logo" aria-hidden="true"><b>VR</b></span>
@@ -3672,10 +3668,6 @@ function VRBankAccess(isLoading = false) {
     return;
   }
   vrBankAccessRoot.innerHTML = `
-    <div class="vr-status-row" aria-hidden="true">
-      <span>03:39</span>
-      <span class="vr-device-icons"></span>
-    </div>
     <div class="vr-access-header">
       <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="Back"></button>
       <strong>Log in</strong>

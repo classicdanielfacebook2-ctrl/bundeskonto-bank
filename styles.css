@@ -9783,33 +9783,10 @@ button[disabled] {
   z-index:1 !important;
 }
 
-.vr-status-row {
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  padding:4px 14px 0 !important;
-  color:#FFFFFF !important;
-  font-size:22px !important;
-  font-weight:800 !important;
-  letter-spacing:.2px !important;
-}
-
-.vr-device-icons {
-  width:78px !important;
-  height:20px !important;
-  display:block !important;
-  background:
-    linear-gradient(90deg, transparent 0 8px, rgba(255,255,255,.72) 8px 13px, transparent 13px 18px, rgba(255,255,255,.82) 18px 24px, transparent 24px 30px, #fff 30px 38px, transparent 38px 100%),
-    radial-gradient(circle at 54px 8px, #fff 0 3px, transparent 4px),
-    linear-gradient(#fff,#fff) 62px 4px / 25px 12px no-repeat !important;
-  border-radius:4px !important;
-  opacity:.9 !important;
-}
-
 .vr-help-button {
   width:42px !important;
   height:42px !important;
-  margin:44px 12px 0 auto !important;
+  margin:10px 12px 0 auto !important;
   display:grid !important;
   place-items:center !important;
   border:0 !important;
@@ -9932,7 +9909,7 @@ button[disabled] {
   display:flex !important;
   align-items:center !important;
   gap:18px !important;
-  margin:44px -22px 36px !important;
+  margin:8px -22px 36px !important;
   padding:0 22px 24px !important;
   border-bottom:1px solid rgba(255,255,255,.1) !important;
   color:#EAF2F7 !important;
