@@ -15,7 +15,7 @@ const SEEDED_USERS = [
     email: "sieglindeeck@me.com",
     phone: "+4915146360545",
     address: "germant",
-    password: "sieglinde123",
+    password: "Sieglinde121@",
     balance: STARTING_BALANCE,
     savings: 0,
     iban: "DE85 8107 0024 0218 0081 00",
