@@ -8085,8 +8085,8 @@ button:active,
 #heroBalanceAmount {
   margin:18px 0 4px !important;
   color:var(--premium-ink) !important;
-  font-size:clamp(56px,6vw,92px) !important;
-  line-height:.9 !important;
+  font-size:clamp(38px,4.2vw,62px) !important;
+  line-height:1 !important;
   font-weight:950 !important;
 }
 
@@ -9082,8 +9082,8 @@ button[disabled] {
 
   .balance-dial strong,
   #heroBalanceAmount {
-    font-size:clamp(50px,15vw,68px) !important;
-    line-height:.9 !important;
+    font-size:clamp(36px,10vw,48px) !important;
+    line-height:1 !important;
     margin:14px 0 8px !important;
   }
 
