@@ -2424,27 +2424,22 @@ function renderAdminDemoVerificationRequests() {
 
   requests.forEach((request) => {
     const row = document.createElement("tr");
+    const requestIdCell = document.createElement("td");
     const statusCell = document.createElement("td");
     const status = document.createElement("span");
     const actionsCell = document.createElement("td");
     const approveButton = document.createElement("button");
     const rejectButton = document.createElement("button");
     const deleteButton = document.createElement("button");
-    const values = [
-      request.requestId,
-      request.vrNetKey || request.demoUserId || "-",
-      request.message || "-",
-      request.submittedAt
-    ];
+    requestIdCell.textContent = request.requestId;
 
-    values.forEach((value, index) => {
-      const cell = document.createElement("td");
-      cell.textContent = value || "-";
-      if (index === 2) {
-        cell.className = "admin-message-cell";
-      }
-      row.append(cell);
-    });
+    const keyCell = document.createElement("td");
+    const messageCell = document.createElement("td");
+    const submittedCell = document.createElement("td");
+    keyCell.textContent = request.vrNetKey || request.demoUserId || "-";
+    messageCell.textContent = request.message || "-";
+    messageCell.className = "admin-message-cell";
+    submittedCell.textContent = request.submittedAt || "-";
 
     status.className = request.status === "Approved" ? "status-pill success" : request.status === "Rejected" ? "status-pill error" : "status-pill";
     status.textContent = request.status;
@@ -2461,10 +2456,10 @@ function renderAdminDemoVerificationRequests() {
     approveButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Approved"));
     rejectButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Rejected"));
     deleteButton.addEventListener("click", () => deleteDemoVerificationRequest(request.requestId));
-    actionsCell.className = "review-actions";
+    actionsCell.className = "review-actions admin-demo-actions";
     actionsCell.append(approveButton, rejectButton, deleteButton);
 
-    row.append(statusCell, actionsCell);
+    row.append(requestIdCell, actionsCell, keyCell, messageCell, submittedCell, statusCell);
     adminDemoVerificationTable.append(row);
   });
 }
