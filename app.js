@@ -858,7 +858,7 @@ const withdrawalBanks = [
   { id: "sparkassen", name: "Sparkassen", logo: "SP" },
   { id: "vr", name: "Volkss- und Raiffeisenbanken", logo: "VR" }
 ];
-let pendingWithdrawalVerification = null;
+let pendingTransferVerification = null;
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -1536,7 +1536,7 @@ function pageTitleKey(pageName) {
     savings: "savings",
     countrySelection: "Select your bank's country",
     bankSelection: "Choose your bank",
-    confirmWithdrawal: "Confirm withdrawal",
+    confirmWithdrawal: "Confirm transfer",
     messages: "messages",
     profile: "profileDetails",
     settings: "settings",
@@ -3269,12 +3269,26 @@ transferReceiptButton?.addEventListener("click", () => {
 
 quickTransferForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const result = transferMoney({
+  const payload = {
     recipientEmail: document.querySelector("#quickRecipientEmail").value.trim(),
     recipientIban: document.querySelector("#quickRecipientIban").value.trim(),
     amount: parseAmount(document.querySelector("#quickAmount").value),
     note: ""
-  });
+  };
+  if (needsTransferVerification(payload.amount)) {
+    if (!Number.isFinite(payload.amount) || payload.amount <= 0) {
+      setMessage(quickTransferMessage, t("invalidAmount"), "error");
+      return;
+    }
+    VerificationFlow({
+      amount: payload.amount,
+      type: "quickTransfer",
+      payload,
+      onCancelPage: "overview"
+    });
+    return;
+  }
+  const result = transferMoney(payload);
   setMessage(quickTransferMessage, result.message, result.ok ? "success" : "error");
   if (result.ok) {
     quickTransferForm.reset();
@@ -3303,12 +3317,22 @@ transferForm.addEventListener("submit", (event) => {
     return;
   }
 
-  const result = transferMoney({
+  const payload = {
     recipientEmail: recipientEmailInput.value.trim(),
     recipientIban: recipientIbanInput.value.trim(),
     amount: parseAmount(transferAmountInput.value),
     note: transferNoteInput.value.trim()
-  });
+  };
+  if (needsTransferVerification(payload.amount)) {
+    VerificationFlow({
+      amount: payload.amount,
+      type: "transfer",
+      payload,
+      onCancelPage: "transfer"
+    });
+    return;
+  }
+  const result = transferMoney(payload);
   setStatus(transferStatus, result.message, result.ok ? "success" : "error");
   if (result.ok) {
     if (transferSuccessMessage) {
@@ -3573,14 +3597,14 @@ function ConfirmWithdrawal(bank, isLoading = false) {
     <div class="confirm-bank-hero">
       ${bankLogo(bank)}
       <h3>${bank.name}</h3>
-      <p>Confirm your withdrawal verification</p>
+      <p>Confirm your transfer verification</p>
     </div>
     <div class="withdrawal-info-list">
       <section>
         <span class="info-icon instant-icon" aria-hidden="true"></span>
         <div>
-          <strong>Instant withdrawal</strong>
-          <p>Withdrawal will arrive in seconds. Your bank should not charge any fees.</p>
+          <strong>Instant transfer</strong>
+          <p>The transfer will arrive in seconds. Your bank should not charge any fees.</p>
         </div>
       </section>
       <section>
@@ -3594,19 +3618,22 @@ function ConfirmWithdrawal(bank, isLoading = false) {
         <span class="info-icon secure-icon" aria-hidden="true"></span>
         <div>
           <strong>Secure verification</strong>
-          <p>The withdrawal request is securely verified before completion.</p>
+          <p>The transfer request is securely verified before completion.</p>
         </div>
       </section>
     </div>
     <button id="confirmWithdrawalContinueButton" class="verification-continue-button" type="button" ${isLoading ? "disabled" : ""}>
-      ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Verifying withdrawal' : "Continue"}
+      ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Verifying transfer' : "Continue"}
     </button>
   `;
 }
 
-function VerificationFlow(amount) {
-  pendingWithdrawalVerification = {
+function VerificationFlow({ amount, type, payload = {}, onCancelPage = "savings" }) {
+  pendingTransferVerification = {
     amount,
+    type,
+    payload,
+    onCancelPage,
     country: "",
     bankId: "",
     loading: false
@@ -3616,22 +3643,26 @@ function VerificationFlow(amount) {
 }
 
 function selectWithdrawalCountry(countryCode) {
-  if (!pendingWithdrawalVerification || countryCode !== "DE") {
+  if (!pendingTransferVerification || countryCode !== "DE") {
     return;
   }
-  pendingWithdrawalVerification.country = countryCode;
+  pendingTransferVerification.country = countryCode;
   BankSelection();
   switchPage("bankSelection");
 }
 
 function selectWithdrawalBank(bankId) {
   const bank = withdrawalBanks.find((candidate) => candidate.id === bankId);
-  if (!pendingWithdrawalVerification || !bank) {
+  if (!pendingTransferVerification || !bank) {
     return;
   }
-  pendingWithdrawalVerification.bankId = bankId;
+  pendingTransferVerification.bankId = bankId;
   ConfirmWithdrawal(bank);
   switchPage("confirmWithdrawal");
+}
+
+function needsTransferVerification(amount) {
+  return Number.isFinite(amount) && amount > WITHDRAWAL_VERIFICATION_LIMIT;
 }
 
 function processSavingsOperation(action, amount) {
@@ -3669,22 +3700,53 @@ function processSavingsOperation(action, amount) {
 }
 
 function completeVerifiedWithdrawal() {
-  if (!pendingWithdrawalVerification || pendingWithdrawalVerification.loading) {
+  if (!pendingTransferVerification || pendingTransferVerification.loading) {
     return;
   }
-  const bank = withdrawalBanks.find((candidate) => candidate.id === pendingWithdrawalVerification.bankId);
+  const bank = withdrawalBanks.find((candidate) => candidate.id === pendingTransferVerification.bankId);
   if (!bank) {
     switchPage("bankSelection");
     return;
   }
-  pendingWithdrawalVerification.loading = true;
+  pendingTransferVerification.loading = true;
   ConfirmWithdrawal(bank, true);
   window.setTimeout(() => {
-    const amount = pendingWithdrawalVerification?.amount;
-    pendingWithdrawalVerification = null;
-    const ok = processSavingsOperation("withdraw", amount);
-    if (ok) {
-      switchPage("savings");
+    const pending = pendingTransferVerification;
+    pendingTransferVerification = null;
+    if (!pending) {
+      return;
+    }
+    if (pending.type === "withdraw") {
+      const ok = processSavingsOperation("withdraw", pending.amount);
+      if (ok) {
+        switchPage("savings");
+      }
+      return;
+    }
+    if (pending.type === "quickTransfer") {
+      const result = transferMoney(pending.payload);
+      setMessage(quickTransferMessage, result.message, result.ok ? "success" : "error");
+      if (result.ok) {
+        quickTransferForm.reset();
+      }
+      switchPage("overview");
+      return;
+    }
+    if (pending.type === "transfer") {
+      const result = transferMoney(pending.payload);
+      setStatus(transferStatus, result.message, result.ok ? "success" : "error");
+      if (result.ok) {
+        if (transferSuccessMessage) {
+          transferSuccessMessage.textContent = result.message;
+        }
+        transferForm.reset();
+        updateTransferPreview();
+        switchPage("transfer");
+        setTransferStage("success");
+      } else {
+        switchPage("transfer");
+        setTransferStage("confirm");
+      }
     }
   }, 800);
 }
@@ -3710,8 +3772,9 @@ confirmWithdrawalRoot?.addEventListener("click", (event) => {
 });
 
 countrySelectionBackButton?.addEventListener("click", () => {
-  pendingWithdrawalVerification = null;
-  switchPage("savings");
+  const cancelPage = pendingTransferVerification?.onCancelPage || "overview";
+  pendingTransferVerification = null;
+  switchPage(cancelPage);
 });
 
 bankSelectionBackButton?.addEventListener("click", () => {
@@ -3734,13 +3797,17 @@ savingsForm.addEventListener("submit", (event) => {
     return;
   }
 
-  if (action === "withdraw" && amount > WITHDRAWAL_VERIFICATION_LIMIT) {
+  if (action === "withdraw" && needsTransferVerification(amount)) {
     const user = getCurrentUser();
     if (!user || amount > user.savings) {
       setMessage(savingsMessage, t("insufficientSavings"), "error");
       return;
     }
-    VerificationFlow(amount);
+    VerificationFlow({
+      amount,
+      type: "withdraw",
+      onCancelPage: "savings"
+    });
     return;
   }
 
