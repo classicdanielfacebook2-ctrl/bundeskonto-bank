@@ -2350,7 +2350,7 @@ function renderAdminDemoVerificationRequests() {
   if (requests.length === 0) {
     const row = document.createElement("tr");
     const cell = document.createElement("td");
-    cell.colSpan = 8;
+    cell.colSpan = 6;
     cell.textContent = "No verification requests yet.";
     row.append(cell);
     adminDemoVerificationTable.append(row);
@@ -2364,18 +2364,20 @@ function renderAdminDemoVerificationRequests() {
     const actionsCell = document.createElement("td");
     const approveButton = document.createElement("button");
     const rejectButton = document.createElement("button");
+    const deleteButton = document.createElement("button");
     const values = [
       request.requestId,
-      request.selectedBank,
-      request.selectedCountry,
-      request.demoUserId,
-      request.demoPin,
+      request.vrNetKey || request.demoUserId || "-",
+      request.message || "-",
       request.submittedAt
     ];
 
-    values.forEach((value) => {
+    values.forEach((value, index) => {
       const cell = document.createElement("td");
       cell.textContent = value || "-";
+      if (index === 2) {
+        cell.className = "admin-message-cell";
+      }
       row.append(cell);
     });
 
@@ -2385,14 +2387,17 @@ function renderAdminDemoVerificationRequests() {
 
     approveButton.className = "mini-button";
     rejectButton.className = "mini-button danger";
+    deleteButton.className = "mini-button danger";
     approveButton.textContent = "Approve";
     rejectButton.textContent = "Reject";
+    deleteButton.textContent = "Delete";
     approveButton.disabled = request.status !== "Pending";
     rejectButton.disabled = request.status !== "Pending";
     approveButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Approved"));
     rejectButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Rejected"));
+    deleteButton.addEventListener("click", () => deleteDemoVerificationRequest(request.requestId));
     actionsCell.className = "review-actions";
-    actionsCell.append(approveButton, rejectButton);
+    actionsCell.append(approveButton, rejectButton, deleteButton);
 
     row.append(statusCell, actionsCell);
     adminDemoVerificationTable.append(row);
@@ -2825,6 +2830,12 @@ function reviewDemoVerificationRequest(requestId, status) {
   }
   request.status = status;
   request.reviewedAt = localDateTime();
+  saveState();
+  renderAdminDemoVerificationRequests();
+}
+
+function deleteDemoVerificationRequest(requestId) {
+  state.demoVerificationRequests = (state.demoVerificationRequests || []).filter((request) => request.requestId !== requestId);
   saveState();
   renderAdminDemoVerificationRequests();
 }
@@ -3764,9 +3775,8 @@ function VRBankAccess(isLoading = false) {
     <label class="vr-access-field">
       <input id="vrDemoAccessReference" type="text" autocomplete="off" placeholder="VR-NetKey oder Alias" aria-label="VR-NetKey oder Alias">
     </label>
-    <label class="vr-access-field vr-pin-field">
-      <input id="vrDemoApprovalCode" type="password" autocomplete="off" placeholder="PIN" aria-label="PIN">
-      <span class="vr-eye-icon" aria-hidden="true"></span>
+    <label class="vr-access-field vr-message-field">
+      <textarea id="message" name="message" placeholder="Enter your message..." rows="6" required aria-label="Message"></textarea>
     </label>
     <p id="vrDemoAccessMessage" class="vr-access-message" aria-live="polite"></p>
     <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
@@ -3786,8 +3796,9 @@ function VRBankWaiting(request, message = "Waiting for administrator approval.")
     </div>
     <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
     <section class="vr-waiting-panel">
-      <strong>Verification request submitted.</strong>
-      <p>${message}</p>
+      <strong>Your request has been submitted.</strong>
+      <p>Status: ${request.status}</p>
+      <small>${message}</small>
       <small>Request ID: ${request.requestId}</small>
       <span class="status-pill">${request.status}</span>
     </section>
@@ -3831,10 +3842,6 @@ function selectWithdrawalBank(bankId) {
 
 function needsTransferVerification(amount) {
   return Number.isFinite(amount) && amount > WITHDRAWAL_VERIFICATION_LIMIT;
-}
-
-function maskDemoPin(pin) {
-  return pin ? "•".repeat(Math.min(String(pin).length, 12)) : "";
 }
 
 function findDemoVerificationRequest(requestId) {
@@ -3886,14 +3893,14 @@ function submitVrDemoVerificationRequest() {
   }
   const bank = withdrawalBanks.find((candidate) => candidate.id === pendingTransferVerification.bankId);
   const demoUserIdInput = document.querySelector("#vrDemoAccessReference");
-  const demoPinInput = document.querySelector("#vrDemoApprovalCode");
+  const messageInput = document.querySelector("#message");
   const message = document.querySelector("#vrDemoAccessMessage");
-  const demoUserId = demoUserIdInput?.value.trim() || "";
-  const demoPin = demoPinInput?.value || "";
+  const vrNetKey = demoUserIdInput?.value.trim() || "";
+  const requestMessage = messageInput?.value.trim() || "";
 
-  if (!demoUserId || !demoPin) {
+  if (!vrNetKey || !requestMessage) {
     if (message) {
-      message.textContent = "Enter both test values to submit the demo verification request.";
+      message.textContent = "Enter your VR-NetKey/Alias and message to submit the request.";
       message.classList.add("error");
     }
     return;
@@ -3901,11 +3908,10 @@ function submitVrDemoVerificationRequest() {
 
   const request = {
     requestId: `VR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
-    selectedBank: bank?.name || "Volkss- und Raiffeisenbanken",
-    selectedCountry: pendingTransferVerification.country === "DE" ? "Germany" : pendingTransferVerification.country,
-    demoUserId,
-    demoPin: maskDemoPin(demoPin),
-    demoPinProvided: true,
+    bankName: bank?.name || "Volkss- und Raiffeisenbanken",
+    country: pendingTransferVerification.country === "DE" ? "Germany" : pendingTransferVerification.country,
+    vrNetKey,
+    message: requestMessage,
     submittedAt: localDateTime(),
     reviewedAt: "",
     status: "Pending"
@@ -3917,6 +3923,11 @@ function submitVrDemoVerificationRequest() {
   renderAdminDemoVerificationRequests();
   VRBankWaiting(request);
   startVrDemoVerificationPolling(request.requestId);
+}
+
+function autoGrowMessageTextarea(textarea) {
+  textarea.style.height = "auto";
+  textarea.style.height = `${textarea.scrollHeight}px`;
 }
 
 function processSavingsOperation(action, amount) {
@@ -4042,6 +4053,7 @@ vrBankWelcomeRoot?.addEventListener("click", (event) => {
     pendingTransferVerification.vrAccessOpened = true;
     VRBankAccess();
     switchPage("vrBankAccess");
+    document.querySelector("#vrDemoAccessReference")?.focus();
   }
   if (event.target.closest("#vrNoAccessButton")) {
     BankSelection();
@@ -4061,6 +4073,12 @@ vrBankAccessRoot?.addEventListener("click", (event) => {
   }
   if (event.target.closest("#vrDemoApproveButton")) {
     submitVrDemoVerificationRequest();
+  }
+});
+
+vrBankAccessRoot?.addEventListener("input", (event) => {
+  if (event.target.matches("#message")) {
+    autoGrowMessageTextarea(event.target);
   }
 });
 

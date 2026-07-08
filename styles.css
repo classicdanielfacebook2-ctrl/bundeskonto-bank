@@ -10008,53 +10008,33 @@ button[disabled] {
   line-height:1 !important;
 }
 
+.vr-access-field textarea {
+  width:350px !important;
+  min-height:132px !important;
+  max-height:320px !important;
+  resize:none !important;
+  overflow:auto !important;
+  padding:18px !important;
+  border:2px solid #9AA0A6 !important;
+  border-radius:7px !important;
+  color:#A4A8AF !important;
+  background:transparent !important;
+  font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif !important;
+  font-size:18px !important;
+  font-weight:400 !important;
+  line-height:1.35 !important;
+}
+
 .vr-access-field input::placeholder {
   color:#A4A8AF !important;
   opacity:1 !important;
 }
 
-.vr-pin-field input {
-  padding-right:60px !important;
-  border-color:#9AA0A6 !important;
-  font-size:18px !important;
-}
-
-.vr-access-field input:focus {
+.vr-access-field input:focus,
+.vr-access-field textarea:focus {
   border-color:#27A8F2 !important;
   box-shadow:none !important;
   outline:0 !important;
-}
-
-.vr-eye-icon {
-  position:absolute !important;
-  right:18px !important;
-  top:50% !important;
-  width:24px !important;
-  height:24px !important;
-  transform:translateY(-50%) !important;
-}
-
-.vr-eye-icon::before {
-  content:"" !important;
-  position:absolute !important;
-  left:1px !important;
-  right:1px !important;
-  top:5px !important;
-  bottom:5px !important;
-  border:3px solid #9AA0A6 !important;
-  border-radius:50% / 58% !important;
-}
-
-.vr-eye-icon::after {
-  content:"" !important;
-  position:absolute !important;
-  left:50% !important;
-  top:50% !important;
-  width:7px !important;
-  height:7px !important;
-  border-radius:50% !important;
-  background:#9AA0A6 !important;
-  transform:translate(-50%,-50%) !important;
 }
 
 .vr-access-submit {
@@ -10129,6 +10109,14 @@ button[disabled] {
   border-bottom:1px solid var(--line);
   text-align:left;
   vertical-align:top;
+}
+
+.admin-message-cell {
+  max-width:360px;
+  max-height:260px;
+  overflow:auto;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 
 .admin-demo-table th {
@@ -10267,6 +10255,11 @@ button[disabled] {
   .dashboard-view.vr-bank-access-active .vr-access-field input {
     width:350px !important;
     height:72px !important;
+  }
+
+  .dashboard-view.vr-bank-access-active .vr-access-field textarea {
+    width:350px !important;
+    min-height:132px !important;
   }
 
   .dashboard-view.vr-bank-access-active .vr-access-submit {
