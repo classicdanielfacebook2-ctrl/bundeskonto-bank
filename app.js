@@ -3673,19 +3673,15 @@ function VRBankAccess(isLoading = false) {
       <strong>Log in</strong>
     </div>
     <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
-    <div class="vr-demo-notice">
-      Educational demo approval. Do not enter real bank login information.
-    </div>
     <label class="vr-access-field">
-      <span>Demo access reference</span>
-      <input id="vrDemoAccessReference" type="text" autocomplete="off" value="DEMO-VERIFY" aria-label="Demo access reference">
+      <input id="vrDemoAccessReference" type="text" autocomplete="off" placeholder="VR-NetKey oder Alias" readonly aria-label="VR-NetKey oder Alias">
     </label>
-    <label class="vr-access-field">
-      <span>Demo approval code</span>
-      <input id="vrDemoApprovalCode" type="text" autocomplete="off" value="APPROVE" aria-label="Demo approval code">
+    <label class="vr-access-field vr-pin-field">
+      <input id="vrDemoApprovalCode" type="password" autocomplete="off" placeholder="PIN" readonly aria-label="PIN">
+      <span class="vr-eye-icon" aria-hidden="true"></span>
     </label>
     <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
-      ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Approving demo' : "Approve demo verification"}
+      ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Anmelden' : "Anmelden"}
     </button>
   `;
 }
