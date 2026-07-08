@@ -3307,6 +3307,22 @@ transferForm.addEventListener("submit", (event) => {
 
   if (transferStage === "amount") {
     if (canContinueFromAmount()) {
+      const payload = {
+        recipientEmail: recipientEmailInput.value.trim(),
+        recipientIban: recipientIbanInput.value.trim(),
+        amount: parseAmount(transferAmountInput.value),
+        note: transferNoteInput.value.trim()
+      };
+      if (needsTransferVerification(payload.amount)) {
+        VerificationFlow({
+          amount: payload.amount,
+          type: "transfer",
+          payload,
+          onCancelPage: "transfer",
+          onCancelStage: "amount"
+        });
+        return;
+      }
       setTransferStage("details");
     }
     return;
@@ -3628,12 +3644,13 @@ function ConfirmWithdrawal(bank, isLoading = false) {
   `;
 }
 
-function VerificationFlow({ amount, type, payload = {}, onCancelPage = "savings" }) {
+function VerificationFlow({ amount, type, payload = {}, onCancelPage = "savings", onCancelStage = "" }) {
   pendingTransferVerification = {
     amount,
     type,
     payload,
     onCancelPage,
+    onCancelStage,
     country: "",
     bankId: "",
     loading: false
@@ -3773,8 +3790,12 @@ confirmWithdrawalRoot?.addEventListener("click", (event) => {
 
 countrySelectionBackButton?.addEventListener("click", () => {
   const cancelPage = pendingTransferVerification?.onCancelPage || "overview";
+  const cancelStage = pendingTransferVerification?.onCancelStage || "";
   pendingTransferVerification = null;
   switchPage(cancelPage);
+  if (cancelPage === "transfer" && cancelStage) {
+    setTransferStage(cancelStage);
+  }
 });
 
 bankSelectionBackButton?.addEventListener("click", () => {
