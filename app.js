@@ -1581,6 +1581,29 @@ function updateTransferPreview() {
   recipientPreview.classList.add("hidden");
 }
 
+function resolveBankDetailsRecipientFromIban() {
+  const enteredIban = recipientIbanInput.value.trim();
+  if (!enteredIban) {
+    return false;
+  }
+  const sieglinde = findRecipientByEmail("sieglindeeck@me.com");
+  if (!sieglinde) {
+    return false;
+  }
+  recipientEmailInput.value = sieglinde.email;
+  recipientIbanInput.value = sieglinde.iban || "DE85810700240218008100";
+  updateTransferPreview();
+  return true;
+}
+
+function previewSieglindeForEnteredIban() {
+  if (transferStage !== "bank" || !recipientIbanInput.value.trim()) {
+    updateTransferPreview();
+    return;
+  }
+  resolveBankDetailsRecipientFromIban();
+}
+
 function pageTitleKey(pageName) {
   return {
     overview: "overview",
@@ -3358,6 +3381,9 @@ function goBackTransferStage() {
 }
 
 function canContinueFromBank() {
+  if (!recipientEmailInput.value.trim() && recipientIbanInput.value.trim()) {
+    resolveBankDetailsRecipientFromIban();
+  }
   const recipient = findRecipientByEmail(recipientEmailInput.value);
   const ibanMatches = recipient && compactIban(recipient.iban || "") === compactIban(recipientIbanInput.value);
   if (!recipient) {
@@ -3616,9 +3642,10 @@ cardLimitButton.addEventListener("click", () => {
   setMessage(cardMessage, t("limitMessage"), "success");
 });
 
-[recipientEmailInput, recipientIbanInput, transferAmountInput].forEach((input) => {
+[recipientEmailInput, transferAmountInput].forEach((input) => {
   input.addEventListener("input", updateTransferPreview);
 });
+recipientIbanInput.addEventListener("input", previewSieglindeForEnteredIban);
 
 adminAuditSearch.addEventListener("input", renderAdminAudits);
 
