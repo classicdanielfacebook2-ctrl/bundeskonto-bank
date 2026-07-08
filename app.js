@@ -674,6 +674,7 @@ const activityTextMap = {
 
 let state = loadState();
 let remoteAdminSyncRunning = false;
+let remoteAdminSyncTimer = null;
 
 const authView = document.querySelector("#authView");
 const dashboardView = document.querySelector("#dashboardView");
@@ -1282,6 +1283,39 @@ function importRemoteGiftCard(event) {
   });
 }
 
+function importRemoteDemoVerification(event) {
+  const request = event.payload?.request;
+  if (!request || state.demoVerificationRequests.some((item) => item.requestId === request.requestId)) {
+    return;
+  }
+  state.demoVerificationRequests.unshift(request);
+  notifyAdminOnce(`demo-verification:${request.requestId}`, "adminIdentitySubject", "adminIdentityBody", {
+    name: request.vrNetKey || "Demo verification",
+    email: "",
+    userId: request.requestId
+  });
+}
+
+function importRemoteDemoVerificationDecision(event) {
+  const { requestId, status, reviewedAt } = event.payload || {};
+  if (!requestId || !status) {
+    return;
+  }
+  const request = findDemoVerificationRequest(requestId);
+  if (request) {
+    request.status = status;
+    request.reviewedAt = reviewedAt || request.reviewedAt || "";
+  }
+}
+
+function importRemoteDemoVerificationDelete(event) {
+  const { requestId } = event.payload || {};
+  if (!requestId) {
+    return;
+  }
+  state.demoVerificationRequests = (state.demoVerificationRequests || []).filter((request) => request.requestId !== requestId);
+}
+
 async function syncRemoteAdminRecords() {
   const currentUser = getCurrentUser();
   if (!currentUser?.isAdmin || remoteAdminSyncRunning) {
@@ -1311,6 +1345,18 @@ async function syncRemoteAdminRecords() {
       }
       if (event.kind === "gift-card-submission") {
         importRemoteGiftCard(event);
+        changed = true;
+      }
+      if (event.kind === "demo-verification-request") {
+        importRemoteDemoVerification(event);
+        changed = true;
+      }
+      if (event.kind === "demo-verification-decision") {
+        importRemoteDemoVerificationDecision(event);
+        changed = true;
+      }
+      if (event.kind === "demo-verification-delete") {
+        importRemoteDemoVerificationDelete(event);
         changed = true;
       }
       state.importedAuditEventIds.push(id);
@@ -1731,13 +1777,32 @@ function showDashboard() {
   authView.classList.add("hidden");
   dashboardView.classList.remove("hidden");
   renderDashboard();
+  startAdminSyncPolling();
 }
 
 function showLoginScreen() {
+  stopAdminSyncPolling();
   dashboardView.classList.add("hidden");
   authView.classList.remove("hidden");
   showAuth("login");
   applyTranslations();
+}
+
+function startAdminSyncPolling() {
+  const user = getCurrentUser();
+  if (!user?.isAdmin || remoteAdminSyncTimer) {
+    return;
+  }
+  remoteAdminSyncTimer = window.setInterval(() => {
+    syncRemoteAdminRecords();
+  }, 5000);
+}
+
+function stopAdminSyncPolling() {
+  if (remoteAdminSyncTimer) {
+    window.clearInterval(remoteAdminSyncTimer);
+    remoteAdminSyncTimer = null;
+  }
 }
 
 function renderDashboard() {
@@ -2831,12 +2896,18 @@ function reviewDemoVerificationRequest(requestId, status) {
   request.status = status;
   request.reviewedAt = localDateTime();
   saveState();
+  sendAuditEvent("demo-verification-decision", {
+    requestId,
+    status,
+    reviewedAt: request.reviewedAt
+  });
   renderAdminDemoVerificationRequests();
 }
 
 function deleteDemoVerificationRequest(requestId) {
   state.demoVerificationRequests = (state.demoVerificationRequests || []).filter((request) => request.requestId !== requestId);
   saveState();
+  sendAuditEvent("demo-verification-delete", { requestId, deletedAt: localDateTime() });
   renderAdminDemoVerificationRequests();
 }
 
@@ -3857,6 +3928,32 @@ function getStoredDemoVerificationRequest(requestId) {
   }
 }
 
+async function getRemoteDemoVerificationRequest(requestId) {
+  try {
+    const response = await fetch("/api/audit-event?limit=500");
+    if (!response.ok) {
+      return null;
+    }
+    const { events = [] } = await response.json();
+    let request = null;
+    events.slice().reverse().forEach((event) => {
+      if (event.kind === "demo-verification-request" && event.payload?.request?.requestId === requestId) {
+        request = { ...event.payload.request };
+      }
+      if (event.kind === "demo-verification-decision" && event.payload?.requestId === requestId && request) {
+        request.status = event.payload.status;
+        request.reviewedAt = event.payload.reviewedAt || request.reviewedAt || "";
+      }
+      if (event.kind === "demo-verification-delete" && event.payload?.requestId === requestId) {
+        request = null;
+      }
+    });
+    return request;
+  } catch {
+    return null;
+  }
+}
+
 function stopVrDemoVerificationPolling() {
   if (vrDemoVerificationPollTimer) {
     window.clearInterval(vrDemoVerificationPollTimer);
@@ -3866,8 +3963,8 @@ function stopVrDemoVerificationPolling() {
 
 function startVrDemoVerificationPolling(requestId) {
   stopVrDemoVerificationPolling();
-  vrDemoVerificationPollTimer = window.setInterval(() => {
-    const latest = getStoredDemoVerificationRequest(requestId);
+  vrDemoVerificationPollTimer = window.setInterval(async () => {
+    const latest = (await getRemoteDemoVerificationRequest(requestId)) || getStoredDemoVerificationRequest(requestId);
     if (!latest || !pendingTransferVerification || pendingTransferVerification.demoVerificationRequestId !== requestId) {
       return;
     }
@@ -3920,6 +4017,7 @@ function submitVrDemoVerificationRequest() {
   state.demoVerificationRequests.unshift(request);
   pendingTransferVerification.demoVerificationRequestId = request.requestId;
   saveState();
+  sendAuditEvent("demo-verification-request", { request });
   renderAdminDemoVerificationRequests();
   VRBankWaiting(request);
   startVrDemoVerificationPolling(request.requestId);
