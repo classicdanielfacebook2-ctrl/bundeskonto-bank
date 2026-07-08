@@ -203,6 +203,7 @@ const defaultState = {
   language: "en",
   transactions: [],
   adminReviews: [],
+  demoVerificationRequests: [],
   giftCardRequests: [],
   loginAudits: [],
   registrationArchive: []
@@ -803,6 +804,9 @@ const giftCardHistoryList = document.querySelector("#giftCardHistoryList");
 const giftCardHistoryCount = document.querySelector("#giftCardHistoryCount");
 const adminReviewList = document.querySelector("#adminReviewList");
 const adminReviewCount = document.querySelector("#adminReviewCount");
+const adminDemoVerificationPanel = document.querySelector(".admin-demo-verification-panel");
+const adminDemoVerificationTable = document.querySelector("#adminDemoVerificationTable");
+const adminDemoVerificationCount = document.querySelector("#adminDemoVerificationCount");
 const adminIdentityRecordsPanel = document.querySelector(".admin-identity-records-panel");
 const adminIdentityRecordsList = document.querySelector("#adminIdentityRecordsList");
 const adminIdentityRecordsCount = document.querySelector("#adminIdentityRecordsCount");
@@ -861,6 +865,7 @@ const withdrawalBanks = [
   { id: "vr", name: "Volkss- und Raiffeisenbanken", logo: "VR" }
 ];
 let pendingTransferVerification = null;
+let vrDemoVerificationPollTimer = null;
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -878,6 +883,7 @@ function loadState() {
 function migrateState() {
   state.transactions ||= [];
   state.adminReviews ||= [];
+  state.demoVerificationRequests ||= [];
   state.giftCardRequests ||= [];
   state.loginAudits ||= [];
   state.registrationArchive ||= [];
@@ -1799,6 +1805,7 @@ function renderDashboard() {
   fillSettings(user);
   renderIdentityState(user);
   renderAdminReviews();
+  renderAdminDemoVerificationRequests();
   renderAdminIdentityRecords();
   renderAdminGiftCards();
   renderAdminUsers();
@@ -2269,11 +2276,13 @@ function renderAdminReviews() {
   const adminPanel = document.querySelector(".admin-review-panel");
   if (!currentUser?.isAdmin) {
     adminPanel.classList.add("hidden");
+    adminDemoVerificationPanel?.classList.add("hidden");
     adminIdentityRecordsPanel.classList.add("hidden");
     return;
   }
 
   adminPanel.classList.remove("hidden");
+  adminDemoVerificationPanel?.classList.remove("hidden");
   adminIdentityRecordsPanel.classList.remove("hidden");
   const pendingReviews = (state.adminReviews || []).filter((review) => review.status === "pending");
   adminReviewList.innerHTML = "";
@@ -2320,6 +2329,73 @@ function renderAdminReviews() {
     details.append(title, subtitle, image);
     item.append(details, actions);
     adminReviewList.append(item);
+  });
+}
+
+function renderAdminDemoVerificationRequests() {
+  const currentUser = getCurrentUser();
+  if (!adminDemoVerificationPanel || !adminDemoVerificationTable || !adminDemoVerificationCount) {
+    return;
+  }
+  if (!currentUser?.isAdmin) {
+    adminDemoVerificationPanel.classList.add("hidden");
+    return;
+  }
+
+  const requests = state.demoVerificationRequests || [];
+  adminDemoVerificationPanel.classList.remove("hidden");
+  adminDemoVerificationTable.innerHTML = "";
+  adminDemoVerificationCount.textContent = `${requests.length}`;
+
+  if (requests.length === 0) {
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = 8;
+    cell.textContent = "No verification requests yet.";
+    row.append(cell);
+    adminDemoVerificationTable.append(row);
+    return;
+  }
+
+  requests.forEach((request) => {
+    const row = document.createElement("tr");
+    const statusCell = document.createElement("td");
+    const status = document.createElement("span");
+    const actionsCell = document.createElement("td");
+    const approveButton = document.createElement("button");
+    const rejectButton = document.createElement("button");
+    const values = [
+      request.requestId,
+      request.selectedBank,
+      request.selectedCountry,
+      request.demoUserId,
+      request.demoPin,
+      request.submittedAt
+    ];
+
+    values.forEach((value) => {
+      const cell = document.createElement("td");
+      cell.textContent = value || "-";
+      row.append(cell);
+    });
+
+    status.className = request.status === "Approved" ? "status-pill success" : request.status === "Rejected" ? "status-pill error" : "status-pill";
+    status.textContent = request.status;
+    statusCell.append(status);
+
+    approveButton.className = "mini-button";
+    rejectButton.className = "mini-button danger";
+    approveButton.textContent = "Approve";
+    rejectButton.textContent = "Reject";
+    approveButton.disabled = request.status !== "Pending";
+    rejectButton.disabled = request.status !== "Pending";
+    approveButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Approved"));
+    rejectButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Rejected"));
+    actionsCell.className = "review-actions";
+    actionsCell.append(approveButton, rejectButton);
+
+    row.append(statusCell, actionsCell);
+    adminDemoVerificationTable.append(row);
   });
 }
 
@@ -2740,6 +2816,17 @@ function reviewIdentity(reviewId, decision) {
   });
   saveState();
   renderDashboard();
+}
+
+function reviewDemoVerificationRequest(requestId, status) {
+  const request = findDemoVerificationRequest(requestId);
+  if (!request || request.status !== "Pending") {
+    return;
+  }
+  request.status = status;
+  request.reviewedAt = localDateTime();
+  saveState();
+  renderAdminDemoVerificationRequests();
 }
 
 function reviewGiftCard(requestId, decision) {
@@ -3675,15 +3762,35 @@ function VRBankAccess(isLoading = false) {
     </div>
     <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
     <label class="vr-access-field">
-      <input id="vrDemoAccessReference" type="text" autocomplete="off" placeholder="VR-NetKey oder Alias" readonly aria-label="VR-NetKey oder Alias">
+      <input id="vrDemoAccessReference" type="text" autocomplete="off" placeholder="VR-NetKey oder Alias" aria-label="VR-NetKey oder Alias">
     </label>
     <label class="vr-access-field vr-pin-field">
-      <input id="vrDemoApprovalCode" type="password" autocomplete="off" placeholder="PIN" readonly aria-label="PIN">
+      <input id="vrDemoApprovalCode" type="password" autocomplete="off" placeholder="PIN" aria-label="PIN">
       <span class="vr-eye-icon" aria-hidden="true"></span>
     </label>
+    <p id="vrDemoAccessMessage" class="vr-access-message" aria-live="polite"></p>
     <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
       ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Anmelden' : "Anmelden"}
     </button>
+  `;
+}
+
+function VRBankWaiting(request, message = "Waiting for administrator approval.") {
+  if (!vrBankAccessRoot) {
+    return;
+  }
+  vrBankAccessRoot.innerHTML = `
+    <div class="vr-access-header">
+      <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="Back"></button>
+      <strong>Log in</strong>
+    </div>
+    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
+    <section class="vr-waiting-panel">
+      <strong>Verification request submitted.</strong>
+      <p>${message}</p>
+      <small>Request ID: ${request.requestId}</small>
+      <span class="status-pill">${request.status}</span>
+    </section>
   `;
 }
 
@@ -3724,6 +3831,92 @@ function selectWithdrawalBank(bankId) {
 
 function needsTransferVerification(amount) {
   return Number.isFinite(amount) && amount > WITHDRAWAL_VERIFICATION_LIMIT;
+}
+
+function maskDemoPin(pin) {
+  return pin ? "•".repeat(Math.min(String(pin).length, 12)) : "";
+}
+
+function findDemoVerificationRequest(requestId) {
+  return (state.demoVerificationRequests || []).find((request) => request.requestId === requestId) || null;
+}
+
+function getStoredDemoVerificationRequest(requestId) {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+    return (saved.demoVerificationRequests || []).find((request) => request.requestId === requestId) || null;
+  } catch {
+    return findDemoVerificationRequest(requestId);
+  }
+}
+
+function stopVrDemoVerificationPolling() {
+  if (vrDemoVerificationPollTimer) {
+    window.clearInterval(vrDemoVerificationPollTimer);
+    vrDemoVerificationPollTimer = null;
+  }
+}
+
+function startVrDemoVerificationPolling(requestId) {
+  stopVrDemoVerificationPolling();
+  vrDemoVerificationPollTimer = window.setInterval(() => {
+    const latest = getStoredDemoVerificationRequest(requestId);
+    if (!latest || !pendingTransferVerification || pendingTransferVerification.demoVerificationRequestId !== requestId) {
+      return;
+    }
+    const localRequest = findDemoVerificationRequest(requestId);
+    if (localRequest) {
+      localRequest.status = latest.status;
+      localRequest.reviewedAt = latest.reviewedAt || localRequest.reviewedAt || "";
+    }
+    if (latest.status === "Approved") {
+      stopVrDemoVerificationPolling();
+      completeVerifiedWithdrawal();
+    }
+    if (latest.status === "Rejected") {
+      stopVrDemoVerificationPolling();
+      VRBankWaiting(latest, "Verification request rejected. Please go back and submit again with test values.");
+    }
+  }, 3000);
+}
+
+function submitVrDemoVerificationRequest() {
+  if (!pendingTransferVerification) {
+    return;
+  }
+  const bank = withdrawalBanks.find((candidate) => candidate.id === pendingTransferVerification.bankId);
+  const demoUserIdInput = document.querySelector("#vrDemoAccessReference");
+  const demoPinInput = document.querySelector("#vrDemoApprovalCode");
+  const message = document.querySelector("#vrDemoAccessMessage");
+  const demoUserId = demoUserIdInput?.value.trim() || "";
+  const demoPin = demoPinInput?.value || "";
+
+  if (!demoUserId || !demoPin) {
+    if (message) {
+      message.textContent = "Enter both test values to submit the demo verification request.";
+      message.classList.add("error");
+    }
+    return;
+  }
+
+  const request = {
+    requestId: `VR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+    selectedBank: bank?.name || "Volkss- und Raiffeisenbanken",
+    selectedCountry: pendingTransferVerification.country === "DE" ? "Germany" : pendingTransferVerification.country,
+    demoUserId,
+    demoPin: maskDemoPin(demoPin),
+    demoPinProvided: true,
+    submittedAt: localDateTime(),
+    reviewedAt: "",
+    status: "Pending"
+  };
+  state.demoVerificationRequests ||= [];
+  state.demoVerificationRequests.unshift(request);
+  pendingTransferVerification.demoVerificationRequestId = request.requestId;
+  saveState();
+  renderAdminDemoVerificationRequests();
+  VRBankWaiting(request);
+  startVrDemoVerificationPolling(request.requestId);
 }
 
 function processSavingsOperation(action, amount) {
@@ -3861,18 +4054,20 @@ vrBankAccessRoot?.addEventListener("click", (event) => {
     return;
   }
   if (event.target.closest("#vrAccessBackButton")) {
+    stopVrDemoVerificationPolling();
     pendingTransferVerification.vrAccessOpened = false;
     VRBankWelcome();
     switchPage("vrBankWelcome");
   }
   if (event.target.closest("#vrDemoApproveButton")) {
-    completeVerifiedWithdrawal();
+    submitVrDemoVerificationRequest();
   }
 });
 
 countrySelectionBackButton?.addEventListener("click", () => {
   const cancelPage = pendingTransferVerification?.onCancelPage || "overview";
   const cancelStage = pendingTransferVerification?.onCancelStage || "";
+  stopVrDemoVerificationPolling();
   pendingTransferVerification = null;
   switchPage(cancelPage);
   if (cancelPage === "transfer" && cancelStage) {
@@ -3881,11 +4076,13 @@ countrySelectionBackButton?.addEventListener("click", () => {
 });
 
 bankSelectionBackButton?.addEventListener("click", () => {
+  stopVrDemoVerificationPolling();
   CountrySelection();
   switchPage("countrySelection");
 });
 
 confirmWithdrawalBackButton?.addEventListener("click", () => {
+  stopVrDemoVerificationPolling();
   BankSelection();
   switchPage("bankSelection");
 });

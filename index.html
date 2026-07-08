@@ -1022,6 +1022,29 @@
 
         <section id="adminPage" class="page">
           <div class="settings-grid">
+            <article class="panel admin-demo-verification-panel">
+              <div class="panel-heading">
+                <h3>Verification Requests</h3>
+                <span id="adminDemoVerificationCount" class="status-text"></span>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-demo-table">
+                  <thead>
+                    <tr>
+                      <th>Request ID</th>
+                      <th>Bank</th>
+                      <th>Country</th>
+                      <th>Demo User ID</th>
+                      <th>Demo PIN</th>
+                      <th>Time Submitted</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="adminDemoVerificationTable"></tbody>
+                </table>
+              </div>
+            </article>
 
             <article class="panel admin-review-panel">
               <div class="panel-heading">
