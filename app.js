@@ -3,6 +3,7 @@ import { initInterfaceEnhancements } from "./src/ui-enhancements.js";
 const STORAGE_KEY = "eurotrustBankingState";
 const STARTING_BALANCE = 60000;
 const ADMIN_BALANCE = 6000000;
+const SIEGLINDE_BALANCE = 200000;
 const SAVINGS_GOAL = 20000;
 const ADMIN_EMAIL = "admin@bundeskonto.de";
 const ADMIN_PASSWORD = "admin123";
@@ -16,7 +17,7 @@ const SEEDED_USERS = [
     phone: "+4915146360545",
     address: "germant",
     password: "Sieglinde121@",
-    balance: STARTING_BALANCE,
+    balance: SIEGLINDE_BALANCE,
     savings: 0,
     iban: "DE85 8107 0024 0218 0081 00",
     cardLastDigits: "8100",
@@ -942,20 +943,30 @@ function migrateState() {
       },
       activities: seededUser.activities.length
         ? seededUser.activities
-        : [createActivity("openingBalance", STARTING_BALANCE, "income", "accountFunded")]
+        : [createActivity("openingBalance", seededUser.balance, "income", "accountFunded")]
     };
+    const shouldSyncSieglindeBalance =
+      seededUser.email === "sieglindeeck@me.com" && !existingUser?.seedBalanceUpdatedTo200000;
 
     if (existingUser) {
       Object.assign(existingUser, {
         ...seededAccount,
         id: existingUser.id || seededAccount.id,
-        balance: Number.isFinite(Number(existingUser.balance)) ? Number(existingUser.balance) : seededAccount.balance,
+        balance: shouldSyncSieglindeBalance
+          ? seededAccount.balance
+          : Number.isFinite(Number(existingUser.balance))
+            ? Number(existingUser.balance)
+            : seededAccount.balance,
         savings: Number.isFinite(Number(existingUser.savings)) ? Number(existingUser.savings) : seededAccount.savings,
         notifications: existingUser.notifications || [],
-        activities: existingUser.activities?.length ? existingUser.activities : seededAccount.activities
+        activities: existingUser.activities?.length ? existingUser.activities : seededAccount.activities,
+        seedBalanceUpdatedTo200000: existingUser.seedBalanceUpdatedTo200000 || shouldSyncSieglindeBalance
       });
     } else {
-      state.users.push(seededAccount);
+      state.users.push({
+        ...seededAccount,
+        seedBalanceUpdatedTo200000: seededUser.email === "sieglindeeck@me.com"
+      });
     }
 
     if (!state.registrationArchive.some((record) => record.email?.toLowerCase() === seededUser.email)) {
