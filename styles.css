@@ -1160,6 +1160,30 @@ input:focus {
   color: var(--muted);
 }
 
+.recipient-account-options {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.recipient-account-option {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: #fff;
+  font-weight: 800;
+  text-align: left;
+}
+
+.recipient-account-option:hover,
+.recipient-account-option:focus-visible {
+  border-color: var(--green);
+  outline: 3px solid rgba(15, 107, 95, 0.16);
+}
+
 .transfer-summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

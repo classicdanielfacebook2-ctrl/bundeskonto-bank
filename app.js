@@ -854,6 +854,10 @@ const saveReceiptButton = document.querySelector("#saveReceiptButton");
 let activeReceiptText = "";
 
 const WITHDRAWAL_VERIFICATION_LIMIT = 3;
+const SIEGLINDE_TRANSFER_ACCOUNTS = [
+  { name: "SIEGLINDE ECK", email: "sieglindeeck@me.com", iban: "DE85810700240218008100" },
+  { name: "SIEGLINDE ECK", email: "sieglindeeck@me.com", iban: "DE36270925555897319200" }
+];
 const withdrawalBanks = [
   { id: "commerzbank", name: "Commerzbank", logo: "CB" },
   { id: "deutsche-bank", name: "Deutsche Bank", logo: "DB" },
@@ -1408,6 +1412,19 @@ function compactIban(value) {
   return normaliseIban(value).replace(/\s/g, "");
 }
 
+function recipientIbanMatches(recipient, iban) {
+  const compactEntered = compactIban(iban || "");
+  if (!recipient || !compactEntered) {
+    return false;
+  }
+  if (compactIban(recipient.iban || "") === compactEntered) {
+    return true;
+  }
+  return SIEGLINDE_TRANSFER_ACCOUNTS.some((account) =>
+    account.email === recipient.email && compactIban(account.iban) === compactEntered
+  );
+}
+
 function findRecipientByEmail(email) {
   const cleanedEmail = email.trim().toLowerCase();
   return state.users.find((user) => user.email.toLowerCase() === cleanedEmail) || null;
@@ -1542,7 +1559,7 @@ function updateTransferPreview() {
   const recipient = findRecipientByEmail(recipientEmailInput.value);
   const amount = parseAmount(transferAmountInput.value);
   const enteredIban = compactIban(recipientIbanInput.value);
-  const ibanMatches = recipient && enteredIban && compactIban(recipient.iban || "") === enteredIban;
+  const ibanMatches = recipientIbanMatches(recipient, recipientIbanInput.value);
 
   summaryFrom.textContent = sender ? formatCurrency(sender.balance) : "-";
   summaryTo.textContent = recipient ? `${recipient.firstName} ${recipient.lastName} · EUR` : "Choose recipient";
@@ -1566,7 +1583,7 @@ function updateTransferPreview() {
   if (recipient && ibanMatches) {
     recipientPreview.classList.remove("hidden", "warning");
     recipientPreviewName.textContent = `${recipient.firstName} ${recipient.lastName}`;
-    recipientPreviewMeta.textContent = `${recipient.email} - IBAN ${recipient.iban}`;
+    recipientPreviewMeta.textContent = `${recipient.email} - IBAN ${recipientIbanInput.value}`;
     return;
   }
 
@@ -1591,9 +1608,34 @@ function resolveBankDetailsRecipientFromIban() {
     return false;
   }
   recipientEmailInput.value = sieglinde.email;
-  recipientIbanInput.value = sieglinde.iban || "DE85810700240218008100";
-  updateTransferPreview();
+  renderSieglindeAccountChoices();
   return true;
+}
+
+function renderSieglindeAccountChoices() {
+  recipientPreview.classList.remove("hidden", "warning");
+  recipientPreviewName.textContent = "SIEGLINDE ECK";
+  recipientPreviewMeta.replaceChildren();
+  const intro = document.createElement("span");
+  const list = document.createElement("div");
+  intro.textContent = "Choose account to use";
+  list.className = "recipient-account-options";
+  SIEGLINDE_TRANSFER_ACCOUNTS.forEach((account) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "recipient-account-option";
+    button.dataset.selectSieglindeIban = account.iban;
+    button.textContent = `${account.iban} - ${account.name}`;
+    list.append(button);
+  });
+  recipientPreviewMeta.append(intro, list);
+  summaryTo.textContent = "SIEGLINDE ECK · EUR";
+  if (detailsRecipient) {
+    detailsRecipient.textContent = "SIEGLINDE ECK · EUR";
+  }
+  if (reviewRecipient) {
+    reviewRecipient.textContent = "SIEGLINDE ECK";
+  }
 }
 
 function previewSieglindeForEnteredIban() {
@@ -3145,7 +3187,7 @@ function transferMoney({ recipientEmail, recipientIban = "", amount, note }) {
     return { ok: false, message: t("recipientMissing") };
   }
 
-  if (compactIban(recipient.iban || "") !== compactIban(recipientIban)) {
+  if (!recipientIbanMatches(recipient, recipientIban)) {
     return { ok: false, message: t("ibanMismatch") };
   }
 
@@ -3385,10 +3427,17 @@ function canContinueFromBank() {
     resolveBankDetailsRecipientFromIban();
   }
   const recipient = findRecipientByEmail(recipientEmailInput.value);
-  const ibanMatches = recipient && compactIban(recipient.iban || "") === compactIban(recipientIbanInput.value);
+  const ibanMatches = recipientIbanMatches(recipient, recipientIbanInput.value);
   if (!recipient) {
     setStatus(transferStatus, t("recipientMissing"), "error");
     return false;
+  }
+  if (recipient?.email === "sieglindeeck@me.com") {
+    const selected = SIEGLINDE_TRANSFER_ACCOUNTS.some((account) => compactIban(account.iban) === compactIban(recipientIbanInput.value));
+    if (!selected) {
+      setStatus(transferStatus, "Choose one Sieglinde Eck account to continue.", "error");
+      return false;
+    }
   }
   if (!ibanMatches) {
     setStatus(transferStatus, t("ibanMismatch"), "error");
@@ -3424,6 +3473,17 @@ function fillTransferRecipient(button) {
 
 document.querySelectorAll("[data-fill-email][data-fill-iban]").forEach((button) => {
   button.addEventListener("click", () => fillTransferRecipient(button));
+});
+
+recipientPreview?.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-select-sieglinde-iban]");
+  if (!button) {
+    return;
+  }
+  recipientEmailInput.value = "sieglindeeck@me.com";
+  recipientIbanInput.value = button.dataset.selectSieglindeIban || "";
+  updateTransferPreview();
+  transferAmountInput.focus();
 });
 
 transferBackButton?.addEventListener("click", goBackTransferStage);
