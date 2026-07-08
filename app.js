@@ -430,7 +430,71 @@ const translations = {
     savingsDepositMessage: "{amount} moved into savings.",
     savingsWithdrawMessage: "{amount} returned to main balance.",
     emailTaken: "Another account already uses that email.",
-    settingsSaved: "Settings saved."
+    settingsSaved: "Settings saved.",
+    accountDetails: "Account details",
+    countrySelectionTitle: "Select your bank's country",
+    bankSelectionTitle: "Choose your bank",
+    verificationCountryGermany: "Germany",
+    verificationCountryGermanyHint: "German bank account",
+    instantVerificationAvailable: "Instant verification available",
+    confirmTransferVerification: "Confirm your transfer verification",
+    instantTransfer: "Instant transfer",
+    instantTransferHint: "The transfer will arrive in seconds. Your bank should not charge any fees.",
+    approveWithBank: "Approve with your bank",
+    approveWithBankHint: "You will be redirected to your bank to approve the withdrawal. Your bank will not share your login information with this educational application.",
+    secureVerification: "Secure verification",
+    secureVerificationHint: "The transfer request is securely verified before completion.",
+    verifyingTransfer: "Verifying transfer",
+    continue: "Continue",
+    welcomeVrBank: "Welcome to the VR Banking App",
+    onlineAccessAvailable: "Online access available",
+    onlineAccessUnavailable: "Online access not yet available",
+    back: "Back",
+    message: "Message",
+    requestSubmitted: "Your request has been submitted.",
+    waitingAdminApproval: "Waiting for administrator approval.",
+    verificationRejectedResubmit: "Verification request rejected. Please go back and submit again with test values.",
+    requestId: "Request ID",
+    status: "Status",
+    pending: "Pending",
+    approved: "Approved",
+    delete: "Delete",
+    noVerificationRequests: "No verification requests yet.",
+    verificationRequests: "Verification Requests",
+    actions: "Actions",
+    demoVrNetKey: "VR-NetKey",
+    submittedAt: "Submitted At",
+    enterVrMessage: "Enter your VR-NetKey/Alias and message to submit the request.",
+    chooseRecipient: "Choose recipient",
+    chooseAccountToUse: "Choose account to use",
+    amountAvailable: "{amount} available",
+    uploadScreenshotInvoice: "Upload a screenshot or invoice by entering the recipient details below.",
+    uploadReviewSimulated: "Upload review is simulated. Enter email and IBAN to continue.",
+    receiptMoneyReceived: "Money received",
+    receiptMoneySent: "Money sent",
+    receiptSuccessful: "Successful",
+    receiptShare: "Share receipt",
+    receiptSave: "Save receipt",
+    copied: "Copied",
+    copyDetail: "Copy detail",
+    couldNotShare: "Could not share",
+    csvDate: "Date",
+    csvTitle: "Title",
+    csvNote: "Note",
+    csvAmount: "Amount",
+    csvStatus: "Status",
+    receiptCreditTitle: "Credit alert receipt",
+    receiptDebitTitle: "Debit alert receipt",
+    receiptBrandTitle: "BundesKonto transfer receipt",
+    creditAmount: "Credit amount",
+    debitAmount: "Debit amount",
+    dateAndTime: "Date and time",
+    sender: "Sender",
+    recipient: "Recipient",
+    viewedBy: "Viewed by",
+    currenciesCount: "{count} currencies",
+    birthNameAudit: "Birth name",
+    birthDateAudit: "Birth date"
   },
   de: {
     brandIntro: "Senden, ausgeben, empfangen und halten Sie Geld in einem einfachen Mehrwährungskonto.",
@@ -651,8 +715,283 @@ const translations = {
     savingsDepositMessage: "{amount} ins Sparfach verschoben.",
     savingsWithdrawMessage: "{amount} auf das Hauptkonto zurückgebucht.",
     emailTaken: "Ein anderes Konto verwendet bereits diese E-Mail.",
-    settingsSaved: "Einstellungen gespeichert."
+    settingsSaved: "Einstellungen gespeichert.",
+    accountDetails: "Kontodetails",
+    countrySelectionTitle: "Land Ihrer Bank ausw\u00e4hlen",
+    bankSelectionTitle: "Bank ausw\u00e4hlen",
+    verificationCountryGermany: "Deutschland",
+    verificationCountryGermanyHint: "Deutsches Bankkonto",
+    instantVerificationAvailable: "Sofortige Verifizierung verf\u00fcgbar",
+    confirmTransferVerification: "\u00dcberweisungsverifizierung best\u00e4tigen",
+    instantTransfer: "Sofort\u00fcberweisung",
+    instantTransferHint: "Die \u00dcberweisung kommt in Sekunden an. Ihre Bank sollte keine Geb\u00fchren berechnen.",
+    approveWithBank: "Mit Ihrer Bank freigeben",
+    approveWithBankHint: "Sie werden zu Ihrer Bank weitergeleitet, um die \u00dcberweisung freizugeben. Ihre Bank teilt keine Anmeldedaten mit dieser Demo-Anwendung.",
+    secureVerification: "Sichere Verifizierung",
+    secureVerificationHint: "Die \u00dcberweisung wird vor Abschluss sicher verifiziert.",
+    verifyingTransfer: "\u00dcberweisung wird gepr\u00fcft",
+    continue: "Weiter",
+    welcomeVrBank: "Willkommen in der VR Banking App",
+    onlineAccessAvailable: "Online-Zugang verf\u00fcgbar",
+    onlineAccessUnavailable: "Online-Zugang noch nicht verf\u00fcgbar",
+    back: "Zur\u00fcck",
+    message: "Nachricht",
+    requestSubmitted: "Ihre Anfrage wurde eingereicht.",
+    waitingAdminApproval: "Wartet auf Freigabe durch den Administrator.",
+    verificationRejectedResubmit: "Die Verifizierungsanfrage wurde abgelehnt. Bitte gehen Sie zur\u00fcck und reichen Sie erneut Testwerte ein.",
+    requestId: "Anfrage-ID",
+    status: "Status",
+    pending: "Ausstehend",
+    approved: "Genehmigt",
+    delete: "L\u00f6schen",
+    noVerificationRequests: "Noch keine Verifizierungsanfragen.",
+    verificationRequests: "Verifizierungsanfragen",
+    actions: "Aktionen",
+    demoVrNetKey: "VR-NetKey",
+    submittedAt: "Eingereicht am",
+    enterVrMessage: "Geben Sie VR-NetKey/Alias und Nachricht ein, um die Anfrage zu senden.",
+    chooseRecipient: "Empf\u00e4nger ausw\u00e4hlen",
+    chooseAccountToUse: "Konto ausw\u00e4hlen",
+    amountAvailable: "{amount} verf\u00fcgbar",
+    uploadScreenshotInvoice: "Laden Sie einen Screenshot oder eine Rechnung hoch, indem Sie unten die Empf\u00e4ngerdaten eingeben.",
+    uploadReviewSimulated: "Die Upload-Pr\u00fcfung wird simuliert. Geben Sie E-Mail und IBAN ein, um fortzufahren.",
+    receiptMoneyReceived: "Geld erhalten",
+    receiptMoneySent: "Geld gesendet",
+    receiptSuccessful: "Erfolgreich",
+    receiptShare: "Beleg teilen",
+    receiptSave: "Beleg speichern",
+    copied: "Kopiert",
+    copyDetail: "Detail kopieren",
+    couldNotShare: "Teilen nicht m\u00f6glich",
+    csvDate: "Datum",
+    csvTitle: "Titel",
+    csvNote: "Notiz",
+    csvAmount: "Betrag",
+    csvStatus: "Status",
+    receiptCreditTitle: "Gutschriftbeleg",
+    receiptDebitTitle: "Belastungsbeleg",
+    receiptBrandTitle: "BundesKonto \u00dcberweisungsbeleg",
+    creditAmount: "Gutschriftsbetrag",
+    debitAmount: "Belastungsbetrag",
+    dateAndTime: "Datum und Uhrzeit",
+    sender: "Absender",
+    recipient: "Empf\u00e4nger",
+    viewedBy: "Angesehen von",
+    currenciesCount: "{count} W\u00e4hrungen",
+    birthNameAudit: "Geburtsname",
+    birthDateAudit: "Geburtsdatum"
   }
+};
+
+const accountCopyTranslations = {
+  de: {
+    "Receive EUR": "EUR empfangen",
+    "From SEPA and": "Aus SEPA und",
+    "100+ countries": "100+ L\u00e4ndern",
+    "Name": "Name",
+    "IBAN": "IBAN",
+    "Can receive EUR and other currencies. How it works": "Kann EUR und andere W\u00e4hrungen empfangen. So funktioniert es",
+    "Only used for international Swift transfers": "Nur f\u00fcr internationale Swift-\u00dcberweisungen",
+    "Address": "Adresse",
+    "Some senders may need this. Learn more": "Einige Absender ben\u00f6tigen diese Angabe. Mehr erfahren",
+    "What does it cost?": "Was kostet es?",
+    "From SEPA (domestic)": "Aus SEPA (Inland)",
+    "No fees": "Keine Geb\u00fchren",
+    "From outside SEPA (Swift)": "Von au\u00dferhalb SEPA (Swift)",
+    "2.39 EUR Wise fee": "2,39 EUR Wise-Geb\u00fchr",
+    "Bank fees may also apply": "Bankgeb\u00fchren k\u00f6nnen ebenfalls anfallen",
+    "How fast can money arrive?": "Wie schnell kann Geld ankommen?",
+    "SEPA transfers": "SEPA-\u00dcberweisungen",
+    "Usually in seconds": "Meist in Sekunden",
+    "Some banks may take longer": "Einige Banken k\u00f6nnen l\u00e4nger brauchen",
+    "Swift transfers": "Swift-\u00dcberweisungen",
+    "1 to 3 working days": "1 bis 3 Werktage",
+    "Depends on the sending bank": "Abh\u00e4ngig von der sendenden Bank",
+    "How much can you receive?": "Wie viel k\u00f6nnen Sie empfangen?",
+    "Incoming transfers": "Eingehende \u00dcberweisungen",
+    "No fixed Wise limit": "Kein festes Wise-Limit",
+    "Sender bank limits may apply": "Limits der sendenden Bank k\u00f6nnen gelten",
+    "Direct debits": "Lastschriften",
+    "Available": "Verf\u00fcgbar",
+    "Works for regular payments": "Funktioniert f\u00fcr regelm\u00e4\u00dfige Zahlungen",
+    "SEPA Direct Debits available": "SEPA-Lastschriften verf\u00fcgbar",
+    "Make regular payments. Works with Amazon, PayPal, Stripe and more.": "Regelm\u00e4\u00dfige Zahlungen m\u00f6glich. Funktioniert mit Amazon, PayPal, Stripe und mehr.",
+    "Receive USD": "USD empfangen",
+    "From the US and": "Aus den USA und",
+    "150+ countries": "150+ L\u00e4ndern",
+    "Account type": "Kontotyp",
+    "Deposit": "Einzahlung",
+    "Only used for domestic transfers": "Nur f\u00fcr Inlands\u00fcberweisungen",
+    "Routing number (for wire and ACH)": "Routing-Nummer (f\u00fcr Wire und ACH)",
+    "Provided to Wise by Column Bank, our partner": "Von unserer Partnerbank Column Bank bereitgestellt",
+    "Account number": "Kontonummer",
+    "From the US (domestic)": "Aus den USA (Inland)",
+    "ACH is free": "ACH ist kostenlos",
+    "Wire transfers cost 6.11 USD": "Wire-\u00dcberweisungen kosten 6,11 USD",
+    "From outside the US (Swift)": "Von au\u00dferhalb der USA (Swift)",
+    "6.11 USD Wise fee": "6,11 USD Wise-Geb\u00fchr",
+    "ACH transfers": "ACH-\u00dcberweisungen",
+    "Wire transfers are usually faster": "Wire-\u00dcberweisungen sind meist schneller",
+    "1 to 5 working days": "1 bis 5 Werktage",
+    "Depends on correspondent banks": "Abh\u00e4ngig von Korrespondenzbanken",
+    "Domestic transfers": "Inlands\u00fcberweisungen",
+    "High value transfers supported": "Hohe Betr\u00e4ge werden unterst\u00fctzt",
+    "Extra checks may apply": "Zus\u00e4tzliche Pr\u00fcfungen k\u00f6nnen erforderlich sein",
+    "Swift transfers": "Swift-\u00dcberweisungen",
+    "ACH debits available": "ACH-Lastschriften verf\u00fcgbar",
+    "Receive NZD": "NZD empfangen",
+    "From New Zealand and": "Aus Neuseeland und",
+    "Local transfers": "Lokale \u00dcberweisungen",
+    "Usually same day": "Meist am selben Tag",
+    "Bank processing times vary": "Bearbeitungszeiten der Banken variieren",
+    "From New Zealand (domestic)": "Aus Neuseeland (Inland)",
+    "From outside New Zealand (Swift)": "Von au\u00dferhalb Neuseelands (Swift)",
+    "6.89 NZD Wise fee": "6,89 NZD Wise-Geb\u00fchr",
+    "Direct Debits not available": "Lastschriften nicht verf\u00fcgbar",
+    "Receive AED": "AED empfangen",
+    "From the UAE and": "Aus den VAE und",
+    "Swift countries": "Swift-L\u00e4ndern",
+    "Only accepts Swift transfers": "Akzeptiert nur Swift-\u00dcberweisungen",
+    "Use this for international transfers": "F\u00fcr internationale \u00dcberweisungen verwenden",
+    "12.00 AED Wise fee": "12,00 AED Wise-Geb\u00fchr"
+  }
+};
+
+const staticTextTranslations = {
+  "Personal": "Privat",
+  "Business": "Gesch\u00e4ftlich",
+  "Features": "Funktionen",
+  "Pricing": "Preise",
+  "Help": "Hilfe",
+  "Dashboard": "Dashboard",
+  "Login": "Anmelden",
+  "Register": "Registrieren",
+  "International account": "Internationales Konto",
+  "Money for here, there and everywhere.": "Geld f\u00fcr hier, dort und \u00fcberall.",
+  "You send exactly": "Sie senden genau",
+  "Low transfer fee": "Niedrige \u00dcberweisungsgeb\u00fchr",
+  "Recipient gets": "Empf\u00e4nger erh\u00e4lt",
+  "Send money": "Geld senden",
+  "Send globally": "Weltweit senden",
+  "Move money between Wise-style balances with clear fees and confirmations.": "Geld zwischen Wise-\u00e4hnlichen Guthaben mit klaren Geb\u00fchren und Best\u00e4tigungen bewegen.",
+  "Hold currencies": "W\u00e4hrungen halten",
+  "View EUR, USD, NZD, AED and other account details from one dashboard.": "EUR-, USD-, NZD-, AED- und weitere Kontodetails in einem Dashboard anzeigen.",
+  "Stay protected": "Gesch\u00fctzt bleiben",
+  "Educational verification, audit logs, notifications and admin review tools.": "Demo-Verifizierung, Audit-Protokolle, Benachrichtigungen und Admin-Pr\u00fcfwerkzeuge.",
+  "Multi-currency accounts": "Mehrw\u00e4hrungskonten",
+  "Balances, receiving details, transfers, cards, and statements are organized in one clean workspace.": "Guthaben, Empfangsdaten, \u00dcberweisungen, Karten und Ausz\u00fcge sind in einem klaren Arbeitsbereich organisiert.",
+  "Educational security layer": "Demo-Sicherheitsebene",
+  "Verification records, admin tools, notifications, and audit events remain connected to the existing logic.": "Verifizierungsdaten, Admin-Werkzeuge, Benachrichtigungen und Audit-Ereignisse bleiben mit der bestehenden Logik verbunden.",
+  "Log in to your multi-currency account.": "Melden Sie sich bei Ihrem Mehrw\u00e4hrungskonto an.",
+  "Open your account in minutes.": "Er\u00f6ffnen Sie Ihr Konto in wenigen Minuten.",
+  "Password strength": "Passwortst\u00e4rke",
+  "Wise": "Wise",
+  "Overview": "\u00dcbersicht",
+  "Cards": "Karten",
+  "Savings": "Sparen",
+  "Transfers": "\u00dcberweisungen",
+  "Earn \u20ac100": "\u20ac100 verdienen",
+  "Balances": "Guthaben",
+  "account growth this month": "Kontowachstum in diesem Monat",
+  "Last updated just now": "Gerade aktualisiert",
+  "Multi-currency account": "Mehrw\u00e4hrungskonto",
+  "Pay a recipient by email or IBAN": "Empf\u00e4nger per E-Mail oder IBAN bezahlen",
+  "Add money": "Geld hinzuf\u00fcgen",
+  "Move funds into your EUR balance": "Geld auf Ihr EUR-Guthaben verschieben",
+  "Request": "Anfordern",
+  "Create a payment request": "Zahlungsanforderung erstellen",
+  "Manage spending and card security": "Ausgaben und Kartensicherheit verwalten",
+  "Euro balance": "Euro-Guthaben",
+  "British pound": "Britisches Pfund",
+  "US dollar": "US-Dollar",
+  "Available balance": "Gesamtguthaben",
+  "+8.2% net inflow": "+8,2 % Nettozufluss",
+  "Updated today": "Heute aktualisiert",
+  "Monthly analytics": "Monatliche Analyse",
+  "Live": "Live",
+  "Income": "Einnahmen",
+  "Spending": "Ausgaben",
+  "Currency mix": "W\u00e4hrungsmix",
+  "Transfers": "\u00dcberweisungen",
+  "14 this month": "14 diesen Monat",
+  "Exchange rates": "Wechselkurse",
+  "Educational rates": "Demo-Kurse",
+  "Quick transfer": "Schnell\u00fcberweisung",
+  "Transaction history": "Transaktionen",
+  "Export CSV": "CSV exportieren",
+  "Export PDF": "PDF exportieren",
+  "Choose a currency to view your details": "W\u00e4hrung ausw\u00e4hlen, um Details anzuzeigen",
+  "Receive bank transfers from around the world.": "Bank\u00fcberweisungen aus aller Welt empfangen.",
+  "Learn more.": "Mehr erfahren.",
+  "Euro": "Euro",
+  "US dollar": "US-Dollar",
+  "New Zealand dollar": "Neuseeland-Dollar",
+  "UAE dirham": "VAE-Dirham",
+  "Only accepts Swift transfers": "Akzeptiert nur Swift-\u00dcberweisungen",
+  "Receive other currencies": "Weitere W\u00e4hrungen empfangen",
+  "Open more local account details": "Weitere lokale Kontodetails \u00f6ffnen",
+  "Account details": "Kontodetails",
+  "Share": "Teilen",
+  "Quick facts": "Kurzinfos",
+  "Fees": "Geb\u00fchren",
+  "Speed": "Geschwindigkeit",
+  "Limits": "Limits",
+  "Availability": "Verf\u00fcgbarkeit",
+  "Details not accepted?": "Details nicht akzeptiert?",
+  "Tell us where": "Sagen Sie uns wo",
+  "Add": "Hinzuf\u00fcgen",
+  "Upload": "Hochladen",
+  "Who are you sending to?": "An wen senden Sie?",
+  "All": "Alle",
+  "My accounts": "Meine Konten",
+  "Search": "Suchen",
+  "Add a recipient": "Empf\u00e4nger hinzuf\u00fcgen",
+  "Search on Wise": "Auf Wise suchen",
+  "Find by Wisetag, email, phone or business name": "Nach Wisetag, E-Mail, Telefon oder Firmennamen suchen",
+  "Bank details": "Bankdaten",
+  "Enter email and IBAN": "E-Mail und IBAN eingeben",
+  "Upload screenshot or invoice": "Screenshot oder Rechnung hochladen",
+  "We'll fill in their details from a screenshot, photo, or PDF": "Wir \u00fcbernehmen Details aus Screenshot, Foto oder PDF",
+  "Enter your account details": "Kontodaten eingeben",
+  "Recipient's bank details": "Bankdaten des Empf\u00e4ngers",
+  "Inside Europe": "Innerhalb Europas",
+  "Outside Europe": "Au\u00dferhalb Europas",
+  "Amount available:": "Verf\u00fcgbarer Betrag:",
+  "Paying with": "Zahlen mit",
+  "Main account / EUR": "Hauptkonto / EUR",
+  "Change": "\u00c4ndern",
+  "Arrives": "Kommt an",
+  "Today - in seconds": "Heute - in Sekunden",
+  "Schedule": "Planen",
+  "Total fees": "Gesamtgeb\u00fchren",
+  "Free - no fees to pay": "Kostenlos - keine Geb\u00fchren",
+  "Reference for recipient (optional)": "Referenz f\u00fcr Empf\u00e4nger (optional)",
+  "Review transfer": "\u00dcberweisung pr\u00fcfen",
+  "You get exactly": "Sie erhalten genau",
+  "Sending to": "Senden an",
+  "You pay": "Sie zahlen",
+  "Should arrive": "Soll ankommen",
+  "in seconds": "in Sekunden",
+  "Transfer successful": "\u00dcberweisung erfolgreich",
+  "Your transfer has been completed.": "Ihre \u00dcberweisung wurde abgeschlossen.",
+  "Back to dashboard": "Zur\u00fcck zum Dashboard",
+  "View transactions": "Transaktionen anzeigen",
+  "Send now": "Jetzt senden",
+  "Virtual Debit": "Virtuelle Debitkarte",
+  "ONLINE CARD": "ONLINE-KARTE",
+  "Ready for online payments": "Bereit f\u00fcr Online-Zahlungen",
+  "Savings Card": "Sparkarten",
+  "VAULT ACCESS": "SPARFACH-ZUGANG",
+  "Freeze status: active": "Sperrstatus: aktiv",
+  "Recent card activity": "Aktuelle Kartenaktivit\u00e4t",
+  "Protected": "Gesch\u00fctzt",
+  "Online purchase": "Online-Kauf",
+  "Card verification": "Kartenverifizierung",
+  "Security check passed": "Sicherheitspr\u00fcfung bestanden",
+  "Contactless ready": "Kontaktlos bereit",
+  "Daily limit available": "Tageslimit verf\u00fcgbar",
+  "Goal": "Ziel",
+  "Close receipt": "Beleg schlie\u00dfen"
 };
 
 const activityTextMap = {
@@ -1038,6 +1377,45 @@ function t(key, replacements = {}) {
   );
 }
 
+function accountCopy(text) {
+  return accountCopyTranslations[currentLanguage()]?.[text] || text;
+}
+
+function statusCopy(status) {
+  return {
+    Pending: t("pending"),
+    Approved: t("approved"),
+    Rejected: t("rejected")
+  }[status] || status;
+}
+
+function translateStaticText() {
+  const toGerman = currentLanguage() === "de";
+  const reverseTranslations = Object.fromEntries(
+    Object.entries(staticTextTranslations).map(([english, german]) => [german, english])
+  );
+  const dictionary = toGerman ? staticTextTranslations : reverseTranslations;
+
+  document.querySelectorAll("body *").forEach((element) => {
+    element.childNodes.forEach((node) => {
+      if (node.nodeType !== Node.TEXT_NODE) {
+        return;
+      }
+      const text = node.textContent.trim();
+      if (!text || !dictionary[text]) {
+        return;
+      }
+      node.textContent = node.textContent.replace(text, dictionary[text]);
+    });
+    ["aria-label", "placeholder"].forEach((attribute) => {
+      const value = element.getAttribute(attribute);
+      if (value && dictionary[value]) {
+        element.setAttribute(attribute, dictionary[value]);
+      }
+    });
+  });
+}
+
 function setText(selector, key) {
   const element = document.querySelector(selector);
   if (element) {
@@ -1139,7 +1517,9 @@ function renderPasswordStrength() {
     return;
   }
   const score = passwordStrength(registerPasswordInput.value);
-  const labels = ["Start typing a password", "Weak", "Fair", "Good", "Strong", "Excellent"];
+  const labels = currentLanguage() === "de"
+    ? ["Passwort eingeben", "Schwach", "Mittel", "Gut", "Stark", "Sehr stark"]
+    : ["Start typing a password", "Weak", "Fair", "Good", "Strong", "Excellent"];
   passwordStrengthBar.style.width = `${Math.max(score, registerPasswordInput.value ? 1 : 0) * 20}%`;
   passwordStrengthBar.dataset.score = String(score);
   passwordStrengthText.textContent = labels[score];
@@ -1446,7 +1826,7 @@ let activeAccountFactTab = "fees";
 
 function accountDetailValue(field, user) {
   if (field.value === "accountName") {
-    return user ? `${user.firstName} ${user.lastName}` : "Account holder";
+    return user ? `${user.firstName} ${user.lastName}` : t("accountHolder");
   }
   if (field.value === "userIban") {
     return user?.iban || "BE38 9058 6931 0872";
@@ -1467,7 +1847,7 @@ function accountDetailsText(currencyCode = activeAccountCurrency) {
   const user = getCurrentUser();
   const detail = RECEIVE_ACCOUNT_DETAILS[currencyCode] || RECEIVE_ACCOUNT_DETAILS.EUR;
   return detail.fields
-    .map((field) => `${field.label}: ${accountDetailValue(field, user)}`)
+    .map((field) => `${accountCopy(field.label)}: ${accountDetailValue(field, user)}`)
     .join("\n");
 }
 
@@ -1493,20 +1873,20 @@ function renderAccountFact() {
     return;
   }
 
-  accountFactQuestion.textContent = fact.question;
+  accountFactQuestion.textContent = accountCopy(fact.question);
   accountFactCard.innerHTML = fact.rows.map((row) => `
     <button class="account-fact-row" type="button">
-      <span>${escapeHtml(row[0])}</span>
-      <strong>${escapeHtml(row[1])}</strong>
-      ${row[2] ? `<small>${escapeHtml(row[2])}</small>` : ""}
+      <span>${escapeHtml(accountCopy(row[0]))}</span>
+      <strong>${escapeHtml(accountCopy(row[1]))}</strong>
+      ${row[2] ? `<small>${escapeHtml(accountCopy(row[2]))}</small>` : ""}
       <b></b>
     </button>
   `).join("");
   accountAvailabilityCard.innerHTML = `
     <span class="${detail.availability.ok ? "availability-ok" : "availability-no"}"></span>
     <div>
-      <strong>${escapeHtml(detail.availability.title)}</strong>
-      ${detail.availability.text ? `<p>${escapeHtml(detail.availability.text)}</p>` : ""}
+      <strong>${escapeHtml(accountCopy(detail.availability.title))}</strong>
+      ${detail.availability.text ? `<p>${escapeHtml(accountCopy(detail.availability.text))}</p>` : ""}
     </div>
   `;
 }
@@ -1525,20 +1905,21 @@ function renderAccountDetails(currencyCode = "EUR") {
   }
 
   accountDetailCode.textContent = detail.code;
-  accountDetailTitle.textContent = detail.title;
-  accountDetailSubtitle.innerHTML = `${escapeHtml(detail.subtitlePrefix)} <button class="link-button" type="button">${escapeHtml(detail.subtitleLink)}</button>`;
+  accountDetailTitle.textContent = accountCopy(detail.title);
+  accountDetailSubtitle.innerHTML = `${escapeHtml(accountCopy(detail.subtitlePrefix))} <button class="link-button" type="button">${escapeHtml(accountCopy(detail.subtitleLink))}</button>`;
   accountDetailFlag.className = `currency-flag ${detail.flagClass}`;
   accountDetailFields.innerHTML = detail.fields.map((field) => {
     const value = accountDetailValue(field, user);
     const safeValue = escapeHtml(value);
+    const translatedLabel = accountCopy(field.label);
     return `
       <div class="account-detail-field">
         <div>
-          <span>${escapeHtml(field.label)}</span>
+          <span>${escapeHtml(translatedLabel)}</span>
           <strong>${safeValue}</strong>
-          ${field.hint ? `<small>${escapeHtml(field.hint)}</small>` : ""}
+          ${field.hint ? `<small>${escapeHtml(accountCopy(field.hint))}</small>` : ""}
         </div>
-        <button class="copy-detail-button" data-copy-value="${safeValue}" type="button" aria-label="Copy ${escapeHtml(field.label)}"></button>
+        <button class="copy-detail-button" data-copy-value="${safeValue}" type="button" aria-label="${escapeHtml(t("copyDetail"))}: ${escapeHtml(translatedLabel)}"></button>
       </div>
     `;
   }).join("");
@@ -1550,10 +1931,10 @@ async function copyAccountDetail(value, button) {
   try {
     await navigator.clipboard.writeText(value);
     button.classList.add("copied");
-    button.setAttribute("aria-label", "Copied");
+    button.setAttribute("aria-label", t("copied"));
     setTimeout(() => {
       button.classList.remove("copied");
-      button.setAttribute("aria-label", "Copy detail");
+      button.setAttribute("aria-label", t("copyDetail"));
     }, 1200);
   } catch {
     button.classList.add("copy-failed");
@@ -1573,19 +1954,19 @@ function updateTransferPreview() {
   const ibanMatches = recipientIbanMatches(recipient, recipientIbanInput.value);
 
   summaryFrom.textContent = sender ? formatCurrency(sender.balance) : "-";
-  summaryTo.textContent = recipient ? `${recipient.firstName} ${recipient.lastName} · EUR` : "Choose recipient";
+  summaryTo.textContent = recipient ? `${recipient.firstName} ${recipient.lastName} · EUR` : t("chooseRecipient");
   summaryAmount.textContent = Number.isFinite(amount) && amount > 0 ? formatCurrency(amount) : formatCurrency(0);
   if (detailsRecipient) {
-    detailsRecipient.textContent = recipient ? `${recipient.firstName} ${recipient.lastName} · EUR` : "Choose recipient";
+    detailsRecipient.textContent = recipient ? `${recipient.firstName} ${recipient.lastName} · EUR` : t("chooseRecipient");
   }
   if (detailsAmount) {
     detailsAmount.textContent = Number.isFinite(amount) && amount > 0 ? amount.toFixed(2) : "0.00";
   }
   if (detailsAvailable) {
-    detailsAvailable.textContent = sender ? `${formatCurrency(sender.balance)} available` : "- available";
+    detailsAvailable.textContent = sender ? t("amountAvailable", { amount: formatCurrency(sender.balance) }) : t("amountAvailable", { amount: "-" });
   }
   if (reviewRecipient) {
-    reviewRecipient.textContent = recipient ? `${recipient.firstName} ${recipient.lastName}` : "Choose recipient";
+    reviewRecipient.textContent = recipient ? `${recipient.firstName} ${recipient.lastName}` : t("chooseRecipient");
   }
   if (reviewAmount) {
     reviewAmount.textContent = Number.isFinite(amount) && amount > 0 ? `${amount.toFixed(2)} EUR` : "0 EUR";
@@ -1594,7 +1975,7 @@ function updateTransferPreview() {
   if (recipient && ibanMatches) {
     recipientPreview.classList.remove("hidden", "warning");
     recipientPreviewName.textContent = `${recipient.firstName} ${recipient.lastName}`;
-    recipientPreviewMeta.textContent = `${recipient.email} - IBAN ${recipientIbanInput.value}`;
+    recipientPreviewMeta.textContent = `${recipient.email} - ${t("iban")} ${recipientIbanInput.value}`;
     return;
   }
 
@@ -1629,7 +2010,7 @@ function renderSieglindeAccountChoices() {
   recipientPreviewMeta.replaceChildren();
   const intro = document.createElement("span");
   const list = document.createElement("div");
-  intro.textContent = "Choose account to use";
+  intro.textContent = t("chooseAccountToUse");
   list.className = "recipient-account-options";
   SIEGLINDE_TRANSFER_ACCOUNTS.forEach((account) => {
     const button = document.createElement("button");
@@ -1661,12 +2042,12 @@ function pageTitleKey(pageName) {
   return {
     overview: "overview",
     transfer: "transfers",
-    accountDetails: "account details",
+    accountDetails: "accountDetails",
     cards: "cards",
     savings: "savings",
-    countrySelection: "Select your bank's country",
-    bankSelection: "Choose your bank",
-    confirmWithdrawal: "Confirm transfer",
+    countrySelection: "countrySelectionTitle",
+    bankSelection: "bankSelectionTitle",
+    confirmWithdrawal: "confirmTransfer",
     messages: "messages",
     profile: "profileDetails",
     settings: "settings",
@@ -1781,6 +2162,7 @@ function applyTranslations() {
   setText("#heroCardsAction", "cards");
   setText("#heroBalanceLabel", "availableBalance");
   setText("#accountsHeading", "accounts");
+  setText("#openAccountDetailsButton", "accountDetails");
   setText("#mainAccountName", "mainAccount");
   setText("#savingsAccountName", "savingsVault");
   setText("#overviewPage .panel h3", "quickTransfer");
@@ -1826,6 +2208,20 @@ function applyTranslations() {
   setText("#giftCardHistoryHeading", "giftCardHistory");
   setText("#adminGiftCardHeading", "giftCardReviewQueue");
   setText("#adminGiftCardRecordsHeading", "giftCardRecords");
+  setText("#countrySelectionHeading", "countrySelectionTitle");
+  setText("#bankSelectionHeading", "bankSelectionTitle");
+  setText("#adminDemoVerificationHeading", "verificationRequests");
+  setText("#adminDemoRequestIdHeading", "requestId");
+  setText("#adminDemoActionsHeading", "actions");
+  setText("#adminDemoVrNetKeyHeading", "demoVrNetKey");
+  setText("#adminDemoMessageHeading", "message");
+  setText("#adminDemoSubmittedHeading", "submittedAt");
+  setText("#adminDemoStatusHeading", "status");
+  setText("#shareReceiptButton", "receiptShare");
+  setText("#saveReceiptButton", "receiptSave");
+  document.querySelectorAll(".verification-back-button").forEach((button) => {
+    button.setAttribute("aria-label", t("back"));
+  });
 
   languageButtons.forEach((button) => {
     button.classList.toggle("active", button.dataset.language === currentLanguage());
@@ -1837,6 +2233,8 @@ function applyTranslations() {
   } else {
     pageTitle.textContent = t(pageTitleKey(activePageName()));
   }
+  translateStaticText();
+  renderPasswordStrength();
 }
 
 function showAuth(mode) {
@@ -1910,6 +2308,7 @@ function renderDashboard() {
   mainAccountBalance.textContent = formatHeroAmount(user.balance);
   savingsAccountBalance.textContent = formatCurrency(user.savings || 0);
   mainAccountIban.textContent = `${formatCurrency(user.balance)} • 5 currencies`;
+  mainAccountIban.textContent = `${formatCurrency(user.balance)} • ${t("currenciesCount", { count: 5 })}`;
   savingsAccountIban.textContent = maskIban(user.iban, "01");
   savingsBalance.textContent = formatCurrency(user.savings || 0);
   const incomeTotal = sumActivities(user, "income");
@@ -2054,20 +2453,20 @@ function buildReceipt(activity, transaction) {
   const recipientDisplay = [recipientName, transaction.recipientEmail, transaction.recipientIban || "-"].filter(Boolean).join("<br>");
   const senderText = [senderName, transaction.senderEmail, transaction.senderIban || "-"].filter(Boolean).join(" | ");
   const recipientText = [recipientName, transaction.recipientEmail, transaction.recipientIban || "-"].filter(Boolean).join(" | ");
-  const receiptTitle = isCredit ? "Credit alert receipt" : "Debit alert receipt";
-  const receiptStatus = isCredit ? "Money received" : "Money sent";
+  const receiptTitle = isCredit ? t("receiptCreditTitle") : t("receiptDebitTitle");
+  const receiptStatus = isCredit ? t("receiptMoneyReceived") : t("receiptMoneySent");
 
   activeReceiptText = [
-    "BundesKonto transfer receipt",
+    t("receiptBrandTitle"),
     receiptTitle,
-    `Status: ${receiptStatus}`,
-    `Reference: ${reference}`,
-    `Amount: ${formatCurrency(transaction.amount)}`,
-    `Date: ${transaction.date}`,
-    `Sender: ${senderText}`,
-    `Recipient: ${recipientText}`,
-    `Note: ${transaction.note || "-"}`,
-    `Viewed by: ${user ? `${user.firstName} ${user.lastName}` : "-"}`
+    `${t("status")}: ${receiptStatus}`,
+    `${t("referenceNumber")}: ${reference}`,
+    `${t("amount")}: ${formatCurrency(transaction.amount)}`,
+    `${t("csvDate")}: ${transaction.date}`,
+    `${t("sender")}: ${senderText}`,
+    `${t("recipient")}: ${recipientText}`,
+    `${t("note")}: ${transaction.note || "-"}`,
+    `${t("viewedBy")}: ${user ? `${user.firstName} ${user.lastName}` : "-"}`
   ].join("\n");
 
   return `
@@ -2077,16 +2476,16 @@ function buildReceipt(activity, transaction) {
       <strong>${receiptStatus}</strong>
     </div>
     <div class="receipt-amount">
-      <span>${isCredit ? "Credit amount" : "Debit amount"}</span>
+      <span>${isCredit ? t("creditAmount") : t("debitAmount")}</span>
       <strong>${formatCurrency(transaction.amount)}</strong>
     </div>
     <div class="receipt-grid">
-      <div class="receipt-row"><span>Reference</span><strong>${reference}</strong></div>
-      <div class="receipt-row"><span>Date and time</span><strong>${transaction.date}</strong></div>
-      <div class="receipt-row"><span>Sender</span><strong>${senderDisplay}</strong></div>
-      <div class="receipt-row"><span>Recipient</span><strong>${recipientDisplay}</strong></div>
-      <div class="receipt-row"><span>Note</span><strong>${transaction.note || "-"}</strong></div>
-      <div class="receipt-row"><span>Status</span><strong>Successful</strong></div>
+      <div class="receipt-row"><span>${t("referenceNumber")}</span><strong>${reference}</strong></div>
+      <div class="receipt-row"><span>${t("dateAndTime")}</span><strong>${transaction.date}</strong></div>
+      <div class="receipt-row"><span>${t("sender")}</span><strong>${senderDisplay}</strong></div>
+      <div class="receipt-row"><span>${t("recipient")}</span><strong>${recipientDisplay}</strong></div>
+      <div class="receipt-row"><span>${t("note")}</span><strong>${transaction.note || "-"}</strong></div>
+      <div class="receipt-row"><span>${t("status")}</span><strong>${t("receiptSuccessful")}</strong></div>
     </div>
   `;
 }
@@ -2256,7 +2655,7 @@ function currentActivityRows() {
 
 function exportTransactionsCsv() {
   const rows = currentActivityRows();
-  const header = ["Date", "Title", "Note", "Amount", "Status"];
+  const header = [t("csvDate"), t("csvTitle"), t("csvNote"), t("csvAmount"), t("csvStatus")];
   const csv = [
     header.join(","),
     ...rows.map((row) =>
@@ -2455,7 +2854,7 @@ function renderAdminReviews() {
     const rejectButton = document.createElement("button");
 
     title.textContent = `${user.firstName} ${user.lastName}`;
-    subtitle.textContent = `${user.email} - Birth name: ${review.birthName} - Birth date: ${review.birthDate} - TIN ${review.tin} - ${review.submittedAt}`;
+    subtitle.textContent = `${user.email} - ${t("birthNameAudit")}: ${review.birthName} - ${t("birthDateAudit")}: ${review.birthDate} - TIN ${review.tin} - ${review.submittedAt}`;
     image.className = "review-id-image";
     image.alt = "ID card";
     image.src = review.idCardPhoto;
@@ -2492,7 +2891,7 @@ function renderAdminDemoVerificationRequests() {
     const row = document.createElement("tr");
     const cell = document.createElement("td");
     cell.colSpan = 6;
-    cell.textContent = "No verification requests yet.";
+    cell.textContent = t("noVerificationRequests");
     row.append(cell);
     adminDemoVerificationTable.append(row);
     return;
@@ -2518,15 +2917,15 @@ function renderAdminDemoVerificationRequests() {
     submittedCell.textContent = request.submittedAt || "-";
 
     status.className = request.status === "Approved" ? "status-pill success" : request.status === "Rejected" ? "status-pill error" : "status-pill";
-    status.textContent = request.status;
+    status.textContent = statusCopy(request.status);
     statusCell.append(status);
 
     approveButton.className = "mini-button";
     rejectButton.className = "mini-button danger";
     deleteButton.className = "mini-button danger";
-    approveButton.textContent = "Approve";
-    rejectButton.textContent = "Reject";
-    deleteButton.textContent = "Delete";
+    approveButton.textContent = t("approve");
+    rejectButton.textContent = t("reject");
+    deleteButton.textContent = t("delete");
     approveButton.disabled = request.status !== "Pending";
     rejectButton.disabled = request.status !== "Pending";
     approveButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Approved"));
@@ -2574,7 +2973,7 @@ function renderAdminIdentityRecords() {
     const badge = document.createElement("span");
 
     title.textContent = user ? `${user.firstName} ${user.lastName}` : review.userEmail;
-    subtitle.textContent = `${review.userEmail} - Birth name: ${review.birthName} - Birth date: ${review.birthDate} - TIN ${review.tin}`;
+    subtitle.textContent = `${review.userEmail} - ${t("birthNameAudit")}: ${review.birthName} - ${t("birthDateAudit")}: ${review.birthDate} - TIN ${review.tin}`;
     dates.textContent = `${t("submittedOn")}: ${review.submittedAt}${review.reviewedAt ? ` - ${t("reviewedOn")}: ${review.reviewedAt}` : ""}`;
     badge.className = status.type ? `status-pill ${status.type}` : "status-pill";
     badge.textContent = status.label;
@@ -3365,18 +3764,18 @@ shareAccountDetailsButton?.addEventListener("click", async () => {
   const text = accountDetailsText();
   try {
     if (navigator.share) {
-      await navigator.share({ title: `${activeAccountCurrency} account details`, text });
+      await navigator.share({ title: `${activeAccountCurrency} ${t("accountDetails")}`, text });
       return;
     }
     await navigator.clipboard.writeText(text);
-    shareAccountDetailsButton.textContent = "Copied";
+    shareAccountDetailsButton.textContent = t("copied");
     setTimeout(() => {
-      shareAccountDetailsButton.textContent = "Share";
+      shareAccountDetailsButton.textContent = t("receiptShare");
     }, 1400);
   } catch {
-    shareAccountDetailsButton.textContent = "Could not share";
+    shareAccountDetailsButton.textContent = t("couldNotShare");
     setTimeout(() => {
-      shareAccountDetailsButton.textContent = "Share";
+      shareAccountDetailsButton.textContent = t("receiptShare");
     }, 1400);
   }
 });
@@ -3408,7 +3807,7 @@ function setTransferStage(stage) {
   if (transferUploadButton) {
     transferUploadButton.classList.toggle("active", stage === "bank");
   }
-  const buttonText = stage === "confirm" ? t("sendNow") : "Continue";
+  const buttonText = stage === "confirm" ? t("sendNow") : t("continue");
   transferForm?.querySelector(".primary-button").replaceChildren(document.createTextNode(buttonText));
   transferForm?.querySelector(".transfer-submit-button")?.classList.toggle("hidden", stage === "success");
   setStatus(transferStatus, "", "");
@@ -3446,7 +3845,7 @@ function canContinueFromBank() {
   if (recipient?.email === "sieglindeeck@me.com") {
     const selected = SIEGLINDE_TRANSFER_ACCOUNTS.some((account) => compactIban(account.iban) === compactIban(recipientIbanInput.value));
     if (!selected) {
-      setStatus(transferStatus, "Choose one Sieglinde Eck account to continue.", "error");
+      setStatus(transferStatus, t("chooseAccountToUse"), "error");
       return false;
     }
   }
@@ -3505,7 +3904,7 @@ transferSearchButton?.addEventListener("click", () => {
 });
 transferUploadButton?.addEventListener("click", () => {
   setTransferStage("bank");
-  setStatus(transferStatus, "Upload a screenshot or invoice by entering the recipient details below.", "success");
+  setStatus(transferStatus, t("uploadScreenshotInvoice"), "success");
 });
 searchWiseButton?.addEventListener("click", () => {
   setTransferStage("bank");
@@ -3517,7 +3916,7 @@ bankDetailsButton?.addEventListener("click", () => {
 });
 invoiceUploadButton?.addEventListener("click", () => {
   setTransferStage("bank");
-  setStatus(transferStatus, "Upload review is simulated. Enter email and IBAN to continue.", "success");
+  setStatus(transferStatus, t("uploadReviewSimulated"), "success");
 });
 
 transferDoneButton?.addEventListener("click", () => {
@@ -3643,18 +4042,18 @@ receiptModal.addEventListener("click", (event) => {
 shareReceiptButton.addEventListener("click", async () => {
   try {
     if (navigator.share) {
-      await navigator.share({ title: "BundesKonto receipt", text: activeReceiptText });
+      await navigator.share({ title: t("receiptBrandTitle"), text: activeReceiptText });
       return;
     }
     await navigator.clipboard.writeText(activeReceiptText);
-    shareReceiptButton.textContent = "Copied";
+    shareReceiptButton.textContent = t("copied");
     setTimeout(() => {
-      shareReceiptButton.textContent = "Share receipt";
+      shareReceiptButton.textContent = t("receiptShare");
     }, 1600);
   } catch {
-    shareReceiptButton.textContent = "Could not share";
+    shareReceiptButton.textContent = t("couldNotShare");
     setTimeout(() => {
-      shareReceiptButton.textContent = "Share receipt";
+      shareReceiptButton.textContent = t("receiptShare");
     }, 1600);
   }
 });
@@ -3851,7 +4250,7 @@ function CountrySelection() {
   countrySelectionRoot.innerHTML = `
     <button class="verification-row country-row" type="button" data-country-code="DE">
       <span class="country-flag" aria-hidden="true">🇩🇪</span>
-      <span><strong>Germany</strong><small>German bank account</small></span>
+      <span><strong>${escapeHtml(t("verificationCountryGermany"))}</strong><small>${escapeHtml(t("verificationCountryGermanyHint"))}</small></span>
       <b aria-hidden="true">›</b>
     </button>
   `;
@@ -3864,7 +4263,7 @@ function BankSelection() {
   bankSelectionRoot.innerHTML = withdrawalBanks.map((bank) => `
     <button class="verification-row bank-row" type="button" data-bank-id="${bank.id}">
       ${bankLogo(bank)}
-      <span><strong>${bank.name}</strong><small>Instant verification available</small></span>
+      <span><strong>${bank.name}</strong><small>${escapeHtml(t("instantVerificationAvailable"))}</small></span>
       <b aria-hidden="true">›</b>
     </button>
   `).join("");
@@ -3878,33 +4277,33 @@ function ConfirmWithdrawal(bank, isLoading = false) {
     <div class="confirm-bank-hero">
       ${bankLogo(bank)}
       <h3>${bank.name}</h3>
-      <p>Confirm your transfer verification</p>
+      <p>${escapeHtml(t("confirmTransferVerification"))}</p>
     </div>
     <div class="withdrawal-info-list">
       <section>
         <span class="info-icon instant-icon" aria-hidden="true"></span>
         <div>
-          <strong>Instant transfer</strong>
-          <p>The transfer will arrive in seconds. Your bank should not charge any fees.</p>
+          <strong>${escapeHtml(t("instantTransfer"))}</strong>
+          <p>${escapeHtml(t("instantTransferHint"))}</p>
         </div>
       </section>
       <section>
         <span class="info-icon approve-icon" aria-hidden="true"></span>
         <div>
-          <strong>Approve with your bank</strong>
-          <p>You will be redirected to your bank to approve the withdrawal. Your bank will not share your login information with this educational application.</p>
+          <strong>${escapeHtml(t("approveWithBank"))}</strong>
+          <p>${escapeHtml(t("approveWithBankHint"))}</p>
         </div>
       </section>
       <section>
         <span class="info-icon secure-icon" aria-hidden="true"></span>
         <div>
-          <strong>Secure verification</strong>
-          <p>The transfer request is securely verified before completion.</p>
+          <strong>${escapeHtml(t("secureVerification"))}</strong>
+          <p>${escapeHtml(t("secureVerificationHint"))}</p>
         </div>
       </section>
     </div>
     <button id="confirmWithdrawalContinueButton" class="verification-continue-button" type="button" ${isLoading ? "disabled" : ""}>
-      ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Verifying transfer' : "Continue"}
+      ${isLoading ? `<span class="button-spinner" aria-hidden="true"></span> ${escapeHtml(t("verifyingTransfer"))}` : escapeHtml(t("continue"))}
     </button>
   `;
 }
@@ -3914,14 +4313,14 @@ function VRBankWelcome() {
     return;
   }
   vrBankWelcomeRoot.innerHTML = `
-    <button id="vrHelpButton" class="vr-help-button" type="button" aria-label="Demo help"></button>
+    <button id="vrHelpButton" class="vr-help-button" type="button" aria-label="${escapeHtml(t("message"))}"></button>
     <div class="vr-welcome-hero">
       <span class="vr-large-logo" aria-hidden="true"><b>VR</b></span>
-      <h3>Welcome to the VR Banking App</h3>
+      <h3>${escapeHtml(t("welcomeVrBank"))}</h3>
     </div>
     <div class="vr-welcome-actions">
-      <button id="vrOnlineAccessButton" class="vr-primary-button" type="button">Online access available</button>
-      <button id="vrNoAccessButton" class="vr-secondary-button" type="button">Online access not yet available</button>
+      <button id="vrOnlineAccessButton" class="vr-primary-button" type="button">${escapeHtml(t("onlineAccessAvailable"))}</button>
+      <button id="vrNoAccessButton" class="vr-secondary-button" type="button">${escapeHtml(t("onlineAccessUnavailable"))}</button>
     </div>
   `;
 }
@@ -3932,39 +4331,39 @@ function VRBankAccess(isLoading = false) {
   }
   vrBankAccessRoot.innerHTML = `
     <div class="vr-access-header">
-      <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="Back"></button>
-      <strong>Log in</strong>
+      <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="${escapeHtml(t("back"))}"></button>
+      <strong>${escapeHtml(t("login"))}</strong>
     </div>
     <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
     <label class="vr-access-field">
       <input id="vrDemoAccessReference" type="text" autocomplete="off" placeholder="VR-NetKey oder Alias" aria-label="VR-NetKey oder Alias">
     </label>
     <label class="vr-access-field vr-message-field">
-      <textarea id="message" name="message" placeholder="p...." rows="6" required aria-label="Message"></textarea>
+      <textarea id="message" name="message" placeholder="p...." rows="6" required aria-label="${escapeHtml(t("message"))}"></textarea>
     </label>
     <p id="vrDemoAccessMessage" class="vr-access-message" aria-live="polite"></p>
     <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
-      ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Anmelden' : "Anmelden"}
+      ${isLoading ? `<span class="button-spinner" aria-hidden="true"></span> ${escapeHtml(t("login"))}` : escapeHtml(t("login"))}
     </button>
   `;
 }
 
-function VRBankWaiting(request, message = "Waiting for administrator approval.") {
+function VRBankWaiting(request, message = t("waitingAdminApproval")) {
   if (!vrBankAccessRoot) {
     return;
   }
   vrBankAccessRoot.innerHTML = `
     <div class="vr-access-header">
-      <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="Back"></button>
-      <strong>Log in</strong>
+      <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="${escapeHtml(t("back"))}"></button>
+      <strong>${escapeHtml(t("login"))}</strong>
     </div>
     <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
     <section class="vr-waiting-panel">
-      <strong>Your request has been submitted.</strong>
-      <p>Status: ${request.status}</p>
+      <strong>${escapeHtml(t("requestSubmitted"))}</strong>
+      <p>${escapeHtml(t("status"))}: ${escapeHtml(statusCopy(request.status))}</p>
       <small>${message}</small>
-      <small>Request ID: ${request.requestId}</small>
-      <span class="status-pill">${request.status}</span>
+      <small>${escapeHtml(t("requestId"))}: ${request.requestId}</small>
+      <span class="status-pill">${escapeHtml(statusCopy(request.status))}</span>
     </section>
   `;
 }
@@ -4072,7 +4471,7 @@ function startVrDemoVerificationPolling(requestId) {
     }
     if (latest.status === "Rejected") {
       stopVrDemoVerificationPolling();
-      VRBankWaiting(latest, "Verification request rejected. Please go back and submit again with test values.");
+      VRBankWaiting(latest, t("verificationRejectedResubmit"));
     }
   }, 3000);
 }
@@ -4090,7 +4489,7 @@ function submitVrDemoVerificationRequest() {
 
   if (!vrNetKey || !requestMessage) {
     if (message) {
-      message.textContent = "Enter your VR-NetKey/Alias and message to submit the request.";
+      message.textContent = t("enterVrMessage");
       message.classList.add("error");
     }
     return;
@@ -4099,7 +4498,7 @@ function submitVrDemoVerificationRequest() {
   const request = {
     requestId: `VR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
     bankName: bank?.name || "Volkss- und Raiffeisenbanken",
-    country: pendingTransferVerification.country === "DE" ? "Germany" : pendingTransferVerification.country,
+    country: pendingTransferVerification.country === "DE" ? t("verificationCountryGermany") : pendingTransferVerification.country,
     vrNetKey,
     message: requestMessage,
     submittedAt: localDateTime(),

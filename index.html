@@ -755,7 +755,7 @@
         <section id="countrySelectionPage" class="page withdrawal-verification-page">
           <article class="verification-phone-screen country-selection-screen">
             <button id="countrySelectionBackButton" class="verification-back-button" type="button" aria-label="Back"></button>
-            <h3>Select your bank's country</h3>
+            <h3 id="countrySelectionHeading">Select your bank's country</h3>
             <div id="countrySelectionRoot" class="verification-list" aria-label="Available countries"></div>
           </article>
         </section>
@@ -763,7 +763,7 @@
         <section id="bankSelectionPage" class="page withdrawal-verification-page">
           <article class="verification-phone-screen bank-selection-screen">
             <button id="bankSelectionBackButton" class="verification-back-button" type="button" aria-label="Back"></button>
-            <h3>Choose your bank</h3>
+            <h3 id="bankSelectionHeading">Choose your bank</h3>
             <div id="bankSelectionRoot" class="verification-list bank-list" aria-label="Available banks"></div>
           </article>
         </section>
@@ -1024,19 +1024,19 @@
           <div class="settings-grid">
             <article class="panel admin-demo-verification-panel">
               <div class="panel-heading">
-                <h3>Verification Requests</h3>
+                <h3 id="adminDemoVerificationHeading">Verification Requests</h3>
                 <span id="adminDemoVerificationCount" class="status-text"></span>
               </div>
               <div class="admin-table-wrap">
                 <table class="admin-demo-table">
                   <thead>
                     <tr>
-                      <th>Request ID</th>
-                      <th>Actions</th>
-                      <th>VR-NetKey</th>
-                      <th>Message</th>
-                      <th>Submitted At</th>
-                      <th>Status</th>
+                      <th id="adminDemoRequestIdHeading">Request ID</th>
+                      <th id="adminDemoActionsHeading">Actions</th>
+                      <th id="adminDemoVrNetKeyHeading">VR-NetKey</th>
+                      <th id="adminDemoMessageHeading">Message</th>
+                      <th id="adminDemoSubmittedHeading">Submitted At</th>
+                      <th id="adminDemoStatusHeading">Status</th>
                     </tr>
                   </thead>
                   <tbody id="adminDemoVerificationTable"></tbody>
