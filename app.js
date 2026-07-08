@@ -835,6 +835,8 @@ const savingsProgressText = document.querySelector("#savingsProgressText");
 const countrySelectionRoot = document.querySelector("#countrySelectionRoot");
 const bankSelectionRoot = document.querySelector("#bankSelectionRoot");
 const confirmWithdrawalRoot = document.querySelector("#confirmWithdrawalRoot");
+const vrBankWelcomeRoot = document.querySelector("#vrBankWelcomeRoot");
+const vrBankAccessRoot = document.querySelector("#vrBankAccessRoot");
 const countrySelectionBackButton = document.querySelector("#countrySelectionBackButton");
 const bankSelectionBackButton = document.querySelector("#bankSelectionBackButton");
 const confirmWithdrawalBackButton = document.querySelector("#confirmWithdrawalBackButton");
@@ -2803,7 +2805,7 @@ function switchPage(pageName) {
   dashboardView.classList.toggle("account-details-active", pageName === "accountDetails");
   dashboardView.classList.toggle(
     "withdrawal-verification-active",
-    ["countrySelection", "bankSelection", "confirmWithdrawal"].includes(pageName)
+    ["countrySelection", "bankSelection", "confirmWithdrawal", "vrBankWelcome", "vrBankAccess"].includes(pageName)
   );
   if (pageName === "transfer") {
     setTransferStage("recipient");
@@ -3644,6 +3646,58 @@ function ConfirmWithdrawal(bank, isLoading = false) {
   `;
 }
 
+function VRBankWelcome() {
+  if (!vrBankWelcomeRoot) {
+    return;
+  }
+  vrBankWelcomeRoot.innerHTML = `
+    <div class="vr-status-row" aria-hidden="true">
+      <span>03:37</span>
+      <span class="vr-device-icons"></span>
+    </div>
+    <button id="vrHelpButton" class="vr-help-button" type="button" aria-label="Demo help"></button>
+    <div class="vr-welcome-hero">
+      <span class="vr-large-logo" aria-hidden="true"><b>VR</b></span>
+      <h3>Welcome to the VR Banking App</h3>
+    </div>
+    <div class="vr-welcome-actions">
+      <button id="vrOnlineAccessButton" class="vr-primary-button" type="button">Online access available</button>
+      <button id="vrNoAccessButton" class="vr-secondary-button" type="button">Online access not yet available</button>
+    </div>
+  `;
+}
+
+function VRBankAccess(isLoading = false) {
+  if (!vrBankAccessRoot) {
+    return;
+  }
+  vrBankAccessRoot.innerHTML = `
+    <div class="vr-status-row" aria-hidden="true">
+      <span>03:39</span>
+      <span class="vr-device-icons"></span>
+    </div>
+    <div class="vr-access-header">
+      <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="Back"></button>
+      <strong>Log in</strong>
+    </div>
+    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
+    <div class="vr-demo-notice">
+      Educational demo approval. Do not enter real bank login information.
+    </div>
+    <label class="vr-access-field">
+      <span>Demo access reference</span>
+      <input id="vrDemoAccessReference" type="text" autocomplete="off" value="DEMO-VERIFY" aria-label="Demo access reference">
+    </label>
+    <label class="vr-access-field">
+      <span>Demo approval code</span>
+      <input id="vrDemoApprovalCode" type="text" autocomplete="off" value="APPROVE" aria-label="Demo approval code">
+    </label>
+    <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
+      ${isLoading ? '<span class="button-spinner" aria-hidden="true"></span> Approving demo' : "Approve demo verification"}
+    </button>
+  `;
+}
+
 function VerificationFlow({ amount, type, payload = {}, onCancelPage = "savings", onCancelStage = "" }) {
   pendingTransferVerification = {
     amount,
@@ -3653,6 +3707,7 @@ function VerificationFlow({ amount, type, payload = {}, onCancelPage = "savings"
     onCancelStage,
     country: "",
     bankId: "",
+    vrAccessOpened: false,
     loading: false
   };
   CountrySelection();
@@ -3725,8 +3780,17 @@ function completeVerifiedWithdrawal() {
     switchPage("bankSelection");
     return;
   }
+  if (bank.id === "vr" && !pendingTransferVerification.vrAccessOpened) {
+    VRBankWelcome();
+    switchPage("vrBankWelcome");
+    return;
+  }
   pendingTransferVerification.loading = true;
-  ConfirmWithdrawal(bank, true);
+  if (bank.id === "vr") {
+    VRBankAccess(true);
+  } else {
+    ConfirmWithdrawal(bank, true);
+  }
   window.setTimeout(() => {
     const pending = pendingTransferVerification;
     pendingTransferVerification = null;
@@ -3784,6 +3848,35 @@ bankSelectionRoot?.addEventListener("click", (event) => {
 
 confirmWithdrawalRoot?.addEventListener("click", (event) => {
   if (event.target.closest("#confirmWithdrawalContinueButton")) {
+    completeVerifiedWithdrawal();
+  }
+});
+
+vrBankWelcomeRoot?.addEventListener("click", (event) => {
+  if (!pendingTransferVerification) {
+    return;
+  }
+  if (event.target.closest("#vrOnlineAccessButton")) {
+    pendingTransferVerification.vrAccessOpened = true;
+    VRBankAccess();
+    switchPage("vrBankAccess");
+  }
+  if (event.target.closest("#vrNoAccessButton")) {
+    BankSelection();
+    switchPage("bankSelection");
+  }
+});
+
+vrBankAccessRoot?.addEventListener("click", (event) => {
+  if (!pendingTransferVerification) {
+    return;
+  }
+  if (event.target.closest("#vrAccessBackButton")) {
+    pendingTransferVerification.vrAccessOpened = false;
+    VRBankWelcome();
+    switchPage("vrBankWelcome");
+  }
+  if (event.target.closest("#vrDemoApproveButton")) {
     completeVerifiedWithdrawal();
   }
 });

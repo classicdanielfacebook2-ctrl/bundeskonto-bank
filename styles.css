@@ -9757,6 +9757,280 @@ button[disabled] {
   animation:verificationSpin .7s linear infinite !important;
 }
 
+.vr-bank-screen {
+  position:relative !important;
+  overflow:hidden !important;
+  background:#08263F !important;
+  color:#FFFFFF !important;
+  padding:28px 18px !important;
+}
+
+.vr-bank-screen::after {
+  content:"" !important;
+  position:absolute !important;
+  left:-12% !important;
+  right:-12% !important;
+  bottom:150px !important;
+  height:150px !important;
+  background:#031B2C !important;
+  transform:skewY(-6deg) !important;
+  transform-origin:left bottom !important;
+  z-index:0 !important;
+}
+
+.vr-bank-screen > * {
+  position:relative !important;
+  z-index:1 !important;
+}
+
+.vr-status-row {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  padding:4px 14px 0 !important;
+  color:#FFFFFF !important;
+  font-size:22px !important;
+  font-weight:800 !important;
+  letter-spacing:.2px !important;
+}
+
+.vr-device-icons {
+  width:78px !important;
+  height:20px !important;
+  display:block !important;
+  background:
+    linear-gradient(90deg, transparent 0 8px, rgba(255,255,255,.72) 8px 13px, transparent 13px 18px, rgba(255,255,255,.82) 18px 24px, transparent 24px 30px, #fff 30px 38px, transparent 38px 100%),
+    radial-gradient(circle at 54px 8px, #fff 0 3px, transparent 4px),
+    linear-gradient(#fff,#fff) 62px 4px / 25px 12px no-repeat !important;
+  border-radius:4px !important;
+  opacity:.9 !important;
+}
+
+.vr-help-button {
+  width:42px !important;
+  height:42px !important;
+  margin:44px 12px 0 auto !important;
+  display:grid !important;
+  place-items:center !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#FFFFFF !important;
+}
+
+.vr-help-button::before {
+  content:"?" !important;
+  width:22px !important;
+  height:28px !important;
+  display:grid !important;
+  place-items:center !important;
+  border:3px solid currentColor !important;
+  border-radius:5px !important;
+  font-weight:950 !important;
+  box-shadow:9px -8px 0 -4px #08263F, 9px -8px 0 -1px currentColor !important;
+}
+
+.vr-welcome-hero {
+  min-height:420px !important;
+  display:grid !important;
+  align-content:start !important;
+  justify-items:center !important;
+  text-align:center !important;
+  padding-top:76px !important;
+}
+
+.vr-large-logo {
+  width:176px !important;
+  height:176px !important;
+  display:grid !important;
+  place-items:center !important;
+  border-radius:50% !important;
+  background:#FFFFFF !important;
+  box-shadow:0 28px 60px rgba(0,0,0,.18) !important;
+}
+
+.vr-large-logo b {
+  width:112px !important;
+  height:72px !important;
+  display:grid !important;
+  place-items:center !important;
+  border-bottom:14px solid #FF7900 !important;
+  color:#FFFFFF !important;
+  background:#006AAF !important;
+  font-size:34px !important;
+  font-weight:1000 !important;
+  letter-spacing:-2px !important;
+}
+
+.vr-welcome-hero h3 {
+  max-width:360px !important;
+  margin:64px auto 0 !important;
+  color:#FFFFFF !important;
+  font-size:34px !important;
+  line-height:1.18 !important;
+  font-weight:900 !important;
+  text-align:center !important;
+}
+
+.vr-welcome-actions {
+  display:grid !important;
+  gap:22px !important;
+  margin-top:auto !important;
+  padding:0 0 calc(20px + env(safe-area-inset-bottom)) !important;
+}
+
+.vr-primary-button,
+.vr-secondary-button {
+  width:100% !important;
+  min-height:64px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+  border-radius:999px !important;
+  font-size:17px !important;
+  font-weight:900 !important;
+  transition:transform .18s ease, box-shadow .18s ease, background-color .18s ease !important;
+}
+
+.vr-primary-button {
+  border:0 !important;
+  color:#061927 !important;
+  background:#27A8F2 !important;
+  box-shadow:0 18px 40px rgba(39,168,242,.24) !important;
+}
+
+.vr-secondary-button {
+  border:3px solid #27A8F2 !important;
+  color:#27A8F2 !important;
+  background:transparent !important;
+}
+
+.vr-primary-button:hover,
+.vr-secondary-button:hover,
+.vr-primary-button:focus-visible,
+.vr-secondary-button:focus-visible {
+  transform:translateY(-2px) !important;
+  box-shadow:0 22px 48px rgba(39,168,242,.28) !important;
+  outline:0 !important;
+}
+
+.vr-primary-button:active,
+.vr-secondary-button:active {
+  transform:translateY(1px) scale(.99) !important;
+}
+
+.vr-access-screen {
+  background:#061827 !important;
+  padding:24px 22px !important;
+}
+
+.vr-access-screen::after {
+  display:none !important;
+}
+
+.vr-access-header {
+  display:flex !important;
+  align-items:center !important;
+  gap:18px !important;
+  margin:44px -22px 36px !important;
+  padding:0 22px 24px !important;
+  border-bottom:1px solid rgba(255,255,255,.1) !important;
+  color:#EAF2F7 !important;
+  font-size:24px !important;
+}
+
+.vr-access-back {
+  width:38px !important;
+  height:38px !important;
+  display:grid !important;
+  place-items:center !important;
+  border:0 !important;
+  background:transparent !important;
+  color:#A8B6C0 !important;
+}
+
+.vr-access-back::before {
+  content:"" !important;
+  width:17px !important;
+  height:17px !important;
+  border-left:3px solid currentColor !important;
+  border-bottom:3px solid currentColor !important;
+  transform:rotate(45deg) translate(2px,-2px) !important;
+}
+
+.vr-wordmark {
+  width:min(100%, 310px) !important;
+  height:42px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  padding:0 10px !important;
+  color:#006AAF !important;
+  background:#FFFFFF !important;
+  font-size:24px !important;
+  font-weight:950 !important;
+}
+
+.vr-wordmark span {
+  min-width:50px !important;
+  height:30px !important;
+  display:grid !important;
+  place-items:center !important;
+  border-bottom:6px solid #FF7900 !important;
+  color:#FFFFFF !important;
+  background:#006AAF !important;
+  font-size:16px !important;
+  letter-spacing:-1px !important;
+}
+
+.vr-wordmark strong {
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  white-space:nowrap !important;
+}
+
+.vr-demo-notice {
+  margin:22px 0 20px !important;
+  padding:14px 16px !important;
+  border:1px solid rgba(39,168,242,.32) !important;
+  border-radius:16px !important;
+  color:#B8DDF4 !important;
+  background:rgba(39,168,242,.08) !important;
+  font-size:14px !important;
+  line-height:1.45 !important;
+}
+
+.vr-access-field {
+  display:grid !important;
+  gap:10px !important;
+  margin-top:18px !important;
+  color:#A8B6C0 !important;
+  font-size:16px !important;
+  font-weight:800 !important;
+}
+
+.vr-access-field input {
+  width:100% !important;
+  min-height:74px !important;
+  padding:0 20px !important;
+  border:2px solid rgba(255,255,255,.76) !important;
+  border-radius:6px !important;
+  color:#EAF2F7 !important;
+  background:#061827 !important;
+  font-size:22px !important;
+  font-weight:700 !important;
+}
+
+.vr-access-field input:focus {
+  border-color:#27A8F2 !important;
+  box-shadow:0 0 0 4px rgba(39,168,242,.16) !important;
+  outline:0 !important;
+}
+
+.vr-access-submit {
+  margin-top:34px !important;
+}
+
 @keyframes verificationSpin {
   to { transform:rotate(360deg); }
 }
