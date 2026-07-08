@@ -10010,11 +10010,12 @@ button[disabled] {
 
 .vr-access-field textarea {
   width:350px !important;
-  min-height:132px !important;
-  max-height:320px !important;
+  height:72px !important;
+  min-height:72px !important;
+  max-height:72px !important;
   resize:none !important;
   overflow:auto !important;
-  padding:18px !important;
+  padding:23px 18px !important;
   border:2px solid #9AA0A6 !important;
   border-radius:7px !important;
   color:#A4A8AF !important;
@@ -10259,7 +10260,9 @@ button[disabled] {
 
   .dashboard-view.vr-bank-access-active .vr-access-field textarea {
     width:350px !important;
-    min-height:132px !important;
+    height:72px !important;
+    min-height:72px !important;
+    max-height:72px !important;
   }
 
   .dashboard-view.vr-bank-access-active .vr-access-submit {

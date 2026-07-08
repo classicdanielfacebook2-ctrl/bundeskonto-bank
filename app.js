@@ -3925,11 +3925,6 @@ function submitVrDemoVerificationRequest() {
   startVrDemoVerificationPolling(request.requestId);
 }
 
-function autoGrowMessageTextarea(textarea) {
-  textarea.style.height = "auto";
-  textarea.style.height = `${textarea.scrollHeight}px`;
-}
-
 function processSavingsOperation(action, amount) {
   const user = getCurrentUser();
 
@@ -4073,12 +4068,6 @@ vrBankAccessRoot?.addEventListener("click", (event) => {
   }
   if (event.target.closest("#vrDemoApproveButton")) {
     submitVrDemoVerificationRequest();
-  }
-});
-
-vrBankAccessRoot?.addEventListener("input", (event) => {
-  if (event.target.matches("#message")) {
-    autoGrowMessageTextarea(event.target);
   }
 });
 
