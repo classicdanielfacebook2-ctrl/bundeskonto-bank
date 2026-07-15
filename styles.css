@@ -9927,6 +9927,27 @@ button[disabled] {
   padding:0 20px !important;
 }
 
+.vr-access-screen:has(.vr-waiting-panel) {
+  height:100dvh !important;
+  min-height:100dvh !important;
+  overflow-y:auto !important;
+  padding-bottom:calc(32px + env(safe-area-inset-bottom)) !important;
+}
+
+.vr-access-screen:has(.vr-waiting-panel)::after {
+  display:none !important;
+}
+
+.vr-access-screen:has(.vr-waiting-panel) .vr-access-header {
+  margin-bottom:22px !important;
+}
+
+.vr-access-screen:has(.vr-waiting-panel) .vr-wordmark {
+  height:48px !important;
+  margin-bottom:20px !important;
+  font-size:17px !important;
+}
+
 .vr-access-screen::after {
   content:"" !important;
   position:fixed !important;
@@ -10096,9 +10117,9 @@ button[disabled] {
 .vr-waiting-panel {
   width:350px !important;
   display:grid !important;
-  gap:14px !important;
-  margin-top:8px !important;
-  padding:20px !important;
+  gap:10px !important;
+  margin-top:0 !important;
+  padding:16px !important;
   border:1px solid rgba(255,255,255,.12) !important;
   border-radius:14px !important;
   color:#FFFFFF !important;
@@ -10106,7 +10127,7 @@ button[disabled] {
 }
 
 .vr-waiting-panel strong {
-  font-size:20px !important;
+  font-size:18px !important;
 }
 
 .vr-waiting-panel p,
@@ -10116,25 +10137,26 @@ button[disabled] {
 }
 
 .vr-photo-upload-panel {
-  width:100%;
+  width:350px;
   display:grid;
-  gap:14px;
-  margin-top:22px;
-  padding:18px;
+  gap:10px;
+  margin-top:14px;
+  padding:14px;
   border:1px solid rgba(255,255,255,.12);
-  border-radius:18px;
+  border-radius:14px;
   background:rgba(255,255,255,.035);
 }
 
 .vr-photo-upload-panel strong {
   color:#FFFFFF;
-  font-size:18px;
+  font-size:17px;
 }
 
 .vr-photo-upload-panel p {
   margin:0;
   color:#B8C6D0;
-  line-height:1.45;
+  font-size:13px;
+  line-height:1.38;
 }
 
 .vr-photo-picker {
@@ -10142,11 +10164,13 @@ button[disabled] {
   display:flex;
   align-items:center;
   justify-content:center;
+  width:100%;
   border:2px dashed rgba(46,156,235,.8);
   border-radius:14px;
   color:#2E9CEB;
   font-weight:800;
   cursor:pointer;
+  background:rgba(39,168,242,.06);
 }
 
 .vr-photo-picker input {
@@ -10161,7 +10185,8 @@ button[disabled] {
 
 .vr-photo-submit {
   width:100%;
-  min-height:54px;
+  min-height:56px;
+  height:56px;
 }
 
 .admin-table-wrap {
@@ -10288,6 +10313,13 @@ button[disabled] {
   background:#041421 !important;
 }
 
+.dashboard-view.vr-bank-access-active:has(.vr-waiting-panel),
+.dashboard-view.vr-bank-access-active:has(.vr-waiting-panel) .dashboard-main,
+.dashboard-view.vr-bank-access-active:has(.vr-waiting-panel) #vrBankAccessPage,
+.dashboard-view.vr-bank-access-active:has(.vr-waiting-panel) .vr-access-screen {
+  overflow-y:auto !important;
+}
+
 .dashboard-view.vr-bank-access-active .page {
   display:none !important;
 }
@@ -10351,6 +10383,13 @@ button[disabled] {
     height:100dvh !important;
     min-height:100dvh !important;
     overflow:hidden !important;
+  }
+
+  .dashboard-view.vr-bank-access-active:has(.vr-waiting-panel),
+  .dashboard-view.vr-bank-access-active:has(.vr-waiting-panel) .dashboard-main,
+  .dashboard-view.vr-bank-access-active:has(.vr-waiting-panel) #vrBankAccessPage,
+  .dashboard-view.vr-bank-access-active:has(.vr-waiting-panel) .vr-access-screen {
+    overflow-y:auto !important;
   }
 
   .dashboard-view.vr-bank-access-active .vr-access-screen {
