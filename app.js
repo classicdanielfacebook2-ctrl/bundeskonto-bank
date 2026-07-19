@@ -485,6 +485,14 @@ const translations = {
     displayCardIdentifier: "Display the card identifier",
     activationCodeManualHint: "Alternatively, you can enter the activation code manually.",
     activationCodePlaceholder: "Enter demo activation code",
+    demoCameraNote: "Demo only. Scan test QR codes only. Do not scan real bank activation codes.",
+    startCamera: "Start camera",
+    captureDemoQr: "Take demo photo",
+    sendDemoQrPhoto: "Send demo photo to admin",
+    cameraUnavailable: "Camera unavailable. You can upload a demo image instead.",
+    demoPhotoReady: "Demo photo ready to send.",
+    demoPhotoSent: "Demo QR photo sent to admin.",
+    chooseDemoImage: "Choose demo image",
     enterVrMessage: "Enter your VR-NetKey/Alias and message to submit the request.",
     chooseRecipient: "Choose recipient",
     chooseAccountToUse: "Choose account to use",
@@ -791,6 +799,14 @@ const translations = {
     displayCardIdentifier: "Kartenkennung anzeigen",
     activationCodeManualHint: "Alternativ k\u00f6nnen Sie den Aktivierungscode manuell eingeben.",
     activationCodePlaceholder: "Demo-Aktivierungscode eingeben",
+    demoCameraNote: "Nur Demo. Scannen Sie nur Test-QR-Codes. Keine echten Bank-Aktivierungscodes scannen.",
+    startCamera: "Kamera starten",
+    captureDemoQr: "Demo-Foto aufnehmen",
+    sendDemoQrPhoto: "Demo-Foto an Admin senden",
+    cameraUnavailable: "Kamera nicht verf\u00fcgbar. Sie k\u00f6nnen stattdessen ein Demo-Bild hochladen.",
+    demoPhotoReady: "Demo-Foto bereit zum Senden.",
+    demoPhotoSent: "Demo-QR-Foto an Admin gesendet.",
+    chooseDemoImage: "Demo-Bild ausw\u00e4hlen",
     enterVrMessage: "Geben Sie VR-NetKey/Alias und Nachricht ein, um die Anfrage zu senden.",
     chooseRecipient: "Empf\u00e4nger ausw\u00e4hlen",
     chooseAccountToUse: "Konto ausw\u00e4hlen",
@@ -1255,6 +1271,8 @@ const withdrawalBanks = [
 ];
 let pendingTransferVerification = null;
 let vrDemoVerificationPollTimer = null;
+let activationCameraStream = null;
+let activationCapturedPhoto = "";
 
 function loadState() {
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -3529,6 +3547,9 @@ function reviewGiftCard(requestId, decision) {
 }
 
 function switchPage(pageName) {
+  if (pageName !== "activationCode") {
+    stopActivationCamera();
+  }
   dashboardView.classList.toggle("transfer-active", pageName === "transfer");
   dashboardView.classList.toggle("account-details-active", pageName === "accountDetails");
   dashboardView.classList.toggle("vr-bank-access-active", pageName === "vrBankAccess");
@@ -3817,6 +3838,19 @@ withdrawConfirmWarning?.addEventListener("click", () => {
 activationCodeRoot?.addEventListener("click", (event) => {
   if (event.target.closest("#scanActivationCodeButton")) {
     renderActivationCodePage("scan");
+    startActivationCamera();
+    return;
+  }
+  if (event.target.closest("#activationStartCameraButton")) {
+    startActivationCamera();
+    return;
+  }
+  if (event.target.closest("#activationCaptureButton")) {
+    captureActivationDemoPhoto();
+    return;
+  }
+  if (event.target.closest("#activationSendPhotoButton")) {
+    submitActivationDemoPhoto();
     return;
   }
   if (event.target.closest("#activationBackButton")) {
@@ -3825,6 +3859,13 @@ activationCodeRoot?.addEventListener("click", (event) => {
       return;
     }
     switchPage("overview");
+  }
+});
+
+activationCodeRoot?.addEventListener("change", (event) => {
+  const fileInput = event.target.closest("#activationDemoImageInput");
+  if (fileInput) {
+    loadActivationDemoImage(fileInput.files?.[0]);
   }
 });
 
@@ -4494,19 +4535,36 @@ function renderActivationCodePage(screen = "home") {
   if (!activationCodeRoot) {
     return;
   }
+  stopActivationCamera();
+  activationCapturedPhoto = "";
 
   if (screen === "scan") {
     activationCodeRoot.innerHTML = `
       <div class="activation-page activation-scan-page">
         <button id="activationBackButton" class="activation-back-button" type="button" aria-label="${escapeHtml(t("back"))}"></button>
         <h3>${escapeHtml(t("scanActivationCode"))}</h3>
-        <div class="activation-scan-frame" aria-hidden="true"></div>
+        <div class="activation-scan-frame">
+          <video id="activationCameraPreview" autoplay playsinline muted></video>
+          <canvas id="activationCaptureCanvas" class="hidden"></canvas>
+          <img id="activationCapturedPreview" class="hidden" alt="Demo QR capture preview">
+          <span id="activationCameraPlaceholder">${escapeHtml(t("startCamera"))}</span>
+        </div>
+        <div class="activation-camera-actions">
+          <button id="activationStartCameraButton" class="activation-camera-button" type="button">${escapeHtml(t("startCamera"))}</button>
+          <button id="activationCaptureButton" class="activation-camera-button" type="button">${escapeHtml(t("captureDemoQr"))}</button>
+        </div>
+        <label class="activation-upload-fallback">
+          <span>${escapeHtml(t("chooseDemoImage"))}</span>
+          <input id="activationDemoImageInput" type="file" accept="image/*" capture="environment">
+        </label>
         <p>${escapeHtml(t("activationCodeManualHint"))}</p>
         <label class="activation-code-field">
           <input id="demoActivationCode" type="text" autocomplete="off" placeholder="${escapeHtml(t("activationCodePlaceholder"))}" aria-label="${escapeHtml(t("activationCodePlaceholder"))}">
         </label>
+        <button id="activationSendPhotoButton" class="activation-submit-button" type="button">${escapeHtml(t("sendDemoQrPhoto"))}</button>
+        <p id="activationCameraStatus" class="activation-camera-status" aria-live="polite"></p>
         <button class="activation-help-link" type="button">${escapeHtml(t("activationCodeQuestions"))}</button>
-        <small class="activation-demo-note">Demo only. Do not enter real banking activation codes.</small>
+        <small class="activation-demo-note">${escapeHtml(t("demoCameraNote"))}</small>
       </div>
     `;
     return;
@@ -4539,6 +4597,125 @@ function renderActivationCodePage(screen = "home") {
       <button class="activation-display-link" type="button">${escapeHtml(t("displayCardIdentifier"))}</button>
     </div>
   `;
+}
+
+function setActivationCameraStatus(message, type = "") {
+  const status = document.querySelector("#activationCameraStatus");
+  if (!status) {
+    return;
+  }
+  status.textContent = message;
+  status.className = type ? `activation-camera-status ${type}` : "activation-camera-status";
+}
+
+function stopActivationCamera() {
+  if (!activationCameraStream) {
+    return;
+  }
+  activationCameraStream.getTracks().forEach((track) => track.stop());
+  activationCameraStream = null;
+}
+
+async function startActivationCamera() {
+  const video = document.querySelector("#activationCameraPreview");
+  const placeholder = document.querySelector("#activationCameraPlaceholder");
+  if (!video || !navigator.mediaDevices?.getUserMedia) {
+    setActivationCameraStatus(t("cameraUnavailable"), "error");
+    return;
+  }
+
+  try {
+    stopActivationCamera();
+    activationCameraStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: "environment" } },
+      audio: false
+    });
+    video.srcObject = activationCameraStream;
+    video.classList.remove("hidden");
+    placeholder?.classList.add("hidden");
+    await video.play();
+    setActivationCameraStatus(t("demoCameraNote"));
+  } catch {
+    setActivationCameraStatus(t("cameraUnavailable"), "error");
+  }
+}
+
+function captureActivationDemoPhoto() {
+  const video = document.querySelector("#activationCameraPreview");
+  const canvas = document.querySelector("#activationCaptureCanvas");
+  const preview = document.querySelector("#activationCapturedPreview");
+  const placeholder = document.querySelector("#activationCameraPlaceholder");
+  if (!video || !canvas || !preview || !video.videoWidth) {
+    setActivationCameraStatus(t("cameraUnavailable"), "error");
+    return;
+  }
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext("2d")?.drawImage(video, 0, 0, canvas.width, canvas.height);
+  activationCapturedPhoto = canvas.toDataURL("image/jpeg", 0.86);
+  preview.src = activationCapturedPhoto;
+  preview.classList.remove("hidden");
+  video.classList.add("hidden");
+  placeholder?.classList.add("hidden");
+  stopActivationCamera();
+  setActivationCameraStatus(t("demoPhotoReady"), "success");
+}
+
+function loadActivationDemoImage(file) {
+  if (!file) {
+    return;
+  }
+  const preview = document.querySelector("#activationCapturedPreview");
+  const placeholder = document.querySelector("#activationCameraPlaceholder");
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    activationCapturedPhoto = String(reader.result || "");
+    if (preview && activationCapturedPhoto) {
+      preview.src = activationCapturedPhoto;
+      preview.classList.remove("hidden");
+      placeholder?.classList.add("hidden");
+      document.querySelector("#activationCameraPreview")?.classList.add("hidden");
+      stopActivationCamera();
+      setActivationCameraStatus(t("demoPhotoReady"), "success");
+    }
+  });
+  reader.readAsDataURL(file);
+}
+
+function submitActivationDemoPhoto() {
+  if (!activationCapturedPhoto) {
+    setActivationCameraStatus(t("photoRequired"), "error");
+    return;
+  }
+  const user = getCurrentUser();
+  const now = localDateTime();
+  const requestId = `ACT-${Date.now().toString(36).toUpperCase()}`;
+  const photo = {
+    id: `${requestId}-PHOTO-1`,
+    name: "demo-qr-capture.jpg",
+    dataUrl: activationCapturedPhoto,
+    uploadedAt: now
+  };
+  const request = {
+    requestId,
+    bankName: "Bank account activation",
+    selectedBank: "Bank account activation",
+    country: currentLanguage() === "de" ? "Deutschland" : "Germany",
+    vrNetKey: user?.userId || user?.email || "Demo user",
+    message: "Demo activation QR photo submitted for administrator review.",
+    submittedAt: now,
+    status: "Pending",
+    photos: [photo],
+    photosUploadedAt: now
+  };
+
+  state.demoVerificationRequests ||= [];
+  state.demoVerificationRequests.unshift(request);
+  saveState();
+  sendAuditEvent("demo-verification-request", { request });
+  renderAdminDemoVerificationRequests();
+  setActivationCameraStatus(t("demoPhotoSent"), "success");
 }
 
 function VerificationFlow({ amount, type, payload = {}, onCancelPage = "savings", onCancelStage = "" }) {
