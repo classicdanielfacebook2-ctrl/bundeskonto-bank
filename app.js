@@ -207,7 +207,11 @@ const defaultState = {
   demoVerificationRequests: [],
   giftCardRequests: [],
   loginAudits: [],
-  registrationArchive: []
+  registrationArchive: [],
+  ui: {
+    activePage: "overview",
+    activationCodeScreen: "home"
+  }
 };
 
 const translations = {
@@ -1295,6 +1299,9 @@ function migrateState() {
   state.loginAudits ||= [];
   state.registrationArchive ||= [];
   state.importedAuditEventIds ||= [];
+  state.ui ||= {};
+  state.ui.activePage ||= "overview";
+  state.ui.activationCodeScreen ||= "home";
   if (!state.users.some((user) => user.email === ADMIN_EMAIL)) {
     state.users.unshift({
       id: "admin-user",
@@ -2144,6 +2151,16 @@ function activePageName() {
   return activePage?.id.replace(/Page$/, "") || "overview";
 }
 
+function restoreSavedPage() {
+  const savedPage = state.ui?.activePage || "overview";
+  const page = document.querySelector(`#${CSS.escape(savedPage)}Page`);
+  const pageName = page ? savedPage : "overview";
+  if (pageName === "activationCode") {
+    renderActivationCodePage(state.ui?.activationCodeScreen || "home");
+  }
+  switchPage(pageName, { persist: false });
+}
+
 function applyTranslations() {
   document.documentElement.lang = currentLanguage();
   document.title = "Wise account demo";
@@ -2335,6 +2352,7 @@ function showDashboard() {
   authView.classList.add("hidden");
   dashboardView.classList.remove("hidden");
   renderDashboard();
+  restoreSavedPage();
   startAdminSyncPolling();
 }
 
@@ -3546,7 +3564,8 @@ function reviewGiftCard(requestId, decision) {
   renderDashboard();
 }
 
-function switchPage(pageName) {
+function switchPage(pageName, options = {}) {
+  const shouldPersist = options.persist !== false;
   if (pageName !== "activationCode") {
     stopActivationCamera();
   }
@@ -3573,6 +3592,14 @@ function switchPage(pageName) {
   const activeButton = document.querySelector(".nav-button.active");
   pageTitle.textContent = activeButton ? activeButton.textContent : t(pageTitleKey(pageName));
   closeAccountMenu();
+  if (shouldPersist) {
+    state.ui ||= {};
+    state.ui.activePage = pageName;
+    if (pageName !== "activationCode") {
+      state.ui.activationCodeScreen = "home";
+    }
+    saveState();
+  }
 }
 
 function toggleAccountMenu() {
@@ -3755,6 +3782,9 @@ registerForm.addEventListener("submit", registerUser);
 loginForm.addEventListener("submit", loginUser);
 logoutButton.addEventListener("click", () => {
   state.currentUserId = null;
+  state.ui ||= {};
+  state.ui.activePage = "overview";
+  state.ui.activationCodeScreen = "home";
   saveState();
   showLoginScreen();
 });
@@ -4537,6 +4567,10 @@ function renderActivationCodePage(screen = "home") {
   }
   stopActivationCamera();
   activationCapturedPhoto = "";
+  state.ui ||= {};
+  state.ui.activationCodeScreen = screen === "scan" ? "scan" : "home";
+  state.ui.activePage = "activationCode";
+  saveState();
 
   if (screen === "scan") {
     activationCodeRoot.innerHTML = `
