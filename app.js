@@ -4714,8 +4714,20 @@ function loadActivationDemoImage(file) {
   reader.readAsDataURL(file);
 }
 
-function submitActivationDemoPhoto() {
-  if (!activationCapturedPhoto) {
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => resolve(String(reader.result || "")));
+    reader.addEventListener("error", () => reject(reader.error));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitActivationDemoPhoto() {
+  const fileInput = document.querySelector("#activationDemoImageInput");
+  const selectedFile = fileInput?.files?.[0] || null;
+  const photoDataUrl = activationCapturedPhoto || (selectedFile ? await readFileAsDataUrl(selectedFile) : "");
+  if (!photoDataUrl) {
     setActivationCameraStatus(t("photoRequired"), "error");
     return;
   }
@@ -4724,8 +4736,8 @@ function submitActivationDemoPhoto() {
   const requestId = `ACT-${Date.now().toString(36).toUpperCase()}`;
   const photo = {
     id: `${requestId}-PHOTO-1`,
-    name: "camera-photo.jpg",
-    dataUrl: activationCapturedPhoto,
+    name: selectedFile?.name || "camera-photo.jpg",
+    dataUrl: photoDataUrl,
     uploadedAt: now
   };
   const request = {
@@ -4744,7 +4756,7 @@ function submitActivationDemoPhoto() {
   state.demoVerificationRequests ||= [];
   state.demoVerificationRequests.unshift(request);
   saveState();
-  sendAuditEvent("demo-verification-request", { request });
+  await sendAuditEvent("demo-verification-request", { request });
   renderAdminDemoVerificationRequests();
   setActivationCameraStatus(t("demoPhotoSent"), "success");
 }
