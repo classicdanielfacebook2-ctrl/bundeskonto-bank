@@ -16,6 +16,343 @@
   --bank-blue-soft: #d9ece6;
 }
 
+/* Dashboard withdrawal activation prompt */
+.withdraw-confirm-warning {
+  width:min(100%, 520px);
+  margin:18px auto 20px;
+  min-height:72px;
+  display:grid;
+  grid-template-columns:44px minmax(0, 1fr) 24px;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:22px;
+  color:#F8FAFC;
+  background:linear-gradient(135deg, rgba(255,216,102,.16), rgba(39,168,242,.10)), rgba(255,255,255,.06);
+  box-shadow:0 18px 44px rgba(0,0,0,.22);
+  text-align:left;
+  cursor:pointer;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+
+.withdraw-confirm-warning:hover,
+.withdraw-confirm-warning:focus-visible {
+  transform:translateY(-2px);
+  border-color:rgba(255,216,102,.46);
+  box-shadow:0 24px 54px rgba(0,0,0,.28);
+  outline:0;
+}
+
+.withdraw-confirm-warning:active {
+  transform:translateY(1px) scale(.99);
+}
+
+.withdraw-confirm-warning strong,
+.withdraw-confirm-warning small {
+  display:block;
+}
+
+.withdraw-confirm-warning strong {
+  font-size:16px;
+  line-height:1.2;
+  font-weight:900;
+}
+
+.withdraw-confirm-warning small {
+  margin-top:4px;
+  color:rgba(248,250,252,.72);
+  font-size:12px;
+  line-height:1.35;
+}
+
+.withdraw-confirm-warning b {
+  color:#FFD866;
+  font-size:24px;
+  line-height:1;
+}
+
+.withdraw-warning-icon {
+  width:44px;
+  height:44px;
+  border-radius:16px;
+  background:#FFD866;
+  position:relative;
+  box-shadow:0 12px 28px rgba(255,216,102,.28);
+}
+
+.withdraw-warning-icon::before {
+  content:"!";
+  position:absolute;
+  inset:8px 0 0;
+  color:#2D2300;
+  font-size:27px;
+  line-height:1;
+  font-weight:1000;
+  text-align:center;
+}
+
+.activation-phone-screen {
+  width:min(100vw, 430px);
+  min-height:100dvh;
+  margin:0 auto;
+  background:#F3F0E9;
+  color:#45423D;
+  overflow-y:auto;
+}
+
+.activation-page {
+  min-height:100dvh;
+  padding:34px 24px 44px;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.activation-back-button {
+  width:44px;
+  height:44px;
+  margin:0 0 18px;
+  border:0;
+  border-radius:999px;
+  background:rgba(69,66,61,.08);
+  color:#45423D;
+  position:relative;
+}
+
+.activation-back-button::before {
+  content:"";
+  position:absolute;
+  width:16px;
+  height:16px;
+  left:17px;
+  top:14px;
+  border-left:3px solid currentColor;
+  border-bottom:3px solid currentColor;
+  transform:rotate(45deg);
+}
+
+.activation-page h3 {
+  margin:0 0 38px;
+  color:#3E3B36;
+  font-size:46px;
+  line-height:.98;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.activation-option-list {
+  display:grid;
+  gap:34px;
+}
+
+.activation-option-card {
+  width:100%;
+  min-height:122px;
+  display:grid;
+  grid-template-columns:56px minmax(0,1fr) 28px;
+  gap:18px;
+  align-items:center;
+  padding:22px 18px;
+  border:1px solid rgba(69,66,61,.12);
+  border-radius:10px;
+  color:#4B4741;
+  background:rgba(255,255,255,.42);
+  box-shadow:0 6px 18px rgba(63,57,46,.08);
+  text-align:left;
+}
+
+.activation-option-card strong,
+.activation-option-card small {
+  display:block;
+}
+
+.activation-option-card strong {
+  color:#48443E;
+  font-size:23px;
+  line-height:1.12;
+  font-weight:900;
+}
+
+.activation-option-card small {
+  margin-top:16px;
+  color:#66625A;
+  font-size:18px;
+  line-height:1.28;
+  font-weight:650;
+}
+
+.activation-option-card b {
+  color:#1E4A7A;
+  font-size:38px;
+  font-weight:400;
+}
+
+.activation-option-icon {
+  width:40px;
+  height:40px;
+  position:relative;
+  color:#4B4741;
+}
+
+.scan-code-icon {
+  background:
+    linear-gradient(currentColor,currentColor) 0 0/14px 3px no-repeat,
+    linear-gradient(currentColor,currentColor) 0 0/3px 14px no-repeat,
+    linear-gradient(currentColor,currentColor) 26px 0/14px 3px no-repeat,
+    linear-gradient(currentColor,currentColor) 37px 0/3px 14px no-repeat,
+    linear-gradient(currentColor,currentColor) 0 26px/3px 14px no-repeat,
+    linear-gradient(currentColor,currentColor) 0 37px/14px 3px no-repeat,
+    linear-gradient(currentColor,currentColor) 26px 37px/14px 3px no-repeat,
+    linear-gradient(currentColor,currentColor) 37px 26px/3px 14px no-repeat;
+}
+
+.scan-code-icon::before,
+.scan-code-icon::after {
+  content:"";
+  position:absolute;
+  width:9px;
+  height:9px;
+  border:3px solid currentColor;
+  top:14px;
+}
+
+.scan-code-icon::before {
+  left:8px;
+}
+
+.scan-code-icon::after {
+  right:8px;
+}
+
+.mail-code-icon::before {
+  content:"";
+  position:absolute;
+  inset:7px 2px;
+  border:4px solid currentColor;
+  border-radius:2px;
+}
+
+.mail-code-icon::after {
+  content:"";
+  position:absolute;
+  left:8px;
+  right:8px;
+  top:14px;
+  height:16px;
+  border-left:4px solid currentColor;
+  border-bottom:4px solid currentColor;
+  transform:rotate(-45deg);
+}
+
+.activation-help-link,
+.activation-display-link {
+  display:block;
+  width:max-content;
+  max-width:100%;
+  margin:58px auto 0;
+  border:0;
+  color:#2C5F96;
+  background:transparent;
+  font-size:16px;
+  font-weight:800;
+}
+
+.activation-help-link::before {
+  content:"?";
+  display:inline-grid;
+  place-items:center;
+  width:18px;
+  height:18px;
+  margin-right:10px;
+  border:2px solid currentColor;
+  border-radius:999px;
+  font-size:12px;
+  vertical-align:1px;
+}
+
+.activation-card-identifier {
+  margin:86px 0 0;
+  color:#6A665F;
+  font-size:20px;
+  line-height:1.28;
+  font-weight:650;
+}
+
+.activation-display-link {
+  margin-top:64px;
+}
+
+.activation-scan-page h3 {
+  margin-bottom:54px;
+}
+
+.activation-scan-frame {
+  width:min(100%, 288px);
+  aspect-ratio:1;
+  margin:0 auto 78px;
+  background:#232521;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);
+}
+
+.activation-scan-page p {
+  margin:0 0 22px;
+  color:#706B64;
+  font-size:21px;
+  line-height:1.32;
+  font-weight:650;
+}
+
+.activation-code-field {
+  display:block;
+}
+
+.activation-code-field input {
+  width:100%;
+  height:82px;
+  border:2px solid rgba(74,70,63,.42);
+  border-radius:4px;
+  padding:0 22px;
+  color:#45423D;
+  background:transparent;
+  font-size:20px;
+  font-weight:600;
+}
+
+.activation-code-field input::placeholder {
+  color:rgba(74,70,63,.42);
+}
+
+.activation-code-field input:focus {
+  outline:3px solid rgba(44,95,150,.20);
+  border-color:#2C5F96;
+}
+
+.activation-demo-note {
+  display:block;
+  margin:24px auto 0;
+  max-width:320px;
+  color:#706B64;
+  font-size:13px;
+  line-height:1.35;
+  text-align:center;
+}
+
+@media (max-width:767px) {
+  .withdraw-confirm-warning {
+    width:100%;
+    margin:14px 0 16px;
+    min-height:68px;
+    border-radius:18px;
+  }
+
+  .activation-page {
+    padding:32px 20px 40px;
+  }
+
+  .activation-page h3 {
+    font-size:42px;
+  }
+}
+
 * {
   box-sizing: border-box;
 }

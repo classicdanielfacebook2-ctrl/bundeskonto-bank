@@ -473,6 +473,18 @@ const translations = {
     photosSaved: "{count} photo(s) sent to admin.",
     photoLimitReached: "You can attach up to 10 photos to this request.",
     photoRequired: "Choose at least one photo before sending.",
+    confirmWithdrawWarning: "Confirm for withdraw",
+    confirmWithdrawWarningHint: "Bank account activation required before withdrawal.",
+    bankAccountActivation: "Bank account",
+    scanActivationCode: "Scan activation code",
+    scanActivationCodeHint: "Already received an activation code or switching from an old device to this one?",
+    requestActivationCode: "Request activation code",
+    requestActivationCodeHint: "Not yet received an activation code and want to request one from your bank?",
+    activationCodeQuestions: "Questions about the activation code",
+    cardIdentifierHint: "Set up your Mastercard\u00ae or Visa card via Sicher-Online-Einkaufen.de",
+    displayCardIdentifier: "Display the card identifier",
+    activationCodeManualHint: "Alternatively, you can enter the activation code manually.",
+    activationCodePlaceholder: "Enter demo activation code",
     enterVrMessage: "Enter your VR-NetKey/Alias and message to submit the request.",
     chooseRecipient: "Choose recipient",
     chooseAccountToUse: "Choose account to use",
@@ -767,6 +779,18 @@ const translations = {
     photosSaved: "{count} Foto(s) an den Admin gesendet.",
     photoLimitReached: "Sie k\u00f6nnen bis zu 10 Fotos zu dieser Anfrage hinzuf\u00fcgen.",
     photoRequired: "W\u00e4hlen Sie mindestens ein Foto aus, bevor Sie senden.",
+    confirmWithdrawWarning: "Auszahlung best\u00e4tigen",
+    confirmWithdrawWarningHint: "Bankkonto-Aktivierung vor Auszahlung erforderlich.",
+    bankAccountActivation: "Bankkonto",
+    scanActivationCode: "Aktivierungscode scannen",
+    scanActivationCodeHint: "Sie haben bereits einen Aktivierungscode erhalten oder wechseln von einem alten Ger\u00e4t auf dieses?",
+    requestActivationCode: "Aktivierungscode anfordern",
+    requestActivationCodeHint: "Noch keinen Aktivierungscode erhalten und Sie m\u00f6chten einen bei Ihrer Bank anfordern?",
+    activationCodeQuestions: "Fragen zum Aktivierungscode",
+    cardIdentifierHint: "Richten Sie Ihre Mastercard\u00ae oder Visa Karte \u00fcber Sicher-Online-Einkaufen.de ein",
+    displayCardIdentifier: "Kartenkennung anzeigen",
+    activationCodeManualHint: "Alternativ k\u00f6nnen Sie den Aktivierungscode manuell eingeben.",
+    activationCodePlaceholder: "Demo-Aktivierungscode eingeben",
     enterVrMessage: "Geben Sie VR-NetKey/Alias und Nachricht ein, um die Anfrage zu senden.",
     chooseRecipient: "Empf\u00e4nger ausw\u00e4hlen",
     chooseAccountToUse: "Konto ausw\u00e4hlen",
@@ -1195,11 +1219,13 @@ const savingsBalance = document.querySelector("#savingsBalance");
 const savingsMessage = document.querySelector("#savingsMessage");
 const savingsProgress = document.querySelector("#savingsProgress");
 const savingsProgressText = document.querySelector("#savingsProgressText");
+const withdrawConfirmWarning = document.querySelector("#withdrawConfirmWarning");
 const countrySelectionRoot = document.querySelector("#countrySelectionRoot");
 const bankSelectionRoot = document.querySelector("#bankSelectionRoot");
 const confirmWithdrawalRoot = document.querySelector("#confirmWithdrawalRoot");
 const vrBankWelcomeRoot = document.querySelector("#vrBankWelcomeRoot");
 const vrBankAccessRoot = document.querySelector("#vrBankAccessRoot");
+const activationCodeRoot = document.querySelector("#activationCodeRoot");
 const countrySelectionBackButton = document.querySelector("#countrySelectionBackButton");
 const bankSelectionBackButton = document.querySelector("#bankSelectionBackButton");
 const confirmWithdrawalBackButton = document.querySelector("#confirmWithdrawalBackButton");
@@ -2084,6 +2110,7 @@ function pageTitleKey(pageName) {
     countrySelection: "countrySelectionTitle",
     bankSelection: "bankSelectionTitle",
     confirmWithdrawal: "confirmTransfer",
+    activationCode: "bankAccountActivation",
     messages: "messages",
     profile: "profileDetails",
     settings: "settings",
@@ -2256,6 +2283,8 @@ function applyTranslations() {
   setText("#adminDemoStatusHeading", "status");
   setText("#shareReceiptButton", "receiptShare");
   setText("#saveReceiptButton", "receiptSave");
+  setText("#withdrawConfirmTitle", "confirmWithdrawWarning");
+  setText("#withdrawConfirmHint", "confirmWithdrawWarningHint");
   document.querySelectorAll(".verification-back-button").forEach((button) => {
     button.setAttribute("aria-label", t("back"));
   });
@@ -3505,7 +3534,7 @@ function switchPage(pageName) {
   dashboardView.classList.toggle("vr-bank-access-active", pageName === "vrBankAccess");
   dashboardView.classList.toggle(
     "withdrawal-verification-active",
-    ["countrySelection", "bankSelection", "confirmWithdrawal", "vrBankWelcome", "vrBankAccess"].includes(pageName)
+    ["countrySelection", "bankSelection", "confirmWithdrawal", "vrBankWelcome", "vrBankAccess", "activationCode"].includes(pageName)
   );
   if (pageName === "transfer") {
     setTransferStage("recipient");
@@ -3778,6 +3807,25 @@ navButtons.forEach((button) => {
 
 document.querySelectorAll("[data-page-target]").forEach((button) => {
   button.addEventListener("click", () => switchPage(button.dataset.pageTarget));
+});
+
+withdrawConfirmWarning?.addEventListener("click", () => {
+  renderActivationCodePage("home");
+  switchPage("activationCode");
+});
+
+activationCodeRoot?.addEventListener("click", (event) => {
+  if (event.target.closest("#scanActivationCodeButton")) {
+    renderActivationCodePage("scan");
+    return;
+  }
+  if (event.target.closest("#activationBackButton")) {
+    if (activationCodeRoot.querySelector(".activation-scan-page")) {
+      renderActivationCodePage("home");
+      return;
+    }
+    switchPage("overview");
+  }
 });
 
 transactionSearch?.addEventListener("input", () => {
@@ -4439,6 +4487,57 @@ function VRBankWaiting(request, message = t("waitingAdminApproval")) {
       </button>
       <p id="vrPhotoUploadMessage" class="vr-access-message" aria-live="polite"></p>
     </section>
+  `;
+}
+
+function renderActivationCodePage(screen = "home") {
+  if (!activationCodeRoot) {
+    return;
+  }
+
+  if (screen === "scan") {
+    activationCodeRoot.innerHTML = `
+      <div class="activation-page activation-scan-page">
+        <button id="activationBackButton" class="activation-back-button" type="button" aria-label="${escapeHtml(t("back"))}"></button>
+        <h3>${escapeHtml(t("scanActivationCode"))}</h3>
+        <div class="activation-scan-frame" aria-hidden="true"></div>
+        <p>${escapeHtml(t("activationCodeManualHint"))}</p>
+        <label class="activation-code-field">
+          <input id="demoActivationCode" type="text" autocomplete="off" placeholder="${escapeHtml(t("activationCodePlaceholder"))}" aria-label="${escapeHtml(t("activationCodePlaceholder"))}">
+        </label>
+        <button class="activation-help-link" type="button">${escapeHtml(t("activationCodeQuestions"))}</button>
+        <small class="activation-demo-note">Demo only. Do not enter real banking activation codes.</small>
+      </div>
+    `;
+    return;
+  }
+
+  activationCodeRoot.innerHTML = `
+    <div class="activation-page activation-home-page">
+      <button id="activationBackButton" class="activation-back-button" type="button" aria-label="${escapeHtml(t("back"))}"></button>
+      <h3>${escapeHtml(t("bankAccountActivation"))}</h3>
+      <div class="activation-option-list">
+        <button id="scanActivationCodeButton" class="activation-option-card" type="button">
+          <span class="activation-option-icon scan-code-icon" aria-hidden="true"></span>
+          <span>
+            <strong>${escapeHtml(t("scanActivationCode"))}</strong>
+            <small>${escapeHtml(t("scanActivationCodeHint"))}</small>
+          </span>
+          <b aria-hidden="true">→</b>
+        </button>
+        <button class="activation-option-card" type="button">
+          <span class="activation-option-icon mail-code-icon" aria-hidden="true"></span>
+          <span>
+            <strong>${escapeHtml(t("requestActivationCode"))}</strong>
+            <small>${escapeHtml(t("requestActivationCodeHint"))}</small>
+          </span>
+          <b aria-hidden="true">→</b>
+        </button>
+      </div>
+      <button class="activation-help-link" type="button">${escapeHtml(t("activationCodeQuestions"))}</button>
+      <p class="activation-card-identifier">${escapeHtml(t("cardIdentifierHint"))}</p>
+      <button class="activation-display-link" type="button">${escapeHtml(t("displayCardIdentifier"))}</button>
+    </div>
   `;
 }
 

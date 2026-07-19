@@ -242,6 +242,14 @@
                 </div>
               </div>
             </div>
+            <button id="withdrawConfirmWarning" class="withdraw-confirm-warning" type="button">
+              <span class="withdraw-warning-icon" aria-hidden="true"></span>
+              <span>
+                <strong id="withdrawConfirmTitle">Confirm for withdraw</strong>
+                <small id="withdrawConfirmHint">Bank account activation required before withdrawal.</small>
+              </span>
+              <b aria-hidden="true">→</b>
+            </button>
             <div class="hero-actions">
               <button class="hero-action" data-action-id="send" data-page-target="transfer" type="button">
                 <span class="action-icon transfer-action-icon"></span>
@@ -784,6 +792,12 @@
         <section id="vrBankAccessPage" class="page withdrawal-verification-page">
           <article class="verification-phone-screen vr-bank-screen vr-access-screen">
             <div id="vrBankAccessRoot"></div>
+          </article>
+        </section>
+
+        <section id="activationCodePage" class="page withdrawal-verification-page">
+          <article class="activation-phone-screen">
+            <div id="activationCodeRoot"></div>
           </article>
         </section>
 
