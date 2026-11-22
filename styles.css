@@ -107,7 +107,7 @@
 .activation-page {
   min-height:100dvh;
   padding:34px 24px 44px;
-  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family:"Outfit", "Avenir Next", "Segoe UI", sans-serif;
 }
 
 .activation-back-button {
@@ -524,7 +524,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Inter, Arial, sans-serif;
+  font-family: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   color: var(--ink);
   background: #ffffff;
   overflow-x: hidden;
@@ -2043,7 +2043,7 @@ input:focus {
 
 .nav-button::before {
   color: inherit;
-  font-family: Inter, Arial, sans-serif;
+  font-family: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
 }
 
 .nav-button.active,
@@ -2867,48 +2867,48 @@ input:focus {
 
 /* Modern money-app refresh */
 :root {
-  --wise-ink: #102018;
-  --wise-muted: #53645b;
-  --wise-line: #d8e2dc;
-  --wise-soft: #eef6ef;
-  --wise-green: #2fe36d;
-  --wise-green-dark: #173f2c;
-  --wise-lime: #c9f24d;
-  --wise-blue: #ddeaff;
-  --wise-shadow: 0 20px 54px rgba(16, 32, 24, 0.12);
+  --qorvexa-ink: #2A211C;
+  --qorvexa-muted: #6f625a;
+  --qorvexa-line: #d8e2dc;
+  --qorvexa-soft: #f7efe6;
+  --qorvexa-green: #e38b4f;
+  --qorvexa-green-dark: #4A2C22;
+  --qorvexa-lime: #f0c08a;
+  --qorvexa-blue: #efe6f2;
+  --qorvexa-shadow: 0 20px 54px rgba(16, 32, 24, 0.12);
 }
 
 body {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   background:
-    linear-gradient(180deg, #f8fbf7 0%, #eef6ef 42%, #ffffff 100%);
+    linear-gradient(180deg, #f8fbf7 0%, #f7efe6 42%, #ffffff 100%);
 }
 
 .brand-panel {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   border-right: 0;
   background:
-    radial-gradient(circle at 18% 16%, rgba(47, 227, 109, 0.42), transparent 16rem),
-    linear-gradient(145deg, #eefadf 0%, #c9f24d 46%, #ffffff 100%);
+    radial-gradient(circle at 18% 16%, rgba(227, 139, 79, 0.42), transparent 16rem),
+    linear-gradient(145deg, #f8ead8 0%, #f0c08a 46%, #ffffff 100%);
 }
 
 .brand-panel p {
-  color: var(--wise-muted);
+  color: var(--qorvexa-muted);
 }
 
 .brand-mark,
 .brand-mark.compact {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   text-shadow: none;
-  background: var(--wise-green);
+  background: var(--qorvexa-green);
   border-radius: 12px;
 }
 
 .language-button.active,
 .primary-button {
-  color: var(--wise-ink);
-  border-color: var(--wise-green);
-  background: var(--wise-green);
+  color: var(--qorvexa-ink);
+  border-color: var(--qorvexa-green);
+  background: var(--qorvexa-green);
 }
 
 .primary-button:hover,
@@ -2918,12 +2918,12 @@ body {
 
 .tab-button.active {
   color: #fff;
-  background: var(--wise-ink);
+  background: var(--qorvexa-ink);
 }
 
 input:focus {
-  border-color: var(--wise-green-dark);
-  box-shadow: 0 0 0 4px rgba(47, 227, 109, 0.16);
+  border-color: var(--qorvexa-green-dark);
+  box-shadow: 0 0 0 4px rgba(227, 139, 79, 0.16);
 }
 
 .dashboard-view {
@@ -2958,34 +2958,34 @@ input:focus {
 .menu-button span {
   width: 22px;
   height: 2px;
-  background: var(--wise-ink);
+  background: var(--qorvexa-ink);
 }
 
 .menu-button[aria-expanded="true"] {
-  border-color: var(--wise-green-dark);
-  background: var(--wise-green);
+  border-color: var(--qorvexa-green-dark);
+  background: var(--qorvexa-green);
 }
 
 .account-menu {
-  border: 1px solid var(--wise-line);
+  border: 1px solid var(--qorvexa-line);
   border-radius: 22px;
-  box-shadow: var(--wise-shadow);
+  box-shadow: var(--qorvexa-shadow);
 }
 
 .account-menu-header {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   background:
     radial-gradient(circle at 88% 10%, rgba(201, 242, 77, 0.7), transparent 7rem),
     linear-gradient(135deg, #f1ffe5, #d9f9cd);
 }
 
 .account-menu-header span {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   background: #fff;
 }
 
 .account-menu-header small {
-  color: var(--wise-muted);
+  color: var(--qorvexa-muted);
 }
 
 .menu-item {
@@ -2993,7 +2993,7 @@ input:focus {
 }
 
 .menu-item:hover {
-  border-color: var(--wise-green);
+  border-color: var(--qorvexa-green);
   background: #f0ffef;
 }
 
@@ -3005,13 +3005,13 @@ input:focus {
   min-height: 0;
   margin-top: 0;
   padding: 22px;
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   border-radius: 34px;
   background:
-    radial-gradient(circle at 18% 10%, rgba(47, 227, 109, 0.32), transparent 17rem),
+    radial-gradient(circle at 18% 10%, rgba(227, 139, 79, 0.32), transparent 17rem),
     linear-gradient(135deg, #ffffff 0%, #f0ffe7 58%, #e2f4ff 100%);
   border: 1px solid rgba(16, 32, 24, 0.08);
-  box-shadow: var(--wise-shadow);
+  box-shadow: var(--qorvexa-shadow);
 }
 
 .mobile-bank-hero::before,
@@ -3035,7 +3035,7 @@ input:focus {
 }
 
 .hero-icon-button::before {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
 }
 
 .hero-balance-layout {
@@ -3049,24 +3049,24 @@ input:focus {
   align-content: end;
   gap: 14px;
   padding: 30px;
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   border: 0;
   border-radius: 28px;
   background:
-    radial-gradient(circle at 88% 16%, rgba(47, 227, 109, 0.34), transparent 10rem),
+    radial-gradient(circle at 88% 16%, rgba(227, 139, 79, 0.34), transparent 10rem),
     #ffffff;
   box-shadow: inset 0 0 0 1px rgba(16, 32, 24, 0.08);
 }
 
 .balance-dial span {
-  color: var(--wise-muted);
+  color: var(--qorvexa-muted);
   font-size: 0.92rem;
   letter-spacing: 0;
   text-transform: none;
 }
 
 .balance-dial strong {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   font-size: clamp(2.7rem, 7vw, 5.4rem);
   letter-spacing: 0;
 }
@@ -3074,8 +3074,8 @@ input:focus {
 .balance-dial small {
   width: fit-content;
   padding: 8px 12px;
-  color: var(--wise-muted);
-  background: var(--wise-soft);
+  color: var(--qorvexa-muted);
+  background: var(--qorvexa-soft);
 }
 
 .hero-actions {
@@ -3089,7 +3089,7 @@ input:focus {
   justify-items: start;
   text-align: left;
   padding: 18px;
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   border: 1px solid rgba(16, 32, 24, 0.1);
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.86);
@@ -3098,17 +3098,17 @@ input:focus {
 
 .hero-action:hover {
   transform: translateY(-2px);
-  border-color: var(--wise-green);
+  border-color: var(--qorvexa-green);
   background: #f7fff3;
 }
 
 .action-icon {
   width: 46px;
   height: 46px;
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   border: 0;
   border-radius: 50%;
-  background: var(--wise-green);
+  background: var(--qorvexa-green);
 }
 
 .gift-action-icon::before {
@@ -3143,18 +3143,18 @@ input:focus {
 
 .account-icon {
   border-radius: 14px;
-  background: #eef6ef;
+  background: #f7efe6;
 }
 
 .account-icon::before {
-  color: var(--wise-green-dark);
+  color: var(--qorvexa-green-dark);
 }
 
 .balance-card {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   background:
     radial-gradient(circle at 90% 14%, rgba(201, 242, 77, 0.62), transparent 8rem),
-    #102018;
+    #2A211C;
 }
 
 .balance-card span,
@@ -3166,30 +3166,30 @@ input:focus {
 .metric-card strong,
 .panel-heading strong,
 .account-row > strong {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
 }
 
 .transfer-bank-strip {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   border: 0;
   background: #effbea;
 }
 
 .transfer-summary {
-  border: 1px solid var(--wise-line);
+  border: 1px solid var(--qorvexa-line);
   background: #f8fbf7;
 }
 
 .secondary-button,
 .logout-button {
-  color: var(--wise-ink);
-  border: 1px solid var(--wise-line);
+  color: var(--qorvexa-ink);
+  border: 1px solid var(--qorvexa-line);
   background: #fff;
 }
 
 .secondary-button:hover,
 .logout-button:hover {
-  border-color: var(--wise-green);
+  border-color: var(--qorvexa-green);
   background: #f0ffef;
 }
 
@@ -3206,7 +3206,7 @@ input:focus {
 
 .nav-button.active,
 .nav-button:hover {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   background: #ddffd9;
 }
 
@@ -3215,9 +3215,9 @@ input:focus {
 }
 
 .receipt-brand {
-  color: var(--wise-ink);
+  color: var(--qorvexa-ink);
   background:
-    radial-gradient(circle at 86% 16%, rgba(47, 227, 109, 0.42), transparent 8rem),
+    radial-gradient(circle at 86% 16%, rgba(227, 139, 79, 0.42), transparent 8rem),
     #f5fff1;
 }
 
@@ -3276,22 +3276,22 @@ input:focus {
   }
 }
 
-/* Wise replica pass for school UI reference */
+/* Qorvexa replica pass for school UI reference */
 :root {
-  --wise-bg: #f4f2ea;
-  --wise-cream: #fffdf5;
-  --wise-acid: #9fe870;
-  --wise-acid-strong: #80e142;
-  --wise-black: #163300;
-  --wise-deep: #0e1f00;
-  --wise-grey: #5d6b57;
-  --wise-border: #d8d5c7;
-  --wise-card: #ffffff;
+  --qorvexa-bg: #f4efe8;
+  --qorvexa-cream: #fffdfb;
+  --qorvexa-acid: #e38b4f;
+  --qorvexa-acid-strong: #d2783c;
+  --qorvexa-black: #3A2418;
+  --qorvexa-deep: #2A1810;
+  --qorvexa-grey: #6f625a;
+  --qorvexa-border: #d8d5c7;
+  --qorvexa-card: #ffffff;
 }
 
 body {
-  color: var(--wise-black);
-  background: var(--wise-bg);
+  color: var(--qorvexa-black);
+  background: var(--qorvexa-bg);
   overflow-x: hidden;
 }
 
@@ -3299,18 +3299,18 @@ body {
   min-height: 100vh;
   grid-template-columns: minmax(420px, 1.08fr) minmax(360px, 0.92fr);
   background:
-    radial-gradient(circle at 14% 18%, rgba(159, 232, 112, 0.42), transparent 17rem),
-    linear-gradient(180deg, #f5f1e6 0%, #f7f4ea 100%);
+    radial-gradient(circle at 14% 18%, rgba(227, 139, 79, 0.42), transparent 17rem),
+    linear-gradient(180deg, #f6f0e8 0%, #f7f1ea 100%);
 }
 
 .brand-panel {
   justify-content: flex-start;
   min-height: 100vh;
   padding: 26px clamp(28px, 5vw, 76px) 54px;
-  color: var(--wise-black);
+  color: var(--qorvexa-black);
   background:
-    radial-gradient(circle at 72% 20%, rgba(159, 232, 112, 0.56), transparent 18rem),
-    linear-gradient(145deg, #f4f2ea 0%, #f9f6ea 100%);
+    radial-gradient(circle at 72% 20%, rgba(227, 139, 79, 0.56), transparent 18rem),
+    linear-gradient(145deg, #f4efe8 0%, #f8f3ea 100%);
 }
 
 .auth-nav {
@@ -3326,7 +3326,7 @@ body {
   align-items: center;
   gap: 8px;
   padding: 6px;
-  border: 1px solid rgba(22, 51, 0, 0.12);
+  border: 1px solid rgba(58, 36, 24, 0.12);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.56);
 }
@@ -3337,13 +3337,13 @@ body {
   align-items: center;
   padding: 0 14px;
   border-radius: 999px;
-  color: var(--wise-grey);
+  color: var(--qorvexa-grey);
   font-size: 0.9rem;
   font-weight: 800;
 }
 
 .auth-nav-links span:first-child {
-  color: var(--wise-black);
+  color: var(--qorvexa-black);
   background: #fff;
 }
 
@@ -3353,8 +3353,8 @@ body {
   height: 44px;
   padding: 0 14px;
   border-radius: 999px;
-  color: var(--wise-black);
-  background: var(--wise-acid);
+  color: var(--qorvexa-black);
+  background: var(--qorvexa-acid);
   font-size: 1.05rem;
   font-weight: 900;
   text-transform: lowercase;
@@ -3372,8 +3372,8 @@ body {
   margin: 0 0 18px;
   padding: 8px 14px;
   border-radius: 999px;
-  color: var(--wise-black);
-  background: var(--wise-acid);
+  color: var(--qorvexa-black);
+  background: var(--qorvexa-acid);
   font-size: 0.9rem;
   font-weight: 900;
 }
@@ -3381,7 +3381,7 @@ body {
 .brand-panel h1 {
   max-width: 720px;
   margin: 0 0 18px;
-  color: var(--wise-black);
+  color: var(--qorvexa-black);
   font-size: clamp(3.5rem, 8vw, 6.8rem);
   line-height: 0.9;
   font-weight: 900;
@@ -3394,14 +3394,14 @@ body {
   line-height: 1.55;
 }
 
-.wise-transfer-preview {
+.qorvexa-transfer-preview {
   width: min(100%, 520px);
   margin-top: 36px;
   padding: 10px;
-  border: 1px solid rgba(22, 51, 0, 0.12);
+  border: 1px solid rgba(58, 36, 24, 0.12);
   border-radius: 32px;
-  background: var(--wise-card);
-  box-shadow: 0 24px 70px rgba(22, 51, 0, 0.12);
+  background: var(--qorvexa-card);
+  box-shadow: 0 24px 70px rgba(58, 36, 24, 0.12);
 }
 
 .preview-row,
@@ -3425,13 +3425,13 @@ body {
 
 .preview-row span,
 .preview-fee span {
-  color: var(--wise-grey);
+  color: var(--qorvexa-grey);
   font-weight: 800;
 }
 
 .preview-row strong,
 .preview-fee strong {
-  color: var(--wise-black);
+  color: var(--qorvexa-black);
   font-size: 1.28rem;
 }
 
@@ -3452,8 +3452,8 @@ body {
   margin-top: 8px;
   border: 0;
   border-radius: 999px;
-  color: var(--wise-black);
-  background: var(--wise-acid);
+  color: var(--qorvexa-black);
+  background: var(--qorvexa-acid);
   font-weight: 900;
 }
 
@@ -3474,13 +3474,13 @@ body {
   border: 0;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.7);
-  box-shadow: inset 0 0 0 1px rgba(22, 51, 0, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(58, 36, 24, 0.1);
 }
 
 .auth-tabs {
   margin-top: clamp(34px, 9vh, 86px);
   padding: 5px;
-  border: 1px solid rgba(22, 51, 0, 0.1);
+  border: 1px solid rgba(58, 36, 24, 0.1);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
 }
@@ -3491,15 +3491,15 @@ body {
 }
 
 .tab-button.active {
-  background: var(--wise-black);
+  background: var(--qorvexa-black);
 }
 
 .auth-form {
   padding: 24px;
-  border: 1px solid rgba(22, 51, 0, 0.1);
+  border: 1px solid rgba(58, 36, 24, 0.1);
   border-radius: 32px;
   background: rgba(255, 255, 255, 0.86);
-  box-shadow: 0 24px 70px rgba(22, 51, 0, 0.1);
+  box-shadow: 0 24px 70px rgba(58, 36, 24, 0.1);
 }
 
 .auth-form h2 {
@@ -3510,18 +3510,18 @@ body {
 
 .auth-subtitle {
   margin: 0 0 22px;
-  color: var(--wise-grey);
+  color: var(--qorvexa-grey);
   font-weight: 700;
 }
 
 label {
-  color: var(--wise-black);
+  color: var(--qorvexa-black);
 }
 
 input {
   min-height: 56px;
   border-radius: 16px;
-  border-color: rgba(22, 51, 0, 0.14);
+  border-color: rgba(58, 36, 24, 0.14);
   background: #fff;
 }
 
@@ -3534,24 +3534,24 @@ input {
 
 .primary-button,
 .language-button.active {
-  color: var(--wise-black);
-  background: var(--wise-acid);
-  border-color: var(--wise-acid);
+  color: var(--qorvexa-black);
+  background: var(--qorvexa-acid);
+  border-color: var(--qorvexa-acid);
 }
 
 .primary-button:hover,
 .preview-button:hover {
-  background: var(--wise-acid-strong);
+  background: var(--qorvexa-acid-strong);
 }
 
 .dashboard-view {
   min-height: 100vh;
-  background: var(--wise-bg);
+  background: var(--qorvexa-bg);
 }
 
 .sidebar {
   background: rgba(255, 253, 245, 0.92);
-  border-color: rgba(22, 51, 0, 0.12);
+  border-color: rgba(58, 36, 24, 0.12);
 }
 
 @media (min-width: 980px) {
@@ -3567,7 +3567,7 @@ input {
     height: 100vh;
     padding: 24px 14px;
     border-top: 0;
-    border-right: 1px solid rgba(22, 51, 0, 0.1);
+    border-right: 1px solid rgba(58, 36, 24, 0.1);
     box-shadow: none;
   }
 
@@ -3617,16 +3617,16 @@ input {
 
 .profile-chip {
   min-width: 294px;
-  border: 1px solid rgba(22, 51, 0, 0.1);
+  border: 1px solid rgba(58, 36, 24, 0.1);
   border-radius: 999px;
-  background: var(--wise-cream);
-  box-shadow: 0 16px 38px rgba(22, 51, 0, 0.08);
+  background: var(--qorvexa-cream);
+  box-shadow: 0 16px 38px rgba(58, 36, 24, 0.08);
 }
 
 .profile-chip span,
 .account-menu-header span {
-  color: var(--wise-black);
-  background: linear-gradient(135deg, var(--wise-acid), #f2ff7a);
+  color: var(--qorvexa-black);
+  background: linear-gradient(135deg, var(--qorvexa-acid), #f6d7b8);
   border-radius: 50%;
 }
 
@@ -3636,12 +3636,12 @@ input {
 
 .menu-button {
   border-radius: 50%;
-  background: var(--wise-acid);
+  background: var(--qorvexa-acid);
 }
 
 .account-menu {
   border-radius: 28px;
-  background: var(--wise-cream);
+  background: var(--qorvexa-cream);
 }
 
 .account-menu-header {
@@ -3649,19 +3649,19 @@ input {
   background: #ecffd8;
 }
 
-.wise-account-header {
+.qorvexa-account-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
   margin-bottom: 18px;
   padding: 22px 24px;
-  border: 1px solid rgba(22, 51, 0, 0.1);
+  border: 1px solid rgba(58, 36, 24, 0.1);
   border-radius: 32px;
-  background: var(--wise-cream);
+  background: var(--qorvexa-cream);
 }
 
-.wise-account-header h3 {
+.qorvexa-account-header h3 {
   margin: 0;
   font-size: clamp(2rem, 4vw, 3.8rem);
   line-height: 0.95;
@@ -3671,7 +3671,7 @@ input {
   grid-template-columns: minmax(0, 1.15fr) minmax(330px, 0.85fr);
   border-radius: 36px;
   background:
-    linear-gradient(135deg, #183300 0%, #214f0b 48%, #9fe870 100%);
+    linear-gradient(135deg, #3A2418 0%, #6A3A22 48%, #e38b4f 100%);
   color: #fff;
 }
 
@@ -3680,7 +3680,7 @@ input {
   overflow: hidden;
   color: #fff;
   background:
-    radial-gradient(circle at 82% 16%, rgba(159, 232, 112, 0.46), transparent 12rem),
+    radial-gradient(circle at 82% 16%, rgba(227, 139, 79, 0.46), transparent 12rem),
     rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
@@ -3710,15 +3710,15 @@ input {
 }
 
 .hero-action:hover {
-  color: var(--wise-black);
+  color: var(--qorvexa-black);
   background: #f4ffd8;
 }
 
 .action-icon {
-  background: var(--wise-acid);
+  background: var(--qorvexa-acid);
 }
 
-.wise-currency-strip {
+.qorvexa-currency-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
@@ -3731,11 +3731,11 @@ input {
   min-height: 142px;
   padding: 20px;
   text-align: left;
-  border: 1px solid rgba(22, 51, 0, 0.1);
+  border: 1px solid rgba(58, 36, 24, 0.1);
   border-radius: 28px;
-  color: var(--wise-black);
-  background: var(--wise-cream);
-  box-shadow: 0 14px 34px rgba(22, 51, 0, 0.07);
+  color: var(--qorvexa-black);
+  background: var(--qorvexa-cream);
+  box-shadow: 0 14px 34px rgba(58, 36, 24, 0.07);
 }
 
 .currency-tile span {
@@ -3752,7 +3752,7 @@ input {
 }
 
 .currency-tile small {
-  color: var(--wise-grey);
+  color: var(--qorvexa-grey);
   font-weight: 700;
 }
 
@@ -3766,13 +3766,13 @@ input {
 .admin-identity-records-panel,
 .admin-gift-card-records-panel,
 .admin-gift-card-panel {
-  border-color: rgba(22, 51, 0, 0.1);
+  border-color: rgba(58, 36, 24, 0.1);
   border-radius: 30px;
-  background: var(--wise-cream);
+  background: var(--qorvexa-cream);
 }
 
 .balance-card {
-  background: #183300;
+  background: #3A2418;
 }
 
 .transfer-bank-strip {
@@ -3783,8 +3783,8 @@ input {
 .bank-card {
   border-radius: 32px;
   background:
-    radial-gradient(circle at 80% 12%, rgba(159, 232, 112, 0.72), transparent 10rem),
-    #183300;
+    radial-gradient(circle at 80% 12%, rgba(227, 139, 79, 0.72), transparent 10rem),
+    #3A2418;
 }
 
 .gift-card-option {
@@ -3795,8 +3795,8 @@ input {
 
 .gift-card-option.active,
 .gift-card-option:hover {
-  color: var(--wise-black);
-  border-color: var(--wise-acid);
+  color: var(--qorvexa-black);
+  border-color: var(--qorvexa-acid);
   background: #ecffd8;
 }
 
@@ -3850,17 +3850,17 @@ input {
     font-size: 3.1rem;
   }
 
-  .wise-transfer-preview,
+  .qorvexa-transfer-preview,
   .auth-form {
     border-radius: 24px;
   }
 
-  .wise-account-header,
-  .wise-currency-strip {
+  .qorvexa-account-header,
+  .qorvexa-currency-strip {
     grid-template-columns: 1fr;
   }
 
-  .wise-account-header {
+  .qorvexa-account-header {
     align-items: stretch;
   }
 
@@ -3870,13 +3870,13 @@ input {
   }
 }
 
-/* Wise mobile app dark replica */
+/* Qorvexa mobile app dark replica */
 :root {
-  --app-black: #101511;
+  --app-black: #241C18;
   --app-card: #292e2a;
   --app-card-2: #1a201b;
-  --app-green: #9fe870;
-  --app-green-deep: #153d00;
+  --app-green: #e38b4f;
+  --app-green-deep: #6A3A22;
   --app-muted: #9aa09b;
   --app-line: #2d342f;
 }
@@ -3894,7 +3894,7 @@ input {
 }
 
 .topbar,
-.wise-account-header,
+.qorvexa-account-header,
 .overview-grid,
 .accounts-section h3,
 .notificationList,
@@ -4130,7 +4130,7 @@ input {
   font-size: 1.25rem;
 }
 
-.wise-currency-strip {
+.qorvexa-currency-strip {
   display: none;
 }
 
@@ -4552,7 +4552,7 @@ input {
   }
 }
 
-/* Wise-style transfer flow */
+/* Qorvexa-style transfer flow */
 .dashboard-view.transfer-active .sidebar,
 .dashboard-view.transfer-active .dashboard-menu-row,
 .dashboard-view.transfer-active .topbar {
@@ -4779,7 +4779,7 @@ input {
   font-size: 1.9rem;
 }
 
-.wise-mark {
+.qorvexa-mark {
   color: var(--app-black);
   border-color: var(--app-green);
   background: var(--app-green);
@@ -4791,13 +4791,13 @@ input {
   margin-top: 10px;
   padding: 8px 12px;
   border-radius: 999px;
-  color: #d9ffd0;
-  background: #006b34;
+  color: #f6e4d2;
+  background: #8A4B28;
   font-style: normal;
   font-weight: 900;
 }
 
-.transfer-wise-form {
+.transfer-qorvexa-form {
   display: grid;
   gap: 26px;
 }
@@ -4834,11 +4834,11 @@ input {
   background: #111612;
 }
 
-.transfer-wise-form label {
+.transfer-qorvexa-form label {
   color: #f4f6f0;
 }
 
-.transfer-wise-form input {
+.transfer-qorvexa-form input {
   min-height: 68px;
   border: 1.5px solid #cfd5cd;
   border-radius: 16px;
@@ -5016,15 +5016,15 @@ input {
   display: grid;
 }
 
-.transfer-wise-form {
+.transfer-qorvexa-form {
   display: none;
 }
 
-.transfer-wise-form.active {
+.transfer-qorvexa-form.active {
   display: grid;
 }
 
-.transfer-wise-form:not(.active) .transfer-submit-button {
+.transfer-qorvexa-form:not(.active) .transfer-submit-button {
   display: none;
 }
 
@@ -5273,7 +5273,7 @@ input {
 }
 
 .eu-badge::after,
-.wise-badge::after {
+.qorvexa-badge::after {
   content: "";
   position: absolute;
   right: -6px;
@@ -5297,11 +5297,11 @@ input {
     #17328a;
 }
 
-.wise-badge::after {
+.qorvexa-badge::after {
   background: var(--app-green);
 }
 
-.wise-badge::before {
+.qorvexa-badge::before {
   content: "";
   position: absolute;
   right: 6px;
@@ -5314,7 +5314,7 @@ input {
   transform: rotate(45deg);
 }
 
-.icon-wise-arrow::before {
+.icon-qorvexa-arrow::before {
   width: 25px;
   height: 15px;
   left: 19px;
@@ -5324,7 +5324,7 @@ input {
   transform: skewX(-18deg);
 }
 
-.icon-wise-arrow::after {
+.icon-qorvexa-arrow::after {
   width: 28px;
   height: 6px;
   left: 21px;
@@ -5450,8 +5450,8 @@ input {
   background: #121713;
 }
 
-.transfer-option-icon.wise-mark,
-.payment-icon.wise-mark {
+.transfer-option-icon.qorvexa-mark,
+.payment-icon.qorvexa-mark {
   color: var(--app-black);
   border-color: var(--app-green);
   background: var(--app-green);
@@ -5485,7 +5485,7 @@ input {
   }
 
   .eu-badge::after,
-  .wise-badge::after {
+  .qorvexa-badge::after {
     width: 30px;
     height: 30px;
   }
@@ -6104,7 +6104,7 @@ input {
   --web-bg: #f6f8fb;
   --web-surface: #ffffff;
   --web-surface-2: #f1f5f4;
-  --web-ink: #102018;
+  --web-ink: #2A211C;
   --web-muted: #607069;
   --web-line: #dce5e1;
   --web-green: #39d979;
@@ -6125,7 +6125,7 @@ body {
   align-items: center;
   padding: clamp(28px, 5vw, 72px);
   background:
-    linear-gradient(120deg, rgba(159, 232, 112, 0.2), transparent 42%),
+    linear-gradient(120deg, rgba(227, 139, 79, 0.2), transparent 42%),
     var(--web-bg);
 }
 
@@ -6137,7 +6137,7 @@ body {
   border: 1px solid var(--web-line);
   border-radius: 28px;
   background:
-    linear-gradient(135deg, rgba(159, 232, 112, 0.86), rgba(255, 255, 255, 0.78) 48%, rgba(226, 237, 255, 0.9)),
+    linear-gradient(135deg, rgba(227, 139, 79, 0.86), rgba(255, 255, 255, 0.78) 48%, rgba(226, 237, 255, 0.9)),
     var(--web-surface);
   box-shadow: var(--web-shadow);
 }
@@ -6179,7 +6179,7 @@ body {
   font-weight: 800;
 }
 
-.wise-transfer-preview {
+.qorvexa-transfer-preview {
   max-width: 520px;
   margin-top: auto;
   border: 1px solid rgba(16, 32, 24, 0.12);
@@ -6297,7 +6297,7 @@ body {
   gap: 24px;
 }
 
-.wise-account-header {
+.qorvexa-account-header {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 20px;
@@ -6309,7 +6309,7 @@ body {
   box-shadow: var(--web-shadow);
 }
 
-.wise-account-header h3 {
+.qorvexa-account-header h3 {
   margin: 4px 0 0;
   font-size: clamp(2.1rem, 4vw, 3.8rem);
 }
@@ -6356,7 +6356,7 @@ body {
   border-radius: 20px;
   color: var(--web-ink);
   background:
-    linear-gradient(135deg, rgba(159, 232, 112, 0.32), transparent),
+    linear-gradient(135deg, rgba(227, 139, 79, 0.32), transparent),
     var(--web-surface-2);
 }
 
@@ -6416,7 +6416,7 @@ body {
   background: var(--web-surface-2);
 }
 
-.wise-currency-strip {
+.qorvexa-currency-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
@@ -6517,7 +6517,7 @@ body {
 }
 
 .transfer-step.active,
-.transfer-wise-form.active,
+.transfer-qorvexa-form.active,
 .account-details-screen.active {
   display: block;
   padding: 28px;
@@ -6528,7 +6528,7 @@ body {
   box-shadow: var(--web-shadow);
 }
 
-.transfer-wise-form.active {
+.transfer-qorvexa-form.active {
   display: grid;
 }
 
@@ -6607,7 +6607,7 @@ body {
   max-width: 760px;
 }
 
-.transfer-wise-form input {
+.transfer-qorvexa-form input {
   color: var(--web-ink);
   border-color: var(--web-line);
   background: #fbfdfb;
@@ -6713,7 +6713,7 @@ body {
   .mobile-bank-hero,
   .content-grid,
   .overview-grid,
-  .wise-currency-strip {
+  .qorvexa-currency-strip {
     grid-template-columns: 1fr;
   }
 }
@@ -6727,9 +6727,9 @@ body {
   }
 
   .mobile-bank-hero,
-  .wise-account-header,
+  .qorvexa-account-header,
   .transfer-step.active,
-  .transfer-wise-form.active,
+  .transfer-qorvexa-form.active,
   .account-details-screen.active {
     padding: 20px;
   }
@@ -6743,18 +6743,18 @@ body {
   }
 }
 
-/* Senior MVP polish: Wise-inspired product sections, forms, analytics, accessibility */
+/* Senior MVP polish: Qorvexa-inspired product sections, forms, analytics, accessibility */
 :root {
-  --wise-bg-clean: #F7F9FA;
-  --wise-surface-clean: #FFFFFF;
-  --wise-primary-clean: #163300;
-  --wise-accent-clean: #9FE870;
-  --wise-blue-clean: #00B9FF;
-  --wise-border-clean: #E5E7EB;
-  --wise-text-clean: #111827;
-  --wise-muted-clean: #6B7280;
-  --wise-danger-clean: #EF4444;
-  --wise-success-clean: #22C55E;
+  --qorvexa-bg-clean: #F4EFE8;
+  --qorvexa-surface-clean: #FFFFFF;
+  --qorvexa-primary-clean: #3A2418;
+  --qorvexa-accent-clean: #E38B4F;
+  --qorvexa-blue-clean: #6B5B95;
+  --qorvexa-border-clean: #E5E7EB;
+  --qorvexa-text-clean: #111827;
+  --qorvexa-muted-clean: #6B7280;
+  --qorvexa-danger-clean: #EF4444;
+  --qorvexa-success-clean: #22C55E;
   --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.06);
   --shadow-md: 0 12px 30px rgba(17, 24, 39, 0.08);
   --shadow-lg: 0 24px 60px rgba(17, 24, 39, 0.10);
@@ -6763,7 +6763,7 @@ body {
 button:focus-visible,
 input:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid rgba(0, 185, 255, 0.38);
+  outline: 3px solid rgba(107, 91, 149, 0.38);
   outline-offset: 3px;
 }
 
@@ -6795,8 +6795,8 @@ input:focus-visible,
   height: 34px;
   margin-bottom: 18px;
   border-radius: 50%;
-  color: var(--wise-primary-clean);
-  background: var(--wise-accent-clean);
+  color: var(--qorvexa-primary-clean);
+  background: var(--qorvexa-accent-clean);
   font-size: 0.86rem;
   font-weight: 900;
 }
@@ -6804,12 +6804,12 @@ input:focus-visible,
 .landing-feature-grid strong {
   display: block;
   margin-bottom: 8px;
-  color: var(--wise-text-clean);
+  color: var(--qorvexa-text-clean);
   font-size: 1rem;
 }
 
 .landing-feature-grid p {
-  color: var(--wise-muted-clean) !important;
+  color: var(--qorvexa-muted-clean) !important;
   font-size: 0.92rem;
   line-height: 1.55;
 }
@@ -6819,7 +6819,7 @@ input:focus-visible,
   margin: -2px 0 16px;
   border: 0;
   padding: 0;
-  color: var(--wise-primary-clean);
+  color: var(--qorvexa-primary-clean);
   background: transparent;
   font-weight: 800;
   text-decoration: underline;
@@ -6830,7 +6830,7 @@ input:focus-visible,
   display: grid;
   gap: 8px;
   margin: -4px 0 16px;
-  color: var(--wise-muted-clean);
+  color: var(--qorvexa-muted-clean);
   font-size: 0.9rem;
   font-weight: 700;
 }
@@ -6847,7 +6847,7 @@ input:focus-visible,
   width: 0;
   height: 100%;
   border-radius: inherit;
-  background: var(--wise-danger-clean);
+  background: var(--qorvexa-danger-clean);
   transition: width 180ms ease, background-color 180ms ease;
 }
 
@@ -6856,16 +6856,16 @@ input:focus-visible,
 }
 
 .strength-track i[data-score="3"] {
-  background: var(--wise-blue-clean);
+  background: var(--qorvexa-blue-clean);
 }
 
 .strength-track i[data-score="4"],
 .strength-track i[data-score="5"] {
-  background: var(--wise-success-clean);
+  background: var(--qorvexa-success-clean);
 }
 
 .password-strength strong {
-  color: var(--wise-text-clean);
+  color: var(--qorvexa-text-clean);
   font-size: 0.9rem;
 }
 
@@ -6894,7 +6894,7 @@ input:focus-visible,
 
 .analytics-bars span,
 .rate-list span {
-  color: var(--wise-muted-clean);
+  color: var(--qorvexa-muted-clean);
   font-weight: 800;
 }
 
@@ -6912,12 +6912,12 @@ input:focus-visible,
   inset: 0 auto 0 0;
   width: var(--bar);
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--wise-accent-clean), var(--wise-blue-clean));
+  background: linear-gradient(90deg, var(--qorvexa-accent-clean), var(--qorvexa-blue-clean));
 }
 
 .analytics-bars strong,
 .rate-list strong {
-  color: var(--wise-text-clean);
+  color: var(--qorvexa-text-clean);
   text-align: right;
 }
 
@@ -6931,7 +6931,7 @@ input:focus-visible,
   grid-template-columns: 1fr auto;
   gap: 16px;
   padding: 14px 0;
-  border-bottom: 1px solid var(--wise-border-clean);
+  border-bottom: 1px solid var(--qorvexa-border-clean);
 }
 
 .rate-list div:last-child {
@@ -6940,12 +6940,12 @@ input:focus-visible,
 
 .form-message.success,
 .status-text.success {
-  color: var(--wise-success-clean);
+  color: var(--qorvexa-success-clean);
 }
 
 .form-message.error,
 .status-text.error {
-  color: var(--wise-danger-clean);
+  color: var(--qorvexa-danger-clean);
 }
 
 .activity-list li,
@@ -6956,7 +6956,7 @@ input:focus-visible,
 .activity-list li:hover,
 .compact-list li:hover {
   transform: translateY(-2px);
-  border-color: rgba(0, 185, 255, 0.28);
+  border-color: rgba(107, 91, 149, 0.28);
   box-shadow: var(--shadow-sm);
 }
 
@@ -6980,11 +6980,11 @@ input:focus-visible,
 
 /* Final cohesive design-system pass */
 :root {
-  --bg:#F7F9FA;
+  --bg:#F4EFE8;
   --surface:#FFFFFF;
-  --primary:#163300;
-  --accent:#9FE870;
-  --blue:#00B9FF;
+  --primary:#3A2418;
+  --accent:#E38B4F;
+  --blue:#6B5B95;
   --text:#111827;
   --secondary:#6B7280;
   --border:#E5E7EB;
@@ -7092,7 +7092,7 @@ body.is-scrolled .topbar {
   margin:0 auto var(--space-3);
   border-radius:50%;
   background:var(--accent);
-  box-shadow:0 18px 44px rgba(159,232,112,.35);
+  box-shadow:0 18px 44px rgba(227,139,79,.35);
   animation:successPop 360ms ease both;
 }
 
@@ -7142,7 +7142,7 @@ body.is-scrolled .topbar {
 .transaction-toolbar input:focus,
 .transaction-toolbar select:focus {
   border-color:var(--blue);
-  box-shadow:0 0 0 4px rgba(0,185,255,.14);
+  box-shadow:0 0 0 4px rgba(107,91,149,.14);
 }
 
 .secondary-button {
@@ -7245,11 +7245,11 @@ body.is-scrolled .topbar {
 
 /* Principal presentation rebuild: one cohesive light fintech system */
 :root {
-  --background:#F7F9FA;
+  --background:#F4EFE8;
   --surface:#FFFFFF;
-  --primary:#163300;
-  --accent:#9FE870;
-  --blue:#00B9FF;
+  --primary:#3A2418;
+  --accent:#E38B4F;
+  --blue:#6B5B95;
   --text:#111827;
   --secondary:#6B7280;
   --border:#E5E7EB;
@@ -7274,7 +7274,7 @@ body {
 body {
   margin:0;
   color:var(--text) !important;
-  font-family:Inter, Arial, sans-serif;
+  font-family:"Outfit", "Avenir Next", "Segoe UI", sans-serif;
   font-size:16px;
   line-height:1.5;
 }
@@ -7312,7 +7312,7 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
 a:focus-visible {
-  outline:3px solid rgba(0,185,255,.36) !important;
+  outline:3px solid rgba(107,91,149,.36) !important;
   outline-offset:3px;
 }
 
@@ -7356,8 +7356,8 @@ a:focus-visible {
   inset:0;
   display:block !important;
   background:
-    radial-gradient(circle at 18% 12%, rgba(159,232,112,.72), transparent 34%),
-    radial-gradient(circle at 88% 88%, rgba(0,185,255,.16), transparent 36%);
+    radial-gradient(circle at 18% 12%, rgba(227,139,79,.72), transparent 34%),
+    radial-gradient(circle at 88% 88%, rgba(107,91,149,.16), transparent 36%);
   pointer-events:none;
 }
 
@@ -7414,7 +7414,7 @@ a:focus-visible {
 
 .auth-nav-links span:hover,
 .auth-nav-links span:first-child {
-  background:#F1FDE8;
+  background:#F6E6D6;
 }
 
 .auth-kicker {
@@ -7423,7 +7423,7 @@ a:focus-visible {
   padding:10px 16px !important;
   border-radius:12px !important;
   color:var(--primary) !important;
-  background:#F1FDE8 !important;
+  background:#F6E6D6 !important;
   font-size:14px !important;
   font-weight:900 !important;
 }
@@ -7445,7 +7445,7 @@ a:focus-visible {
   font-size:16px !important;
 }
 
-.wise-transfer-preview {
+.qorvexa-transfer-preview {
   max-width:520px !important;
   margin:32px 0 0 !important;
   padding:16px !important;
@@ -7461,7 +7461,7 @@ a:focus-visible {
   padding:0 16px !important;
   border-radius:12px !important;
   color:var(--text) !important;
-  background:#F7F9FA !important;
+  background:#F4EFE8 !important;
 }
 
 .preview-button,
@@ -7577,7 +7577,7 @@ input:focus,
 select:focus,
 textarea:focus {
   border-color:var(--blue) !important;
-  box-shadow:0 0 0 4px rgba(0,185,255,.14) !important;
+  box-shadow:0 0 0 4px rgba(107,91,149,.14) !important;
 }
 
 .dashboard-view,
@@ -7638,7 +7638,7 @@ textarea:focus {
 .nav-button:hover,
 .menu-item:hover {
   color:var(--primary) !important;
-  background:#F1FDE8 !important;
+  background:#F6E6D6 !important;
 }
 
 .sidebar-language {
@@ -7733,9 +7733,9 @@ textarea:focus {
   gap:24px !important;
 }
 
-.wise-account-header,
+.qorvexa-account-header,
 .mobile-bank-hero,
-.wise-currency-strip,
+.qorvexa-currency-strip,
 .accounts-section,
 .balance-card,
 .metric-card,
@@ -7743,7 +7743,7 @@ textarea:focus {
 .bank-card,
 .verification-card,
 .transfer-step.active,
-.transfer-wise-form.active,
+.transfer-qorvexa-form.active,
 .account-details-screen.active,
 .account-detail-card,
 .account-fact-card,
@@ -7755,7 +7755,7 @@ textarea:focus {
   box-shadow:var(--shadow-small) !important;
 }
 
-.wise-account-header {
+.qorvexa-account-header {
   display:grid !important;
   grid-template-columns:minmax(0,1fr) auto !important;
   gap:24px !important;
@@ -7763,7 +7763,7 @@ textarea:focus {
   padding:32px !important;
 }
 
-.wise-account-header h3,
+.qorvexa-account-header h3,
 .accounts-section h3,
 .panel h3,
 .account-quick-facts h3,
@@ -7800,7 +7800,7 @@ textarea:focus {
   border:1px solid var(--border) !important;
   border-radius:16px !important;
   color:var(--text) !important;
-  background:#F1FDE8 !important;
+  background:#F6E6D6 !important;
 }
 
 .balance-dial strong,
@@ -7876,10 +7876,10 @@ textarea:focus {
 .transfer-option-icon {
   border:1px solid var(--border) !important;
   color:var(--primary) !important;
-  background:#F1FDE8 !important;
+  background:#F6E6D6 !important;
 }
 
-.wise-currency-strip {
+.qorvexa-currency-strip {
   display:grid !important;
   grid-template-columns:repeat(3,minmax(0,1fr)) !important;
   gap:24px !important;
@@ -7900,7 +7900,7 @@ textarea:focus {
   padding:6px 10px;
   border-radius:12px;
   color:var(--primary) !important;
-  background:#F1FDE8 !important;
+  background:#F6E6D6 !important;
   font-size:14px !important;
   font-weight:900 !important;
 }
@@ -7987,7 +7987,7 @@ textarea:focus {
 .menu-button,
 .copy-detail-button {
   color:var(--primary) !important;
-  background:#F1FDE8 !important;
+  background:#F6E6D6 !important;
 }
 
 .transfer-recipient-stage h3,
@@ -8015,8 +8015,8 @@ textarea:focus {
   margin-top:24px !important;
 }
 
-.transfer-wise-form input,
-.transfer-wise-form select,
+.transfer-qorvexa-form input,
+.transfer-qorvexa-form select,
 .transaction-toolbar input,
 .transaction-toolbar select,
 .search-input {
@@ -8072,7 +8072,7 @@ textarea:focus {
 .currency-pill:hover,
 .transfer-small-pill:hover,
 .account-fact-tab:hover {
-  background:#F1FDE8 !important;
+  background:#F6E6D6 !important;
 }
 
 .receipt-sheet {
@@ -8117,7 +8117,7 @@ textarea:focus {
   .overview-grid,
   .web-insights-grid,
   .content-grid,
-  .wise-currency-strip {
+  .qorvexa-currency-strip {
     grid-template-columns:1fr !important;
   }
 }
@@ -8327,15 +8327,15 @@ body:has(#dashboardView:not(.hidden)) {
 
 /* Premium fintech polish pass: hierarchy, density, motion, and responsive finish */
 :root {
-  --premium-bg:#F7F9FA;
+  --premium-bg:#F4EFE8;
   --premium-surface:#FFFFFF;
   --premium-ink:#111827;
   --premium-muted:#667085;
-  --premium-soft:#EEF4F0;
+  --premium-soft:#F7EFE6;
   --premium-line:#E5E7EB;
-  --premium-primary:#163300;
-  --premium-accent:#9FE870;
-  --premium-blue:#00B9FF;
+  --premium-primary:#3A2418;
+  --premium-accent:#E38B4F;
+  --premium-blue:#6B5B95;
   --premium-danger:#EF4444;
   --premium-success:#22C55E;
   --premium-shadow:0 18px 48px rgba(17,24,39,.08);
@@ -8493,7 +8493,7 @@ button:active,
   color:var(--premium-muted) !important;
 }
 
-.wise-account-header {
+.qorvexa-account-header {
   min-height:116px !important;
   margin-bottom:22px !important;
   padding:24px 28px !important;
@@ -8506,7 +8506,7 @@ button:active,
   box-shadow:var(--premium-shadow-soft) !important;
 }
 
-.wise-account-header h3 {
+.qorvexa-account-header h3 {
   font-size:34px !important;
   line-height:1 !important;
   margin:6px 0 0 !important;
@@ -8568,7 +8568,7 @@ button:active,
   border-radius:28px !important;
   background:
     radial-gradient(circle at 86% 16%, rgba(255,255,255,.9), transparent 130px),
-    linear-gradient(160deg, color-mix(in srgb, var(--premium-accent) 40%, #F7FFF1), #EAF7FF) !important;
+    linear-gradient(160deg, color-mix(in srgb, var(--premium-accent) 40%, #F8E7D6), #EFE6F2) !important;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.72) !important;
 }
 
@@ -8688,7 +8688,7 @@ button:active,
   border-radius:14px !important;
   background:var(--premium-primary) !important;
   position:relative !important;
-  box-shadow:0 12px 24px rgba(22,51,0,.16) !important;
+  box-shadow:0 12px 24px rgba(58,36,24,.16) !important;
 }
 
 .action-icon::before,
@@ -8700,7 +8700,7 @@ button:active,
   border-radius:4px !important;
 }
 
-.wise-currency-strip {
+.qorvexa-currency-strip {
   margin:0 0 22px !important;
   grid-template-columns:repeat(3,minmax(0,1fr)) !important;
   gap:16px !important;
@@ -8999,7 +8999,7 @@ button:active,
   color:#fff !important;
   background:
     radial-gradient(circle at 88% 10%, rgba(255,255,255,.26), transparent 130px),
-    linear-gradient(135deg, #102411, #163300 48%, #0B7B5F) !important;
+    linear-gradient(135deg, #3A2418, #3A2418 48%, #6A3A4A) !important;
   box-shadow:0 28px 70px rgba(17,24,39,.22) !important;
 }
 
@@ -9009,7 +9009,7 @@ button:active,
   inset:auto -80px -100px auto !important;
   width:260px !important;
   height:260px !important;
-  border:38px solid rgba(159,232,112,.22) !important;
+  border:38px solid rgba(227,139,79,.22) !important;
   border-radius:999px !important;
 }
 
@@ -9105,7 +9105,7 @@ button:active,
 .primary-button,
 .earn-button {
   color:var(--premium-primary) !important;
-  background:linear-gradient(135deg, var(--premium-accent), #7EE65D) !important;
+  background:linear-gradient(135deg, var(--premium-accent), #C46A32) !important;
   border:1px solid color-mix(in srgb, var(--premium-accent) 70%, var(--premium-primary)) !important;
   box-shadow:0 14px 28px color-mix(in srgb, var(--premium-accent) 24%, transparent) !important;
 }
@@ -9171,7 +9171,7 @@ button[disabled] {
   }
 
   #dashboardView:not(.hidden) .topbar,
-  .wise-account-header {
+  .qorvexa-account-header {
     flex-direction:column !important;
     align-items:flex-start !important;
   }
@@ -9184,13 +9184,13 @@ button[disabled] {
   .mobile-bank-hero,
   .panel,
   .accounts-section,
-  .wise-account-header {
+  .qorvexa-account-header {
     border-radius:20px !important;
     padding:18px !important;
   }
 
   .hero-actions,
-  .wise-currency-strip,
+  .qorvexa-currency-strip,
   .overview-grid,
   .analytics-summary-grid,
   .card-control-grid,
@@ -9271,7 +9271,7 @@ button[disabled] {
     width:100% !important;
     max-width:100% !important;
     overflow-x:hidden !important;
-    background:#F7F9FA !important;
+    background:#F4EFE8 !important;
   }
 
   body {
@@ -9294,7 +9294,7 @@ button[disabled] {
     overflow-x:hidden !important;
     background:
       radial-gradient(circle at 86% -5%, color-mix(in srgb, var(--premium-accent) 28%, transparent), transparent 240px),
-      #F7F9FA !important;
+      #F4EFE8 !important;
   }
 
   #dashboardView:not(.hidden) .sidebar,
@@ -9416,7 +9416,7 @@ button[disabled] {
   }
 
   #dashboardView:not(.hidden) .dashboard-menu-row::before {
-    content:"wise" !important;
+    content:"qorvexa" !important;
     position:absolute !important;
     left:50% !important;
     top:16px !important;
@@ -9518,7 +9518,7 @@ button[disabled] {
     place-items:center !important;
   }
 
-  .wise-account-header {
+  .qorvexa-account-header {
     min-height:auto !important;
     margin-bottom:14px !important;
     padding:16px !important;
@@ -9530,11 +9530,11 @@ button[disabled] {
     border-radius:22px !important;
   }
 
-  .wise-account-header h3 {
+  .qorvexa-account-header h3 {
     font-size:24px !important;
   }
 
-  .wise-account-header .primary-button {
+  .qorvexa-account-header .primary-button {
     width:auto !important;
     min-width:118px !important;
     min-height:52px !important;
@@ -9573,7 +9573,7 @@ button[disabled] {
     border-radius:28px !important;
     background:
       radial-gradient(circle at 78% 18%, rgba(255,255,255,.88), transparent 118px),
-      linear-gradient(150deg, color-mix(in srgb, var(--premium-accent) 50%, #F8FFF6), #EAF7FF) !important;
+      linear-gradient(150deg, color-mix(in srgb, var(--premium-accent) 50%, #F8FFF6), #EFE6F2) !important;
     box-shadow:0 18px 42px rgba(17,24,39,.10) !important;
   }
 
@@ -9637,7 +9637,7 @@ button[disabled] {
     display:none !important;
   }
 
-  .wise-currency-strip {
+  .qorvexa-currency-strip {
     width:100% !important;
     display:flex !important;
     gap:10px !important;
@@ -9648,7 +9648,7 @@ button[disabled] {
     padding-bottom:2px !important;
   }
 
-  .wise-currency-strip::-webkit-scrollbar {
+  .qorvexa-currency-strip::-webkit-scrollbar {
     display:none !important;
   }
 
@@ -9681,7 +9681,7 @@ button[disabled] {
   .panel,
   .balance-card,
   .metric-card,
-  .wise-account-header {
+  .qorvexa-account-header {
     width:100% !important;
     box-sizing:border-box !important;
     border-radius:22px !important;
@@ -9764,8 +9764,8 @@ button[disabled] {
   .transaction-toolbar button,
   .stacked-form input,
   .dashboard-form input,
-  .transfer-wise-form input,
-  .transfer-wise-form select,
+  .transfer-qorvexa-form input,
+  .transfer-qorvexa-form select,
   .search-input {
     width:100% !important;
     min-height:56px !important;
@@ -9830,13 +9830,13 @@ button[disabled] {
   .mobile-card-carousel .card-preview-secondary {
     background:
       radial-gradient(circle at 88% 10%, rgba(255,255,255,.24), transparent 130px),
-      linear-gradient(135deg, #0B315C, #006A8A 52%, #00B9FF) !important;
+      linear-gradient(135deg, #0B315C, #006A8A 52%, #6B5B95) !important;
   }
 
   .mobile-card-carousel .card-preview-muted {
     background:
       radial-gradient(circle at 88% 10%, rgba(255,255,255,.22), transparent 130px),
-      linear-gradient(135deg, #2B2241, #44316B 52%, #9FE870) !important;
+      linear-gradient(135deg, #2B2241, #44316B 52%, #E38B4F) !important;
   }
 
   .cards-layout .bank-card {
@@ -10032,7 +10032,7 @@ button[disabled] {
   }
 
   .hero-actions,
-  .wise-currency-strip {
+  .qorvexa-currency-strip {
     grid-template-columns:repeat(2, minmax(0,1fr)) !important;
   }
 }
@@ -10050,8 +10050,8 @@ button[disabled] {
   color:#F8FAFC !important;
   border-radius:34px !important;
   background:
-    radial-gradient(circle at 86% -8%, rgba(159,232,112,.18), transparent 220px),
-    linear-gradient(180deg, #101411 0%, #080C09 100%) !important;
+    radial-gradient(circle at 86% -8%, rgba(227,139,79,.18), transparent 220px),
+    linear-gradient(180deg, #241C18 0%, #1A1412 100%) !important;
   box-shadow:0 32px 80px rgba(17,24,39,.22) !important;
 }
 
@@ -10141,7 +10141,7 @@ button[disabled] {
   place-items:center !important;
   flex:0 0 auto !important;
   border-radius:18px !important;
-  color:#102411 !important;
+  color:#3A2418 !important;
   background:#F8FAFC !important;
   box-shadow:inset 0 0 0 1px rgba(255,255,255,.12) !important;
   font-size:25px !important;
@@ -10149,17 +10149,17 @@ button[disabled] {
 }
 
 .bank-logo {
-  color:#163300 !important;
-  background:linear-gradient(135deg, #F8FAFC, #9FE870) !important;
+  color:#3A2418 !important;
+  background:linear-gradient(135deg, #F8FAFC, #E38B4F) !important;
   font-size:16px !important;
 }
 
 .bank-row:nth-child(2n) .bank-logo {
-  background:linear-gradient(135deg, #F8FAFC, #00B9FF) !important;
+  background:linear-gradient(135deg, #F8FAFC, #6B5B95) !important;
 }
 
 .bank-row:nth-child(3n) .bank-logo {
-  background:linear-gradient(135deg, #F8FAFC, #D7FBC2) !important;
+  background:linear-gradient(135deg, #F8FAFC, #F3D7BE) !important;
 }
 
 .confirm-withdrawal-screen {
@@ -10225,7 +10225,7 @@ button[disabled] {
   width:52px !important;
   height:52px !important;
   border-radius:18px !important;
-  background:rgba(159,232,112,.16) !important;
+  background:rgba(227,139,79,.16) !important;
   position:relative !important;
 }
 
@@ -10233,7 +10233,7 @@ button[disabled] {
   content:"" !important;
   position:absolute !important;
   inset:15px !important;
-  border:3px solid #9FE870 !important;
+  border:3px solid #E38B4F !important;
   border-radius:7px !important;
 }
 
@@ -10262,18 +10262,18 @@ button[disabled] {
   gap:10px !important;
   border:0 !important;
   border-radius:999px !important;
-  color:#163300 !important;
-  background:#9FE870 !important;
+  color:#3A2418 !important;
+  background:#E38B4F !important;
   font-size:18px !important;
   font-weight:950 !important;
-  box-shadow:0 18px 42px rgba(159,232,112,.22) !important;
+  box-shadow:0 18px 42px rgba(227,139,79,.22) !important;
 }
 
 .button-spinner {
   width:20px !important;
   height:20px !important;
-  border:3px solid rgba(22,51,0,.2) !important;
-  border-top-color:#163300 !important;
+  border:3px solid rgba(58,36,24,.2) !important;
+  border-top-color:#3A2418 !important;
   border-radius:999px !important;
   animation:verificationSpin .7s linear infinite !important;
 }
@@ -10784,7 +10784,7 @@ button[disabled] {
   display:grid !important;
   place-items:center !important;
   padding:24px !important;
-  background:#080C09 !important;
+  background:#1A1412 !important;
 }
 
 .dashboard-view.vr-bank-access-active {
@@ -11003,7 +11003,7 @@ button[disabled] {
     grid-template-columns:1fr !important;
   }
 
-  .wise-currency-strip {
+  .qorvexa-currency-strip {
     display:grid !important;
     grid-template-columns:1fr !important;
     overflow:visible !important;
@@ -11024,4 +11024,384 @@ button[disabled] {
     overflow:hidden !important;
     text-overflow:ellipsis !important;
   }
+}
+
+/* Qorvexa visual system: linen, espresso, and copper. Layout and copy are unchanged. */
+:root {
+  --background:#f3ece4;
+  --bg:#f3ece4;
+  --surface:#fffdfb;
+  --primary:#3a2418;
+  --accent:#e38b4f;
+  --blue:#6b5b95;
+  --text:#2a211c;
+  --secondary:#6f625a;
+  --border:#e4d5c6;
+  --success:#2f7d57;
+  --danger:#b33939;
+  --ink:#2a211c;
+  --muted:#6f625a;
+  --line:#e4d5c6;
+  --soft:#f7f1ea;
+  --shadow:0 18px 40px rgba(58,36,24,.12);
+  --shadow-small:0 1px 2px rgba(58,36,24,.05);
+  --shadow-medium:0 18px 40px rgba(58,36,24,.10);
+  --shadow-large:0 32px 64px rgba(58,36,24,.14);
+  --shadow-soft:0 1px 2px rgba(58,36,24,.05),0 16px 36px rgba(58,36,24,.08);
+  --premium-bg:#f3ece4;
+  --premium-surface:#fffdfb;
+  --premium-ink:#2a211c;
+  --premium-muted:#6f625a;
+  --premium-soft:#f7efe6;
+  --premium-line:#e4d5c6;
+  --premium-primary:#3a2418;
+  --premium-accent:#e38b4f;
+  --premium-blue:#6b5b95;
+  --premium-danger:#b33939;
+  --premium-success:#2f7d57;
+  --premium-shadow:0 22px 48px rgba(58,36,24,.10);
+  --premium-shadow-soft:0 12px 28px rgba(58,36,24,.07);
+}
+
+html,
+body {
+  color:#2a211c !important;
+  font-family:"Outfit", "Avenir Next", "Segoe UI", sans-serif !important;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(227,139,79,.16), transparent 28rem),
+    radial-gradient(circle at 100% 0%, rgba(107,91,149,.12), transparent 26rem),
+    #f3ece4 !important;
+}
+
+body h1,
+body h2,
+body h3,
+body .brand-mark,
+#pageTitle,
+#heroBalanceAmount,
+.balance-dial strong,
+.balance-card strong,
+.metric-card strong {
+  font-family:"Fraunces", "Iowan Old Style", Palatino, "Times New Roman", serif !important;
+  font-weight:560 !important;
+  letter-spacing:-0.034em !important;
+}
+
+body .eyebrow,
+#welcomeLine,
+.auth-kicker,
+.auth-subtitle,
+label,
+.panel-heading span,
+.status-text {
+  font-family:"Outfit", "Avenir Next", "Segoe UI", sans-serif !important;
+  letter-spacing:.01em !important;
+}
+
+.brand-panel::before {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(227,139,79,.5), transparent 42%),
+    radial-gradient(circle at 92% 100%, rgba(107,91,149,.2), transparent 46%) !important;
+}
+
+.brand-panel,
+.auth-panel,
+#dashboardView:not(.hidden) .sidebar {
+  background:#fffdfb !important;
+  border-color:#e4d5c6 !important;
+  box-shadow:0 18px 40px rgba(58,36,24,.08) !important;
+}
+
+.brand-mark,
+.brand-mark.compact {
+  min-width:0 !important;
+  height:auto !important;
+  min-height:40px !important;
+  padding:7px 16px !important;
+  border-radius:999px !important;
+  color:#fffaf6 !important;
+  background:#c46a32 !important;
+  box-shadow:0 10px 22px rgba(196,106,50,.28) !important;
+  font-size:18px !important;
+  line-height:1 !important;
+}
+
+.auth-kicker,
+.auth-nav-links span:hover,
+.auth-nav-links span:first-child {
+  color:#3a2418 !important;
+  background:#f6e6d6 !important;
+}
+
+.auth-nav {
+  background:rgba(255,253,251,.94) !important;
+  border-color:#e4d5c6 !important;
+}
+
+body .primary-button,
+body .earn-button,
+body .preview-button,
+body .transfer-submit-button,
+body .account-share-button,
+body .tab-button.active,
+body .verification-continue-button {
+  color:#fffaf6 !important;
+  background:#3a2418 !important;
+  background-image:none !important;
+  border:1px solid #3a2418 !important;
+  border-radius:12px !important;
+  box-shadow:0 12px 24px rgba(58,36,24,.18) !important;
+  font-family:"Outfit", "Avenir Next", "Segoe UI", sans-serif !important;
+  font-weight:600 !important;
+  letter-spacing:.01em !important;
+}
+
+body .primary-button:hover,
+body .earn-button:hover,
+body .preview-button:hover,
+body .transfer-submit-button:hover,
+body .account-share-button:hover,
+body .verification-continue-button:hover {
+  background:#4c3122 !important;
+  box-shadow:0 16px 30px rgba(58,36,24,.22) !important;
+}
+
+body .language-button.active {
+  color:#3a2418 !important;
+  background:#e38b4f !important;
+  border:1px solid #e38b4f !important;
+  border-radius:999px !important;
+  box-shadow:none !important;
+  font-weight:650 !important;
+}
+
+body .secondary-button,
+body .text-button,
+body .logout-button,
+body .tab-button,
+body .language-button {
+  border-radius:12px !important;
+  font-weight:600 !important;
+}
+
+body .secondary-button,
+body .logout-button {
+  color:#3a2418 !important;
+  background:#fffdfb !important;
+  border:1px solid #e4d5c6 !important;
+  box-shadow:none !important;
+}
+
+#dashboardView:not(.hidden) .nav-button {
+  border-radius:12px !important;
+  font-weight:600 !important;
+}
+
+#dashboardView:not(.hidden) .nav-button.active,
+#dashboardView:not(.hidden).transfer-active .nav-button.active,
+#dashboardView:not(.hidden).account-details-active .nav-button.active {
+  color:#fffaf6 !important;
+  background:#3a2418 !important;
+  border-color:#3a2418 !important;
+  box-shadow:0 10px 22px rgba(58,36,24,.16) !important;
+}
+
+body .panel,
+body .balance-card,
+body .metric-card,
+body .currency-tile,
+body .account-row,
+body .hero-action,
+body .qorvexa-account-header,
+body .qorvexa-transfer-preview,
+body .profile-chip,
+body .account-menu {
+  border-color:#e4d5c6 !important;
+  border-radius:20px !important;
+  background:#fffdfb !important;
+  box-shadow:0 14px 32px rgba(58,36,24,.07) !important;
+}
+
+body .qorvexa-account-header {
+  background:linear-gradient(135deg, #fffdfb, #f8efe6) !important;
+}
+
+#dashboardView:not(.hidden) .mobile-bank-hero {
+  border-radius:28px !important;
+  border-color:#e4d5c6 !important;
+  background:
+    linear-gradient(145deg, rgba(227,139,79,.16), #fffdfb 58%) !important;
+  box-shadow:0 22px 48px rgba(58,36,24,.08) !important;
+}
+
+#dashboardView:not(.hidden) .balance-dial,
+.balance-dial {
+  border-radius:24px !important;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(255,255,255,.8), transparent 140px),
+    linear-gradient(155deg, #f6dcc4 0%, #f8efe6 48%, #ebe3f2 100%) !important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.72), 0 16px 32px rgba(58,36,24,.06) !important;
+}
+
+.balance-growth span,
+.trend-up {
+  color:#3a2418 !important;
+  background:#e38b4f !important;
+}
+
+.preview-row,
+.preview-fee {
+  background:#f7f1ea !important;
+}
+
+.bank-card {
+  background:
+    radial-gradient(circle at 88% 8%, rgba(255,255,255,.22), transparent 140px),
+    linear-gradient(145deg, #2c2144 0%, #6a3a4a 56%, #c46a32 130%) !important;
+  box-shadow:0 24px 50px rgba(44,33,68,.28) !important;
+  border-radius:28px !important;
+}
+
+.bank-card::before {
+  border-color:rgba(227,139,79,.28) !important;
+}
+
+input,
+select,
+textarea {
+  border-color:#e0d3c6 !important;
+  background:#fffdfb !important;
+  color:#2a211c !important;
+  border-radius:12px !important;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline:3px solid rgba(107,91,149,.55) !important;
+  box-shadow:0 0 0 6px rgba(107,91,149,.16) !important;
+}
+
+.app-shell {
+  padding-bottom:72px !important;
+}
+
+#demoNotice.demo-notice {
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:12000 !important;
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  margin:0 !important;
+  padding:13px 20px !important;
+  border-top:1px solid rgba(255,250,246,.14) !important;
+  background:#2a211c !important;
+  color:#fffaf6 !important;
+  font-family:"Outfit", "Avenir Next", "Segoe UI", sans-serif !important;
+  font-size:16px !important;
+  font-weight:500 !important;
+  line-height:1.4 !important;
+  letter-spacing:.01em !important;
+  text-align:center !important;
+  box-shadow:0 -10px 28px rgba(42,33,28,.18) !important;
+}
+
+.receipt-modal {
+  padding-bottom:76px !important;
+}
+
+.verification-phone-screen {
+  background:
+    radial-gradient(circle at 86% -8%, rgba(227,139,79,.22), transparent 220px),
+    linear-gradient(180deg, #2a211c 0%, #1a1412 100%) !important;
+}
+
+.verification-continue-button {
+  color:#fffaf6 !important;
+  background:#3a2418 !important;
+  border-radius:12px !important;
+  box-shadow:0 12px 24px rgba(58,36,24,.22) !important;
+}
+
+@media (max-width:767px) {
+  html,
+  body {
+    background:#f3ece4 !important;
+  }
+
+  body {
+    padding:0 0 52px !important;
+  }
+
+  #dashboardView:not(.hidden),
+  #dashboardView:not(.hidden).transfer-active,
+  #dashboardView:not(.hidden).account-details-active {
+    background:
+      radial-gradient(circle at 86% -5%, rgba(227,139,79,.28), transparent 240px),
+      #f3ece4 !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar,
+  #dashboardView:not(.hidden).transfer-active .sidebar,
+  #dashboardView:not(.hidden).account-details-active .sidebar {
+    bottom:48px !important;
+    border-top-color:#e4d5c6 !important;
+    background:rgba(255,253,251,.96) !important;
+    box-shadow:0 -12px 32px rgba(58,36,24,.12) !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button.active,
+  #dashboardView:not(.hidden).transfer-active .nav-button.active,
+  #dashboardView:not(.hidden).account-details-active .nav-button.active {
+    color:#fffaf6 !important;
+    background:#3a2418 !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-menu-row::before {
+    content:"qorvexa" !important;
+    min-width:118px !important;
+    height:40px !important;
+    padding:0 14px !important;
+    color:#fffaf6 !important;
+    background:#c46a32 !important;
+    font-family:"Fraunces", "Iowan Old Style", Palatino, serif !important;
+    font-size:16px !important;
+    font-weight:560 !important;
+    letter-spacing:-0.03em !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-main,
+  #dashboardView:not(.hidden).transfer-active .dashboard-main,
+  #dashboardView:not(.hidden).account-details-active .dashboard-main {
+    padding-bottom:calc(168px + env(safe-area-inset-bottom)) !important;
+  }
+
+  #demoNotice.demo-notice {
+    font-size:15px !important;
+    padding:12px 14px !important;
+  }
+}
+
+body .brand-panel h1,
+body .auth-panel h2,
+body .auth-form h2,
+body .topbar h2,
+body #pageTitle,
+body .panel h3,
+body .qorvexa-account-header h3,
+body .accounts-section h3,
+body .balance-dial strong,
+body #heroBalanceAmount,
+body .balance-card strong,
+body .metric-card strong,
+body .sidebar-brand span {
+  font-family:"Fraunces", "Iowan Old Style", Palatino, "Times New Roman", serif !important;
+  font-weight:560 !important;
+  letter-spacing:-0.034em !important;
 }

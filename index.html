@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wise account demo</title>
+  <title>Qorvexa account demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -14,7 +14,7 @@
     <section id="authView" class="auth-view">
       <div class="brand-panel">
         <div class="auth-nav">
-          <div class="brand-mark">wise</div>
+          <div class="brand-mark">qorvexa</div>
           <div class="auth-nav-links">
             <span>Personal</span>
             <span>Business</span>
@@ -29,7 +29,7 @@
         <p class="auth-kicker">International account</p>
         <h1 id="brandTitle">Money for here, there and everywhere.</h1>
         <p id="brandIntro">Secure online banking for your German and European accounts.</p>
-        <div class="wise-transfer-preview" aria-hidden="true">
+        <div class="qorvexa-transfer-preview" aria-hidden="true">
           <div class="preview-row">
             <span>You send exactly</span>
             <strong>1,000.00 <b>EUR</b></strong>
@@ -48,7 +48,7 @@
           <article>
             <span>01</span>
             <strong>Send globally</strong>
-            <p>Move money between Wise-style balances with clear fees and confirmations.</p>
+            <p>Move money between Qorvexa-style balances with clear fees and confirmations.</p>
           </article>
           <article>
             <span>02</span>
@@ -154,8 +154,8 @@
     <section id="dashboardView" class="dashboard-view hidden">
       <aside class="sidebar">
         <div class="sidebar-brand">
-          <div class="brand-mark compact">wise</div>
-          <span>Wise</span>
+          <div class="brand-mark compact">qorvexa</div>
+          <span>Qorvexa</span>
         </div>
         <nav aria-label="Dashboard">
           <button class="nav-button active" data-page="overview" type="button">Overview</button>
@@ -214,7 +214,7 @@
         </header>
 
         <section id="overviewPage" class="page active">
-          <section class="wise-account-header">
+          <section class="qorvexa-account-header">
             <div>
               <p class="eyebrow">Multi-currency account</p>
               <h3>Balances</h3>
@@ -274,7 +274,7 @@
             </div>
           </section>
 
-          <section class="wise-currency-strip" aria-label="Currency balances">
+          <section class="qorvexa-currency-strip" aria-label="Currency balances">
             <button class="currency-tile" data-page-target="transfer" type="button">
               <span>EUR</span>
               <strong id="currencyEurBalance">€0.00</strong>
@@ -502,9 +502,9 @@
                   <small>Volksbank W...</small>
                 </button>
                 <button class="recipient-chip" data-fill-email="bradpitt@gmail.com" data-fill-iban="DE85810700240218008101" type="button">
-                  <span class="transfer-avatar wise-badge">BP</span>
+                  <span class="transfer-avatar qorvexa-badge">BP</span>
                   <strong>Brad Pitt</strong>
-                  <small>Your Wise bu...</small>
+                  <small>Your Qorvexa bu...</small>
                 </button>
               </div>
               <div class="transfer-filter-row">
@@ -514,10 +514,10 @@
               </div>
               <div class="recipient-list">
                 <button class="recipient-list-item" data-fill-email="bradpitt@gmail.com" data-fill-iban="DE85810700240218008101" type="button">
-                  <span class="transfer-avatar wise-badge">BP</span>
+                  <span class="transfer-avatar qorvexa-badge">BP</span>
                   <div>
                     <strong>Brad Pitt</strong>
-                    <small>Wise account ending · 8101</small>
+                    <small>Qorvexa account ending · 8101</small>
                   </div>
                   <b>›</b>
                 </button>
@@ -534,11 +534,11 @@
 
             <section class="transfer-add-stage transfer-step" data-transfer-stage="add">
               <h3>Add a recipient</h3>
-              <button id="searchWiseButton" class="transfer-option-row" type="button">
-                <span class="transfer-option-icon wise-mark icon-wise-arrow"></span>
+              <button id="searchQorvexaButton" class="transfer-option-row" type="button">
+                <span class="transfer-option-icon qorvexa-mark icon-qorvexa-arrow"></span>
                 <div>
-                  <strong>Search on Wise</strong>
-                  <small>Find by Wisetag, email, phone or business name</small>
+                  <strong>Search on Qorvexa</strong>
+                  <small>Find by Qorvexatag, email, phone or business name</small>
                   <em>Instant and convenient</em>
                 </div>
                 <b>›</b>
@@ -561,7 +561,7 @@
               </button>
             </section>
 
-            <form id="transferForm" class="transfer-wise-form" novalidate>
+            <form id="transferForm" class="transfer-qorvexa-form" novalidate>
               <span id="transferStatus" class="status-text"></span>
               <ol class="transfer-progress" aria-label="Transfer progress">
                 <li data-progress-stage="recipient">Recipient</li>
@@ -624,7 +624,7 @@
                 </div>
                 <div class="details-amount" id="detailsAmount">0.00</div>
                 <div class="payment-row">
-                  <span class="payment-icon wise-mark icon-wise-arrow"></span>
+                  <span class="payment-icon qorvexa-mark icon-qorvexa-arrow"></span>
                   <div>
                     <span>Paying with</span>
                     <strong>Main account / EUR</strong>
@@ -1133,6 +1133,8 @@
       </div>
     </div>
   </div>
+
+  <footer id="demoNotice" class="demo-notice">Qorvexa demo project, not a real bank.</footer>
 
   <script type="module" src="app.js"></script>
 </body>
