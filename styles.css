@@ -7267,7 +7267,7 @@ html,
 body {
   width:100%;
   max-width:100%;
-  overflow-x:hidden !important;
+  overflow-x:clip !important;
   background:var(--background) !important;
 }
 
@@ -9270,19 +9270,18 @@ button[disabled] {
   body {
     width:100% !important;
     max-width:100% !important;
-    overflow-x:hidden !important;
+    overflow-x:clip !important;
     background:#F4EFE8 !important;
   }
 
   body {
     padding:0 !important;
-    overscroll-behavior-y:contain !important;
   }
 
   .app-shell {
     width:100% !important;
     max-width:100% !important;
-    overflow-x:hidden !important;
+    overflow:visible !important;
   }
 
   #dashboardView:not(.hidden),
