@@ -3800,6 +3800,8 @@ logoutButton.addEventListener("click", () => {
 });
 
 const studioMobileSheet = document.querySelector("#studioMobileSheet");
+const sectionMobileSheet = document.querySelector("#sectionMobileSheet");
+const sectionMenuButton = document.querySelector("#sectionMenuButton");
 const authMobileSheet = document.querySelector("#authMobileSheet");
 const authMenuButton = document.querySelector("#authMenuButton");
 const studioNavOverlay = document.querySelector("#studioNavOverlay");
@@ -3810,9 +3812,17 @@ function mobileNavActive() {
 }
 
 function sheetPair(which) {
-  return which === "auth"
-    ? { button: authMenuButton, sheet: authMobileSheet }
-    : { button: menuButton, sheet: studioMobileSheet };
+  if (which === "auth") {
+    return { button: authMenuButton, sheet: authMobileSheet };
+  }
+  if (which === "sections") {
+    return { button: sectionMenuButton, sheet: sectionMobileSheet };
+  }
+  return { button: menuButton, sheet: studioMobileSheet };
+}
+
+function mobileSheets() {
+  return [studioMobileSheet, sectionMobileSheet, authMobileSheet].filter(Boolean);
 }
 
 function focusableIn(sheet) {
@@ -3832,9 +3842,21 @@ function setMobileSheet(which, open) {
   if (!button || !sheet) {
     return;
   }
+  if (open) {
+    mobileSheets().forEach((otherSheet) => {
+      if (otherSheet !== sheet) {
+        otherSheet.classList.remove("is-open");
+      }
+    });
+    [menuButton, sectionMenuButton, authMenuButton].forEach((otherButton) => {
+      if (otherButton && otherButton !== button) {
+        otherButton.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
   sheet.classList.toggle("is-open", open);
   button.setAttribute("aria-expanded", String(open));
-  const anyOpen = studioMobileSheet?.classList.contains("is-open") || authMobileSheet?.classList.contains("is-open");
+  const anyOpen = mobileSheets().some((openSheet) => openSheet.classList.contains("is-open"));
   studioNavOverlay?.classList.toggle("is-open", Boolean(anyOpen));
   studioNavOverlay?.setAttribute("aria-hidden", anyOpen ? "false" : "true");
   document.body.classList.toggle("studio-nav-lock", Boolean(anyOpen));
@@ -3846,11 +3868,15 @@ function setMobileSheet(which, open) {
 
 function closeMobileSheets(returnFocus = true) {
   const dashboardWasOpen = menuButton?.getAttribute("aria-expanded") === "true" && mobileNavActive();
+  const sectionsWereOpen = sectionMenuButton?.getAttribute("aria-expanded") === "true" && mobileNavActive();
   const authWasOpen = authMenuButton?.getAttribute("aria-expanded") === "true";
   setMobileSheet("dashboard", false);
+  setMobileSheet("sections", false);
   setMobileSheet("auth", false);
   if (returnFocus && dashboardWasOpen) {
     menuButton?.focus();
+  } else if (returnFocus && sectionsWereOpen) {
+    sectionMenuButton?.focus();
   }
   if (returnFocus && authWasOpen) {
     authMenuButton?.focus();
@@ -3891,6 +3917,16 @@ menuButton.addEventListener("click", (event) => {
   toggleAccountMenu();
 });
 
+sectionMenuButton?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  const open = sectionMenuButton.getAttribute("aria-expanded") === "true";
+  if (open) {
+    closeMobileSheets(false);
+  } else {
+    setMobileSheet("sections", true);
+  }
+});
+
 authMenuButton?.addEventListener("click", (event) => {
   event.stopPropagation();
   const open = authMenuButton.getAttribute("aria-expanded") === "true";
@@ -3902,7 +3938,13 @@ authMenuButton?.addEventListener("click", (event) => {
 });
 
 studioMobileSheet?.addEventListener("click", (event) => {
-  if (event.target.closest(".nav-button, #earnButton, .language-button, .menu-item")) {
+  if (event.target.closest("#earnButton, .language-button, .menu-item")) {
+    closeMobileSheets(false);
+  }
+});
+
+sectionMobileSheet?.addEventListener("click", (event) => {
+  if (event.target.closest(".nav-button")) {
     closeMobileSheets(false);
   }
 });
@@ -3914,6 +3956,7 @@ authMobileSheet?.addEventListener("click", (event) => {
 });
 
 studioMobileSheet?.addEventListener("keydown", (event) => trapSheetTab(event, studioMobileSheet));
+sectionMobileSheet?.addEventListener("keydown", (event) => trapSheetTab(event, sectionMobileSheet));
 authMobileSheet?.addEventListener("keydown", (event) => trapSheetTab(event, authMobileSheet));
 
 studioNavOverlay?.addEventListener("click", () => {
@@ -3931,7 +3974,7 @@ document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") {
     return;
   }
-  if (studioMobileSheet?.classList.contains("is-open") || authMobileSheet?.classList.contains("is-open")) {
+  if (mobileSheets().some((openSheet) => openSheet.classList.contains("is-open"))) {
     closeMobileSheets();
   }
 });

@@ -167,11 +167,24 @@
 
     <section id="dashboardView" class="dashboard-view studio-dash hidden">
       <header class="sidebar studio-topnav" id="studioTopnav">
+        <button id="sectionMenuButton" class="menu-button section-menu-button" type="button" aria-label="Open sections" aria-expanded="false" aria-controls="sectionMobileSheet">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
         <div class="sidebar-brand">
           <div class="brand-mark compact">qorvexa</div>
           <span>Qorvexa</span>
         </div>
-        <div id="studioMobileSheet" class="studio-mobile-sheet">
+        <div id="sectionMobileSheet" class="studio-mobile-sheet studio-sheet-left">
+        <nav aria-label="Dashboard">
+          <button class="nav-button active" data-page="overview" type="button">Overview</button>
+          <button class="nav-button" data-page="cards" type="button">Cards</button>
+          <button class="nav-button" data-page="savings" type="button">Savings</button>
+          <button class="nav-button" data-page="transfer" type="button">Transfers</button>
+        </nav>
+        </div>
+        <div id="studioMobileSheet" class="studio-mobile-sheet studio-sheet-right">
         <div class="profile-chip">
           <span id="profileInitials">ET</span>
           <div>
@@ -180,12 +193,6 @@
             <small id="profileUserId">BK-000000</small>
           </div>
         </div>
-        <nav aria-label="Dashboard">
-          <button class="nav-button active" data-page="overview" type="button">Overview</button>
-          <button class="nav-button" data-page="cards" type="button">Cards</button>
-          <button class="nav-button" data-page="savings" type="button">Savings</button>
-          <button class="nav-button" data-page="transfer" type="button">Transfers</button>
-        </nav>
         <div id="accountMenu" class="account-menu hidden">
           <div class="account-menu-header">
             <span id="menuInitials">BK</span>

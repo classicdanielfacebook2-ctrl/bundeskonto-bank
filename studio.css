@@ -1283,11 +1283,14 @@ body h3,
 /* Desktop keeps the bar; the sheet wrapper does not create a box. */
 @media (min-width: 769px) {
   #studioMobileSheet,
+  #sectionMobileSheet,
   #authMobileSheet {
     display: contents !important;
   }
 
-  .auth-menu-button {
+  .auth-menu-button,
+  .section-menu-button,
+  #dashboardView #sectionMenuButton {
     display: none !important;
   }
 
@@ -1429,6 +1432,7 @@ body h3,
   }
 
   #studioMobileSheet,
+  #sectionMobileSheet,
   #authMobileSheet {
     position: fixed !important;
     top: 84px !important;
@@ -1454,6 +1458,7 @@ body h3,
   }
 
   #studioMobileSheet.is-open,
+  #sectionMobileSheet.is-open,
   #authMobileSheet.is-open {
     transform: translateY(0) !important;
     opacity: 1 !important;
@@ -1796,6 +1801,92 @@ body h3,
   #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .language-button {
     width: 100% !important;
     min-width: 0 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #dashboardView.studio-dash:not(.hidden) #studioTopnav {
+    display: grid !important;
+    grid-template-columns: 44px minmax(0, 1fr) 44px !important;
+    align-items: center !important;
+    justify-content: stretch !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #sectionMenuButton {
+    grid-column: 1 !important;
+    justify-self: start !important;
+    display: grid !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) .sidebar-brand {
+    grid-column: 2 !important;
+    justify-self: center !important;
+    display: flex !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) .dashboard-menu-row {
+    grid-column: 3 !important;
+    justify-self: end !important;
+    width: 44px !important;
+  }
+
+  #sectionMobileSheet,
+  #dashboardView.studio-dash:not(.hidden) #sectionMobileSheet {
+    left: 16px !important;
+    right: auto !important;
+    width: min(280px, calc(100% - 32px)) !important;
+    transform: translateX(-28px) !important;
+  }
+
+  #sectionMobileSheet.is-open,
+  #dashboardView.studio-dash:not(.hidden) #sectionMobileSheet.is-open {
+    transform: translateX(0) !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet,
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    left: auto !important;
+    right: 16px !important;
+    width: min(300px, calc(100% - 32px)) !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet {
+    transform: translateX(28px) !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open {
+    transform: translateX(0) !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #sectionMobileSheet.is-open nav[aria-label="Dashboard"] {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+    height: auto !important;
+    grid-template-columns: none !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #sectionMobileSheet.is-open .nav-button {
+    display: flex !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    width: 100% !important;
+    min-height: 52px !important;
+    height: auto !important;
+    padding: 0 14px !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+    color: #152033 !important;
+    font-size: 16px !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #sectionMobileSheet.is-open .nav-button.active {
+    background: #ffe3eb !important;
+    color: #152033 !important;
   }
 }
 
