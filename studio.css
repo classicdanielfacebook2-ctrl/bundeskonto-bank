@@ -1710,6 +1710,92 @@ body h3,
   #dashboardView.studio-dash:not(.hidden) #studioMobileSheet .menu-item::before {
     display: block !important;
     content: "" !important;
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 132px !important;
+    grid-template-areas:
+      "nav profile"
+      "more more"
+      "earn earn"
+      "lang lang" !important;
+    align-items: start !important;
+    justify-items: stretch !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open nav[aria-label="Dashboard"] {
+    grid-area: nav !important;
+    width: 100% !important;
+    align-items: stretch !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .profile-chip {
+    grid-area: profile !important;
+    width: 132px !important;
+    max-width: 132px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    justify-self: end !important;
+    align-self: start !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    text-align: right !important;
+    gap: 8px !important;
+    padding: 8px !important;
+    background: transparent !important;
+    border: 0 !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .profile-chip > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    text-align: right !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open #accountMenu,
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open #accountMenu.hidden {
+    grid-area: more !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open #earnButton {
+    grid-area: earn !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .sidebar-language {
+    grid-area: lang !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .nav-button,
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .menu-item {
+    justify-content: flex-start !important;
+    text-align: left !important;
+    flex-direction: row !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .profile-chip strong,
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .profile-chip small {
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    text-align: right !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .language-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    width: 100% !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .language-button {
+    width: 100% !important;
+    min-width: 0 !important;
   }
 }
 
