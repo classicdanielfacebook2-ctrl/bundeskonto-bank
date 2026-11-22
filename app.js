@@ -3979,6 +3979,11 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+mobileNavQuery.addEventListener("change", () => {
+  closeMobileSheets(false);
+  document.body.classList.remove("studio-nav-lock");
+});
+
 menuProfileButton.addEventListener("click", () => {
   switchPage("profile");
 });
