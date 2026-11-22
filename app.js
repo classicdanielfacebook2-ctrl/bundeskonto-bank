@@ -67,13 +67,13 @@ const RECEIVE_ACCOUNT_DETAILS = {
       { label: "Name", value: "accountName" },
       { label: "IBAN", value: "userIban", hint: "Can receive EUR and other currencies. How it works" },
       { label: "Swift/BIC", value: "TRWIBEB1XXX", hint: "Only used for international Swift transfers" },
-      { label: "Address", value: "Wise, Rue du Trone 100, 3rd floor, Brussels, 1050, Belgium", hint: "Some senders may need this. Learn more" }
+      { label: "Address", value: "Qorvexa, Rue du Trone 100, 3rd floor, Brussels, 1050, Belgium", hint: "Some senders may need this. Learn more" }
     ],
     fees: {
       question: "What does it cost?",
       rows: [
         ["From SEPA (domestic)", "No fees", ""],
-        ["From outside SEPA (Swift)", "2.39 EUR Wise fee", "Bank fees may also apply"]
+        ["From outside SEPA (Swift)", "2.39 EUR Qorvexa fee", "Bank fees may also apply"]
       ]
     },
     speed: {
@@ -86,7 +86,7 @@ const RECEIVE_ACCOUNT_DETAILS = {
     limits: {
       question: "How much can you receive?",
       rows: [
-        ["Incoming transfers", "No fixed Wise limit", "Sender bank limits may apply"],
+        ["Incoming transfers", "No fixed Qorvexa limit", "Sender bank limits may apply"],
         ["Direct debits", "Available", "Works for regular payments"]
       ]
     },
@@ -101,16 +101,16 @@ const RECEIVE_ACCOUNT_DETAILS = {
     fields: [
       { label: "Name", value: "accountName" },
       { label: "Account type", value: "Deposit", hint: "Only used for domestic transfers" },
-      { label: "Routing number (for wire and ACH)", value: "084009519", hint: "Provided to Wise by Column Bank, our partner" },
+      { label: "Routing number (for wire and ACH)", value: "084009519", hint: "Provided to Qorvexa by Column Bank, our partner" },
       { label: "Account number", value: "325785670648418" },
-      { label: "Address", value: "Wise US Inc, 108 W 13th St, Wilmington, DE, 19801, United States", hint: "Only used for international Swift transfers" },
+      { label: "Address", value: "Qorvexa US Inc, 108 W 13th St, Wilmington, DE, 19801, United States", hint: "Only used for international Swift transfers" },
       { label: "Swift/BIC", value: "TRWIUS35XXX", hint: "Only used for international Swift transfers" }
     ],
     fees: {
       question: "What does it cost?",
       rows: [
         ["From the US (domestic)", "ACH is free", "Wire transfers cost 6.11 USD"],
-        ["From outside the US (Swift)", "6.11 USD Wise fee", "Bank fees may also apply"]
+        ["From outside the US (Swift)", "6.11 USD Qorvexa fee", "Bank fees may also apply"]
       ]
     },
     speed: {
@@ -139,13 +139,13 @@ const RECEIVE_ACCOUNT_DETAILS = {
       { label: "Name", value: "accountName" },
       { label: "Account number", value: "04-2021-0416936-37" },
       { label: "Swift/BIC", value: "TRWINZ21XXX", hint: "Only used for international Swift transfers" },
-      { label: "Address", value: "Wise Payments New Zealand Ltd., Level 11, 41 Shortland Street, Auckland, 1010, New Zealand", hint: "Some senders may need this. Learn more" }
+      { label: "Address", value: "Qorvexa Payments New Zealand Ltd., Level 11, 41 Shortland Street, Auckland, 1010, New Zealand", hint: "Some senders may need this. Learn more" }
     ],
     fees: {
       question: "What does it cost?",
       rows: [
         ["From New Zealand (domestic)", "No fees", ""],
-        ["From outside New Zealand (Swift)", "6.89 NZD Wise fee", "Bank fees may also apply"]
+        ["From outside New Zealand (Swift)", "6.89 NZD Qorvexa fee", "Bank fees may also apply"]
       ]
     },
     speed: {
@@ -174,12 +174,12 @@ const RECEIVE_ACCOUNT_DETAILS = {
       { label: "Name", value: "accountName" },
       { label: "IBAN", value: "AE070331234567890123456", hint: "Only accepts Swift transfers" },
       { label: "Swift/BIC", value: "TRWIAEADXXX", hint: "Use this for international transfers" },
-      { label: "Address", value: "Wise Payments Ltd., Dubai, United Arab Emirates", hint: "Some senders may need this. Learn more" }
+      { label: "Address", value: "Qorvexa Payments Ltd., Dubai, United Arab Emirates", hint: "Some senders may need this. Learn more" }
     ],
     fees: {
       question: "What does it cost?",
       rows: [
-        ["Swift transfers", "12.00 AED Wise fee", "Bank fees may also apply"]
+        ["Swift transfers", "12.00 AED Qorvexa fee", "Bank fees may also apply"]
       ]
     },
     speed: {
@@ -866,7 +866,7 @@ const accountCopyTranslations = {
     "From SEPA (domestic)": "Aus SEPA (Inland)",
     "No fees": "Keine Geb\u00fchren",
     "From outside SEPA (Swift)": "Von au\u00dferhalb SEPA (Swift)",
-    "2.39 EUR Wise fee": "2,39 EUR Wise-Geb\u00fchr",
+    "2.39 EUR Qorvexa fee": "2,39 EUR Qorvexa-Geb\u00fchr",
     "Bank fees may also apply": "Bankgeb\u00fchren k\u00f6nnen ebenfalls anfallen",
     "How fast can money arrive?": "Wie schnell kann Geld ankommen?",
     "SEPA transfers": "SEPA-\u00dcberweisungen",
@@ -877,7 +877,7 @@ const accountCopyTranslations = {
     "Depends on the sending bank": "Abh\u00e4ngig von der sendenden Bank",
     "How much can you receive?": "Wie viel k\u00f6nnen Sie empfangen?",
     "Incoming transfers": "Eingehende \u00dcberweisungen",
-    "No fixed Wise limit": "Kein festes Wise-Limit",
+    "No fixed Qorvexa limit": "Kein festes Qorvexa-Limit",
     "Sender bank limits may apply": "Limits der sendenden Bank k\u00f6nnen gelten",
     "Direct debits": "Lastschriften",
     "Available": "Verf\u00fcgbar",
@@ -891,13 +891,13 @@ const accountCopyTranslations = {
     "Deposit": "Einzahlung",
     "Only used for domestic transfers": "Nur f\u00fcr Inlands\u00fcberweisungen",
     "Routing number (for wire and ACH)": "Routing-Nummer (f\u00fcr Wire und ACH)",
-    "Provided to Wise by Column Bank, our partner": "Von unserer Partnerbank Column Bank bereitgestellt",
+    "Provided to Qorvexa by Column Bank, our partner": "Von unserer Partnerbank Column Bank bereitgestellt",
     "Account number": "Kontonummer",
     "From the US (domestic)": "Aus den USA (Inland)",
     "ACH is free": "ACH ist kostenlos",
     "Wire transfers cost 6.11 USD": "Wire-\u00dcberweisungen kosten 6,11 USD",
     "From outside the US (Swift)": "Von au\u00dferhalb der USA (Swift)",
-    "6.11 USD Wise fee": "6,11 USD Wise-Geb\u00fchr",
+    "6.11 USD Qorvexa fee": "6,11 USD Qorvexa-Geb\u00fchr",
     "ACH transfers": "ACH-\u00dcberweisungen",
     "Wire transfers are usually faster": "Wire-\u00dcberweisungen sind meist schneller",
     "1 to 5 working days": "1 bis 5 Werktage",
@@ -914,14 +914,14 @@ const accountCopyTranslations = {
     "Bank processing times vary": "Bearbeitungszeiten der Banken variieren",
     "From New Zealand (domestic)": "Aus Neuseeland (Inland)",
     "From outside New Zealand (Swift)": "Von au\u00dferhalb Neuseelands (Swift)",
-    "6.89 NZD Wise fee": "6,89 NZD Wise-Geb\u00fchr",
+    "6.89 NZD Qorvexa fee": "6,89 NZD Qorvexa-Geb\u00fchr",
     "Direct Debits not available": "Lastschriften nicht verf\u00fcgbar",
     "Receive AED": "AED empfangen",
     "From the UAE and": "Aus den VAE und",
     "Swift countries": "Swift-L\u00e4ndern",
     "Only accepts Swift transfers": "Akzeptiert nur Swift-\u00dcberweisungen",
     "Use this for international transfers": "F\u00fcr internationale \u00dcberweisungen verwenden",
-    "12.00 AED Wise fee": "12,00 AED Wise-Geb\u00fchr"
+    "12.00 AED Qorvexa fee": "12,00 AED Qorvexa-Geb\u00fchr"
   }
 };
 
@@ -941,7 +941,7 @@ const staticTextTranslations = {
   "Recipient gets": "Empf\u00e4nger erh\u00e4lt",
   "Send money": "Geld senden",
   "Send globally": "Weltweit senden",
-  "Move money between Wise-style balances with clear fees and confirmations.": "Geld zwischen Wise-\u00e4hnlichen Guthaben mit klaren Geb\u00fchren und Best\u00e4tigungen bewegen.",
+  "Move money between Qorvexa-style balances with clear fees and confirmations.": "Geld zwischen Qorvexa-\u00e4hnlichen Guthaben mit klaren Geb\u00fchren und Best\u00e4tigungen bewegen.",
   "Hold currencies": "W\u00e4hrungen halten",
   "View EUR, USD, NZD, AED and other account details from one dashboard.": "EUR-, USD-, NZD-, AED- und weitere Kontodetails in einem Dashboard anzeigen.",
   "Stay protected": "Gesch\u00fctzt bleiben",
@@ -953,7 +953,7 @@ const staticTextTranslations = {
   "Log in to your multi-currency account.": "Melden Sie sich bei Ihrem Mehrw\u00e4hrungskonto an.",
   "Open your account in minutes.": "Er\u00f6ffnen Sie Ihr Konto in wenigen Minuten.",
   "Password strength": "Passwortst\u00e4rke",
-  "Wise": "Wise",
+  "Qorvexa": "Qorvexa",
   "Overview": "\u00dcbersicht",
   "Cards": "Karten",
   "Savings": "Sparen",
@@ -1014,8 +1014,8 @@ const staticTextTranslations = {
   "My accounts": "Meine Konten",
   "Search": "Suchen",
   "Add a recipient": "Empf\u00e4nger hinzuf\u00fcgen",
-  "Search on Wise": "Auf Wise suchen",
-  "Find by Wisetag, email, phone or business name": "Nach Wisetag, E-Mail, Telefon oder Firmennamen suchen",
+  "Search on Qorvexa": "Auf Qorvexa suchen",
+  "Find by Qorvexatag, email, phone or business name": "Nach Qorvexatag, E-Mail, Telefon oder Firmennamen suchen",
   "Bank details": "Bankdaten",
   "Enter email and IBAN": "E-Mail und IBAN eingeben",
   "Upload screenshot or invoice": "Screenshot oder Rechnung hochladen",
@@ -1176,7 +1176,7 @@ const transferBackButton = document.querySelector("#transferBackButton");
 const transferAddButton = document.querySelector("#transferAddButton");
 const transferUploadButton = document.querySelector("#transferUploadButton");
 const transferSearchButton = document.querySelector("#transferSearchButton");
-const searchWiseButton = document.querySelector("#searchWiseButton");
+const searchQorvexaButton = document.querySelector("#searchQorvexaButton");
 const bankDetailsButton = document.querySelector("#bankDetailsButton");
 const invoiceUploadButton = document.querySelector("#invoiceUploadButton");
 const transferSuccessMessage = document.querySelector("#transferSuccessMessage");
@@ -2173,7 +2173,7 @@ function restoreSavedPage() {
 
 function applyTranslations() {
   document.documentElement.lang = currentLanguage();
-  document.title = "Wise account demo";
+  document.title = "Qorvexa account demo";
 
   setText("#brandIntro", "brandIntro");
   setText("#languagePrompt", "chooseLanguage");
@@ -3799,14 +3799,183 @@ logoutButton.addEventListener("click", () => {
   showLoginScreen();
 });
 
+const studioMobileSheet = document.querySelector("#studioMobileSheet");
+const sectionMobileSheet = document.querySelector("#sectionMobileSheet");
+const sectionMenuButton = document.querySelector("#sectionMenuButton");
+const authMobileSheet = document.querySelector("#authMobileSheet");
+const authMenuButton = document.querySelector("#authMenuButton");
+const studioNavOverlay = document.querySelector("#studioNavOverlay");
+const mobileNavQuery = window.matchMedia("(max-width: 768px)");
+
+function mobileNavActive() {
+  return mobileNavQuery.matches;
+}
+
+function sheetPair(which) {
+  if (which === "auth") {
+    return { button: authMenuButton, sheet: authMobileSheet };
+  }
+  if (which === "sections") {
+    return { button: sectionMenuButton, sheet: sectionMobileSheet };
+  }
+  return { button: menuButton, sheet: studioMobileSheet };
+}
+
+function mobileSheets() {
+  return [studioMobileSheet, sectionMobileSheet, authMobileSheet].filter(Boolean);
+}
+
+function focusableIn(sheet) {
+  if (!sheet) {
+    return [];
+  }
+  return [...sheet.querySelectorAll("button, [href], input, select, textarea")].filter((element) => {
+    if (element.disabled || element.getAttribute("aria-hidden") === "true") {
+      return false;
+    }
+    return getComputedStyle(element).display !== "none" && getComputedStyle(element).visibility !== "hidden";
+  });
+}
+
+function setMobileSheet(which, open) {
+  const { button, sheet } = sheetPair(which);
+  if (!button || !sheet) {
+    return;
+  }
+  if (open) {
+    mobileSheets().forEach((otherSheet) => {
+      if (otherSheet !== sheet) {
+        otherSheet.classList.remove("is-open");
+      }
+    });
+    [menuButton, sectionMenuButton, authMenuButton].forEach((otherButton) => {
+      if (otherButton && otherButton !== button) {
+        otherButton.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+  sheet.classList.toggle("is-open", open);
+  button.setAttribute("aria-expanded", String(open));
+  const anyOpen = mobileSheets().some((openSheet) => openSheet.classList.contains("is-open"));
+  studioNavOverlay?.classList.toggle("is-open", Boolean(anyOpen));
+  studioNavOverlay?.setAttribute("aria-hidden", anyOpen ? "false" : "true");
+  document.body.classList.toggle("studio-nav-lock", Boolean(anyOpen));
+  if (open) {
+    const [first] = focusableIn(sheet);
+    first?.focus();
+  }
+}
+
+function closeMobileSheets(returnFocus = true) {
+  const dashboardWasOpen = menuButton?.getAttribute("aria-expanded") === "true" && mobileNavActive();
+  const sectionsWereOpen = sectionMenuButton?.getAttribute("aria-expanded") === "true" && mobileNavActive();
+  const authWasOpen = authMenuButton?.getAttribute("aria-expanded") === "true";
+  setMobileSheet("dashboard", false);
+  setMobileSheet("sections", false);
+  setMobileSheet("auth", false);
+  if (returnFocus && dashboardWasOpen) {
+    menuButton?.focus();
+  } else if (returnFocus && sectionsWereOpen) {
+    sectionMenuButton?.focus();
+  }
+  if (returnFocus && authWasOpen) {
+    authMenuButton?.focus();
+  }
+}
+
+function trapSheetTab(event, sheet) {
+  if (event.key !== "Tab" || !sheet?.classList.contains("is-open")) {
+    return;
+  }
+  const items = focusableIn(sheet);
+  if (!items.length) {
+    return;
+  }
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 menuButton.addEventListener("click", (event) => {
   event.stopPropagation();
+  if (mobileNavActive() && !dashboardView.classList.contains("hidden")) {
+    const open = menuButton.getAttribute("aria-expanded") === "true";
+    if (open) {
+      closeMobileSheets(false);
+    } else {
+      closeAccountMenu();
+      setMobileSheet("dashboard", true);
+    }
+    return;
+  }
   toggleAccountMenu();
+});
+
+sectionMenuButton?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  const open = sectionMenuButton.getAttribute("aria-expanded") === "true";
+  if (open) {
+    closeMobileSheets(false);
+  } else {
+    setMobileSheet("sections", true);
+  }
+});
+
+authMenuButton?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  const open = authMenuButton.getAttribute("aria-expanded") === "true";
+  if (open) {
+    closeMobileSheets(false);
+  } else {
+    setMobileSheet("auth", true);
+  }
+});
+
+studioMobileSheet?.addEventListener("click", (event) => {
+  if (event.target.closest("#earnButton, .language-button, .menu-item")) {
+    closeMobileSheets(false);
+  }
+});
+
+sectionMobileSheet?.addEventListener("click", (event) => {
+  if (event.target.closest(".nav-button")) {
+    closeMobileSheets(false);
+  }
+});
+
+authMobileSheet?.addEventListener("click", (event) => {
+  if (event.target.closest(".language-button")) {
+    closeMobileSheets(false);
+  }
+});
+
+studioMobileSheet?.addEventListener("keydown", (event) => trapSheetTab(event, studioMobileSheet));
+sectionMobileSheet?.addEventListener("keydown", (event) => trapSheetTab(event, sectionMobileSheet));
+authMobileSheet?.addEventListener("keydown", (event) => trapSheetTab(event, authMobileSheet));
+
+studioNavOverlay?.addEventListener("click", () => {
+  closeMobileSheets();
+  closeAccountMenu();
 });
 
 document.addEventListener("click", (event) => {
   if (!accountMenu.contains(event.target) && !menuButton.contains(event.target)) {
     closeAccountMenu();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") {
+    return;
+  }
+  if (mobileSheets().some((openSheet) => openSheet.classList.contains("is-open"))) {
+    closeMobileSheets();
   }
 });
 
@@ -4103,7 +4272,7 @@ transferUploadButton?.addEventListener("click", () => {
   setTransferStage("bank");
   setStatus(transferStatus, t("uploadScreenshotInvoice"), "success");
 });
-searchWiseButton?.addEventListener("click", () => {
+searchQorvexaButton?.addEventListener("click", () => {
   setTransferStage("bank");
   recipientEmailInput.focus();
 });

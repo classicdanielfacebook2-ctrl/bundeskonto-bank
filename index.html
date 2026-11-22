@@ -3,85 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wise account demo</title>
+  <title>Qorvexa account demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="studio.css">
+  <link rel="stylesheet" href="icons.css">
 </head>
 <body>
   <main class="app-shell">
-    <section id="authView" class="auth-view">
-      <div class="brand-panel">
-        <div class="auth-nav">
-          <div class="brand-mark">wise</div>
-          <div class="auth-nav-links">
-            <span>Personal</span>
-            <span>Business</span>
-            <span>Features</span>
-            <span>Pricing</span>
-            <span>Help</span>
-            <span>Dashboard</span>
-            <span>Login</span>
-            <span>Register</span>
+    <section id="authView" class="auth-view studio-auth">
+      <header class="studio-mast" id="studioAuthMast">
+        <div class="brand-mark">qorvexa</div>
+        <button id="authMenuButton" class="menu-button auth-menu-button" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="authMobileSheet">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div id="authMobileSheet" class="studio-mobile-sheet">
+          <div class="auth-nav">
+            <div class="auth-nav-links">
+              <span>Personal</span>
+              <span>Business</span>
+              <span>Features</span>
+              <span>Pricing</span>
+              <span>Help</span>
+              <span>Dashboard</span>
+              <span>Login</span>
+              <span>Register</span>
+            </div>
+          </div>
+          <div class="language-panel">
+            <span id="languagePrompt">Choose language</span>
+            <div class="language-buttons" aria-label="Language">
+              <button class="language-button active" data-language="en" type="button">English</button>
+              <button class="language-button" data-language="de" type="button">Deutsch</button>
+            </div>
           </div>
         </div>
-        <p class="auth-kicker">International account</p>
-        <h1 id="brandTitle">Money for here, there and everywhere.</h1>
-        <p id="brandIntro">Secure online banking for your German and European accounts.</p>
-        <div class="wise-transfer-preview" aria-hidden="true">
-          <div class="preview-row">
-            <span>You send exactly</span>
-            <strong>1,000.00 <b>EUR</b></strong>
-          </div>
-          <div class="preview-fee">
-            <span>Low transfer fee</span>
-            <strong>4.87 EUR</strong>
-          </div>
-          <div class="preview-row">
-            <span>Recipient gets</span>
-            <strong>1,080.42 <b>USD</b></strong>
-          </div>
-          <button class="preview-button" type="button">Send money</button>
-        </div>
-        <div class="landing-feature-grid" aria-label="Product highlights">
-          <article>
-            <span>01</span>
-            <strong>Send globally</strong>
-            <p>Move money between Wise-style balances with clear fees and confirmations.</p>
-          </article>
-          <article>
-            <span>02</span>
-            <strong>Hold currencies</strong>
-            <p>View EUR, USD, NZD, AED and other account details from one dashboard.</p>
-          </article>
-          <article>
-            <span>03</span>
-            <strong>Stay protected</strong>
-            <p>Educational verification, audit logs, notifications and admin review tools.</p>
-          </article>
-        </div>
-        <section class="landing-proof" aria-label="Why this banking demo is useful">
-          <article>
-            <strong>Multi-currency accounts</strong>
-            <p>Balances, receiving details, transfers, cards, and statements are organized in one clean workspace.</p>
-          </article>
-          <article>
-            <strong>Educational security layer</strong>
-            <p>Verification records, admin tools, notifications, and audit events remain connected to the existing logic.</p>
-          </article>
-        </section>
-      </div>
+      </header>
 
+      <div class="studio-stage">
       <div class="auth-panel">
-        <div class="language-panel">
-          <span id="languagePrompt">Choose language</span>
-          <div class="language-buttons" aria-label="Language">
-            <button class="language-button active" data-language="en" type="button">English</button>
-            <button class="language-button" data-language="de" type="button">Deutsch</button>
-          </div>
-        </div>
-
         <div class="auth-tabs" role="tablist" aria-label="Authentication">
           <button id="loginTab" class="tab-button active" type="button">Login</button>
           <button id="registerTab" class="tab-button" type="button">Register</button>
@@ -149,20 +113,103 @@
           <p id="registerMessage" class="form-message" aria-live="polite"></p>
         </form>
       </div>
+
+      <div class="studio-lead">
+        <p class="auth-kicker">International account</p>
+        <h1 id="brandTitle">Money for here, there and everywhere.</h1>
+        <p id="brandIntro">Secure online banking for your German and European accounts.</p>
+      </div>
+
+      <div class="qorvexa-transfer-preview" aria-hidden="true">
+        <div class="preview-row">
+          <span>You send exactly</span>
+          <strong>1,000.00 <b>EUR</b></strong>
+        </div>
+        <div class="preview-fee">
+          <span>Low transfer fee</span>
+          <strong>4.87 EUR</strong>
+        </div>
+        <div class="preview-row">
+          <span>Recipient gets</span>
+          <strong>1,080.42 <b>USD</b></strong>
+        </div>
+        <button class="preview-button" type="button">Send money</button>
+      </div>
+
+      <div class="landing-feature-grid" aria-label="Product highlights">
+        <article>
+          <span>01</span>
+          <strong>Send globally</strong>
+          <p>Move money between Qorvexa-style balances with clear fees and confirmations.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <strong>Hold currencies</strong>
+          <p>View EUR, USD, NZD, AED and other account details from one dashboard.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <strong>Stay protected</strong>
+          <p>Educational verification, audit logs, notifications and admin review tools.</p>
+        </article>
+      </div>
+      <section class="landing-proof" aria-label="Why this banking demo is useful">
+        <article>
+          <strong>Multi-currency accounts</strong>
+          <p>Balances, receiving details, transfers, cards, and statements are organized in one clean workspace.</p>
+        </article>
+        <article>
+          <strong>Educational security layer</strong>
+          <p>Verification records, admin tools, notifications, and audit events remain connected to the existing logic.</p>
+        </article>
+      </section>
+      </div>
     </section>
 
-    <section id="dashboardView" class="dashboard-view hidden">
-      <aside class="sidebar">
+    <section id="dashboardView" class="dashboard-view studio-dash hidden">
+      <header class="sidebar studio-topnav" id="studioTopnav">
+        <button id="sectionMenuButton" class="menu-button section-menu-button" type="button" aria-label="Open sections" aria-expanded="false" aria-controls="sectionMobileSheet">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
         <div class="sidebar-brand">
-          <div class="brand-mark compact">wise</div>
-          <span>Wise</span>
+          <div class="brand-mark compact">qorvexa</div>
+          <span>Qorvexa</span>
         </div>
+        <div id="sectionMobileSheet" class="studio-mobile-sheet studio-sheet-left">
         <nav aria-label="Dashboard">
           <button class="nav-button active" data-page="overview" type="button">Overview</button>
           <button class="nav-button" data-page="cards" type="button">Cards</button>
           <button class="nav-button" data-page="savings" type="button">Savings</button>
           <button class="nav-button" data-page="transfer" type="button">Transfers</button>
         </nav>
+        </div>
+        <div id="studioMobileSheet" class="studio-mobile-sheet studio-sheet-right">
+        <div class="profile-chip">
+          <span id="profileInitials">ET</span>
+          <div>
+            <strong id="profileName">Account Holder</strong>
+            <small id="profileEmail">user@example.com</small>
+            <small id="profileUserId">BK-000000</small>
+          </div>
+        </div>
+        <div id="accountMenu" class="account-menu hidden">
+          <div class="account-menu-header">
+            <span id="menuInitials">BK</span>
+            <div>
+              <strong id="menuName">Account Holder</strong>
+              <small id="menuEmail">user@example.com</small>
+              <small id="menuUserId">User ID: BK-000000</small>
+            </div>
+          </div>
+          <button id="menuProfileButton" class="menu-item" type="button">Profile details</button>
+          <button id="menuSettingsButton" class="menu-item" type="button">Settings</button>
+          <button id="menuSecurityButton" class="menu-item" type="button">Security</button>
+          <button id="menuVerificationButton" class="menu-item" type="button">Identity verification</button>
+          <button id="menuAdminButton" class="menu-item admin-menu-item hidden" type="button">Admin records</button>
+        </div>
+        <button id="earnButton" class="earn-button" data-page-target="savings" type="button">Earn €100</button>
         <div class="sidebar-language">
           <span id="dashboardLanguagePrompt">Language</span>
           <div class="language-buttons compact" aria-label="Dashboard language">
@@ -170,51 +217,26 @@
             <button class="language-button" data-language="de" type="button">DE</button>
           </div>
         </div>
-      </aside>
-
-      <div class="dashboard-main">
+        </div>
         <div class="dashboard-menu-row">
-          <button id="earnButton" class="earn-button" data-page-target="savings" type="button">Earn €100</button>
-          <button id="menuButton" class="menu-button" type="button" aria-label="Open account menu" aria-expanded="false">
+          <button id="menuButton" class="menu-button" type="button" aria-label="Open account menu" aria-expanded="false" aria-controls="studioMobileSheet">
             <span></span>
             <span></span>
             <span></span>
           </button>
-          <div id="accountMenu" class="account-menu hidden">
-            <div class="account-menu-header">
-              <span id="menuInitials">BK</span>
-              <div>
-                <strong id="menuName">Account Holder</strong>
-                <small id="menuEmail">user@example.com</small>
-                <small id="menuUserId">User ID: BK-000000</small>
-              </div>
-            </div>
-            <button id="menuProfileButton" class="menu-item" type="button">Profile details</button>
-            <button id="menuSettingsButton" class="menu-item" type="button">Settings</button>
-            <button id="menuSecurityButton" class="menu-item" type="button">Security</button>
-            <button id="menuVerificationButton" class="menu-item" type="button">Identity verification</button>
-            <button id="menuAdminButton" class="menu-item admin-menu-item hidden" type="button">Admin records</button>
-          </div>
         </div>
+      </header>
+
+      <div class="dashboard-main">
         <header class="topbar">
           <div>
             <p id="welcomeLine" class="eyebrow">Welcome</p>
             <h2 id="pageTitle">Overview</h2>
           </div>
-          <div class="topbar-actions">
-            <div class="profile-chip">
-              <span id="profileInitials">ET</span>
-              <div>
-                <strong id="profileName">Account Holder</strong>
-                <small id="profileEmail">user@example.com</small>
-                <small id="profileUserId">BK-000000</small>
-              </div>
-            </div>
-          </div>
         </header>
 
-        <section id="overviewPage" class="page active">
-          <section class="wise-account-header">
+        <section id="overviewPage" class="page active studio-overview">
+          <section class="qorvexa-account-header">
             <div>
               <p class="eyebrow">Multi-currency account</p>
               <h3>Balances</h3>
@@ -274,7 +296,7 @@
             </div>
           </section>
 
-          <section class="wise-currency-strip" aria-label="Currency balances">
+          <section class="qorvexa-currency-strip" aria-label="Currency balances">
             <button class="currency-tile" data-page-target="transfer" type="button">
               <span>EUR</span>
               <strong id="currencyEurBalance">€0.00</strong>
@@ -502,9 +524,9 @@
                   <small>Volksbank W...</small>
                 </button>
                 <button class="recipient-chip" data-fill-email="bradpitt@gmail.com" data-fill-iban="DE85810700240218008101" type="button">
-                  <span class="transfer-avatar wise-badge">BP</span>
+                  <span class="transfer-avatar qorvexa-badge">BP</span>
                   <strong>Brad Pitt</strong>
-                  <small>Your Wise bu...</small>
+                  <small>Your Qorvexa bu...</small>
                 </button>
               </div>
               <div class="transfer-filter-row">
@@ -514,10 +536,10 @@
               </div>
               <div class="recipient-list">
                 <button class="recipient-list-item" data-fill-email="bradpitt@gmail.com" data-fill-iban="DE85810700240218008101" type="button">
-                  <span class="transfer-avatar wise-badge">BP</span>
+                  <span class="transfer-avatar qorvexa-badge">BP</span>
                   <div>
                     <strong>Brad Pitt</strong>
-                    <small>Wise account ending · 8101</small>
+                    <small>Qorvexa account ending · 8101</small>
                   </div>
                   <b>›</b>
                 </button>
@@ -534,11 +556,11 @@
 
             <section class="transfer-add-stage transfer-step" data-transfer-stage="add">
               <h3>Add a recipient</h3>
-              <button id="searchWiseButton" class="transfer-option-row" type="button">
-                <span class="transfer-option-icon wise-mark icon-wise-arrow"></span>
+              <button id="searchQorvexaButton" class="transfer-option-row" type="button">
+                <span class="transfer-option-icon qorvexa-mark icon-qorvexa-arrow"></span>
                 <div>
-                  <strong>Search on Wise</strong>
-                  <small>Find by Wisetag, email, phone or business name</small>
+                  <strong>Search on Qorvexa</strong>
+                  <small>Find by Qorvexatag, email, phone or business name</small>
                   <em>Instant and convenient</em>
                 </div>
                 <b>›</b>
@@ -561,7 +583,7 @@
               </button>
             </section>
 
-            <form id="transferForm" class="transfer-wise-form" novalidate>
+            <form id="transferForm" class="transfer-qorvexa-form" novalidate>
               <span id="transferStatus" class="status-text"></span>
               <ol class="transfer-progress" aria-label="Transfer progress">
                 <li data-progress-stage="recipient">Recipient</li>
@@ -624,7 +646,7 @@
                 </div>
                 <div class="details-amount" id="detailsAmount">0.00</div>
                 <div class="payment-row">
-                  <span class="payment-icon wise-mark icon-wise-arrow"></span>
+                  <span class="payment-icon qorvexa-mark icon-qorvexa-arrow"></span>
                   <div>
                     <span>Paying with</span>
                     <strong>Main account / EUR</strong>
@@ -1133,6 +1155,10 @@
       </div>
     </div>
   </div>
+
+  <button id="studioNavOverlay" class="studio-nav-overlay" type="button" tabindex="-1" aria-hidden="true"></button>
+
+  <footer id="demoNotice" class="demo-notice">Qorvexa demo project, not a real bank.</footer>
 
   <script type="module" src="app.js"></script>
 </body>

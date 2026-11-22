@@ -1,0 +1,230 @@
+/* Inline stroke icons. No external files. */
+:root {
+  --i-send: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M14.5%204.5%2021%203l-1.5%206.5'%2F%3E%3Cpath%20d%3D'm21%203-9.5%209.5'%2F%3E%3Cpath%20d%3D'M10.5%2013.5%203%2021l7.5-7.5'%2F%3E%3Cpath%20d%3D'm21%203-7.5%2018-3-7.5L3%2010.5%2021%203z'%2F%3E%3C%2Fsvg%3E");
+  --i-arrow-up-right: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M7%2017%2017%207'%2F%3E%3Cpath%20d%3D'M7%207h10v10'%2F%3E%3C%2Fsvg%3E");
+  --i-plus: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M12%205v14'%2F%3E%3Cpath%20d%3D'M5%2012h14'%2F%3E%3C%2Fsvg%3E");
+  --i-arrow-down-left: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'm17%207-10%2010'%2F%3E%3Cpath%20d%3D'M17%2017H7V7'%2F%3E%3C%2Fsvg%3E");
+  --i-card: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Crect%20width%3D'20'%20height%3D'14'%20x%3D'2'%20y%3D'5'%20rx%3D'2'%2F%3E%3Cpath%20d%3D'M2%2010h20'%2F%3E%3C%2Fsvg%3E");
+  --i-home: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'm3%2010%209-7%209%207'%2F%3E%3Cpath%20d%3D'M5%2010v10h14V10'%2F%3E%3C%2Fsvg%3E");
+  --i-piggy: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M19%207c-1.2%200-2.3.6-3%201.5C15.2%207.6%2013.7%207%2012%207c-4%200-7%202.5-7%206%200%202%20.8%203.5%202%204.5V20h3v-1h4v1h3v-2.2c.6-.3%201.1-.8%201.5-1.3H20v-3h-1c0-.8-.2-1.5-.5-2.1.9-.3%201.5-1%201.5-1.9%200-.8-.7-1.5-1.5-1.5z'%2F%3E%3Cpath%20d%3D'M16%2011h.01'%2F%3E%3C%2Fsvg%3E");
+  --i-swap: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'm16%203%204%204-4%204'%2F%3E%3Cpath%20d%3D'M20%207H4'%2F%3E%3Cpath%20d%3D'm8%2021-4-4%204-4'%2F%3E%3Cpath%20d%3D'M4%2017h16'%2F%3E%3C%2Fsvg%3E");
+  --i-user: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M19%2021v-2a4%204%200%200%200-4-4H9a4%204%200%200%200-4%204v2'%2F%3E%3Ccircle%20cx%3D'12'%20cy%3D'7'%20r%3D'4'%2F%3E%3C%2Fsvg%3E");
+  --i-gear: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Ccircle%20cx%3D'12'%20cy%3D'12'%20r%3D'3'%2F%3E%3Cpath%20d%3D'M19.4%2015a1.7%201.7%200%200%200%20.3%201.8l.1.1a2%202%200%201%201-2.8%202.8l-.1-.1a1.7%201.7%200%200%200-1.8-.3%201.7%201.7%200%200%200-1%201.5V21a2%202%200%201%201-4%200v-.1a1.7%201.7%200%200%200-1.1-1.5%201.7%201.7%200%200%200-1.8.3l-.1.1a2%202%200%201%201-2.8-2.8l.1-.1a1.7%201.7%200%200%200%20.3-1.8%201.7%201.7%200%200%200-1.5-1H3a2%202%200%201%201%200-4h.1a1.7%201.7%200%200%200%201.5-1.1%201.7%201.7%200%200%200-.3-1.8l-.1-.1a2%202%200%201%201%202.8-2.8l.1.1a1.7%201.7%200%200%200%201.8.3H9a1.7%201.7%200%200%200%201-1.5V3a2%202%200%201%201%204%200v.1a1.7%201.7%200%200%200%201%201.5%201.7%201.7%200%200%200%201.8-.3l.1-.1a2%202%200%201%201%202.8%202.8l-.1.1a1.7%201.7%200%200%200-.3%201.8V9c.3.7.9%201.2%201.6%201.3H21a2%202%200%201%201%200%204h-.1a1.7%201.7%200%200%200-1.5%201z'%2F%3E%3C%2Fsvg%3E");
+  --i-shield: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M12%2022s8-4%208-10V5l-8-3-8%203v7c0%206%208%2010%208%2010z'%2F%3E%3C%2Fsvg%3E");
+  --i-globe: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Ccircle%20cx%3D'12'%20cy%3D'12'%20r%3D'10'%2F%3E%3Cpath%20d%3D'M2%2012h20'%2F%3E%3Cpath%20d%3D'M12%202a15.3%2015.3%200%200%201%204%2010%2015.3%2015.3%200%200%201-4%2010%2015.3%2015.3%200%200%201-4-10%2015.3%2015.3%200%200%201%204-10z'%2F%3E%3C%2Fsvg%3E");
+  --i-gift: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Crect%20x%3D'3'%20y%3D'8'%20width%3D'18'%20height%3D'4'%20rx%3D'1'%2F%3E%3Cpath%20d%3D'M12%208v13'%2F%3E%3Cpath%20d%3D'M19%2012v7a2%202%200%200%201-2%202H7a2%202%200%200%201-2-2v-7'%2F%3E%3Cpath%20d%3D'M7.5%208a2.5%202.5%200%200%201%200-5C11%203%2012%208%2012%208s1-5%204.5-5a2.5%202.5%200%200%201%200%205'%2F%3E%3C%2Fsvg%3E");
+  --i-logout: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M9%2021H5a2%202%200%200%201-2-2V5a2%202%200%200%201%202-2h4'%2F%3E%3Cpath%20d%3D'm16%2017%205-5-5-5'%2F%3E%3Cpath%20d%3D'M21%2012H9'%2F%3E%3C%2Fsvg%3E");
+  --i-mail: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Crect%20width%3D'20'%20height%3D'16'%20x%3D'2'%20y%3D'4'%20rx%3D'2'%2F%3E%3Cpath%20d%3D'm22%207-8.97%205.7a1.94%201.94%200%200%201-2.06%200L2%207'%2F%3E%3C%2Fsvg%3E");
+  --i-alert: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'm21.7%2018-8-14a2%202%200%200%200-3.4%200l-8%2014A2%202%200%200%200%204%2021h16a2%202%200%200%200%201.7-3z'%2F%3E%3Cpath%20d%3D'M12%209v4'%2F%3E%3Cpath%20d%3D'M12%2017h.01'%2F%3E%3C%2Fsvg%3E");
+  --i-wallet: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M19%207V5a2%202%200%200%200-2-2H5a2%202%200%200%200%200%204h14a2%202%200%200%201%202%202v2'%2F%3E%3Cpath%20d%3D'M3%207v10a2%202%200%200%200%202%202h14a2%202%200%200%200%202-2v-5a2%202%200%200%200-2-2H5'%2F%3E%3Cpath%20d%3D'M16%2014h.01'%2F%3E%3C%2Fsvg%3E");
+  --i-bank: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M3%2021h18'%2F%3E%3Cpath%20d%3D'M4%2018h16'%2F%3E%3Cpath%20d%3D'M6%2018V10'%2F%3E%3Cpath%20d%3D'M10%2018V10'%2F%3E%3Cpath%20d%3D'M14%2018V10'%2F%3E%3Cpath%20d%3D'M18%2018V10'%2F%3E%3Cpath%20d%3D'm3%2010%209-6%209%206'%2F%3E%3C%2Fsvg%3E");
+  --i-upload: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M21%2015v4a2%202%200%200%201-2%202H5a2%202%200%200%201-2-2v-4'%2F%3E%3Cpath%20d%3D'm17%208-5-5-5%205'%2F%3E%3Cpath%20d%3D'M12%203v12'%2F%3E%3C%2Fsvg%3E");
+  --i-scan: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M3%207V5a2%202%200%200%201%202-2h2'%2F%3E%3Cpath%20d%3D'M17%203h2a2%202%200%200%201%202%202v2'%2F%3E%3Cpath%20d%3D'M21%2017v2a2%202%200%200%201-2%202h-2'%2F%3E%3Cpath%20d%3D'M7%2021H5a2%202%200%200%201-2-2v-2'%2F%3E%3Cpath%20d%3D'M7%2012h10'%2F%3E%3C%2Fsvg%3E");
+  --i-zap: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M13%202%203%2014h9l-1%208%2010-12h-9l1-8z'%2F%3E%3C%2Fsvg%3E");
+  --i-receipt: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M4%202v20l2-1%202%201%202-1%202%201%202-1%202%201%202-1%202%201V2l-2%201-2-1-2%201-2-1-2%201-2-1-2%201Z'%2F%3E%3Cpath%20d%3D'M8%207h8'%2F%3E%3Cpath%20d%3D'M8%2011h8'%2F%3E%3Cpath%20d%3D'M8%2015h5'%2F%3E%3C%2Fsvg%3E");
+  --i-back: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'm12%2019-7-7%207-7'%2F%3E%3Cpath%20d%3D'M19%2012H5'%2F%3E%3C%2Fsvg%3E");
+  --i-badge: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M3.85%208.62a4%204%200%200%201%204.78-4.77%204%204%200%200%201%206.74%200%204%204%200%200%201%204.78%204.78%204%204%200%200%201%200%206.74%204%204%200%200%201-4.77%204.78%204%204%200%200%201-6.75%200%204%204%200%200%201-4.78-4.77%204%204%200%200%201%200-6.76Z'%2F%3E%3Cpath%20d%3D'm9%2012%202%202%204-4'%2F%3E%3C%2Fsvg%3E");
+  --i-clipboard: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Crect%20width%3D'8'%20height%3D'4'%20x%3D'8'%20y%3D'2'%20rx%3D'1'%2F%3E%3Cpath%20d%3D'M16%204h2a2%202%200%200%201%202%202v14a2%202%200%200%201-2%202H6a2%202%200%200%201-2-2V6a2%202%200%200%201%202-2h2'%2F%3E%3Cpath%20d%3D'M9%2012h6'%2F%3E%3Cpath%20d%3D'M9%2016h6'%2F%3E%3C%2Fsvg%3E");
+  --i-arrow-down: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M12%205v14'%2F%3E%3Cpath%20d%3D'm19%2012-7%207-7-7'%2F%3E%3C%2Fsvg%3E");
+  --i-arrow-up: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'24'%20height%3D'24'%20viewBox%3D'0%200%2024%2024'%20fill%3D'none'%20stroke%3D'black'%20stroke-width%3D'2'%20stroke-linecap%3D'round'%20stroke-linejoin%3D'round'%3E%3Cpath%20d%3D'M12%2019V5'%2F%3E%3Cpath%20d%3D'm5%2012%207-7%207%207'%2F%3E%3C%2Fsvg%3E");
+}
+
+.action-icon,
+.account-icon,
+.withdraw-warning-icon::before,
+.hero-icon-button::before,
+.nav-button::before,
+.menu-item::before,
+.balance-tool::before,
+.pill-icon,
+.transfer-option-icon,
+.payment-icon,
+.activity-icon::before,
+#earnButton::before,
+#logoutButton::before,
+#dashboardLanguagePrompt::before,
+#languagePrompt::before {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background-color: currentColor !important;
+  background-image: none !important;
+  -webkit-mask-image: var(--icon, var(--i-home)) !important;
+  mask-image: var(--icon, var(--i-home)) !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+}
+
+.action-icon::before,
+.action-icon::after,
+.account-icon::before,
+.account-icon::after,
+.withdraw-warning-icon,
+.pill-icon::before,
+.pill-icon::after,
+.transfer-option-icon::before,
+.transfer-option-icon::after,
+.payment-icon::before,
+.payment-icon::after,
+.hero-icon-button::after {
+  content: none !important;
+  border: 0 !important;
+  background: none !important;
+}
+
+.action-icon { width: 28px !important; height: 28px !important; color: inherit !important; }
+.transfer-action-icon { --icon: var(--i-send); }
+.code-action-icon { --icon: var(--i-plus); }
+.planned-action-icon { --icon: var(--i-arrow-down-left); }
+.card-action-icon { --icon: var(--i-card); }
+.account-icon { --icon: var(--i-wallet); width: 28px !important; height: 28px !important; color: #1c2b45 !important; }
+
+.withdraw-warning-icon { position: relative !important; background: #ffd866 !important; border-radius: 16px !important; }
+.withdraw-warning-icon::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 10px !important;
+  --icon: var(--i-alert);
+  color: #1c2b45 !important;
+}
+
+.hero-icon-button::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 4px !important;
+  --icon: var(--i-mail);
+  color: currentColor !important;
+}
+.user-icon::before { --icon: var(--i-user); }
+
+#dashboardView .nav-button::before,
+#sectionMobileSheet .nav-button::before,
+#studioMobileSheet .menu-item::before,
+#earnButton::before,
+#logoutButton::before,
+#dashboardLanguagePrompt::before,
+#languagePrompt::before,
+.balance-tool::before {
+  content: "" !important;
+  display: inline-block !important;
+  position: static !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  left: auto !important;
+  top: auto !important;
+  opacity: 1 !important;
+  flex: 0 0 18px !important;
+}
+
+#dashboardView .nav-button,
+#sectionMobileSheet .nav-button,
+#studioMobileSheet .menu-item,
+#earnButton,
+#logoutButton,
+.balance-tool {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.nav-button[data-page="overview"]::before { --icon: var(--i-home); }
+.nav-button[data-page="cards"]::before { --icon: var(--i-card); }
+.nav-button[data-page="savings"]::before { --icon: var(--i-piggy); }
+.nav-button[data-page="transfer"]::before { --icon: var(--i-swap); }
+#menuProfileButton::before { --icon: var(--i-user); }
+#menuSettingsButton::before { --icon: var(--i-gear); }
+#menuSecurityButton::before { --icon: var(--i-shield); }
+#menuVerificationButton::before { --icon: var(--i-badge); }
+#menuAdminButton::before { --icon: var(--i-clipboard); }
+#earnButton::before { --icon: var(--i-gift); }
+#logoutButton::before { --icon: var(--i-logout); }
+#dashboardLanguagePrompt::before,
+#languagePrompt::before { --icon: var(--i-globe); width: 16px !important; height: 16px !important; margin-right: 6px !important; }
+.balance-tool[data-page-target="savings"]::before { --icon: var(--i-piggy); }
+.balance-tool[data-page-target="cards"]::before { --icon: var(--i-card); }
+.balance-tool { font-size: 0 !important; color: #1c2b45 !important; justify-content: center !important; }
+
+.icon-plus { --icon: var(--i-plus); }
+.icon-scan { --icon: var(--i-scan); }
+.icon-bank { --icon: var(--i-bank); }
+.icon-upload { --icon: var(--i-upload); }
+.icon-lightning { --icon: var(--i-zap); }
+.icon-receipt { --icon: var(--i-receipt); }
+.icon-qorvexa-arrow { --icon: var(--i-send); }
+.icon-back::before {
+  content: "" !important;
+  border: 0 !important;
+  width: 18px !important;
+  height: 18px !important;
+  background-color: currentColor !important;
+  -webkit-mask: var(--i-back) center / contain no-repeat !important;
+  mask: var(--i-back) center / contain no-repeat !important;
+  transform: none !important;
+}
+
+.activity-icon::before { --icon: var(--i-arrow-up); width: 16px !important; height: 16px !important; border: 0 !important; transform: none !important; }
+.activity-icon-debit::before { --icon: var(--i-arrow-down); }
+
+#studioMobileSheet .menu-item,
+#sectionMobileSheet .nav-button {
+  justify-content: flex-start !important;
+}
+
+#dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .menu-item {
+  flex-direction: row-reverse !important;
+}
+
+#dashboardView.studio-dash .nav-button::before,
+#dashboardView.studio-dash #sectionMobileSheet .nav-button::before,
+#dashboardView.studio-dash #studioMobileSheet .menu-item::before,
+#dashboardView.studio-dash #earnButton::before,
+#dashboardView.studio-dash #logoutButton::before {
+  content: "" !important;
+  display: inline-block !important;
+  width: 18px !important;
+  height: 18px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: var(--icon) !important;
+  mask-image: var(--icon) !important;
+  -webkit-mask-size: contain !important;
+  mask-size: contain !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+  position: static !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+@media (min-width: 769px) {
+  #dashboardView.studio-dash #earnButton {
+    width: auto !important;
+    padding: 0 14px 0 12px !important;
+    gap: 6px !important;
+    overflow: visible !important;
+  }
+}
+
+#overviewPage .action-icon {
+  border: 0 !important;
+  background-color: currentColor !important;
+  -webkit-mask-image: var(--icon) !important;
+  mask-image: var(--icon) !important;
+  -webkit-mask-size: 26px 26px !important;
+  mask-size: 26px 26px !important;
+  -webkit-mask-repeat: no-repeat !important;
+  mask-repeat: no-repeat !important;
+  -webkit-mask-position: center !important;
+  mask-position: center !important;
+}
