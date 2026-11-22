@@ -6,15 +6,16 @@
   <title>Qorvexa account demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,650&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="studio.css">
 </head>
 <body>
   <main class="app-shell">
-    <section id="authView" class="auth-view">
-      <div class="brand-panel">
+    <section id="authView" class="auth-view studio-auth">
+      <header class="studio-mast">
+        <div class="brand-mark">qorvexa</div>
         <div class="auth-nav">
-          <div class="brand-mark">qorvexa</div>
           <div class="auth-nav-links">
             <span>Personal</span>
             <span>Business</span>
@@ -26,54 +27,6 @@
             <span>Register</span>
           </div>
         </div>
-        <p class="auth-kicker">International account</p>
-        <h1 id="brandTitle">Money for here, there and everywhere.</h1>
-        <p id="brandIntro">Secure online banking for your German and European accounts.</p>
-        <div class="qorvexa-transfer-preview" aria-hidden="true">
-          <div class="preview-row">
-            <span>You send exactly</span>
-            <strong>1,000.00 <b>EUR</b></strong>
-          </div>
-          <div class="preview-fee">
-            <span>Low transfer fee</span>
-            <strong>4.87 EUR</strong>
-          </div>
-          <div class="preview-row">
-            <span>Recipient gets</span>
-            <strong>1,080.42 <b>USD</b></strong>
-          </div>
-          <button class="preview-button" type="button">Send money</button>
-        </div>
-        <div class="landing-feature-grid" aria-label="Product highlights">
-          <article>
-            <span>01</span>
-            <strong>Send globally</strong>
-            <p>Move money between Qorvexa-style balances with clear fees and confirmations.</p>
-          </article>
-          <article>
-            <span>02</span>
-            <strong>Hold currencies</strong>
-            <p>View EUR, USD, NZD, AED and other account details from one dashboard.</p>
-          </article>
-          <article>
-            <span>03</span>
-            <strong>Stay protected</strong>
-            <p>Educational verification, audit logs, notifications and admin review tools.</p>
-          </article>
-        </div>
-        <section class="landing-proof" aria-label="Why this banking demo is useful">
-          <article>
-            <strong>Multi-currency accounts</strong>
-            <p>Balances, receiving details, transfers, cards, and statements are organized in one clean workspace.</p>
-          </article>
-          <article>
-            <strong>Educational security layer</strong>
-            <p>Verification records, admin tools, notifications, and audit events remain connected to the existing logic.</p>
-          </article>
-        </section>
-      </div>
-
-      <div class="auth-panel">
         <div class="language-panel">
           <span id="languagePrompt">Choose language</span>
           <div class="language-buttons" aria-label="Language">
@@ -81,7 +34,10 @@
             <button class="language-button" data-language="de" type="button">Deutsch</button>
           </div>
         </div>
+      </header>
 
+      <div class="studio-stage">
+      <div class="auth-panel">
         <div class="auth-tabs" role="tablist" aria-label="Authentication">
           <button id="loginTab" class="tab-button active" type="button">Login</button>
           <button id="registerTab" class="tab-button" type="button">Register</button>
@@ -149,10 +105,61 @@
           <p id="registerMessage" class="form-message" aria-live="polite"></p>
         </form>
       </div>
+
+      <div class="studio-lead">
+        <p class="auth-kicker">International account</p>
+        <h1 id="brandTitle">Money for here, there and everywhere.</h1>
+        <p id="brandIntro">Secure online banking for your German and European accounts.</p>
+      </div>
+
+      <div class="qorvexa-transfer-preview" aria-hidden="true">
+        <div class="preview-row">
+          <span>You send exactly</span>
+          <strong>1,000.00 <b>EUR</b></strong>
+        </div>
+        <div class="preview-fee">
+          <span>Low transfer fee</span>
+          <strong>4.87 EUR</strong>
+        </div>
+        <div class="preview-row">
+          <span>Recipient gets</span>
+          <strong>1,080.42 <b>USD</b></strong>
+        </div>
+        <button class="preview-button" type="button">Send money</button>
+      </div>
+
+      <div class="landing-feature-grid" aria-label="Product highlights">
+        <article>
+          <span>01</span>
+          <strong>Send globally</strong>
+          <p>Move money between Qorvexa-style balances with clear fees and confirmations.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <strong>Hold currencies</strong>
+          <p>View EUR, USD, NZD, AED and other account details from one dashboard.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <strong>Stay protected</strong>
+          <p>Educational verification, audit logs, notifications and admin review tools.</p>
+        </article>
+      </div>
+      <section class="landing-proof" aria-label="Why this banking demo is useful">
+        <article>
+          <strong>Multi-currency accounts</strong>
+          <p>Balances, receiving details, transfers, cards, and statements are organized in one clean workspace.</p>
+        </article>
+        <article>
+          <strong>Educational security layer</strong>
+          <p>Verification records, admin tools, notifications, and audit events remain connected to the existing logic.</p>
+        </article>
+      </section>
+      </div>
     </section>
 
-    <section id="dashboardView" class="dashboard-view hidden">
-      <aside class="sidebar">
+    <section id="dashboardView" class="dashboard-view studio-dash hidden">
+      <header class="sidebar studio-topnav">
         <div class="sidebar-brand">
           <div class="brand-mark compact">qorvexa</div>
           <span>Qorvexa</span>
@@ -170,11 +177,16 @@
             <button class="language-button" data-language="de" type="button">DE</button>
           </div>
         </div>
-      </aside>
-
-      <div class="dashboard-main">
+        <button id="earnButton" class="earn-button" data-page-target="savings" type="button">Earn €100</button>
+        <div class="profile-chip">
+          <span id="profileInitials">ET</span>
+          <div>
+            <strong id="profileName">Account Holder</strong>
+            <small id="profileEmail">user@example.com</small>
+            <small id="profileUserId">BK-000000</small>
+          </div>
+        </div>
         <div class="dashboard-menu-row">
-          <button id="earnButton" class="earn-button" data-page-target="savings" type="button">Earn €100</button>
           <button id="menuButton" class="menu-button" type="button" aria-label="Open account menu" aria-expanded="false">
             <span></span>
             <span></span>
@@ -196,24 +208,17 @@
             <button id="menuAdminButton" class="menu-item admin-menu-item hidden" type="button">Admin records</button>
           </div>
         </div>
+      </header>
+
+      <div class="dashboard-main">
         <header class="topbar">
           <div>
             <p id="welcomeLine" class="eyebrow">Welcome</p>
             <h2 id="pageTitle">Overview</h2>
           </div>
-          <div class="topbar-actions">
-            <div class="profile-chip">
-              <span id="profileInitials">ET</span>
-              <div>
-                <strong id="profileName">Account Holder</strong>
-                <small id="profileEmail">user@example.com</small>
-                <small id="profileUserId">BK-000000</small>
-              </div>
-            </div>
-          </div>
         </header>
 
-        <section id="overviewPage" class="page active">
+        <section id="overviewPage" class="page active studio-overview">
           <section class="qorvexa-account-header">
             <div>
               <p class="eyebrow">Multi-currency account</p>

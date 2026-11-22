@@ -1,0 +1,882 @@
+/* New composition for login, register, and the account dashboard.
+   Slate, rose, and cool paper — a different structure from the previous layouts. */
+
+:root {
+  --studio-bg: #e7edf3;
+  --studio-ink: #152033;
+  --studio-slate: #1c2b45;
+  --studio-rose: #e23e6b;
+  --studio-rose-deep: #b4234e;
+  --studio-paper: #f7f9fc;
+  --studio-line: #d3deea;
+  --studio-muted: #5d6b7c;
+}
+
+html,
+body {
+  background:
+    radial-gradient(900px 420px at 100% -10%, rgba(226, 62, 107, .16), transparent 60%),
+    linear-gradient(180deg, #f4f7fb 0%, var(--studio-bg) 40%, #e3ebf3 100%) !important;
+  color: var(--studio-ink) !important;
+  font-family: "Sora", "Avenir Next", "Segoe UI", sans-serif !important;
+}
+
+body h1,
+body h2,
+body h3,
+#pageTitle,
+#heroBalanceAmount,
+.balance-dial strong,
+.balance-card strong,
+.metric-card strong,
+.sidebar-brand span,
+#authView .studio-lead h1,
+#authView .auth-form h2 {
+  font-family: "Newsreader", "Iowan Old Style", Georgia, serif !important;
+  font-weight: 550 !important;
+  letter-spacing: -0.03em !important;
+}
+
+/* ---------- Login / register: masthead, then form on the left ---------- */
+
+#authView.studio-auth:not(.hidden) {
+  display: flex !important;
+  flex-direction: column !important;
+  width: min(1180px, calc(100% - 36px)) !important;
+  min-height: auto !important;
+  margin: 16px auto 28px !important;
+  padding: 0 !important;
+  gap: 18px !important;
+  background: transparent !important;
+  grid-template-columns: none !important;
+  align-items: stretch !important;
+}
+
+#authView .studio-mast {
+  display: flex !important;
+  align-items: center !important;
+  gap: 18px !important;
+  padding: 12px 16px !important;
+  border-radius: 22px !important;
+  background: var(--studio-slate) !important;
+  color: #f4f7fb !important;
+  box-shadow: 0 18px 40px rgba(21, 32, 51, .18) !important;
+}
+
+#authView .brand-mark {
+  flex: 0 0 auto !important;
+  background: var(--studio-rose) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  font-family: "Sora", sans-serif !important;
+  font-weight: 650 !important;
+}
+
+#authView .auth-nav {
+  flex: 1 1 auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  min-height: 0 !important;
+  position: static !important;
+}
+
+#authView .auth-nav-links {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+
+#authView .auth-nav-links span {
+  color: #d7e0ec !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  padding: 6px 10px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+#authView .auth-nav-links span:first-child,
+#authView .auth-nav-links span:hover {
+  color: var(--studio-ink) !important;
+  background: #ffd5e1 !important;
+}
+
+#authView .language-panel {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  width: auto !important;
+  color: #d7e0ec !important;
+}
+
+#authView .language-panel #languagePrompt {
+  color: #d7e0ec !important;
+  font-size: 12px !important;
+}
+
+#authView .studio-stage {
+  display: grid !important;
+  grid-template-columns: minmax(320px, .86fr) minmax(0, 1.14fr) !important;
+  gap: 18px 22px !important;
+  align-items: start !important;
+}
+
+#authView .auth-panel {
+  grid-column: 1 !important;
+  grid-row: 1 / span 2 !important;
+  padding: 22px 22px 26px !important;
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 28px !important;
+  background: var(--studio-paper) !important;
+  box-shadow: 0 22px 50px rgba(21, 32, 51, .08) !important;
+  backdrop-filter: none !important;
+}
+
+#authView .studio-lead {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  padding: 8px 8px 0 4px !important;
+}
+
+#authView .auth-kicker {
+  display: inline-flex !important;
+  margin: 0 0 12px !important;
+  padding: 6px 12px !important;
+  border-radius: 999px !important;
+  color: var(--studio-rose-deep) !important;
+  background: #ffe3eb !important;
+  border: 0 !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+}
+
+#authView .studio-lead h1 {
+  margin: 0 0 12px !important;
+  max-width: 12ch !important;
+  color: var(--studio-ink) !important;
+  font-size: clamp(46px, 5vw, 72px) !important;
+  line-height: .92 !important;
+}
+
+#authView #brandIntro {
+  max-width: 38ch !important;
+  margin: 0 !important;
+  color: var(--studio-muted) !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+#authView .qorvexa-transfer-preview {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  gap: 8px !important;
+  margin: 0 !important;
+  padding: 14px !important;
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 22px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+#authView .preview-row,
+#authView .preview-fee {
+  min-height: 48px !important;
+  color: var(--studio-ink) !important;
+  background: #f3f6fa !important;
+  border-radius: 14px !important;
+}
+
+#authView .preview-button,
+#authView .qorvexa-transfer-preview .preview-button {
+  grid-column: 1 / -1 !important;
+}
+
+#authView .landing-feature-grid,
+#authView .landing-proof {
+  grid-column: 1 / -1 !important;
+  margin-top: 0 !important;
+}
+
+#authView .landing-feature-grid article,
+#authView .landing-proof article {
+  background: #fff !important;
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 20px !important;
+  box-shadow: none !important;
+}
+
+#authView .landing-feature-grid span {
+  color: #fff !important;
+  background: var(--studio-rose) !important;
+}
+
+#authView .landing-feature-grid strong,
+#authView .landing-proof strong,
+#authView .landing-feature-grid p,
+#authView .landing-proof p {
+  color: var(--studio-ink) !important;
+}
+
+#authView .landing-feature-grid p,
+#authView .landing-proof p {
+  color: var(--studio-muted) !important;
+}
+
+#authView .auth-tabs {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  padding: 6px !important;
+  border-radius: 16px !important;
+  background: #eef2f7 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#authView .tab-button {
+  min-height: 44px !important;
+  border-radius: 12px !important;
+  color: var(--studio-muted) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#authView.studio-auth .tab-button:not(.active) {
+  color: #5d6b7c !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#authView.studio-auth .tab-button.active {
+  color: #fff !important;
+  background: #e23e6b !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#authView .auth-form h2 {
+  font-size: 40px !important;
+  color: var(--studio-ink) !important;
+}
+
+#authView .auth-subtitle {
+  color: var(--studio-muted) !important;
+}
+
+#authView input,
+#authView select,
+#authView textarea {
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: var(--studio-ink) !important;
+}
+
+#authView input:focus,
+#authView select:focus,
+#authView textarea:focus {
+  border-color: var(--studio-rose) !important;
+  box-shadow: 0 0 0 4px rgba(226, 62, 107, .16) !important;
+  outline: none !important;
+}
+
+#authView .primary-button,
+#authView .preview-button {
+  width: 100% !important;
+  min-height: 50px !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  color: #fff !important;
+  background: var(--studio-rose) !important;
+  box-shadow: none !important;
+}
+
+#authView .primary-button:hover,
+#authView .preview-button:hover,
+#authView .tab-button.active:hover {
+  background: var(--studio-rose-deep) !important;
+  transform: translateY(-1px) !important;
+}
+
+#authView #forgotPasswordButton,
+#authView .text-button {
+  color: var(--studio-rose-deep) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ---------- Dashboard: top navigation, then a full-width balance band ---------- */
+
+#dashboardView.studio-dash:not(.hidden) {
+  display: flex !important;
+  flex-direction: column !important;
+  width: min(1240px, calc(100% - 28px)) !important;
+  margin: 14px auto 0 !important;
+  min-height: calc(100vh - 70px) !important;
+  background: transparent !important;
+  grid-template-columns: none !important;
+  gap: 0 !important;
+}
+
+#dashboardView.studio-dash .studio-topnav,
+#dashboardView.studio-dash .sidebar {
+  position: static !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 0 0 16px !important;
+  padding: 10px 14px !important;
+  border: 0 !important;
+  border-radius: 22px !important;
+  background: var(--studio-slate) !important;
+  color: #f4f7fb !important;
+  box-shadow: 0 16px 36px rgba(21, 32, 51, .16) !important;
+  overflow: visible !important;
+  backdrop-filter: none !important;
+  z-index: 30 !important;
+}
+
+#dashboardView.studio-dash .sidebar-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: #fff !important;
+}
+
+#dashboardView.studio-dash .sidebar-brand span {
+  color: #fff !important;
+  font-size: 26px !important;
+}
+
+#dashboardView.studio-dash .brand-mark {
+  background: var(--studio-rose) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  font-family: "Sora", sans-serif !important;
+}
+
+#dashboardView.studio-dash:not(.hidden) .sidebar nav,
+#dashboardView.studio-dash:not(.hidden) nav[aria-label="Dashboard"] {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  grid-template-columns: none !important;
+}
+
+#dashboardView.studio-dash:not(.hidden) .nav-button,
+#dashboardView.studio-dash:not(.hidden) .nav-button.active,
+#dashboardView.studio-dash:not(.hidden).transfer-active .nav-button,
+#dashboardView.studio-dash:not(.hidden).account-details-active .nav-button {
+  position: relative !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 40px !important;
+  padding: 8px 14px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  color: #d5deea !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+}
+
+#dashboardView.studio-dash .nav-button::before,
+#dashboardView.studio-dash .nav-button::after,
+#dashboardView.studio-dash .dashboard-menu-row::before,
+#dashboardView.studio-dash .earn-button::before {
+  display: none !important;
+  content: none !important;
+}
+
+#dashboardView.studio-dash:not(.hidden) .nav-button.active,
+#dashboardView.studio-dash:not(.hidden).transfer-active .nav-button.active,
+#dashboardView.studio-dash:not(.hidden).account-details-active .nav-button.active {
+  color: #152033 !important;
+  background: #ffd0dc !important;
+}
+
+#dashboardView.studio-dash.transfer-active .sidebar,
+#dashboardView.studio-dash.account-details-active .sidebar,
+#dashboardView.studio-dash.withdrawal-verification-active .sidebar {
+  display: flex !important;
+}
+
+#dashboardView.studio-dash .sidebar-language,
+#dashboardView.studio-dash .language-buttons {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 0 0 auto !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #d5deea !important;
+}
+
+#dashboardView.studio-dash .sidebar-language span,
+#dashboardView.studio-dash #dashboardLanguagePrompt {
+  color: #d5deea !important;
+  font-size: 12px !important;
+}
+
+#dashboardView.studio-dash .language-button {
+  width: auto !important;
+  min-width: 0 !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  padding: 0 10px !important;
+  color: #f4f7fb !important;
+  background: transparent !important;
+  border: 1px solid rgba(255,255,255,.2) !important;
+}
+
+#dashboardView.studio-dash .language-button.active {
+  color: var(--studio-ink) !important;
+  background: #fff !important;
+  border-color: #fff !important;
+}
+
+#dashboardView.studio-dash .earn-button {
+  color: #fff !important;
+  background: var(--studio-rose) !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+}
+
+#dashboardView.studio-dash .profile-chip {
+  display: flex !important;
+  position: static !important;
+  align-items: center !important;
+  gap: 8px !important;
+  max-width: 240px !important;
+  min-width: 0 !important;
+  padding: 6px 10px !important;
+  border-radius: 16px !important;
+  color: #f4f7fb !important;
+  background: rgba(255,255,255,.08) !important;
+  border: 1px solid rgba(255,255,255,.12) !important;
+  box-shadow: none !important;
+}
+
+#dashboardView.studio-dash .profile-chip strong,
+#dashboardView.studio-dash .profile-chip small {
+  color: #f4f7fb !important;
+}
+
+#dashboardView.studio-dash .dashboard-menu-row {
+  position: static !important;
+  display: flex !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  inset: auto !important;
+  grid-template-columns: none !important;
+}
+
+#dashboardView.studio-dash .menu-button {
+  width: 44px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  border-radius: 14px !important;
+  background: rgba(255,255,255,.1) !important;
+  border: 1px solid rgba(255,255,255,.16) !important;
+  color: #fff !important;
+}
+
+#dashboardView.studio-dash .menu-button span {
+  background: #fff !important;
+}
+
+#dashboardView.studio-dash .account-menu {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  z-index: 40 !important;
+  background: #fff !important;
+  color: var(--studio-ink) !important;
+  border-radius: 16px !important;
+}
+
+#dashboardView.studio-dash .dashboard-menu-row {
+  position: relative !important;
+}
+
+#dashboardView.studio-dash .dashboard-main {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 0 96px !important;
+  background: transparent !important;
+}
+
+#dashboardView.studio-dash .topbar {
+  display: flex !important;
+  margin: 6px 4px 14px !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+#dashboardView.studio-dash #welcomeLine {
+  color: var(--studio-rose-deep) !important;
+  font-size: 13px !important;
+  letter-spacing: .04em !important;
+  text-transform: none !important;
+}
+
+#dashboardView.studio-dash #pageTitle,
+#dashboardView.studio-dash .topbar h2 {
+  color: var(--studio-ink) !important;
+  font-size: clamp(36px, 4vw, 52px) !important;
+  line-height: .95 !important;
+}
+
+#overviewPage.studio-overview.active {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr) !important;
+  gap: 16px !important;
+  align-items: start !important;
+}
+
+#overviewPage.studio-overview .mobile-bank-hero,
+#overviewPage.studio-overview .qorvexa-currency-strip,
+#overviewPage.studio-overview .qorvexa-account-header,
+#overviewPage.studio-overview .overview-grid,
+#overviewPage.studio-overview .web-insights-grid,
+#overviewPage.studio-overview .content-grid {
+  grid-column: 1 / -1 !important;
+}
+
+#overviewPage.studio-overview .accounts-section {
+  grid-column: 1 !important;
+}
+
+#overviewPage.studio-overview .mobile-bank-hero {
+  order: 1 !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, .75fr) !important;
+  grid-template-areas:
+    "balance actions"
+    "warning actions" !important;
+  gap: 16px !important;
+  margin: 0 !important;
+  padding: 26px !important;
+  min-height: 0 !important;
+  border: 0 !important;
+  border-radius: 28px !important;
+  color: #f7f9fc !important;
+  background:
+    radial-gradient(420px 180px at 0% 0%, rgba(226, 62, 107, .45), transparent 70%),
+    linear-gradient(135deg, #1c2b45 0%, #243656 55%, #3a2458 100%) !important;
+  box-shadow: 0 22px 48px rgba(21, 32, 51, .18) !important;
+}
+
+#overviewPage.studio-overview .hero-balance-layout,
+#overviewPage.studio-overview .balance-dial {
+  grid-area: balance !important;
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 8px 8px 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  color: #f7f9fc !important;
+}
+
+#overviewPage.studio-overview .hero-actions {
+  grid-area: actions !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+  align-self: stretch !important;
+}
+
+#overviewPage.studio-overview .withdraw-confirm-warning {
+  grid-area: warning !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+#overviewPage.studio-overview #heroBalanceLabel,
+#overviewPage.studio-overview .balance-updated,
+#overviewPage.studio-overview .balance-growth,
+#overviewPage.studio-overview #heroDate {
+  color: rgba(247, 249, 252, .78) !important;
+  background: transparent !important;
+}
+
+#overviewPage.studio-overview #heroBalanceAmount,
+#overviewPage.studio-overview .balance-dial strong {
+  color: #fff !important;
+  font-size: clamp(52px, 6vw, 84px) !important;
+  line-height: .9 !important;
+  background: transparent !important;
+}
+
+#overviewPage.studio-overview .balance-growth span {
+  color: #1c2b45 !important;
+  background: #ffd0dc !important;
+}
+
+#overviewPage.studio-overview .hero-action {
+  min-height: 96px !important;
+  padding: 14px !important;
+  border: 0 !important;
+  border-radius: 18px !important;
+  background: rgba(255,255,255,.1) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+#overviewPage.studio-overview .hero-action strong,
+#overviewPage.studio-overview .hero-action small {
+  color: #f7f9fc !important;
+}
+
+#overviewPage.studio-overview .hero-action:hover {
+  background: rgba(255,255,255,.18) !important;
+  transform: translateY(-2px) !important;
+}
+
+#overviewPage.studio-overview .qorvexa-currency-strip {
+  order: 2 !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#overviewPage.studio-overview .currency-tile {
+  background: #fff !important;
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 12px 28px rgba(21, 32, 51, .06) !important;
+  color: var(--studio-ink) !important;
+}
+
+#overviewPage.studio-overview .qorvexa-account-header {
+  order: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 8px 4px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#overviewPage.studio-overview .qorvexa-account-header h3,
+#overviewPage.studio-overview .accounts-section h3,
+#overviewPage.studio-overview .panel h3 {
+  color: var(--studio-ink) !important;
+}
+
+#overviewPage.studio-overview .primary-button,
+#dashboardView.studio-dash .primary-button {
+  color: #fff !important;
+  background: var(--studio-rose) !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+#overviewPage.studio-overview .overview-grid {
+  order: 4 !important;
+  display: grid !important;
+  grid-template-columns: 1.4fr .8fr .8fr !important;
+  gap: 12px !important;
+}
+
+#overviewPage.studio-overview .accounts-section {
+  order: 5 !important;
+}
+
+#overviewPage.studio-overview .web-insights-grid {
+  order: 6 !important;
+}
+
+#overviewPage.studio-overview .content-grid {
+  order: 7 !important;
+  display: grid !important;
+  grid-template-columns: minmax(260px, .7fr) minmax(0, 1.3fr) !important;
+  gap: 12px !important;
+}
+
+#overviewPage.studio-overview .content-grid .full-panel {
+  grid-column: 1 / -1 !important;
+}
+
+#overviewPage.studio-overview .panel,
+#overviewPage.studio-overview .balance-card,
+#overviewPage.studio-overview .metric-card,
+#overviewPage.studio-overview .account-row,
+#dashboardView.studio-dash .page.active .panel {
+  background: #fff !important;
+  border: 1px solid var(--studio-line) !important;
+  border-radius: 20px !important;
+  box-shadow: none !important;
+  color: var(--studio-ink) !important;
+}
+
+#dashboardView.studio-dash .page.active {
+  padding-bottom: 12px !important;
+}
+
+#demoNotice.demo-notice {
+  background: var(--studio-slate) !important;
+  color: #f7f9fc !important;
+}
+
+@media (max-width: 900px) {
+  #authView .studio-mast {
+    flex-wrap: wrap !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) .sidebar,
+  #dashboardView.studio-dash:not(.hidden) .studio-topnav {
+    flex-wrap: wrap !important;
+    align-items: center !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) .sidebar nav {
+    order: 8 !important;
+    flex: 1 0 100% !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  #authView .studio-stage,
+  #overviewPage.studio-overview.active,
+  #overviewPage.studio-overview .mobile-bank-hero,
+  #overviewPage.studio-overview .overview-grid,
+  #overviewPage.studio-overview .qorvexa-currency-strip,
+  #overviewPage.studio-overview .content-grid,
+  #overviewPage.studio-overview .web-insights-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  #authView .auth-panel,
+  #authView .studio-lead,
+  #authView .qorvexa-transfer-preview,
+  #overviewPage.studio-overview .accounts-section,
+  #overviewPage.studio-overview .mobile-bank-hero,
+  #overviewPage.studio-overview .hero-actions {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  #overviewPage.studio-overview .mobile-bank-hero {
+    grid-template-areas:
+      "balance"
+      "warning"
+      "actions" !important;
+  }
+
+  #overviewPage.studio-overview .qorvexa-currency-strip {
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) {
+    width: calc(100% - 16px) !important;
+  }
+
+  #dashboardView.studio-dash .sidebar-language {
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #dashboardView.studio-dash .sidebar,
+  #dashboardView.studio-dash.transfer-active .sidebar,
+  #dashboardView.studio-dash.account-details-active .sidebar,
+  #dashboardView.studio-dash:not(.hidden) .sidebar {
+    position: static !important;
+    bottom: auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    border-radius: 20px !important;
+  }
+
+  #dashboardView.studio-dash .dashboard-main,
+  #dashboardView.studio-dash.transfer-active .dashboard-main,
+  #dashboardView.studio-dash.account-details-active .dashboard-main {
+    padding: 8px 0 108px !important;
+  }
+
+  #dashboardView.studio-dash .nav-button {
+    padding: 8px 12px !important;
+    height: auto !important;
+    min-height: 36px !important;
+  }
+
+  #authView.studio-auth:not(.hidden) {
+    width: calc(100% - 16px) !important;
+  }
+
+  #authView .studio-lead h1 {
+    font-size: 42px !important;
+    max-width: none !important;
+  }
+}
