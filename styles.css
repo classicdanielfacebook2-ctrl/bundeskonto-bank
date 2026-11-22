@@ -11405,3 +11405,698 @@ body .sidebar-brand span {
   font-weight:560 !important;
   letter-spacing:-0.034em !important;
 }
+
+/* Atelier pass: login, register, and dashboard only. Copy and behaviour stay as they are. */
+html,
+body {
+  background:
+    radial-gradient(1200px 520px at -10% -10%, rgba(227, 176, 138, .45), transparent 60%),
+    radial-gradient(900px 480px at 110% -8%, rgba(126, 108, 156, .22), transparent 55%),
+    linear-gradient(180deg, #f6efe7 0%, #efe4d8 48%, #f7f2ec 100%) !important;
+}
+
+#authView.auth-view {
+  width:min(1180px, calc(100% - 56px)) !important;
+  min-height:calc(100vh - 96px) !important;
+  margin:20px auto 28px !important;
+  padding:0 !important;
+  gap:22px !important;
+  align-items:stretch !important;
+  grid-template-columns:minmax(0, 1.08fr) minmax(380px, .92fr) !important;
+  background:transparent !important;
+}
+
+#authView .brand-panel {
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:flex-start !important;
+  gap:0 !important;
+  padding:34px 36px 40px !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  border-radius:32px !important;
+  color:#f6efe8 !important;
+  background:
+    radial-gradient(420px 280px at 12% 0%, rgba(232, 164, 112, .38), transparent 70%),
+    radial-gradient(380px 260px at 100% 100%, rgba(122, 98, 150, .32), transparent 72%),
+    linear-gradient(165deg, #2a211c 0%, #1a1412 58%, #3a2c33 100%) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.06) inset,
+    0 30px 70px rgba(26, 20, 18, .28) !important;
+  overflow:hidden !important;
+}
+
+#authView .brand-panel::before {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), transparent 28%),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,.06), transparent 18rem) !important;
+}
+
+#authView .auth-nav {
+  position:relative !important;
+  top:auto !important;
+  margin:0 0 28px !important;
+  padding:0 !important;
+  gap:10px !important;
+  min-height:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  overflow:visible !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+}
+
+#authView .auth-nav-links {
+  flex-wrap:wrap !important;
+  overflow:visible !important;
+  gap:6px !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+}
+
+#authView .brand-mark {
+  background:linear-gradient(180deg, #e7a06a, #c56a3a) !important;
+  color:#1a1412 !important;
+  box-shadow:0 8px 18px rgba(197, 106, 58, .28) !important;
+  font-size:17px !important;
+}
+
+#authView .auth-nav-links span {
+  color:rgba(246, 239, 232, .82) !important;
+  background:rgba(255,255,255,.06) !important;
+  border:1px solid rgba(255,255,255,.08) !important;
+  border-radius:999px !important;
+  padding:7px 11px !important;
+  font-size:13px !important;
+  font-weight:500 !important;
+  transition:background .18s ease, color .18s ease !important;
+}
+
+#authView .auth-nav-links span:hover,
+#authView .auth-nav-links span:first-child {
+  color:#1a1412 !important;
+  background:#f3d7c4 !important;
+}
+
+#authView .auth-kicker {
+  margin:8px 0 18px !important;
+  padding:7px 12px !important;
+  border-radius:999px !important;
+  color:#f6efe8 !important;
+  background:rgba(255,255,255,.08) !important;
+  border:1px solid rgba(255,255,255,.1) !important;
+  letter-spacing:.04em !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+}
+
+#authView .brand-panel h1 {
+  max-width:14ch !important;
+  margin:0 0 14px !important;
+  color:#f7f1ea !important;
+  font-size:clamp(40px, 4.2vw, 58px) !important;
+  line-height:.96 !important;
+  font-weight:560 !important;
+  letter-spacing:-.04em !important;
+}
+
+#authView #brandIntro {
+  max-width:36ch !important;
+  margin:0 0 8px !important;
+  color:rgba(246, 239, 232, .74) !important;
+  font-size:17px !important;
+  line-height:1.55 !important;
+}
+
+#authView .qorvexa-transfer-preview {
+  margin-top:28px !important;
+  padding:14px !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  border-radius:22px !important;
+  background:rgba(255,255,255,.07) !important;
+  box-shadow:0 16px 40px rgba(0,0,0,.16) !important;
+  backdrop-filter:blur(18px) !important;
+}
+
+#authView .preview-row,
+#authView .preview-fee {
+  min-height:52px !important;
+  color:#f6efe8 !important;
+  background:rgba(255,255,255,.06) !important;
+  border:1px solid rgba(255,255,255,.05) !important;
+}
+
+#authView .preview-row strong,
+#authView .preview-fee strong,
+#authView .preview-row b {
+  color:#fffaf6 !important;
+}
+
+#authView .landing-feature-grid,
+#authView .landing-proof {
+  gap:12px !important;
+  margin-top:22px !important;
+}
+
+#authView .landing-feature-grid article,
+#authView .landing-proof article {
+  min-height:0 !important;
+  padding:18px !important;
+  border:1px solid rgba(255,255,255,.45) !important;
+  border-radius:18px !important;
+  background:rgba(255,252,248,.92) !important;
+  box-shadow:0 10px 24px rgba(0,0,0,.12) !important;
+  transition:transform .2s ease, box-shadow .2s ease !important;
+}
+
+#authView .landing-feature-grid article:hover,
+#authView .landing-proof article:hover {
+  transform:translateY(-3px) !important;
+  box-shadow:0 16px 32px rgba(0,0,0,.16) !important;
+}
+
+#authView .landing-feature-grid p,
+#authView .landing-proof p {
+  color:#6f625a !important;
+}
+
+#authView .landing-feature-grid strong,
+#authView .landing-proof strong {
+  color:#1a1412 !important;
+}
+
+#authView .auth-panel {
+  align-self:start !important;
+  padding:32px 32px 36px !important;
+  border:1px solid rgba(255,255,255,.7) !important;
+  border-radius:32px !important;
+  background:rgba(255,252,248,.72) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.8) inset,
+    0 24px 60px rgba(58, 36, 24, .10) !important;
+  backdrop-filter:blur(22px) saturate(1.2) !important;
+}
+
+#authView .language-panel,
+#authView .auth-tabs {
+  border:1px solid rgba(58,36,24,.08) !important;
+  border-radius:18px !important;
+  background:rgba(255,255,255,.55) !important;
+  box-shadow:none !important;
+}
+
+#authView .auth-form {
+  width:100% !important;
+  padding-top:28px !important;
+}
+
+#authView .auth-form h2 {
+  margin:0 0 8px !important;
+  font-size:clamp(34px, 3vw, 44px) !important;
+  line-height:1.02 !important;
+  letter-spacing:-.035em !important;
+}
+
+#authView .auth-subtitle {
+  margin:0 0 22px !important;
+  color:#6f625a !important;
+  font-size:15px !important;
+}
+
+#authView label {
+  gap:7px !important;
+  margin-bottom:14px !important;
+  font-size:13px !important;
+  font-weight:600 !important;
+  letter-spacing:.01em !important;
+  color:#3a2418 !important;
+}
+
+#authView input,
+#authView select,
+#authView textarea {
+  min-height:52px !important;
+  padding:0 16px !important;
+  border:1px solid rgba(58,36,24,.12) !important;
+  border-radius:14px !important;
+  background:rgba(255,255,255,.78) !important;
+  box-shadow:0 1px 0 rgba(255,255,255,.8) inset !important;
+  transition:border-color .18s ease, box-shadow .18s ease, background .18s ease !important;
+}
+
+#authView input:hover,
+#authView select:hover,
+#authView textarea:hover {
+  border-color:rgba(197,106,58,.45) !important;
+  background:#fff !important;
+}
+
+#authView input:focus,
+#authView select:focus,
+#authView textarea:focus {
+  border-color:#c56a3a !important;
+  background:#fff !important;
+  outline:none !important;
+  box-shadow:0 0 0 4px rgba(197,106,58,.16) !important;
+}
+
+#authView .primary-button,
+#authView .preview-button,
+#authView .tab-button.active {
+  min-height:52px !important;
+  border-radius:14px !important;
+  background:linear-gradient(180deg, #3c2b22, #241812) !important;
+  box-shadow:0 10px 22px rgba(36, 24, 18, .22) !important;
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease !important;
+}
+
+#authView .primary-button:hover,
+#authView .preview-button:hover,
+#authView .tab-button.active:hover {
+  background:linear-gradient(180deg, #4a3428, #2c1d16) !important;
+  transform:translateY(-1px) !important;
+  box-shadow:0 14px 28px rgba(36, 24, 18, .26) !important;
+}
+
+#authView .primary-button:active,
+#authView .preview-button:active,
+#authView .tab-button.active:active {
+  transform:translateY(0) scale(.985) !important;
+}
+
+#authView .tab-button,
+#authView .language-button {
+  transition:background .18s ease, color .18s ease, transform .18s ease !important;
+}
+
+#authView .text-button,
+#authView #forgotPasswordButton {
+  display:inline-flex !important;
+  width:auto !important;
+  min-height:0 !important;
+  margin:0 0 14px !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  color:#8a4e2c !important;
+  font-weight:600 !important;
+  text-decoration:underline !important;
+  text-underline-offset:3px !important;
+}
+
+#authView .auth-form .primary-button {
+  width:100% !important;
+  margin-top:4px !important;
+}
+
+#authView .tab-button.active {
+  color:#fffaf6 !important;
+}
+
+#authView .text-button:hover {
+  color:#1a1412 !important;
+}
+
+#authView .two-column {
+  gap:12px !important;
+}
+
+#dashboardView:not(.hidden) {
+  background:transparent !important;
+  grid-template-columns:248px minmax(0, 1fr) !important;
+  gap:0 !important;
+}
+
+#dashboardView:not(.hidden) .sidebar {
+  top:0 !important;
+  height:100vh !important;
+  min-height:100vh !important;
+  padding:26px 16px 88px !important;
+  border-right:1px solid rgba(58,36,24,.08) !important;
+  border-radius:0 !important;
+  background:rgba(255,252,248,.62) !important;
+  box-shadow:none !important;
+  backdrop-filter:blur(18px) saturate(1.15) !important;
+}
+
+#dashboardView:not(.hidden) .sidebar-brand {
+  padding:4px 8px 18px !important;
+  border-bottom:1px solid rgba(58,36,24,.08) !important;
+}
+
+#dashboardView:not(.hidden) .sidebar-brand span {
+  font-size:22px !important;
+  letter-spacing:-.03em !important;
+}
+
+#dashboardView:not(.hidden) .nav-button {
+  min-height:46px !important;
+  margin:2px 0 !important;
+  padding:0 14px 0 42px !important;
+  border-radius:14px !important;
+  color:#3a2418 !important;
+  background:transparent !important;
+  font-weight:560 !important;
+  transition:background .18s ease, color .18s ease, transform .18s ease !important;
+}
+
+#dashboardView:not(.hidden) .nav-button:hover {
+  background:rgba(255,255,255,.7) !important;
+  transform:none !important;
+}
+
+#dashboardView:not(.hidden) .nav-button.active,
+#dashboardView:not(.hidden).transfer-active .nav-button.active,
+#dashboardView:not(.hidden).account-details-active .nav-button.active {
+  color:#fffaf6 !important;
+  background:linear-gradient(180deg, #3c2b22, #241812) !important;
+  border-color:transparent !important;
+  box-shadow:0 10px 20px rgba(36,24,18,.18) !important;
+}
+
+#dashboardView:not(.hidden) .dashboard-main {
+  max-width:1180px !important;
+  padding:28px 36px 108px !important;
+}
+
+#dashboardView:not(.hidden) .topbar {
+  margin-bottom:18px !important;
+}
+
+#dashboardView:not(.hidden) #welcomeLine,
+#dashboardView:not(.hidden) .eyebrow {
+  margin:0 0 6px !important;
+  color:#8a7364 !important;
+  font-size:13px !important;
+  font-weight:600 !important;
+  letter-spacing:.04em !important;
+}
+
+#dashboardView:not(.hidden) #pageTitle,
+#dashboardView:not(.hidden) .topbar h2 {
+  font-size:clamp(42px, 4.4vw, 64px) !important;
+  line-height:.94 !important;
+  letter-spacing:-.04em !important;
+}
+
+#dashboardView:not(.hidden) .profile-chip,
+#dashboardView:not(.hidden) .earn-button,
+#dashboardView:not(.hidden) .menu-button {
+  border:1px solid rgba(58,36,24,.08) !important;
+  background:rgba(255,252,248,.78) !important;
+  box-shadow:0 10px 24px rgba(58,36,24,.06) !important;
+  backdrop-filter:blur(12px) !important;
+}
+
+#dashboardView:not(.hidden) .earn-button {
+  color:#fffaf6 !important;
+  background:linear-gradient(180deg, #3c2b22, #241812) !important;
+  border-color:transparent !important;
+}
+
+#dashboardView:not(.hidden) .earn-button:hover,
+#dashboardView:not(.hidden) .menu-button:hover {
+  transform:translateY(-1px) !important;
+}
+
+#dashboardView:not(.hidden) .qorvexa-account-header,
+#dashboardView:not(.hidden) .panel,
+#dashboardView:not(.hidden) .balance-card,
+#dashboardView:not(.hidden) .metric-card,
+#dashboardView:not(.hidden) .currency-tile,
+#dashboardView:not(.hidden) .account-row,
+#dashboardView:not(.hidden) .hero-action {
+  border:1px solid rgba(255,255,255,.7) !important;
+  border-radius:22px !important;
+  background:rgba(255,252,248,.78) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 16px 36px rgba(58,36,24,.06) !important;
+  backdrop-filter:blur(14px) !important;
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease !important;
+}
+
+#dashboardView:not(.hidden) .currency-tile:hover,
+#dashboardView:not(.hidden) .hero-action:hover,
+#dashboardView:not(.hidden) .account-row:hover,
+#dashboardView:not(.hidden) .panel:hover {
+  transform:translateY(-2px) !important;
+  border-color:rgba(197,106,58,.28) !important;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.85) inset,
+    0 20px 40px rgba(58,36,24,.1) !important;
+}
+
+#dashboardView:not(.hidden) .qorvexa-account-header {
+  min-height:0 !important;
+  padding:22px 24px !important;
+  background:
+    linear-gradient(135deg, rgba(255,252,248,.9), rgba(243, 215, 196, .45)) !important;
+}
+
+#dashboardView:not(.hidden) .mobile-bank-hero {
+  padding:18px !important;
+  border:1px solid rgba(255,255,255,.65) !important;
+  border-radius:30px !important;
+  background:
+    linear-gradient(160deg, rgba(255,252,248,.55), rgba(255,252,248,.28)) !important;
+  box-shadow:0 24px 50px rgba(58,36,24,.07) !important;
+  backdrop-filter:blur(8px) !important;
+}
+
+#dashboardView:not(.hidden) .balance-dial {
+  min-height:220px !important;
+  padding:28px !important;
+  border-radius:26px !important;
+  background:
+    radial-gradient(280px 180px at 100% 0%, rgba(255,255,255,.55), transparent 70%),
+    linear-gradient(155deg, #f8e4d2 0%, #f7f1ea 42%, #ece4f1 100%) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.7),
+    0 18px 36px rgba(58,36,24,.08) !important;
+}
+
+#dashboardView:not(.hidden) #heroBalanceAmount,
+#dashboardView:not(.hidden) .balance-dial strong {
+  margin:12px 0 8px !important;
+  font-size:clamp(52px, 5vw, 78px) !important;
+  line-height:.9 !important;
+  letter-spacing:-.045em !important;
+  color:#1a1412 !important;
+}
+
+#dashboardView:not(.hidden) .balance-growth span,
+#dashboardView:not(.hidden) .trend-up {
+  background:rgba(197,106,58,.18) !important;
+  color:#7a3e22 !important;
+  border-radius:999px !important;
+}
+
+#dashboardView:not(.hidden) .hero-action {
+  min-height:112px !important;
+  padding:16px !important;
+  border-radius:20px !important;
+}
+
+#dashboardView:not(.hidden) .hero-action strong {
+  font-family:"Outfit", "Avenir Next", "Segoe UI", sans-serif !important;
+  font-weight:640 !important;
+  letter-spacing:-.02em !important;
+}
+
+#dashboardView:not(.hidden) .primary-button {
+  border-radius:14px !important;
+  background:linear-gradient(180deg, #3c2b22, #241812) !important;
+  transition:transform .18s ease, box-shadow .18s ease !important;
+}
+
+#dashboardView:not(.hidden) .primary-button:hover {
+  transform:translateY(-1px) !important;
+  box-shadow:0 14px 28px rgba(36,24,18,.24) !important;
+}
+
+#dashboardView:not(.hidden) .primary-button:active {
+  transform:translateY(0) scale(.985) !important;
+}
+
+@media (max-width:900px) {
+  #authView.auth-view {
+    width:min(680px, calc(100% - 24px)) !important;
+    grid-template-columns:1fr !important;
+    gap:14px !important;
+    margin:12px auto 20px !important;
+  }
+
+  #authView .brand-panel,
+  #authView .auth-panel {
+    padding:22px 18px 26px !important;
+    border-radius:24px !important;
+  }
+
+  #authView .brand-panel h1 {
+    font-size:40px !important;
+  }
+
+  #authView .auth-nav {
+    margin-bottom:24px !important;
+  }
+
+  #authView .landing-feature-grid,
+  #authView .landing-proof {
+    grid-template-columns:1fr !important;
+  }
+
+  #dashboardView:not(.hidden) {
+    grid-template-columns:1fr !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar {
+    position:static !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    padding:16px !important;
+    border-right:0 !important;
+    border-bottom:1px solid rgba(58,36,24,.08) !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar nav {
+    display:grid !important;
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:8px !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-main {
+    padding:20px 16px 108px !important;
+  }
+
+  #dashboardView:not(.hidden) .mobile-bank-hero {
+    grid-template-columns:1fr !important;
+  }
+}
+
+@media (max-width:767px) {
+  body {
+    padding:0 0 52px !important;
+  }
+
+  #authView.auth-view {
+    width:calc(100% - 16px) !important;
+    margin:8px auto 16px !important;
+  }
+
+  #authView .auth-nav-links {
+    display:flex !important;
+  }
+
+  #authView .brand-panel h1 {
+    font-size:36px !important;
+  }
+
+  #authView .qorvexa-transfer-preview {
+    margin-top:18px !important;
+  }
+
+  #dashboardView:not(.hidden),
+  #dashboardView:not(.hidden).transfer-active,
+  #dashboardView:not(.hidden).account-details-active {
+    display:block !important;
+    background:transparent !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar,
+  #dashboardView:not(.hidden).transfer-active .sidebar,
+  #dashboardView:not(.hidden).account-details-active .sidebar {
+    position:fixed !important;
+    left:10px !important;
+    right:10px !important;
+    bottom:60px !important;
+    top:auto !important;
+    width:auto !important;
+    height:68px !important;
+    min-height:68px !important;
+    padding:8px !important;
+    border:1px solid rgba(255,255,255,.7) !important;
+    border-radius:22px !important;
+    background:rgba(255,252,248,.9) !important;
+    box-shadow:0 16px 40px rgba(58,36,24,.16) !important;
+    backdrop-filter:blur(18px) !important;
+    z-index:90 !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar-brand,
+  #dashboardView:not(.hidden) .sidebar-language,
+  #dashboardView:not(.hidden).transfer-active .sidebar-brand,
+  #dashboardView:not(.hidden).transfer-active .sidebar-language,
+  #dashboardView:not(.hidden).account-details-active .sidebar-brand,
+  #dashboardView:not(.hidden).account-details-active .sidebar-language {
+    display:none !important;
+  }
+
+  #dashboardView:not(.hidden) .sidebar nav,
+  #dashboardView:not(.hidden).transfer-active .sidebar nav,
+  #dashboardView:not(.hidden).account-details-active .sidebar nav {
+    height:100% !important;
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:6px !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button,
+  #dashboardView:not(.hidden).transfer-active .nav-button,
+  #dashboardView:not(.hidden).account-details-active .nav-button {
+    min-height:52px !important;
+    height:52px !important;
+    padding:26px 4px 6px !important;
+    font-size:11px !important;
+  }
+
+  #dashboardView:not(.hidden) .nav-button.active,
+  #dashboardView:not(.hidden).transfer-active .nav-button.active,
+  #dashboardView:not(.hidden).account-details-active .nav-button.active {
+    color:#fffaf6 !important;
+    background:linear-gradient(180deg, #3c2b22, #241812) !important;
+  }
+
+  #dashboardView:not(.hidden) .dashboard-main,
+  #dashboardView:not(.hidden).transfer-active .dashboard-main,
+  #dashboardView:not(.hidden).account-details-active .dashboard-main {
+    padding:118px 12px calc(168px + env(safe-area-inset-bottom)) !important;
+  }
+
+  #dashboardView:not(.hidden) #pageTitle,
+  #dashboardView:not(.hidden) .topbar h2 {
+    font-size:40px !important;
+  }
+
+  #dashboardView:not(.hidden) #heroBalanceAmount,
+  #dashboardView:not(.hidden) .balance-dial strong {
+    font-size:46px !important;
+  }
+
+  #dashboardView:not(.hidden) .hero-actions,
+  #dashboardView:not(.hidden) .qorvexa-currency-strip {
+    grid-template-columns:1fr 1fr !important;
+  }
+
+  #demoNotice.demo-notice {
+    font-size:15px !important;
+    padding:12px 14px !important;
+  }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  #authView .primary-button,
+  #authView .landing-feature-grid article,
+  #dashboardView:not(.hidden) .currency-tile,
+  #dashboardView:not(.hidden) .hero-action,
+  #dashboardView:not(.hidden) .nav-button,
+  #dashboardView:not(.hidden) .primary-button {
+    transition:none !important;
+  }
+}
