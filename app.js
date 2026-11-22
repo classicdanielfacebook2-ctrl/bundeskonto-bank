@@ -3799,14 +3799,140 @@ logoutButton.addEventListener("click", () => {
   showLoginScreen();
 });
 
+const studioMobileSheet = document.querySelector("#studioMobileSheet");
+const authMobileSheet = document.querySelector("#authMobileSheet");
+const authMenuButton = document.querySelector("#authMenuButton");
+const studioNavOverlay = document.querySelector("#studioNavOverlay");
+const mobileNavQuery = window.matchMedia("(max-width: 768px)");
+
+function mobileNavActive() {
+  return mobileNavQuery.matches;
+}
+
+function sheetPair(which) {
+  return which === "auth"
+    ? { button: authMenuButton, sheet: authMobileSheet }
+    : { button: menuButton, sheet: studioMobileSheet };
+}
+
+function focusableIn(sheet) {
+  if (!sheet) {
+    return [];
+  }
+  return [...sheet.querySelectorAll("button, [href], input, select, textarea")].filter((element) => {
+    if (element.disabled || element.getAttribute("aria-hidden") === "true") {
+      return false;
+    }
+    return getComputedStyle(element).display !== "none" && getComputedStyle(element).visibility !== "hidden";
+  });
+}
+
+function setMobileSheet(which, open) {
+  const { button, sheet } = sheetPair(which);
+  if (!button || !sheet) {
+    return;
+  }
+  sheet.classList.toggle("is-open", open);
+  button.setAttribute("aria-expanded", String(open));
+  const anyOpen = studioMobileSheet?.classList.contains("is-open") || authMobileSheet?.classList.contains("is-open");
+  studioNavOverlay?.classList.toggle("is-open", Boolean(anyOpen));
+  studioNavOverlay?.setAttribute("aria-hidden", anyOpen ? "false" : "true");
+  document.body.classList.toggle("studio-nav-lock", Boolean(anyOpen));
+  if (open) {
+    const [first] = focusableIn(sheet);
+    first?.focus();
+  }
+}
+
+function closeMobileSheets(returnFocus = true) {
+  const dashboardWasOpen = menuButton?.getAttribute("aria-expanded") === "true" && mobileNavActive();
+  const authWasOpen = authMenuButton?.getAttribute("aria-expanded") === "true";
+  setMobileSheet("dashboard", false);
+  setMobileSheet("auth", false);
+  if (returnFocus && dashboardWasOpen) {
+    menuButton?.focus();
+  }
+  if (returnFocus && authWasOpen) {
+    authMenuButton?.focus();
+  }
+}
+
+function trapSheetTab(event, sheet) {
+  if (event.key !== "Tab" || !sheet?.classList.contains("is-open")) {
+    return;
+  }
+  const items = focusableIn(sheet);
+  if (!items.length) {
+    return;
+  }
+  const first = items[0];
+  const last = items[items.length - 1];
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault();
+    last.focus();
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+
 menuButton.addEventListener("click", (event) => {
   event.stopPropagation();
+  if (mobileNavActive() && !dashboardView.classList.contains("hidden")) {
+    const open = menuButton.getAttribute("aria-expanded") === "true";
+    if (open) {
+      closeMobileSheets(false);
+    } else {
+      closeAccountMenu();
+      setMobileSheet("dashboard", true);
+    }
+    return;
+  }
   toggleAccountMenu();
+});
+
+authMenuButton?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  const open = authMenuButton.getAttribute("aria-expanded") === "true";
+  if (open) {
+    closeMobileSheets(false);
+  } else {
+    setMobileSheet("auth", true);
+  }
+});
+
+studioMobileSheet?.addEventListener("click", (event) => {
+  if (event.target.closest(".nav-button, #earnButton, .language-button, .menu-item")) {
+    closeMobileSheets(false);
+  }
+});
+
+authMobileSheet?.addEventListener("click", (event) => {
+  if (event.target.closest(".language-button")) {
+    closeMobileSheets(false);
+  }
+});
+
+studioMobileSheet?.addEventListener("keydown", (event) => trapSheetTab(event, studioMobileSheet));
+authMobileSheet?.addEventListener("keydown", (event) => trapSheetTab(event, authMobileSheet));
+
+studioNavOverlay?.addEventListener("click", () => {
+  closeMobileSheets();
+  closeAccountMenu();
 });
 
 document.addEventListener("click", (event) => {
   if (!accountMenu.contains(event.target) && !menuButton.contains(event.target)) {
     closeAccountMenu();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") {
+    return;
+  }
+  if (studioMobileSheet?.classList.contains("is-open") || authMobileSheet?.classList.contains("is-open")) {
+    closeMobileSheets();
   }
 });
 
