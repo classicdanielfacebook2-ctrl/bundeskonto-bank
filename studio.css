@@ -1888,6 +1888,42 @@ body h3,
     background: #ffe3eb !important;
     color: #152033 !important;
   }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .profile-chip {
+    width: 100% !important;
+    max-width: none !important;
+    align-self: stretch !important;
+    flex-direction: row-reverse !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    text-align: right !important;
+    background: transparent !important;
+    border: 0 !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .profile-chip > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    text-align: right !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .menu-item {
+    flex-direction: row-reverse !important;
+    justify-content: flex-start !important;
+    text-align: right !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open #earnButton {
+    justify-content: flex-end !important;
+    padding-right: 16px !important;
+    text-align: right !important;
+  }
+
+  #dashboardView.studio-dash:not(.hidden) #studioMobileSheet.is-open .sidebar-language {
+    align-items: flex-end !important;
+    text-align: right !important;
+  }
 }
 
 .reduce-motion .studio-mobile-sheet,
