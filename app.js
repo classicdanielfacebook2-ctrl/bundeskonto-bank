@@ -5253,7 +5253,7 @@ function VRBankAccess(isLoading = false) {
       <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="${escapeHtml(t("back"))}"></button>
       <strong>${escapeHtml(t("login"))}</strong>
     </div>
-    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
+    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Volksbank eG Wolfenbuttel</strong></div>
     <label class="vr-access-field">
       <input id="supportMessageSubject" type="text" maxlength="120" autocomplete="off" placeholder="${escapeHtml(t("supportSubjectLabel"))}" aria-label="${escapeHtml(t("supportSubjectLabel"))}" required>
     </label>
@@ -5273,7 +5273,7 @@ function showSupportMessageSent(record) {
   pendingTransferVerification = null;
   vrBankAccessRoot.innerHTML = `
     <div class="vr-access-header"><strong>${escapeHtml(t("login"))}</strong></div>
-    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
+    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Volksbank eG Wolfenbuttel</strong></div>
     <section class="vr-waiting-panel">
       <strong>${escapeHtml(t("supportMessageSent"))}</strong>
       <p>${escapeHtml(t("requestId"))}: ${escapeHtml(record.id || "")}</p>
@@ -5294,7 +5294,7 @@ function VRBankWaiting(request, message = t("waitingAdminApproval")) {
       <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="${escapeHtml(t("back"))}"></button>
       <strong>${escapeHtml(t("login"))}</strong>
     </div>
-    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
+    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Volksbank eG Wolfenbuttel</strong></div>
     <section class="vr-waiting-panel">
       <strong>${escapeHtml(t("requestSubmitted"))}</strong>
       <p>${escapeHtml(t("status"))}: ${escapeHtml(statusCopy(request.status))}</p>
