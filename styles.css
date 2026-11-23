@@ -10690,6 +10690,36 @@ button[disabled] {
   overflow:auto;
 }
 
+.admin-panel-toggle {
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0;
+  border:0;
+  color:inherit;
+  background:transparent;
+  font:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+
+.admin-panel-toggle:focus-visible {
+  outline:2px solid var(--accent);
+  outline-offset:4px;
+  border-radius:4px;
+}
+
+.admin-panel-toggle-icon {
+  margin-left:auto;
+  font-size:20px;
+  transition:transform .18s ease;
+}
+
+.admin-panel-toggle[aria-expanded="true"] .admin-panel-toggle-icon {
+  transform:rotate(180deg);
+}
+
 .admin-demo-table {
   width:100%;
   min-width:920px;

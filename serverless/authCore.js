@@ -221,10 +221,52 @@ export default async function authHandler(request, response) {
       if (!user.isAdmin) return send(response, 403, { message: "Administrator access required." });
       const targetId = String(request.body?.userId || "");
       const password = String(request.body?.password || "");
+      const profile = request.body?.profile;
       if (password.length < 12) return send(response, 400, { message: "Temporary password must be at least 12 characters." });
-      const result = await users.updateOne({ id: targetId, isAdmin: { $ne: true } }, { $set: { passwordHash: await hashPassword(password), mustChangePassword: true, updatedAt: new Date() } });
-      if (result.matchedCount) await sessions.deleteMany({ userId: targetId });
-      return result.matchedCount ? send(response, 200, { ok: true }) : send(response, 404, { message: "Account not found." });
+      let target = await users.findOne({ id: targetId, isAdmin: { $ne: true } });
+      let created = false;
+      const passwordHash = await hashPassword(password);
+
+      if (!target && profile && validProfile(profile)) {
+        const email = normalizeEmail(profile.email);
+        const userId = normalizeUserId(profile.userId);
+        if (email === ADMIN_EMAIL || userId === "ADMIN") {
+          return send(response, 400, { message: "That account cannot be reset." });
+        }
+        target = await users.findOne({ $or: [{ email }, { userId }], isAdmin: { $ne: true } });
+        if (!target) {
+          target = {
+            ...profile,
+            id: randomBytes(16).toString("hex"),
+            email,
+            userId,
+            isAdmin: false,
+            cloudAuth: true,
+            mustChangePassword: true,
+            passwordHash,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          };
+          delete target.password;
+          delete target.confirmPassword;
+          delete target._id;
+          try {
+            await users.insertOne(target);
+            created = true;
+          } catch (error) {
+            if (error.code !== 11000) throw error;
+            target = await users.findOne({ $or: [{ email }, { userId }], isAdmin: { $ne: true } });
+          }
+        }
+      }
+
+      if (!target) return send(response, 404, { message: "Account not found." });
+      if (!created) {
+        await users.updateOne({ id: target.id, isAdmin: { $ne: true } }, { $set: { passwordHash, mustChangePassword: true, updatedAt: new Date() } });
+        target = await users.findOne({ id: target.id, isAdmin: { $ne: true } });
+      }
+      await sessions.deleteMany({ userId: target.id });
+      return send(response, 200, { ok: true, user: publicUser(target) });
     }
 
     if (action === "users" && method === "GET") {

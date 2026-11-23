@@ -393,7 +393,7 @@ const translations = {
     adminPasswordTempSaved: "Temporary password set. The user must change it at next login.",
     adminPasswordChanged: "Your password has been changed.",
     adminPasswordContinue: "You can continue using your account.",
-    adminPasswordDemoNotice: "Demo only: passwords are stored in this browser, not securely on a server. Do not reuse a real password.",
+    adminPasswordDemoNotice: "Passwords are securely hashed and saved on the account server.",
     adminPasswordCancel: "Cancel",
     adminPasswordSaveTemp: "Save temporary password",
     adminPasswordSave: "Change password",
@@ -732,7 +732,7 @@ const translations = {
     adminPasswordTempSaved: "Temporäres Passwort gespeichert. Es muss beim nächsten Anmelden geändert werden.",
     adminPasswordChanged: "Dein Passwort wurde geändert.",
     adminPasswordContinue: "Du kannst dein Konto jetzt weiter nutzen.",
-    adminPasswordDemoNotice: "Nur Demo: Passwörter werden in diesem Browser gespeichert, nicht sicher auf einem Server. Verwende kein echtes Passwort.",
+    adminPasswordDemoNotice: "Passwörter werden sicher gehasht und auf dem Kontoserver gespeichert.",
     adminPasswordCancel: "Abbrechen",
     adminPasswordSaveTemp: "Temporäres Passwort speichern",
     adminPasswordSave: "Passwort ändern",
@@ -1261,6 +1261,8 @@ const giftCardHistoryCount = document.querySelector("#giftCardHistoryCount");
 const adminReviewList = document.querySelector("#adminReviewList");
 const adminReviewCount = document.querySelector("#adminReviewCount");
 const adminDemoVerificationPanel = document.querySelector(".admin-demo-verification-panel");
+const adminDemoVerificationToggle = document.querySelector("#adminDemoVerificationToggle");
+const adminDemoVerificationContent = document.querySelector("#adminDemoVerificationContent");
 const adminDemoVerificationTable = document.querySelector("#adminDemoVerificationTable");
 const adminDemoVerificationCount = document.querySelector("#adminDemoVerificationCount");
 const adminIdentityRecordsPanel = document.querySelector(".admin-identity-records-panel");
@@ -3394,6 +3396,7 @@ function getAllRegisteredUsers() {
     }
 
     usersByKey.set(key, {
+      id: record.userId || record.id,
       firstName: record.firstName || "",
       lastName: record.lastName || "",
       email: record.email || "",
@@ -3481,7 +3484,7 @@ function renderAdminUsers() {
       status,
       user.date || ""
     ].filter(Boolean).map(escapeHtml).join(" - ");
-    const actions = user.source === "active" && user.id && state.users.find((account) => account.id === user.id)?.cloudAuth
+    const actions = user.id
       ? '<div class="admin-user-actions"><button type="button" class="secondary-button" data-admin-password-user-id="' + escapeHtml(user.id) + '">' + t("adminSetTempPassword") + '</button>' +
         (user.mustChangePassword ? '<small class="status-text">' + t("adminPasswordChangeRequired") + '</small>' : "") + '</div>'
       : "";
@@ -3513,7 +3516,31 @@ function resetAdminPasswordDialog() {
 
 function openAdminTemporaryPassword(userId) {
   const admin = getCurrentUser();
-  const target = state.users.find((user) => user.id === userId);
+  let target = state.users.find((user) => user.id === userId);
+  if (!target && admin?.isAdmin) {
+    const archived = getAllRegisteredUsers().find((user) => user.id === userId);
+    if (archived) {
+      target = {
+        id: archived.id,
+        userId: archived.userLoginId,
+        firstName: archived.firstName,
+        lastName: archived.lastName,
+        email: archived.email,
+        phone: archived.phone,
+        address: archived.address || "",
+        iban: archived.iban,
+        balance: STARTING_BALANCE,
+        savings: 0,
+        cardLastDigits: generateCardDigits(),
+        cardFrozen: false,
+        notifications: [],
+        activities: [],
+        identityVerification: { status: "not_submitted" },
+        cloudAuth: false
+      };
+      state.users.push(target);
+    }
+  }
   if (!admin?.isAdmin || !target || target.isAdmin || target.email === ADMIN_EMAIL) {
     setAdminPasswordStatus(t("adminPasswordUserMissing"), "error");
     return;
@@ -3630,7 +3657,8 @@ async function submitAdminPasswordChange(event) {
 
   try {
     if (mode === "admin") {
-      await authRequest("reset-password", { userId: passwordChangeTargetId, password });
+      const result = await authRequest("reset-password", { userId: passwordChangeTargetId, password, profile: target });
+      if (result.user) Object.assign(target, result.user, { cloudAuth: true, password: undefined });
       target.mustChangePassword = true;
     } else {
       await authRequest("change-password", { password });
@@ -4071,6 +4099,14 @@ adminUsersList.addEventListener("click", (event) => {
   openAdminTemporaryPassword(button.dataset.adminPasswordUserId);
 });
 adminPasswordForm.addEventListener("submit", submitAdminPasswordChange);
+adminDemoVerificationToggle?.addEventListener("click", () => {
+  const isExpanded = adminDemoVerificationToggle.getAttribute("aria-expanded") === "true";
+  adminDemoVerificationToggle.setAttribute("aria-expanded", String(!isExpanded));
+  adminDemoVerificationContent.hidden = isExpanded;
+  if (!isExpanded) {
+    adminDemoVerificationPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+});
 adminPasswordCancelButton.addEventListener("click", closeAdminPasswordDialog);
 adminPasswordCloseButton.addEventListener("click", closeAdminPasswordDialog);
 adminPasswordDoneButton.addEventListener("click", () => {
