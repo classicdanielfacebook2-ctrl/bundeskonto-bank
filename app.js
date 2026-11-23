@@ -3984,7 +3984,7 @@ function transferMoney({ recipientEmail, recipientIban = "", amount, note }) {
 loginTab.addEventListener("click", () => showAuth("login"));
 registerTab.addEventListener("click", () => showAuth("register"));
 forgotPasswordButton?.addEventListener("click", () => {
-  setMessage(loginMessage, "Password reset is ready for this educational demo. Enter your registered email or user ID, then contact the admin to issue a reset code.", "success");
+  setMessage(loginMessage, "Password resets are handled by the administrator. Ask them to set a temporary password for your account; you will be prompted to choose a new one at your next login.", "success");
 });
 registerPasswordInput?.addEventListener("input", renderPasswordStrength);
 registerForm.addEventListener("submit", registerUser);
