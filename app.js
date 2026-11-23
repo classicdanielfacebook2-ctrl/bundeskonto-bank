@@ -1365,7 +1365,7 @@ const withdrawalBanks = [
   { id: "postbank", name: "Postbank", logo: "PB" },
   { id: "santander", name: "Santander", logo: "ST" },
   { id: "sparkassen", name: "Sparkassen", logo: "SP" },
-  { id: "vr", name: "Volkss- und Raiffeisenbanken", logo: "VR" }
+  { id: "vr", name: "Volksbanken Raiffeisenbanken", logo: "VR" }
 ];
 let passwordChangeMode = "";
 let passwordChangeTargetId = "";
