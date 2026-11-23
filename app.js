@@ -379,6 +379,28 @@ const translations = {
     noRegisteredUsers: "No registered users found.",
     archivedRegistration: "Archived registration",
     activeAccount: "Active account",
+    adminSetTempPassword: "Set temporary password",
+    adminPasswordChangeRequired: "Password change required at next login",
+    adminTempPasswordTitle: "Set a temporary password",
+    adminTempPasswordDescription: "Set a temporary password for {name}. They must choose a new password at next login.",
+    adminNewPasswordTitle: "Choose a new password",
+    adminNewPasswordDescription: "Your administrator issued a temporary password. Choose a new password to continue.",
+    adminTempPasswordLabel: "Temporary password",
+    adminNewPasswordLabel: "New password",
+    adminConfirmPassword: "Confirm password",
+    adminPasswordMinLength: "Use at least 12 characters.",
+    adminPasswordMismatch: "Passwords do not match.",
+    adminPasswordTempSaved: "Temporary password set. The user must change it at next login.",
+    adminPasswordChanged: "Your password has been changed.",
+    adminPasswordContinue: "You can continue using your account.",
+    adminPasswordDemoNotice: "Demo only: passwords are stored in this browser, not securely on a server. Do not reuse a real password.",
+    adminPasswordCancel: "Cancel",
+    adminPasswordSaveTemp: "Save temporary password",
+    adminPasswordSave: "Change password",
+    adminPasswordDone: "Continue",
+    adminPasswordClose: "Close password dialog",
+    adminPasswordAdminOnly: "Only an administrator can set temporary passwords.",
+    adminPasswordUserMissing: "That active user could not be found.",
     adminAuditArchive: "Admin records archive",
     loginAttempts: "Login attempts",
     registrationArchive: "Registration archive",
@@ -696,6 +718,28 @@ const translations = {
     noRegisteredUsers: "Keine registrierten Nutzer gefunden.",
     archivedRegistration: "Archivierte Registrierung",
     activeAccount: "Aktives Konto",
+    adminSetTempPassword: "Temporäres Passwort festlegen",
+    adminPasswordChangeRequired: "Passwort muss beim nächsten Anmelden geändert werden",
+    adminTempPasswordTitle: "Temporäres Passwort festlegen",
+    adminTempPasswordDescription: "Lege ein temporäres Passwort für {name} fest. Die Person muss beim nächsten Anmelden ein neues Passwort wählen.",
+    adminNewPasswordTitle: "Neues Passwort wählen",
+    adminNewPasswordDescription: "Dein Administrator hat ein temporäres Passwort festgelegt. Wähle ein neues Passwort, um fortzufahren.",
+    adminTempPasswordLabel: "Temporäres Passwort",
+    adminNewPasswordLabel: "Neues Passwort",
+    adminConfirmPassword: "Passwort bestätigen",
+    adminPasswordMinLength: "Verwende mindestens 12 Zeichen.",
+    adminPasswordMismatch: "Die Passwörter stimmen nicht überein.",
+    adminPasswordTempSaved: "Temporäres Passwort gespeichert. Es muss beim nächsten Anmelden geändert werden.",
+    adminPasswordChanged: "Dein Passwort wurde geändert.",
+    adminPasswordContinue: "Du kannst dein Konto jetzt weiter nutzen.",
+    adminPasswordDemoNotice: "Nur Demo: Passwörter werden in diesem Browser gespeichert, nicht sicher auf einem Server. Verwende kein echtes Passwort.",
+    adminPasswordCancel: "Abbrechen",
+    adminPasswordSaveTemp: "Temporäres Passwort speichern",
+    adminPasswordSave: "Passwort ändern",
+    adminPasswordDone: "Weiter",
+    adminPasswordClose: "Passwortdialog schließen",
+    adminPasswordAdminOnly: "Nur ein Administrator kann temporäre Passwörter festlegen.",
+    adminPasswordUserMissing: "Das aktive Benutzerkonto wurde nicht gefunden.",
     adminAuditArchive: "Admin-Datensatzarchiv",
     loginAttempts: "Anmeldeversuche",
     registrationArchive: "Registrierungsarchiv",
@@ -1229,6 +1273,19 @@ const adminGiftCardRecordsCount = document.querySelector("#adminGiftCardRecordsC
 const adminUsersPanel = document.querySelector(".admin-users-panel");
 const adminUsersList = document.querySelector("#adminUsersList");
 const adminUsersCount = document.querySelector("#adminUsersCount");
+const adminPasswordModal = document.querySelector("#adminPasswordModal");
+const adminPasswordForm = document.querySelector("#adminPasswordForm");
+const adminPasswordTitle = document.querySelector("#adminPasswordTitle");
+const adminPasswordDescription = document.querySelector("#adminPasswordDescription");
+const adminPasswordFields = document.querySelector("#adminPasswordFields");
+const adminPasswordInput = document.querySelector("#adminPasswordInput");
+const adminPasswordConfirmInput = document.querySelector("#adminPasswordConfirmInput");
+const adminPasswordMessage = document.querySelector("#adminPasswordMessage");
+const adminPasswordSubmitButton = document.querySelector("#adminPasswordSubmitButton");
+const adminPasswordCancelButton = document.querySelector("#adminPasswordCancelButton");
+const adminPasswordDoneButton = document.querySelector("#adminPasswordDoneButton");
+const adminPasswordCloseButton = document.querySelector("#adminPasswordCloseButton");
+const adminPasswordStatus = document.querySelector("#adminPasswordStatus");
 const adminAuditPanel = document.querySelector(".admin-audit-panel");
 const adminAuditCount = document.querySelector("#adminAuditCount");
 const adminAuditSearch = document.querySelector("#adminAuditSearch");
@@ -1280,6 +1337,8 @@ const withdrawalBanks = [
   { id: "sparkassen", name: "Sparkassen", logo: "SP" },
   { id: "vr", name: "Volkss- und Raiffeisenbanken", logo: "VR" }
 ];
+let passwordChangeMode = "";
+let passwordChangeTargetId = "";
 let pendingTransferVerification = null;
 let vrDemoVerificationPollTimer = null;
 let activationCameraStream = null;
@@ -3353,6 +3412,8 @@ function getAllRegisteredUsers() {
     const existing = usersByKey.get(key) || {};
     usersByKey.set(key, {
       ...existing,
+      id: user.id,
+      mustChangePassword: user.mustChangePassword === true,
       firstName: user.firstName || existing.firstName || "",
       lastName: user.lastName || existing.lastName || "",
       email: user.email || existing.email || "",
@@ -3392,14 +3453,145 @@ function renderAdminUsers() {
     const item = document.createElement("li");
     const fullName = `${user.firstName} ${user.lastName}`.trim() || user.email || user.userLoginId;
     const status = user.source === "active" ? t("activeAccount") : t("archivedRegistration");
-    item.innerHTML = `
-      <div>
-        <strong>${fullName}</strong>
-        <small>User ID ${user.userLoginId || "-"} - ${user.email || "-"} - IBAN ${user.iban || "-"} - ${user.phone || "-"} - ${status}${user.date ? ` - ${user.date}` : ""}</small>
-      </div>
-    `;
+    const details = [
+      "User ID " + (user.userLoginId || "-"),
+      user.email || "-",
+      "IBAN " + (user.iban || "-"),
+      user.phone || "-",
+      status,
+      user.date || ""
+    ].filter(Boolean).map(escapeHtml).join(" - ");
+    const actions = user.source === "active" && user.id
+      ? '<div class="admin-user-actions"><button type="button" class="secondary-button" data-admin-password-user-id="' + escapeHtml(user.id) + '">' + t("adminSetTempPassword") + '</button>' +
+        (user.mustChangePassword ? '<small class="status-text">' + t("adminPasswordChangeRequired") + '</small>' : "") + '</div>'
+      : "";
+
+    item.innerHTML = '<div><strong>' + escapeHtml(fullName) + '</strong><small>' + details + '</small></div>' + actions;
     adminUsersList.append(item);
   });
+}
+
+function setAdminPasswordMessage(message, type = "") {
+  adminPasswordMessage.textContent = message;
+  adminPasswordMessage.className = "form-message" + (type ? " " + type : "");
+}
+
+function setAdminPasswordStatus(message, type = "") {
+  adminPasswordStatus.textContent = message;
+  adminPasswordStatus.className = "form-message" + (type ? " " + type : "");
+}
+
+function resetAdminPasswordDialog() {
+  adminPasswordForm.reset();
+  adminPasswordFields.classList.remove("hidden");
+  adminPasswordSubmitButton.classList.remove("hidden");
+  adminPasswordCancelButton.classList.remove("hidden");
+  adminPasswordDoneButton.classList.add("hidden");
+  adminPasswordCloseButton.classList.remove("hidden");
+  setAdminPasswordMessage("");
+}
+
+function openAdminTemporaryPassword(userId) {
+  const admin = getCurrentUser();
+  const target = state.users.find((user) => user.id === userId);
+  if (!admin?.isAdmin || !target || target.isAdmin || target.email === ADMIN_EMAIL) {
+    setAdminPasswordStatus(t("adminPasswordUserMissing"), "error");
+    return;
+  }
+
+  passwordChangeMode = "admin";
+  passwordChangeTargetId = target.id;
+  resetAdminPasswordDialog();
+  adminPasswordTitle.textContent = t("adminTempPasswordTitle");
+  adminPasswordDescription.textContent = t("adminTempPasswordDescription", {
+    name: `${target.firstName} ${target.lastName}`.trim() || target.email
+  });
+  adminPasswordInput.setAttribute("aria-label", t("adminTempPasswordLabel"));
+  adminPasswordSubmitButton.textContent = t("adminPasswordSaveTemp");
+  adminPasswordModal.classList.remove("hidden");
+  adminPasswordInput.focus();
+}
+
+function openRequiredPasswordChange(userId) {
+  const target = state.users.find((user) => user.id === userId);
+  if (!target || !target.mustChangePassword) {
+    return;
+  }
+
+  passwordChangeMode = "required";
+  passwordChangeTargetId = target.id;
+  resetAdminPasswordDialog();
+  adminPasswordTitle.textContent = t("adminNewPasswordTitle");
+  adminPasswordDescription.textContent = t("adminNewPasswordDescription");
+  adminPasswordInput.setAttribute("aria-label", t("adminNewPasswordLabel"));
+  adminPasswordSubmitButton.textContent = t("adminPasswordSave");
+  adminPasswordCancelButton.classList.add("hidden");
+  adminPasswordCloseButton.classList.add("hidden");
+  adminPasswordModal.classList.remove("hidden");
+  adminPasswordInput.focus();
+}
+
+function closeAdminPasswordDialog() {
+  if (passwordChangeMode === "required") {
+    return;
+  }
+  adminPasswordModal.classList.add("hidden");
+  passwordChangeMode = "";
+  passwordChangeTargetId = "";
+  adminPasswordForm.reset();
+}
+
+function submitAdminPasswordChange(event) {
+  event.preventDefault();
+  const mode = passwordChangeMode;
+  if (mode !== "admin" && mode !== "required") {
+    return;
+  }
+  if (mode === "admin" && !getCurrentUser()?.isAdmin) {
+    setAdminPasswordMessage(t("adminPasswordAdminOnly"), "error");
+    return;
+  }
+
+  const target = state.users.find((user) => user.id === passwordChangeTargetId);
+  if (!target || target.isAdmin || target.email === ADMIN_EMAIL) {
+    setAdminPasswordMessage(t("adminPasswordUserMissing"), "error");
+    return;
+  }
+
+  const password = adminPasswordInput.value;
+  if (password.length < 12) {
+    setAdminPasswordMessage(t("adminPasswordMinLength"), "error");
+    return;
+  }
+  if (password !== adminPasswordConfirmInput.value) {
+    setAdminPasswordMessage(t("adminPasswordMismatch"), "error");
+    return;
+  }
+  if (mode === "required" && getCurrentUser()?.id !== target.id) {
+    setAdminPasswordMessage(t("adminPasswordUserMissing"), "error");
+    return;
+  }
+
+  target.password = password;
+  target.mustChangePassword = mode === "admin";
+  saveState();
+
+  if (mode === "admin") {
+    renderAdminUsers();
+    setAdminPasswordStatus(t("adminPasswordTempSaved"), "success");
+    closeAdminPasswordDialog();
+    return;
+  }
+
+  passwordChangeMode = "complete";
+  adminPasswordFields.classList.add("hidden");
+  adminPasswordSubmitButton.classList.add("hidden");
+  adminPasswordCancelButton.classList.add("hidden");
+  adminPasswordCloseButton.classList.add("hidden");
+  adminPasswordDoneButton.classList.remove("hidden");
+  adminPasswordTitle.textContent = t("adminPasswordChanged");
+  adminPasswordDescription.textContent = t("adminPasswordContinue");
+  setAdminPasswordMessage(t("adminPasswordChanged"), "success");
 }
 
 function renderAdminAudits() {
@@ -3728,6 +3920,9 @@ function loginUser(event) {
   saveState();
   loginForm.reset();
   showDashboard();
+  if (account.mustChangePassword === true) {
+    openRequiredPasswordChange(account.id);
+  }
 }
 
 function transferMoney({ recipientEmail, recipientIban = "", amount, note }) {
@@ -3791,6 +3986,22 @@ forgotPasswordButton?.addEventListener("click", () => {
 registerPasswordInput?.addEventListener("input", renderPasswordStrength);
 registerForm.addEventListener("submit", registerUser);
 loginForm.addEventListener("submit", loginUser);
+adminUsersList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-admin-password-user-id]");
+  if (!button || !getCurrentUser()?.isAdmin) {
+    return;
+  }
+  openAdminTemporaryPassword(button.dataset.adminPasswordUserId);
+});
+adminPasswordForm.addEventListener("submit", submitAdminPasswordChange);
+adminPasswordCancelButton.addEventListener("click", closeAdminPasswordDialog);
+adminPasswordCloseButton.addEventListener("click", closeAdminPasswordDialog);
+adminPasswordDoneButton.addEventListener("click", () => {
+  adminPasswordModal.classList.add("hidden");
+  passwordChangeMode = "";
+  passwordChangeTargetId = "";
+  adminPasswordForm.reset();
+});
 logoutButton.addEventListener("click", () => {
   state.currentUserId = null;
   state.ui ||= {};
