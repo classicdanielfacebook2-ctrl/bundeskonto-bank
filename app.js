@@ -1160,8 +1160,11 @@ const spendingAmount = document.querySelector("#spendingAmount");
 const analyticsIncome = document.querySelector("#analyticsIncome");
 const analyticsSpending = document.querySelector("#analyticsSpending");
 const analyticsSavings = document.querySelector("#analyticsSavings");
-const netInflowMetric = document.querySelector("#netInflowValue");
+const netInflowMetric = document.querySelector("#netFlowCard");
 const netInflowValue = document.querySelector("#netInflowValue");
+const netFlowIncomeTotal = document.querySelector("#netFlowIncomeTotal");
+const netFlowSpendingTotal = document.querySelector("#netFlowSpendingTotal");
+const netFlowEmptyState = document.querySelector("#netFlowEmptyState");
 const analyticsActivityCount = document.querySelector("#analyticsActivityCount");
 const analyticsNetFlow = document.querySelector("#analyticsNetFlow");
 const accountNumber = document.querySelector("#accountNumber");
@@ -2498,12 +2501,21 @@ function renderDashboard() {
   incomeAmount.textContent = formatCurrency(incomeTotal);
   spendingAmount.textContent = formatCurrency(spendingTotal);
   if (netInflowValue) {
-    const flowLabel = netFlowTotal < 0 ? "Net outflow" : "Net inflow";
-    netInflowValue.textContent = `${flowLabel} · ${formatCurrency(Math.abs(netFlowTotal))}`;
+    netInflowValue.textContent = formatCurrency(netFlowTotal);
   }
   netInflowMetric?.classList.toggle("is-negative", netFlowTotal < 0);
+  if (netFlowIncomeTotal) netFlowIncomeTotal.textContent = formatCurrency(incomeTotal);
+  if (netFlowSpendingTotal) netFlowSpendingTotal.textContent = formatCurrency(spendingTotal);
+  const recordedActivityCount = (user.activities || []).filter((activity) => activity.titleKey !== "openingBalance").length;
+  if (netFlowEmptyState) netFlowEmptyState.hidden = recordedActivityCount > 0;
+  const flowScale = Math.max(incomeTotal, spendingTotal, 1);
+  document.querySelectorAll("[data-net-flow-bar]").forEach((bar) => {
+    const amount = bar.dataset.netFlowBar === "income" ? incomeTotal : spendingTotal;
+    const height = amount > 0 ? Math.max(8, (amount / flowScale) * 100) : 0;
+    bar.style.setProperty("--bar-height", `${height}%`);
+  });
   if (analyticsActivityCount) {
-    analyticsActivityCount.textContent = String((user.activities || []).length);
+    analyticsActivityCount.textContent = String(recordedActivityCount);
   }
   if (analyticsNetFlow) {
     analyticsNetFlow.textContent = formatCurrency(netFlowTotal);
@@ -2556,6 +2568,9 @@ function renderDashboard() {
 
 function sumActivities(user, group) {
   return (user.activities || []).reduce((total, item) => {
+    if (item.titleKey === "openingBalance") {
+      return total;
+    }
     if (group === "income" && item.amount > 0) {
       return total + item.amount;
     }

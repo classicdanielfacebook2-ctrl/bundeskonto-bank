@@ -1976,11 +1976,153 @@ html:has(body.studio-nav-lock) {
 
 
 /* Make account activity visuals reflect the values shown in the dashboard. */
-#overviewPage.studio-overview .balance-card-meta .trend-up.is-negative {
-  border-color: rgba(255, 200, 200, .42) !important;
-  background: rgba(189, 52, 67, .24) !important;
-}
-
 #overviewPage.studio-overview .analytics-chart span {
   transition: height .25s ease;
+}
+
+
+/* Clear, data-backed cash-flow card under the balance. */
+#overviewPage.studio-overview .balance-card-meta {
+  display: block !important;
+}
+
+#overviewPage.studio-overview .net-flow-card {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(140px, .7fr) !important;
+  grid-template-areas:
+    "heading chart"
+    "legend legend"
+    "empty empty" !important;
+  align-items: center !important;
+  gap: 12px 20px !important;
+  margin-top: 20px !important;
+  padding: 18px !important;
+  border: 1px solid rgba(255,255,255,.2) !important;
+  border-radius: 18px !important;
+  background: rgba(255,255,255,.09) !important;
+}
+
+#overviewPage.studio-overview .net-flow-heading {
+  grid-area: heading !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+}
+
+#overviewPage.studio-overview .net-flow-heading > div > span {
+  display: block !important;
+  color: rgba(255,255,255,.72) !important;
+  font-size: 12px !important;
+  font-weight: 750 !important;
+}
+
+#overviewPage.studio-overview .net-flow-heading strong {
+  display: block !important;
+  margin-top: 4px !important;
+  color: #fff !important;
+  font-size: clamp(20px, 3vw, 28px) !important;
+  line-height: 1.1 !important;
+  letter-spacing: -.03em !important;
+}
+
+#overviewPage.studio-overview .net-flow-icon {
+  display: grid !important;
+  place-items: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  border: 1px solid rgba(255,255,255,.2) !important;
+  border-radius: 50% !important;
+  color: #d5f5e5 !important;
+  font-size: 20px !important;
+}
+
+#overviewPage.studio-overview .net-flow-card.is-negative .net-flow-icon {
+  color: #ffd6d6 !important;
+  transform: rotate(90deg) !important;
+}
+
+#overviewPage.studio-overview .net-flow-chart {
+  grid-area: chart !important;
+  height: 64px !important;
+  display: flex !important;
+  align-items: end !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  padding: 0 8px !important;
+  border-bottom: 1px solid rgba(255,255,255,.3) !important;
+  background: repeating-linear-gradient(to bottom, transparent 0 20px, rgba(255,255,255,.1) 21px 22px) !important;
+}
+
+#overviewPage.studio-overview .net-flow-chart span {
+  width: 26px !important;
+  height: var(--bar-height, 0%) !important;
+  min-height: 4px !important;
+  border-radius: 7px 7px 2px 2px !important;
+  background: linear-gradient(180deg, #9be7c0, #40a987) !important;
+  transition: height .25s ease !important;
+}
+
+#overviewPage.studio-overview .net-flow-chart span[data-net-flow-bar="spending"] {
+  background: linear-gradient(180deg, #ffc5b7, #df7183) !important;
+}
+
+#overviewPage.studio-overview .net-flow-legend {
+  grid-area: legend !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  gap: 8px 18px !important;
+}
+
+#overviewPage.studio-overview .net-flow-legend > span {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  color: rgba(255,255,255,.74) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+#overviewPage.studio-overview .net-flow-legend i {
+  width: 7px !important;
+  height: 7px !important;
+  flex: none !important;
+  border-radius: 50% !important;
+  background: #70d6a4 !important;
+}
+
+#overviewPage.studio-overview .net-flow-legend .spending-key {
+  background: #ef9aa6 !important;
+}
+
+#overviewPage.studio-overview .net-flow-legend strong {
+  color: #fff !important;
+  font-size: inherit !important;
+}
+
+#overviewPage.studio-overview .net-flow-card > p {
+  grid-area: empty !important;
+  margin: 0 !important;
+  padding-top: 10px !important;
+  border-top: 1px solid rgba(255,255,255,.14) !important;
+  color: rgba(255,255,255,.72) !important;
+  font-size: 11px !important;
+}
+
+#overviewPage.studio-overview .net-flow-card > p[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 540px) {
+  #overviewPage.studio-overview .net-flow-card {
+    grid-template-columns: minmax(0, 1fr) 96px !important;
+    gap: 10px 12px !important;
+    padding: 14px !important;
+  }
+
+  #overviewPage.studio-overview .net-flow-chart {
+    height: 54px !important;
+    gap: 8px !important;
+  }
 }
