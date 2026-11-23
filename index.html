@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="session-checking">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +10,15 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="studio.css">
   <link rel="stylesheet" href="icons.css">
+  <style>
+    html.session-checking #authView, html.session-checking #dashboardView { visibility: hidden !important; }
+    #sessionRestoreScreen { display:none; position:fixed; inset:0; z-index:100000; place-items:center; background:#f3f6fb; color:#152033; font:600 15px/1.5 "Sora", "Segoe UI", sans-serif; }
+    html.session-checking #sessionRestoreScreen { display:grid; }
+    #sessionRestoreScreen span { padding:16px 22px; border:1px solid #d3deea; border-radius:16px; background:#fff; box-shadow:0 14px 36px rgba(21,32,51,.1); }
+  </style>
 </head>
 <body>
+  <div id="sessionRestoreScreen" role="status" aria-live="polite"><span>Restoring your session…</span></div>
   <style>
     .prototype-disclosure {
       position: sticky;
