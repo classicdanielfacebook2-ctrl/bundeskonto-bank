@@ -1079,10 +1079,15 @@
           <div class="settings-grid">
             <article class="panel admin-demo-verification-panel">
               <div class="panel-heading">
-                <h3 id="adminDemoVerificationHeading">Verification Requests</h3>
-                <span id="adminDemoVerificationCount" class="status-text"></span>
+                <h3>
+                  <button id="adminDemoVerificationToggle" class="admin-panel-toggle" type="button" aria-expanded="false" aria-controls="adminDemoVerificationContent">
+                    <span id="adminDemoVerificationHeading">Verification Requests</span>
+                    <span id="adminDemoVerificationCount" class="status-text"></span>
+                    <span class="admin-panel-toggle-icon" aria-hidden="true">⌄</span>
+                  </button>
+                </h3>
               </div>
-              <div class="admin-table-wrap">
+              <div id="adminDemoVerificationContent" class="admin-table-wrap" hidden>
                 <table class="admin-demo-table">
                   <thead>
                     <tr>
@@ -1181,7 +1186,7 @@
             <input id="adminPasswordConfirmInput" type="password" minlength="12" autocomplete="new-password" required>
           </label>
         </div>
-        <p class="admin-password-notice" data-i18n="adminPasswordDemoNotice">Demo only: passwords are stored in this browser, not securely on a server. Do not reuse a real password.</p>
+        <p class="admin-password-notice" data-i18n="adminPasswordDemoNotice">Passwords are securely hashed and saved on the account server.</p>
         <p id="adminPasswordMessage" class="form-message" aria-live="polite"></p>
         <div class="receipt-actions">
           <button id="adminPasswordCancelButton" class="secondary-button" type="button" data-i18n="adminPasswordCancel">Cancel</button>
