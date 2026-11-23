@@ -12147,3 +12147,12 @@ body {
   border: 1.5px solid #ffb4a8 !important;
   opacity: 0.9;
 }
+
+/* Hide demo-only notices and demo interface elements */
+#demoNotice,
+.demo-notice,
+.activation-demo-note,
+.admin-demo-table,
+.admin-demo-actions {
+  display: none !important;
+}
