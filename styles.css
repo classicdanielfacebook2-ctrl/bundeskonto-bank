@@ -12181,9 +12181,7 @@ body {
 /* Hide demo-only notices and demo interface elements */
 #demoNotice,
 .demo-notice,
-.activation-demo-note,
-.admin-demo-table,
-.admin-demo-actions {
+.activation-demo-note {
   display: none !important;
 }
 
