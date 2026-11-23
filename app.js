@@ -1277,6 +1277,7 @@ const adminPasswordModal = document.querySelector("#adminPasswordModal");
 const adminPasswordForm = document.querySelector("#adminPasswordForm");
 const adminPasswordTitle = document.querySelector("#adminPasswordTitle");
 const adminPasswordDescription = document.querySelector("#adminPasswordDescription");
+const adminPasswordLabel = document.querySelector("#adminPasswordLabel");
 const adminPasswordFields = document.querySelector("#adminPasswordFields");
 const adminPasswordInput = document.querySelector("#adminPasswordInput");
 const adminPasswordConfirmInput = document.querySelector("#adminPasswordConfirmInput");
@@ -3506,6 +3507,7 @@ function openAdminTemporaryPassword(userId) {
   adminPasswordDescription.textContent = t("adminTempPasswordDescription", {
     name: `${target.firstName} ${target.lastName}`.trim() || target.email
   });
+  adminPasswordLabel.textContent = t("adminTempPasswordLabel");
   adminPasswordInput.setAttribute("aria-label", t("adminTempPasswordLabel"));
   adminPasswordSubmitButton.textContent = t("adminPasswordSaveTemp");
   adminPasswordModal.classList.remove("hidden");
@@ -3523,6 +3525,7 @@ function openRequiredPasswordChange(userId) {
   resetAdminPasswordDialog();
   adminPasswordTitle.textContent = t("adminNewPasswordTitle");
   adminPasswordDescription.textContent = t("adminNewPasswordDescription");
+  adminPasswordLabel.textContent = t("adminNewPasswordLabel");
   adminPasswordInput.setAttribute("aria-label", t("adminNewPasswordLabel"));
   adminPasswordSubmitButton.textContent = t("adminPasswordSave");
   adminPasswordCancelButton.classList.add("hidden");
