@@ -274,8 +274,7 @@
                 <span id="heroBalanceLabel">Available balance</span>
                 <strong id="heroBalanceAmount">0.00</strong>
                 <small id="heroDate">11 APR 2026</small>
-                <p class="balance-growth"><span>+12.4%</span> account growth this month</p>
-                <p class="balance-updated">Last updated just now</p>
+                                <p class="balance-updated">Last updated just now</p>
                 <div class="balance-tools" aria-label="Balance tools">
                   <button class="balance-tool" data-page-target="savings" type="button" aria-label="Interest and jars">⌁</button>
                   <button class="balance-tool" data-page-target="cards" type="button" aria-label="Cards and spending">▥</button>
@@ -359,16 +358,16 @@
               <strong id="balanceAmount">EUR 60,000.00</strong>
               <p id="accountNumber">IBAN: ET00 0000 0000</p>
               <div class="balance-card-meta">
-                <span class="trend-up">+8.2% net inflow</span>
-                <span>Updated today</span>
+                <span id="netInflowMetric" class="trend-up">Net inflow · €0.00</span>
+                <span class="balance-updated-label">Updated today</span>
               </div>
             </article>
             <article class="metric-card">
-              <span>This month income</span>
+              <span>Total income</span>
               <strong id="incomeAmount">EUR 0.00</strong>
             </article>
             <article class="metric-card">
-              <span>This month spending</span>
+              <span>Total spending</span>
               <strong id="spendingAmount">EUR 0.00</strong>
             </article>
           </div>
@@ -376,26 +375,22 @@
           <section class="web-insights-grid" aria-label="Financial insights">
             <article class="panel analytics-panel">
               <div class="panel-heading">
-                <h3>Monthly analytics</h3>
-                <span class="status-pill success">Live</span>
+                <h3>Account activity</h3>
+                <span class="status-text">Recorded totals</span>
               </div>
               <div class="analytics-bars">
-                <div><span>Income</span><i style="--bar: 82%"></i><strong id="analyticsIncome">EUR 0.00</strong></div>
-                <div><span>Spending</span><i style="--bar: 48%"></i><strong id="analyticsSpending">EUR 0.00</strong></div>
-                <div><span>Savings</span><i style="--bar: 35%"></i><strong id="analyticsSavings">EUR 0.00</strong></div>
+                <div><span>Income</span><i data-analytics-bar="income" aria-hidden="true"></i><strong id="analyticsIncome">EUR 0.00</strong></div>
+                <div><span>Spending</span><i data-analytics-bar="spending" aria-hidden="true"></i><strong id="analyticsSpending">EUR 0.00</strong></div>
+                <div><span>Savings</span><i data-analytics-bar="savings" aria-hidden="true"></i><strong id="analyticsSavings">EUR 0.00</strong></div>
               </div>
-              <div class="analytics-chart" aria-label="Monthly spending trend">
-                <span style="--h:42%"></span>
-                <span style="--h:58%"></span>
-                <span style="--h:36%"></span>
-                <span style="--h:72%"></span>
-                <span style="--h:64%"></span>
-                <span style="--h:88%"></span>
-                <span style="--h:54%"></span>
+              <div class="analytics-chart" role="img" aria-label="Visual comparison of income, spending, and savings">
+                <span data-analytics-column="income" aria-label="Income"></span>
+                <span data-analytics-column="spending" aria-label="Spending"></span>
+                <span data-analytics-column="savings" aria-label="Savings"></span>
               </div>
               <div class="analytics-summary-grid">
-                <div><span>Currency mix</span><strong>EUR 92%</strong></div>
-                <div><span>Transfers</span><strong>14 this month</strong></div>
+                <div><span>Activity entries</span><strong id="analyticsActivityCount">0</strong></div>
+                <div><span>Net cash flow</span><strong id="analyticsNetFlow">€0.00</strong></div>
               </div>
             </article>
             <article class="panel rates-panel">
