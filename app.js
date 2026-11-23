@@ -2238,7 +2238,7 @@ function restoreSavedPage() {
 
 function applyTranslations() {
   document.documentElement.lang = currentLanguage();
-  document.title = "Qorvexa account demo";
+  document.title = "Qorvexa Account";
 
   setText("#brandIntro", "brandIntro");
   setText("#languagePrompt", "chooseLanguage");
