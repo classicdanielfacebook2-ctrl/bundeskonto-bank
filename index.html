@@ -358,7 +358,24 @@
               <strong id="balanceAmount">EUR 60,000.00</strong>
               <p id="accountNumber">IBAN: ET00 0000 0000</p>
               <div class="balance-card-meta">
-                <span id="netInflowValue" class="trend-up">Net inflow · €0.00</span>
+                <section id="netFlowCard" class="net-flow-card" aria-label="Net cash flow">
+                  <div class="net-flow-heading">
+                    <div>
+                      <span>Net cash flow</span>
+                      <strong id="netInflowValue">€0.00</strong>
+                    </div>
+                    <span class="net-flow-icon" aria-hidden="true">↗</span>
+                  </div>
+                  <div class="net-flow-chart" role="img" aria-label="Income compared with spending">
+                    <span data-net-flow-bar="income" aria-label="Income"></span>
+                    <span data-net-flow-bar="spending" aria-label="Spending"></span>
+                  </div>
+                  <div class="net-flow-legend">
+                    <span><i class="income-key"></i>Income <strong id="netFlowIncomeTotal">€0.00</strong></span>
+                    <span><i class="spending-key"></i>Spending <strong id="netFlowSpendingTotal">€0.00</strong></span>
+                  </div>
+                  <p id="netFlowEmptyState">Your cash flow will appear here after your first transaction.</p>
+                </section>
                 <span class="balance-updated-label">Updated today</span>
               </div>
             </article>
@@ -401,7 +418,7 @@
               <div class="rate-list">
                 <div><span>EUR → USD</span><strong>1.08</strong></div>
                 <div><span>EUR → GBP</span><strong>0.86</strong></div>
-                <div><span>EUR → NGN</span><strong>1,730.00</strong></div>
+                <div><span>EUR → CAD</span><strong>1.47</strong></div>
               </div>
             </article>
           </section>
