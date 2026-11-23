@@ -107,12 +107,13 @@ async function registerUser(db, body) {
     userId,
     isAdmin: false,
     mustChangePassword: false,
-    passwordHash: await hashPassword(password),
     createdAt: new Date(),
     updatedAt: new Date()
   };
   delete user.password;
   delete user.confirmPassword;
+  delete user.passwordHash;
+  user.passwordHash = await hashPassword(password);
   user.cloudAuth = true;
   try {
     await users.insertOne(user);
@@ -210,7 +211,9 @@ export default async function authHandler(request, response) {
       const password = String(request.body?.password || "");
       if (password.length < 12) return send(response, 400, { message: "Password must be at least 12 characters." });
       await users.updateOne({ id: user.id }, { $set: { passwordHash: await hashPassword(password), mustChangePassword: false, updatedAt: new Date() } });
-      await sessions.updateMany({ userId: user.id }, { $set: { expiresAt: new Date(Date.now() + SESSION_DAYS * 86400000) } });
+      const currentTokenHash = tokenHash(parseCookies(request)[COOKIE_NAME]);
+      await sessions.deleteMany({ userId: user.id, tokenHash: { $ne: currentTokenHash } });
+      await sessions.updateOne({ userId: user.id, tokenHash: currentTokenHash }, { $set: { expiresAt: new Date(Date.now() + SESSION_DAYS * 86400000) } });
       return send(response, 200, { ok: true });
     }
 
@@ -220,6 +223,7 @@ export default async function authHandler(request, response) {
       const password = String(request.body?.password || "");
       if (password.length < 12) return send(response, 400, { message: "Temporary password must be at least 12 characters." });
       const result = await users.updateOne({ id: targetId, isAdmin: { $ne: true } }, { $set: { passwordHash: await hashPassword(password), mustChangePassword: true, updatedAt: new Date() } });
+      if (result.matchedCount) await sessions.deleteMany({ userId: targetId });
       return result.matchedCount ? send(response, 200, { ok: true }) : send(response, 404, { message: "Account not found." });
     }
 
