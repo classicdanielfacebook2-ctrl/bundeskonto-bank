@@ -2232,7 +2232,13 @@ function activePageName() {
 function restoreSavedPage() {
   const savedPage = state.ui?.activePage || "overview";
   const page = document.querySelector(`#${CSS.escape(savedPage)}Page`);
-  const pageName = page ? savedPage : "overview";
+  const pageName = page && (savedPage !== "admin" || getCurrentUser()?.isAdmin === true)
+    ? savedPage
+    : "overview";
+  if (savedPage !== pageName) {
+    state.ui.activePage = pageName;
+    saveState();
+  }
   if (pageName === "activationCode") {
     if (state.ui?.activationCodeScreen === "pending") {
       renderActivationPendingScreen();
@@ -2547,7 +2553,7 @@ function renderDashboard() {
   profileDetailEmail.textContent = user.email;
   profileDetailUserId.textContent = user.userId;
   profileDetailIban.textContent = user.iban || "";
-  menuAdminButton.classList.toggle("hidden", !user.isAdmin);
+  syncAdminMenuVisibility();
   renderGiftCardOptions();
   renderGiftCardHistory(user);
   renderActivities(user.activities || []);
@@ -3901,6 +3907,9 @@ function reviewGiftCard(requestId, decision) {
 
 function switchPage(pageName, options = {}) {
   const shouldPersist = options.persist !== false;
+  if (pageName === "admin" && getCurrentUser()?.isAdmin !== true) {
+    pageName = "overview";
+  }
   if (pageName !== "activationCode") {
     stopActivationCamera();
   }
@@ -3937,7 +3946,18 @@ function switchPage(pageName, options = {}) {
   }
 }
 
+function syncAdminMenuVisibility() {
+  const user = getCurrentUser();
+  if (user?.isAdmin === true) {
+    if (!accountMenu.contains(menuAdminButton)) accountMenu.append(menuAdminButton);
+    menuAdminButton.classList.remove("hidden");
+  } else {
+    menuAdminButton.remove();
+  }
+}
+
 function toggleAccountMenu() {
+  syncAdminMenuVisibility();
   const isOpen = !accountMenu.classList.contains("hidden");
   accountMenu.classList.toggle("hidden", isOpen);
   menuButton.setAttribute("aria-expanded", String(!isOpen));
@@ -4267,6 +4287,7 @@ function trapSheetTab(event, sheet) {
 }
 
 menuButton.addEventListener("click", (event) => {
+  syncAdminMenuVisibility();
   event.stopPropagation();
   if (mobileNavActive() && !dashboardView.classList.contains("hidden")) {
     const open = menuButton.getAttribute("aria-expanded") === "true";
