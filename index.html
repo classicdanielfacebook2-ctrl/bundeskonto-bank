@@ -1139,6 +1139,7 @@
                 <span id="adminUsersCount" class="status-text"></span>
               </div>
               <ul id="adminUsersList" class="activity-list compact-list"></ul>
+              <p id="adminPasswordStatus" class="form-message" aria-live="polite"></p>
             </article>
 
             <article class="panel admin-audit-panel">
@@ -1163,6 +1164,33 @@
       </div>
     </section>
   </main>
+
+<div id="adminPasswordModal" class="receipt-modal hidden" role="dialog" aria-modal="true" aria-labelledby="adminPasswordTitle">
+    <section class="receipt-sheet admin-password-sheet">
+      <button id="adminPasswordCloseButton" class="receipt-close" type="button" aria-label="Close password dialog" data-i18n-aria-label="adminPasswordClose">&times;</button>
+      <form id="adminPasswordForm" class="admin-password-form">
+        <h2 id="adminPasswordTitle">Set a temporary password</h2>
+        <p id="adminPasswordDescription">Set a temporary password for this user. They must change it the next time they log in.</p>
+        <div id="adminPasswordFields">
+          <label>
+            <span id="adminPasswordLabel">Temporary password</span>
+            <input id="adminPasswordInput" type="password" minlength="12" autocomplete="new-password" required>
+          </label>
+          <label>
+            <span data-i18n="adminConfirmPassword">Confirm password</span>
+            <input id="adminPasswordConfirmInput" type="password" minlength="12" autocomplete="new-password" required>
+          </label>
+        </div>
+        <p class="admin-password-notice" data-i18n="adminPasswordDemoNotice">Demo only: passwords are stored in this browser, not securely on a server. Do not reuse a real password.</p>
+        <p id="adminPasswordMessage" class="form-message" aria-live="polite"></p>
+        <div class="receipt-actions">
+          <button id="adminPasswordCancelButton" class="secondary-button" type="button" data-i18n="adminPasswordCancel">Cancel</button>
+          <button id="adminPasswordSubmitButton" class="primary-button" type="submit" data-i18n="adminPasswordSaveTemp">Save temporary password</button>
+          <button id="adminPasswordDoneButton" class="primary-button hidden" type="button" data-i18n="adminPasswordDone">Continue</button>
+        </div>
+      </form>
+    </section>
+  </div>
 
   <div id="receiptModal" class="receipt-modal hidden" role="dialog" aria-modal="true" aria-labelledby="receiptTitle">
     <div class="receipt-sheet">
