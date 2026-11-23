@@ -1160,6 +1160,10 @@ const spendingAmount = document.querySelector("#spendingAmount");
 const analyticsIncome = document.querySelector("#analyticsIncome");
 const analyticsSpending = document.querySelector("#analyticsSpending");
 const analyticsSavings = document.querySelector("#analyticsSavings");
+const netInflowMetric = document.querySelector("#netInflowValue");
+const netInflowValue = document.querySelector("#netInflowValue");
+const analyticsActivityCount = document.querySelector("#analyticsActivityCount");
+const analyticsNetFlow = document.querySelector("#analyticsNetFlow");
 const accountNumber = document.querySelector("#accountNumber");
 const welcomeLine = document.querySelector("#welcomeLine");
 const profileInitials = document.querySelector("#profileInitials");
@@ -2490,8 +2494,27 @@ function renderDashboard() {
   savingsBalance.textContent = formatCurrency(user.savings || 0);
   const incomeTotal = sumActivities(user, "income");
   const spendingTotal = Math.abs(sumActivities(user, "spending"));
+  const netFlowTotal = incomeTotal - spendingTotal;
   incomeAmount.textContent = formatCurrency(incomeTotal);
   spendingAmount.textContent = formatCurrency(spendingTotal);
+  if (netInflowValue) {
+    const flowLabel = netFlowTotal < 0 ? "Net outflow" : "Net inflow";
+    netInflowValue.textContent = `${flowLabel} · ${formatCurrency(Math.abs(netFlowTotal))}`;
+  }
+  netInflowMetric?.classList.toggle("is-negative", netFlowTotal < 0);
+  if (analyticsActivityCount) {
+    analyticsActivityCount.textContent = String((user.activities || []).length);
+  }
+  if (analyticsNetFlow) {
+    analyticsNetFlow.textContent = formatCurrency(netFlowTotal);
+  }
+  const chartValues = { income: incomeTotal, spending: spendingTotal, savings: user.savings || 0 };
+  const chartScale = Math.max(...Object.values(chartValues), 1);
+  document.querySelectorAll("[data-analytics-bar], [data-analytics-column]").forEach((element) => {
+    const key = element.dataset.analyticsBar || element.dataset.analyticsColumn;
+    const ratio = Math.min(100, Math.max(0, (chartValues[key] / chartScale) * 100));
+    element.style.setProperty(element.hasAttribute("data-analytics-bar") ? "--bar" : "--h", `${ratio}%`);
+  });
   if (analyticsIncome) {
     analyticsIncome.textContent = formatCurrency(incomeTotal);
   }

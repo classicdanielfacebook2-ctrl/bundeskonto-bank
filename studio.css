@@ -1973,3 +1973,14 @@ html:has(body.studio-nav-lock) {
   pointer-events: none !important;
   visibility: hidden !important;
 }
+
+
+/* Make account activity visuals reflect the values shown in the dashboard. */
+#overviewPage.studio-overview .balance-card-meta .trend-up.is-negative {
+  border-color: rgba(255, 200, 200, .42) !important;
+  background: rgba(189, 52, 67, .24) !important;
+}
+
+#overviewPage.studio-overview .analytics-chart span {
+  transition: height .25s ease;
+}
