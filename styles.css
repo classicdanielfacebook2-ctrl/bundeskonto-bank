@@ -12099,3 +12099,51 @@ body {
     transition:none !important;
   }
 }
+
+.iban-status {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.iban-status[hidden] {
+  display: none;
+}
+
+.iban-status-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.iban-status-line svg {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  flex: none;
+}
+
+.iban-status.is-valid {
+  color: #0b7a43;
+}
+
+.iban-status.is-invalid {
+  color: #b42318;
+}
+
+.iban-status .iban-bank {
+  padding-left: 24px;
+  color: #3d4a44;
+  font-weight: 650;
+}
+
+.transfer-submit-button:disabled {
+  color: #f4f6f0 !important;
+  background: #3a403b !important;
+  border: 1.5px solid #ffb4a8 !important;
+  opacity: 0.9;
+}

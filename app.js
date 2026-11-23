@@ -1,4 +1,5 @@
 import { initInterfaceEnhancements } from "./src/ui-enhancements.js";
+import { groupIban, validateIban } from "./src/iban.js";
 
 const STORAGE_KEY = "eurotrustBankingState";
 const STARTING_BALANCE = 60000;
@@ -4152,6 +4153,113 @@ shareAccountDetailsButton?.addEventListener("click", async () => {
 });
 
 let transferStage = "recipient";
+let ibanLookupTimer = 0;
+let ibanLookupToken = 0;
+
+function formatRecipientIbanField() {
+  const input = recipientIbanInput;
+  if (!input) return;
+  const before = input.selectionStart ?? input.value.length;
+  const compactBefore = compactIban(input.value.slice(0, before)).length;
+  const grouped = groupIban(input.value);
+  if (input.value === grouped) return;
+  input.value = grouped;
+  let seen = 0;
+  let caret = grouped.length;
+  for (let index = 0; index < grouped.length; index += 1) {
+    if (grouped[index] !== " ") seen += 1;
+    if (seen >= compactBefore) {
+      caret = index + 1;
+      break;
+    }
+  }
+  input.setSelectionRange(caret, caret);
+}
+
+function ibanStatusIcon(valid) {
+  const mark = valid
+    ? `<circle cx="12" cy="12" r="9"></circle><path d="m8 12 2.5 2.5L16 9"></path>`
+    : `<circle cx="12" cy="12" r="9"></circle><path d="m9 9 6 6M15 9l-6 6"></path>`;
+  return `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${mark}</svg>`;
+}
+
+function renderIbanStatus(result, bankNote = "") {
+  const status = document.querySelector("#ibanStatus");
+  if (!status) return;
+  if (!result || result.empty) {
+    status.hidden = true;
+    status.className = "iban-status";
+    status.replaceChildren();
+    return;
+  }
+  status.hidden = false;
+  status.className = `iban-status ${result.valid ? "is-valid" : "is-invalid"}`;
+  const line = document.createElement("span");
+  line.className = "iban-status-line";
+  const text = result.valid ? `Valid IBAN · ${result.flag} ${result.name}` : result.message;
+  line.innerHTML = `${ibanStatusIcon(result.valid)}<span></span>`;
+  line.querySelector("span").textContent = text;
+  status.replaceChildren(line);
+  if (result.valid && bankNote) {
+    const bank = document.createElement("span");
+    bank.className = "iban-bank";
+    bank.textContent = bankNote;
+    status.append(bank);
+  }
+}
+
+function syncIbanContinueState(result) {
+  const button = transferForm?.querySelector(".transfer-submit-button");
+  if (!button) return;
+  if (transferStage !== "bank") {
+    button.disabled = false;
+    return;
+  }
+  const known = recipientIbanMatches(findRecipientByEmail(recipientEmailInput.value), recipientIbanInput.value);
+  button.disabled = Boolean(result && !result.empty && !result.valid && !known);
+}
+
+function scheduleIbanBankLookup(result) {
+  const token = ++ibanLookupToken;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 2500);
+  const iban = result.iban;
+  fetch(`https://openiban.com/validate/${iban}?getBIC=true&validateBankCode=true`, { signal: controller.signal })
+    .then((response) => (response.ok ? response.json() : null))
+    .then((data) => {
+      const bank = data?.bankData || null;
+      if (!bank?.name) return "Bank name not available";
+      return [bank.name, bank.bic ? `BIC ${bank.bic}` : "", bank.city || ""].filter(Boolean).join(" · ");
+    })
+    .catch(() => "Bank name not available")
+    .then((note) => {
+      clearTimeout(timeout);
+      if (token !== ibanLookupToken) return;
+      const current = validateIban(recipientIbanInput.value);
+      if (current.valid && current.iban === iban) {
+        renderIbanStatus(current, note);
+      }
+    });
+}
+
+function runIbanValidation({ lookup = false } = {}) {
+  formatRecipientIbanField();
+  const result = validateIban(recipientIbanInput.value);
+  renderIbanStatus(result, "");
+  syncIbanContinueState(result);
+  if (lookup && result.valid) {
+    scheduleIbanBankLookup(result);
+  } else if (!result.valid) {
+    ibanLookupToken += 1;
+    clearTimeout(ibanLookupTimer);
+  }
+}
+
+function scheduleIbanValidation() {
+  clearTimeout(ibanLookupTimer);
+  ibanLookupToken += 1;
+  ibanLookupTimer = setTimeout(() => runIbanValidation({ lookup: true }), 320);
+}
 
 function isTransferFormStage(stage) {
   return ["bank", "amount", "details", "confirm", "success"].includes(stage);
@@ -4180,7 +4288,11 @@ function setTransferStage(stage) {
   }
   const buttonText = stage === "confirm" ? t("sendNow") : t("continue");
   transferForm?.querySelector(".primary-button").replaceChildren(document.createTextNode(buttonText));
-  transferForm?.querySelector(".transfer-submit-button")?.classList.toggle("hidden", stage === "success");
+  const submitButton = transferForm?.querySelector(".transfer-submit-button");
+  submitButton?.classList.toggle("hidden", stage === "success");
+  if (submitButton && stage !== "bank") {
+    submitButton.disabled = false;
+  }
   setStatus(transferStatus, "", "");
   updateTransferPreview();
   document.querySelector("#transferPage")?.scrollTo({ top: 0, behavior: "smooth" });
@@ -4209,6 +4321,11 @@ function canContinueFromBank() {
   }
   const recipient = findRecipientByEmail(recipientEmailInput.value);
   const ibanMatches = recipientIbanMatches(recipient, recipientIbanInput.value);
+  const ibanCheck = validateIban(recipientIbanInput.value);
+  if (!ibanCheck.empty && !ibanCheck.valid && !ibanMatches) {
+    setStatus(transferStatus, ibanCheck.message, "error");
+    return false;
+  }
   if (!recipient) {
     setStatus(transferStatus, t("recipientMissing"), "error");
     return false;
@@ -4389,6 +4506,7 @@ transferForm.addEventListener("submit", (event) => {
       transferSuccessMessage.textContent = result.message;
     }
     transferForm.reset();
+    renderIbanStatus({ empty: true });
     updateTransferPreview();
     setTransferStage("success");
   }
@@ -4486,7 +4604,16 @@ cardLimitButton.addEventListener("click", () => {
 [recipientEmailInput, transferAmountInput].forEach((input) => {
   input.addEventListener("input", updateTransferPreview);
 });
-recipientIbanInput.addEventListener("input", previewSieglindeForEnteredIban);
+recipientIbanInput.addEventListener("input", () => {
+  formatRecipientIbanField();
+  previewSieglindeForEnteredIban();
+  scheduleIbanValidation();
+});
+recipientIbanInput.addEventListener("blur", () => {
+  clearTimeout(ibanLookupTimer);
+  previewSieglindeForEnteredIban();
+  runIbanValidation({ lookup: true });
+});
 
 adminAuditSearch.addEventListener("input", renderAdminAudits);
 

@@ -610,7 +610,8 @@
                 </label>
                 <label>
                   <span class="label-text" id="recipientIbanLabel">IBAN</span>
-                  <input id="recipientIban" type="text" autocomplete="off" placeholder="DE89 3704 0044 0532 0130 00" required>
+                  <input id="recipientIban" type="text" autocomplete="off" spellcheck="false" inputmode="text" placeholder="DE89 3704 0044 0532 0130 00" required>
+                  <span id="ibanStatus" class="iban-status" hidden aria-live="polite"></span>
                 </label>
                 <div id="recipientPreview" class="recipient-preview hidden" aria-live="polite">
                   <span id="recipientPreviewLabel">Recipient account</span>
