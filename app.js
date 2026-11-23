@@ -1128,6 +1128,8 @@ const activityTextMap = {
 let state = loadState();
 let remoteAdminSyncRunning = false;
 let remoteAdminSyncTimer = null;
+let remoteAdminUsersLoading = false;
+let remoteAdminUsersLoadedAt = 0;
 
 const authView = document.querySelector("#authView");
 const dashboardView = document.querySelector("#dashboardView");
@@ -3438,6 +3440,23 @@ function renderAdminUsers() {
     return;
   }
 
+  if (!remoteAdminUsersLoading && Date.now() - remoteAdminUsersLoadedAt > 15000) {
+    remoteAdminUsersLoading = true;
+    authRequest("users")
+      .then(({ users = [] }) => {
+        users.forEach((remoteUser) => {
+          const existing = state.users.find((account) => account.id === remoteUser.id || account.email?.toLowerCase() === remoteUser.email?.toLowerCase());
+          if (existing) Object.assign(existing, remoteUser, { password: undefined, cloudAuth: true });
+          else state.users.push({ ...remoteUser, password: undefined, cloudAuth: true });
+        });
+        remoteAdminUsersLoadedAt = Date.now();
+        renderAdminUsers();
+      })
+      .catch((error) => setAdminPasswordStatus(error.message, "error"))
+      .finally(() => { remoteAdminUsersLoading = false; });
+    return;
+  }
+
   const users = getAllRegisteredUsers();
   adminUsersPanel.classList.remove("hidden");
   adminUsersList.innerHTML = "";
@@ -3462,7 +3481,7 @@ function renderAdminUsers() {
       status,
       user.date || ""
     ].filter(Boolean).map(escapeHtml).join(" - ");
-    const actions = user.source === "active" && user.id
+    const actions = user.source === "active" && user.id && state.users.find((account) => account.id === user.id)?.cloudAuth
       ? '<div class="admin-user-actions"><button type="button" class="secondary-button" data-admin-password-user-id="' + escapeHtml(user.id) + '">' + t("adminSetTempPassword") + '</button>' +
         (user.mustChangePassword ? '<small class="status-text">' + t("adminPasswordChangeRequired") + '</small>' : "") + '</div>'
       : "";
@@ -3514,6 +3533,40 @@ function openAdminTemporaryPassword(userId) {
   adminPasswordInput.focus();
 }
 
+async function authRequest(action, body) {
+  const response = await fetch(`/api/auth/${encodeURIComponent(action)}`, {
+    method: body ? "POST" : "GET",
+    headers: body ? { "Content-Type": "application/json" } : {},
+    credentials: "same-origin",
+    body: body ? JSON.stringify(body) : undefined
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    const error = new Error(result.message || "Authentication request failed.");
+    error.code = result.code || "";
+    error.status = response.status;
+    throw error;
+  }
+  return result;
+}
+
+function useAuthenticatedUser(remoteUser) {
+  const existing = state.users.find((user) => user.id === remoteUser.id || user.email?.toLowerCase() === remoteUser.email?.toLowerCase());
+  const user = {
+    ...existing,
+    ...remoteUser,
+    password: undefined,
+    notifications: remoteUser.notifications || existing?.notifications || [],
+    activities: remoteUser.activities || existing?.activities || [],
+    identityVerification: remoteUser.identityVerification || existing?.identityVerification || { status: "not_submitted" },
+    isAdmin: remoteUser.isAdmin === true
+  };
+  if (existing) Object.assign(existing, user);
+  else state.users.push(user);
+  state.currentUserId = user.id;
+  return user;
+}
+
 function openRequiredPasswordChange(userId) {
   const target = state.users.find((user) => user.id === userId);
   if (!target || !target.mustChangePassword) {
@@ -3544,7 +3597,7 @@ function closeAdminPasswordDialog() {
   adminPasswordForm.reset();
 }
 
-function submitAdminPasswordChange(event) {
+async function submitAdminPasswordChange(event) {
   event.preventDefault();
   const mode = passwordChangeMode;
   if (mode !== "admin" && mode !== "required") {
@@ -3556,7 +3609,7 @@ function submitAdminPasswordChange(event) {
   }
 
   const target = state.users.find((user) => user.id === passwordChangeTargetId);
-  if (!target || target.isAdmin || target.email === ADMIN_EMAIL) {
+  if (mode === "admin" && (!target || target.isAdmin || target.email === ADMIN_EMAIL)) {
     setAdminPasswordMessage(t("adminPasswordUserMissing"), "error");
     return;
   }
@@ -3570,13 +3623,23 @@ function submitAdminPasswordChange(event) {
     setAdminPasswordMessage(t("adminPasswordMismatch"), "error");
     return;
   }
-  if (mode === "required" && getCurrentUser()?.id !== target.id) {
+  if (mode === "required" && getCurrentUser()?.id !== passwordChangeTargetId) {
     setAdminPasswordMessage(t("adminPasswordUserMissing"), "error");
     return;
   }
 
-  target.password = password;
-  target.mustChangePassword = mode === "admin";
+  try {
+    if (mode === "admin") {
+      await authRequest("reset-password", { userId: passwordChangeTargetId, password });
+      target.mustChangePassword = true;
+    } else {
+      await authRequest("change-password", { password });
+      if (target) target.mustChangePassword = false;
+    }
+  } catch (error) {
+    setAdminPasswordMessage(error.message, "error");
+    return;
+  }
   saveState();
 
   if (mode === "admin") {
@@ -3819,22 +3882,20 @@ function closeAccountMenu() {
   menuButton.setAttribute("aria-expanded", "false");
 }
 
-function registerUser(event) {
+async function registerUser(event) {
   event.preventDefault();
   const email = document.querySelector("#registerEmail").value.trim().toLowerCase();
   const userLoginId = normaliseUserId(document.querySelector("#registerUserId").value);
   const iban = normaliseIban(document.querySelector("#registerIban").value);
 
-  if (state.users.some((user) => user.email === email)) {
+  if (state.users.some((user) => user.email?.toLowerCase() === email)) {
     setMessage(registerMessage, t("emailExists"), "error");
     return;
   }
-
   if (state.users.some((user) => normaliseUserId(user.userId || "") === userLoginId)) {
     setMessage(registerMessage, t("userIdExists"), "error");
     return;
   }
-
   if (state.users.some((user) => normaliseIban(user.iban || "") === iban)) {
     setMessage(registerMessage, t("ibanExists"), "error");
     return;
@@ -3848,7 +3909,6 @@ function registerUser(event) {
     email,
     phone: document.querySelector("#phone").value.trim(),
     address: document.querySelector("#address").value.trim(),
-    password: document.querySelector("#registerPassword").value,
     balance: STARTING_BALANCE,
     savings: 0,
     iban,
@@ -3869,7 +3929,21 @@ function registerUser(event) {
     ]
   };
 
-  state.users.push(user);
+  try {
+    const { user: savedUser } = await authRequest("register", {
+      profile: user,
+      password: document.querySelector("#registerPassword").value
+    });
+    Object.assign(user, savedUser);
+    useAuthenticatedUser(savedUser);
+  } catch (error) {
+    const message = error.status === 409
+      ? (error.message.includes("User ID") ? t("userIdExists") : t("emailExists"))
+      : error.message;
+    setMessage(registerMessage, message, "error");
+    return;
+  }
+
   const registrationRecord = {
     id: crypto.randomUUID(),
     userId: user.id,
@@ -3890,41 +3964,41 @@ function registerUser(event) {
     userId: user.userId
   });
   sendAuditEvent("registration", { record: registrationRecord });
-  state.currentUserId = user.id;
   saveState();
   registerForm.reset();
   showDashboard();
 }
 
-function loginUser(event) {
+async function loginUser(event) {
   event.preventDefault();
   const identifier = document.querySelector("#loginEmail").value.trim();
   const normalizedIdentifier = identifier.toLowerCase();
   const normalizedUserId = normaliseUserId(identifier);
   const password = document.querySelector("#loginPassword").value;
-  const account = state.users.find((user) => {
+  const localAccount = state.users.find((user) => {
     return user.email.toLowerCase() === normalizedIdentifier || normaliseUserId(user.userId || "") === normalizedUserId;
   });
-
-  if (!account) {
-    recordLoginAudit({ identifier, success: false, reason: t("unknownUser") });
-    setMessage(loginMessage, t("invalidLogin"), "error");
-    return;
-  }
-
-  if (account.password !== password) {
-    recordLoginAudit({ identifier, email: account.email, userLoginId: account.userId, success: false, reason: t("wrongPassword") });
-    setMessage(loginMessage, t("invalidLogin"), "error");
-    return;
-  }
-
-  recordLoginAudit({ identifier, email: account.email, userLoginId: account.userId, success: true, reason: t("loginSuccess") });
-  state.currentUserId = account.id;
-  saveState();
-  loginForm.reset();
-  showDashboard();
-  if (account.mustChangePassword === true) {
-    openRequiredPasswordChange(account.id);
+  try {
+    let result;
+    try {
+      result = await authRequest("login", { identifier, password });
+    } catch (error) {
+      if (error.code !== "ACCOUNT_NOT_FOUND" || !localAccount || localAccount.password !== password || localAccount.isAdmin) throw error;
+      const profile = { ...localAccount };
+      delete profile.password;
+      delete profile._id;
+      result = await authRequest("register", { profile, password });
+    }
+    const account = useAuthenticatedUser(result.user);
+    if (localAccount) delete localAccount.password;
+    recordLoginAudit({ identifier, email: account.email, userLoginId: account.userId, success: true, reason: t("loginSuccess") });
+    saveState();
+    loginForm.reset();
+    showDashboard();
+    if (account.mustChangePassword === true) openRequiredPasswordChange(account.id);
+  } catch (error) {
+    recordLoginAudit({ identifier, email: localAccount?.email, userLoginId: localAccount?.userId, success: false, reason: t("wrongPassword") });
+    setMessage(loginMessage, error.message || t("invalidLogin"), "error");
   }
 }
 
@@ -4005,7 +4079,8 @@ adminPasswordDoneButton.addEventListener("click", () => {
   passwordChangeTargetId = "";
   adminPasswordForm.reset();
 });
-logoutButton.addEventListener("click", () => {
+logoutButton.addEventListener("click", async () => {
+  try { await authRequest("logout", {}); } catch { /* Clear the local view even if the server is unavailable. */ }
   state.currentUserId = null;
   state.ui ||= {};
   state.ui.activePage = "overview";
@@ -5732,12 +5807,17 @@ settingsForm.addEventListener("submit", (event) => {
   setStatus(settingsStatus, t("settingsSaved"), "success");
 });
 
+state.currentUserId = null;
 migrateState();
 applyTranslations();
 initInterfaceEnhancements();
+showLoginScreen();
+authRequest("me")
+  .then(({ user }) => {
+    const account = useAuthenticatedUser(user);
+    saveState();
+    showDashboard();
+    if (account.mustChangePassword === true) openRequiredPasswordChange(account.id);
+  })
+  .catch(() => showLoginScreen());
 
-if (getCurrentUser()) {
-  showDashboard();
-} else {
-  showLoginScreen();
-}
