@@ -478,6 +478,15 @@ const translations = {
     onlineAccessUnavailable: "Online access not yet available",
     back: "Back",
     message: "Message",
+    contactAdmin: "Contact support",
+    supportSubjectLabel: "Subject",
+    composeMessage: "Compose message",
+    sendMessage: "Send message",
+    supportMessageSent: "Your message was sent to the administrator.",
+    supportSendFailed: "Your message could not be sent. Please try again.",
+    prototypeSupportNote: "Classroom demo only. Do not include passwords, codes, or private financial information.",
+    supportMessages: "Support messages",
+    from: "From",
     requestSubmitted: "Your request has been submitted.",
     waitingAdminApproval: "Waiting for administrator approval.",
     verificationRejectedResubmit: "Verification request rejected. Please go back and submit again with test values.",
@@ -489,7 +498,7 @@ const translations = {
     noVerificationRequests: "No verification requests yet.",
     verificationRequests: "Verification Requests",
     actions: "Actions",
-    demoVrNetKey: "VR-NetKey",
+    demoVrNetKey: "Subject",
     submittedAt: "Submitted At",
     photos: "Photos",
     uploadVerificationPhotos: "Upload verification photos",
@@ -523,7 +532,7 @@ const translations = {
     confirmationPending: "Confirmation pending",
     confirmationPendingHint: "Your photo has been sent to the administrator. You will receive an update once it has been reviewed.",
     ok: "OK",
-    enterVrMessage: "Enter your VR-NetKey/Alias and message to submit the request.",
+    enterVrMessage: "Enter a subject and message to send your request.",
     chooseRecipient: "Choose recipient",
     chooseAccountToUse: "Choose account to use",
     amountAvailable: "{amount} available",
@@ -817,6 +826,15 @@ const translations = {
     onlineAccessUnavailable: "Online-Zugang noch nicht verf\u00fcgbar",
     back: "Zur\u00fcck",
     message: "Nachricht",
+    contactAdmin: "Support kontaktieren",
+    supportSubjectLabel: "Betreff",
+    composeMessage: "Nachricht verfassen",
+    sendMessage: "Nachricht senden",
+    supportMessageSent: "Ihre Nachricht wurde an den Administrator gesendet.",
+    supportSendFailed: "Ihre Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+    prototypeSupportNote: "Nur Klassenzimmer-Demo. Geben Sie keine Passwörter, Codes oder privaten Finanzdaten ein.",
+    supportMessages: "Supportnachrichten",
+    from: "Von",
     requestSubmitted: "Ihre Anfrage wurde eingereicht.",
     waitingAdminApproval: "Wartet auf Freigabe durch den Administrator.",
     verificationRejectedResubmit: "Die Verifizierungsanfrage wurde abgelehnt. Bitte gehen Sie zur\u00fcck und reichen Sie erneut Testwerte ein.",
@@ -828,7 +846,7 @@ const translations = {
     noVerificationRequests: "Noch keine Verifizierungsanfragen.",
     verificationRequests: "Verifizierungsanfragen",
     actions: "Aktionen",
-    demoVrNetKey: "VR-NetKey",
+    demoVrNetKey: "Betreff",
     submittedAt: "Eingereicht am",
     photos: "Fotos",
     uploadVerificationPhotos: "Verifizierungsfotos hochladen",
@@ -862,7 +880,7 @@ const translations = {
     confirmationPending: "Best\u00e4tigung ausstehend",
     confirmationPendingHint: "Ihr Foto wurde an den Administrator gesendet. Sie erhalten eine Aktualisierung, sobald es gepr\u00fcft wurde.",
     ok: "OK",
-    enterVrMessage: "Geben Sie VR-NetKey/Alias und Nachricht ein, um die Anfrage zu senden.",
+    enterVrMessage: "Geben Sie einen Betreff und eine Nachricht ein, um die Anfrage zu senden.",
     chooseRecipient: "Empf\u00e4nger ausw\u00e4hlen",
     chooseAccountToUse: "Konto ausw\u00e4hlen",
     amountAvailable: "{amount} verf\u00fcgbar",
@@ -1880,12 +1898,19 @@ async function syncRemoteAdminRecords() {
 
   remoteAdminSyncRunning = true;
   try {
-    const response = await fetch("/api/audit-event?limit=500");
-    if (!response.ok) {
-      return;
-    }
-    const { events = [] } = await response.json();
     let changed = false;
+    const supportResponse = await fetch("/api/support/messages", { credentials: "same-origin" });
+    if (supportResponse.ok) {
+      const { messages = [] } = await supportResponse.json();
+      state.demoVerificationRequests ||= [];
+      messages.forEach((item) => {
+        if (state.demoVerificationRequests.some((request) => request.requestId === item.id)) return;
+        state.demoVerificationRequests.unshift({ requestId: item.id, subject: item.subject, message: item.message, userEmail: item.userEmail, userId: item.userId, submittedAt: item.createdAt, status: "Pending", source: "support" });
+        changed = true;
+      });
+    }
+    const response = await fetch("/api/audit-event?limit=500", { credentials: "same-origin" });
+    const { events = [] } = response.ok ? await response.json() : {};
     events.reverse().forEach((event) => {
       const id = String(event._id || event.id || "");
       if (!id || state.importedAuditEventIds.includes(id)) {
@@ -2396,10 +2421,11 @@ function applyTranslations() {
   setText("#adminGiftCardRecordsHeading", "giftCardRecords");
   setText("#countrySelectionHeading", "countrySelectionTitle");
   setText("#bankSelectionHeading", "bankSelectionTitle");
-  setText("#adminDemoVerificationHeading", "verificationRequests");
+  setText("#adminDemoVerificationHeading", "supportMessages");
   setText("#adminDemoRequestIdHeading", "requestId");
   setText("#adminDemoActionsHeading", "actions");
-  setText("#adminDemoVrNetKeyHeading", "demoVrNetKey");
+  setText("#adminDemoVrNetKeyHeading", "supportSubjectLabel");
+  setText("#adminDemoSenderHeading", "from");
   setText("#adminDemoMessageHeading", "message");
   setText("#adminDemoPhotosHeading", "photos");
   setText("#adminDemoSubmittedHeading", "submittedAt");
@@ -3113,7 +3139,7 @@ function renderAdminDemoVerificationRequests() {
   if (requests.length === 0) {
     const row = document.createElement("tr");
     const cell = document.createElement("td");
-    cell.colSpan = 7;
+    cell.colSpan = 8;
     cell.textContent = t("noVerificationRequests");
     row.append(cell);
     adminDemoVerificationTable.append(row);
@@ -3123,6 +3149,7 @@ function renderAdminDemoVerificationRequests() {
   requests.forEach((request) => {
     const row = document.createElement("tr");
     const requestIdCell = document.createElement("td");
+    const senderCell = document.createElement("td");
     const statusCell = document.createElement("td");
     const status = document.createElement("span");
     const actionsCell = document.createElement("td");
@@ -3130,12 +3157,13 @@ function renderAdminDemoVerificationRequests() {
     const rejectButton = document.createElement("button");
     const deleteButton = document.createElement("button");
     requestIdCell.textContent = request.requestId;
+    senderCell.textContent = [request.userEmail, request.userId].filter(Boolean).join(" · ") || "-";
 
     const keyCell = document.createElement("td");
     const messageCell = document.createElement("td");
     const photosCell = document.createElement("td");
     const submittedCell = document.createElement("td");
-    keyCell.textContent = request.vrNetKey || request.demoUserId || "-";
+    keyCell.textContent = request.subject || request.vrNetKey || request.demoUserId || "-";
     messageCell.textContent = request.message || "-";
     messageCell.className = "admin-message-cell";
     photosCell.className = "admin-photos-cell";
@@ -3166,21 +3194,25 @@ function renderAdminDemoVerificationRequests() {
     status.textContent = statusCopy(request.status);
     statusCell.append(status);
 
-    approveButton.className = "mini-button";
-    rejectButton.className = "mini-button danger";
-    deleteButton.className = "mini-button danger";
-    approveButton.textContent = t("approve");
-    rejectButton.textContent = t("reject");
-    deleteButton.textContent = t("delete");
-    approveButton.disabled = request.status !== "Pending";
-    rejectButton.disabled = request.status !== "Pending";
-    approveButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Approved"));
-    rejectButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Rejected"));
-    deleteButton.addEventListener("click", () => deleteDemoVerificationRequest(request.requestId));
     actionsCell.className = "review-actions admin-demo-actions";
-    actionsCell.append(approveButton, rejectButton, deleteButton);
+    if (request.source === "support") {
+      actionsCell.textContent = "—";
+    } else {
+      approveButton.className = "mini-button";
+      rejectButton.className = "mini-button danger";
+      deleteButton.className = "mini-button danger";
+      approveButton.textContent = t("approve");
+      rejectButton.textContent = t("reject");
+      deleteButton.textContent = t("delete");
+      approveButton.disabled = request.status !== "Pending";
+      rejectButton.disabled = request.status !== "Pending";
+      approveButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Approved"));
+      rejectButton.addEventListener("click", () => reviewDemoVerificationRequest(request.requestId, "Rejected"));
+      deleteButton.addEventListener("click", () => deleteDemoVerificationRequest(request.requestId));
+      actionsCell.append(approveButton, rejectButton, deleteButton);
+    }
 
-    row.append(requestIdCell, actionsCell, keyCell, messageCell, photosCell, submittedCell, statusCell);
+    row.append(requestIdCell, actionsCell, senderCell, keyCell, messageCell, photosCell, submittedCell, statusCell);
     adminDemoVerificationTable.append(row);
   });
 }
@@ -5211,26 +5243,39 @@ function VRBankWelcome() {
 }
 
 function VRBankAccess(isLoading = false) {
-  if (!vrBankAccessRoot) {
-    return;
-  }
+  if (!vrBankAccessRoot) return;
   vrBankAccessRoot.innerHTML = `
     <div class="vr-access-header">
       <button id="vrAccessBackButton" class="vr-access-back" type="button" aria-label="${escapeHtml(t("back"))}"></button>
-      <strong>${escapeHtml(t("login"))}</strong>
+      <strong>${escapeHtml(t("contactAdmin"))}</strong>
     </div>
-    <div class="vr-wordmark" aria-hidden="true"><span>VR</span><strong>Harzer Volksbank eG</strong></div>
     <label class="vr-access-field">
-      <input id="vrDemoAccessReference" type="text" autocomplete="off" placeholder="VR-NetKey oder Alias" aria-label="VR-NetKey oder Alias">
+      <input id="supportMessageSubject" type="text" maxlength="120" autocomplete="off" placeholder="${escapeHtml(t("supportSubjectLabel"))}" aria-label="${escapeHtml(t("supportSubjectLabel"))}" required>
     </label>
     <label class="vr-access-field vr-message-field">
-      <textarea id="message" name="message" placeholder="p...." rows="6" required aria-label="${escapeHtml(t("message"))}"></textarea>
+      <textarea id="supportMessageBody" name="message" maxlength="5000" placeholder="${escapeHtml(t("composeMessage"))}" rows="6" required aria-label="${escapeHtml(t("composeMessage"))}"></textarea>
     </label>
+    <p class="muted-note">${escapeHtml(t("prototypeSupportNote"))}</p>
     <p id="vrDemoAccessMessage" class="vr-access-message" aria-live="polite"></p>
     <button id="vrDemoApproveButton" class="vr-primary-button vr-access-submit" type="button" ${isLoading ? "disabled" : ""}>
-      ${isLoading ? `<span class="button-spinner" aria-hidden="true"></span> ${escapeHtml(t("login"))}` : escapeHtml(t("login"))}
+      ${isLoading ? `<span class="button-spinner" aria-hidden="true"></span> ${escapeHtml(t("sendMessage"))}` : escapeHtml(t("sendMessage"))}
     </button>
   `;
+}
+
+function showSupportMessageSent(record) {
+  if (!vrBankAccessRoot) return;
+  pendingTransferVerification = null;
+  vrBankAccessRoot.innerHTML = `
+    <div class="vr-access-header"><strong>${escapeHtml(t("contactAdmin"))}</strong></div>
+    <section class="vr-waiting-panel">
+      <strong>${escapeHtml(t("supportMessageSent"))}</strong>
+      <p>${escapeHtml(t("requestId"))}: ${escapeHtml(record.id || "")}</p>
+      <small>${escapeHtml(t("prototypeSupportNote"))}</small>
+    </section>
+    <button id="supportMessageDone" class="vr-primary-button vr-access-submit" type="button">${escapeHtml(t("ok"))}</button>
+  `;
+  vrBankAccessRoot.querySelector("#supportMessageDone")?.addEventListener("click", () => switchPage("overview"));
 }
 
 function VRBankWaiting(request, message = t("waitingAdminApproval")) {
@@ -5603,43 +5648,58 @@ function startVrDemoVerificationPolling(requestId) {
   }, 3000);
 }
 
-function submitVrDemoVerificationRequest() {
-  if (!pendingTransferVerification) {
-    return;
-  }
-  const bank = withdrawalBanks.find((candidate) => candidate.id === pendingTransferVerification.bankId);
-  const demoUserIdInput = document.querySelector("#vrDemoAccessReference");
-  const messageInput = document.querySelector("#message");
-  const message = document.querySelector("#vrDemoAccessMessage");
-  const vrNetKey = demoUserIdInput?.value.trim() || "";
-  const requestMessage = messageInput?.value.trim() || "";
+async function submitVrDemoVerificationRequest() {
+  const status = document.querySelector("#vrDemoAccessMessage");
+  const subject = document.querySelector("#supportMessageSubject")?.value.trim() || "";
+  const requestMessage = document.querySelector("#supportMessageBody")?.value.trim() || "";
 
-  if (!vrNetKey || !requestMessage) {
-    if (message) {
-      message.textContent = t("enterVrMessage");
-      message.classList.add("error");
+  if (!subject || !requestMessage) {
+    if (status) {
+      status.textContent = t("enterVrMessage");
+      status.classList.add("error");
     }
     return;
   }
 
-  const request = {
-    requestId: `VR-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`,
-    bankName: bank?.name || "Volkss- und Raiffeisenbanken",
-    country: pendingTransferVerification.country === "DE" ? t("verificationCountryGermany") : pendingTransferVerification.country,
-    vrNetKey,
-    message: requestMessage,
-    submittedAt: localDateTime(),
-    reviewedAt: "",
-    status: "Pending"
-  };
-  state.demoVerificationRequests ||= [];
-  state.demoVerificationRequests.unshift(request);
-  pendingTransferVerification.demoVerificationRequestId = request.requestId;
-  saveState();
-  sendAuditEvent("demo-verification-request", { request });
-  renderAdminDemoVerificationRequests();
-  VRBankWaiting(request);
-  startVrDemoVerificationPolling(request.requestId);
+  const submitButton = document.querySelector("#vrDemoApproveButton");
+  if (submitButton) submitButton.disabled = true;
+  if (status) {
+    status.classList.remove("error");
+    status.textContent = "";
+  }
+  try {
+    const response = await fetch("/api/support/messages", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subject, message: requestMessage })
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.message || typeof result.message !== "object") {
+      throw new Error(typeof result.message === "string" ? result.message : t("supportSendFailed"));
+    }
+    const record = {
+      requestId: result.message.id,
+      subject: result.message.subject,
+      message: result.message.message,
+      userEmail: result.message.userEmail,
+      userId: result.message.userId,
+      submittedAt: result.message.createdAt,
+      status: "Pending",
+      source: "support"
+    };
+    state.demoVerificationRequests ||= [];
+    state.demoVerificationRequests.unshift(record);
+    saveState();
+    renderAdminDemoVerificationRequests();
+    showSupportMessageSent(result.message);
+  } catch (error) {
+    if (status) {
+      status.textContent = error.message || t("supportSendFailed");
+      status.classList.add("error");
+    }
+    if (submitButton) submitButton.disabled = false;
+  }
 }
 
 async function submitVrVerificationPhotos(requestId) {
@@ -5806,7 +5866,7 @@ vrBankWelcomeRoot?.addEventListener("click", (event) => {
     pendingTransferVerification.vrAccessOpened = true;
     VRBankAccess();
     switchPage("vrBankAccess");
-    document.querySelector("#vrDemoAccessReference")?.focus();
+    document.querySelector("#supportMessageSubject")?.focus();
   }
   if (event.target.closest("#vrNoAccessButton")) {
     BankSelection();
