@@ -3,6 +3,7 @@ import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { checkAuditStore, insertAuditEvent, listAuditEvents } from "./audit-store.js";
+import authHandler from "./serverless/authCore.js";
 
 const SENSITIVE_KEYS = new Set([
   "password",
@@ -36,6 +37,11 @@ const app = express();
 const port = process.env.PORT || 4174;
 
 app.use(express.json({ limit: "1mb" }));
+
+app.all("/api/auth/:action", (request, response) => {
+  request.query.action ||= request.params.action;
+  return authHandler(request, response);
+});
 
 app.get("/api/mongo-health", async (_request, response) => {
   try {
@@ -81,3 +87,4 @@ app.use(express.static(__dirname));
 app.listen(port, () => {
   console.log(`BundesKonto server listening on http://127.0.0.1:${port}`);
 });
+
