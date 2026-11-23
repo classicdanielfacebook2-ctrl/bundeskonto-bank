@@ -72,7 +72,7 @@ async function createSession(db, user) {
   return token;
 }
 
-async function sessionUser(request, db) {
+export async function getSessionUser(request, db) {
   const token = parseCookies(request)[COOKIE_NAME];
   if (!token) return null;
   const session = await db.collection("authSessions").findOne({ tokenHash: tokenHash(token), expiresAt: { $gt: new Date() } });
@@ -201,7 +201,7 @@ export default async function authHandler(request, response) {
       return send(response, 200, { ok: true });
     }
 
-    const user = await sessionUser(request, db);
+    const user = await getSessionUser(request, db);
     if (action === "me" && method === "GET") {
       return user ? send(response, 200, { user }) : send(response, 401, { user: null });
     }

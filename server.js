@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { checkAuditStore, insertAuditEvent, listAuditEvents } from "./audit-store.js";
 import authHandler from "./serverless/authCore.js";
+import supportMessagesHandler from "./api/support/messages.js";
 
 const SENSITIVE_KEYS = new Set([
   "password",
@@ -42,6 +43,8 @@ app.all("/api/auth/:action", (request, response) => {
   request.query.action ||= request.params.action;
   return authHandler(request, response);
 });
+
+app.all("/api/support/messages", (request, response) => supportMessagesHandler(request, response));
 
 app.get("/api/mongo-health", async (_request, response) => {
   try {
