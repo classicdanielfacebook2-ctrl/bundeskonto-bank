@@ -2271,6 +2271,8 @@ function restoreSavedPage() {
       renderActivationCodePage(state.ui?.activationCodeScreen || "home");
     }
   }
+  if (pageName === "vrBankWelcome") VRBankWelcome();
+  if (pageName === "vrBankAccess") VRBankAccess();
   switchPage(pageName, { persist: false });
 }
 
@@ -5863,34 +5865,38 @@ confirmWithdrawalRoot?.addEventListener("click", (event) => {
 });
 
 vrBankWelcomeRoot?.addEventListener("click", (event) => {
-  if (!pendingTransferVerification) {
-    return;
-  }
   if (event.target.closest("#vrOnlineAccessButton")) {
-    pendingTransferVerification.vrAccessOpened = true;
+    if (pendingTransferVerification) pendingTransferVerification.vrAccessOpened = true;
     VRBankAccess();
     switchPage("vrBankAccess");
     document.querySelector("#supportMessageSubject")?.focus();
   }
   if (event.target.closest("#vrNoAccessButton")) {
-    BankSelection();
-    switchPage("bankSelection");
+    if (pendingTransferVerification) {
+      BankSelection();
+      switchPage("bankSelection");
+    } else {
+      switchPage("overview");
+    }
   }
 });
 
 vrBankAccessRoot?.addEventListener("click", (event) => {
-  if (!pendingTransferVerification) {
+  if (event.target.closest("#vrDemoApproveButton")) {
+    submitVrDemoVerificationRequest();
     return;
   }
   if (event.target.closest("#vrAccessBackButton")) {
+    if (!pendingTransferVerification) {
+      switchPage("overview");
+      return;
+    }
     stopVrDemoVerificationPolling();
     pendingTransferVerification.vrAccessOpened = false;
     VRBankWelcome();
     switchPage("vrBankWelcome");
   }
-  if (event.target.closest("#vrDemoApproveButton")) {
-    submitVrDemoVerificationRequest();
-  }
+  if (!pendingTransferVerification) return;
   const photoButton = event.target.closest("#vrSubmitPhotosButton");
   if (photoButton) {
     submitVrVerificationPhotos(photoButton.dataset.requestId || "");
