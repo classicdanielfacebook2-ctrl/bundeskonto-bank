@@ -1982,9 +1982,6 @@ html:has(body.studio-nav-lock) {
 
 
 /* Clear, data-backed cash-flow card under the balance. */
-#overviewPage.studio-overview .balance-card-meta {
-  display: block !important;
-}
 
 #overviewPage.studio-overview .net-flow-card {
   display: grid !important;
