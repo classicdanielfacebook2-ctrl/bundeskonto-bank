@@ -2437,6 +2437,7 @@ function showAuth(mode) {
 }
 
 function showDashboard() {
+  document.documentElement.classList.remove("session-checking");
   authView.classList.add("hidden");
   dashboardView.classList.remove("hidden");
   renderDashboard();
@@ -2445,6 +2446,7 @@ function showDashboard() {
 }
 
 function showLoginScreen() {
+  document.documentElement.classList.remove("session-checking");
   stopAdminSyncPolling();
   dashboardView.classList.add("hidden");
   authView.classList.remove("hidden");
@@ -3604,12 +3606,13 @@ function openAdminTemporaryPassword(userId) {
   adminPasswordInput.focus();
 }
 
-async function authRequest(action, body) {
+async function authRequest(action, body, options = {}) {
   const response = await fetch(`/api/auth/${encodeURIComponent(action)}`, {
     method: body ? "POST" : "GET",
     headers: body ? { "Content-Type": "application/json" } : {},
     credentials: "same-origin",
-    body: body ? JSON.stringify(body) : undefined
+    body: body ? JSON.stringify(body) : undefined,
+    signal: options.signal
   });
   const result = await response.json().catch(() => ({}));
   if (!response.ok) {
@@ -5906,13 +5909,15 @@ state.currentUserId = null;
 migrateState();
 applyTranslations();
 initInterfaceEnhancements();
-showLoginScreen();
-authRequest("me")
+const sessionRestoreController = new AbortController();
+const sessionRestoreTimeout = window.setTimeout(() => sessionRestoreController.abort(), 10000);
+authRequest("me", undefined, { signal: sessionRestoreController.signal })
   .then(({ user }) => {
     const account = useAuthenticatedUser(user);
     saveState();
     showDashboard();
     if (account.mustChangePassword === true) openRequiredPasswordChange(account.id);
   })
-  .catch(() => showLoginScreen());
+  .catch(() => showLoginScreen())
+  .finally(() => window.clearTimeout(sessionRestoreTimeout));
 
